@@ -1,14 +1,14 @@
 package gems.filtering;
 
 /**
- * A wrapper negating a decision of arbitrary filter. 
+ * A wrapper negating a decision of a wrapped filter.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class NegatingFilter<T> implements Filter<T> {
 
 	/**
-	 * An underlaying filter.
+	 * A wrapped filter.
 	 */
 	private final Filter<T> filter;
 
@@ -27,11 +27,11 @@ public final class NegatingFilter<T> implements Filter<T> {
 	}
 
 	/**
-	 * Returns a negated decision of the underlaying filter.
+	 * Returns a negated decision of the wrapped filter.
 	 *
 	 * @param object a filtered object.
 	 *
-	 * @return a negated decision of the underlaying filter.
+	 * @return a negated decision of the wrapped filter.
 	 */
 	public boolean allows(final T object) {
 		return !filter.allows(object);
