@@ -62,8 +62,8 @@ public final class FilterChain<T> implements Filter<T> {
 		 * A check for null object SHOULD NOT be performed here, because underlaying
 		 * filters can be designed to handle null value as a valid input.
 		 */
-		if (isEmpty()) {
-			return false; // A fast success for an empty chain.
+		if (isEmpty()) {  // A fast path for an empty chain.
+			return false;
 		}
 		switch (policy) {
 			case SATISFY_ALL:

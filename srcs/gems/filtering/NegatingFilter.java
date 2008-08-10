@@ -34,6 +34,10 @@ public final class NegatingFilter<T> implements Filter<T> {
 	 * @return a negated decision of the wrapped filter.
 	 */
 	public boolean allows(final T object) {
+		/*
+		 * A check for null object SHOULD NOT be performed here, because wrapped
+		 * filter can be designed to handle null value as a valid input.
+		 */
 		return !filter.allows(object);
 	}
 
