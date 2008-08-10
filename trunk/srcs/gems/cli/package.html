@@ -1,0 +1,59 @@
+<body>
+<p>
+	A tool for command line options handling. Two main types of objects are involved:
+</p>
+<ol>
+	<li>
+		<p>
+			<b>Options</b> &ndash; represents options designed by a programmer and expected by a program.
+		</p>
+	</li>
+	<li>
+		<p>
+			<b>Actuators</b> &ndash; represents recognized user inputs typed on command line.
+		</p>
+	</li>
+</ol>
+<!-- h3>Example</h3>
+<p>
+	Let say that we need to implement a command line CD burning tool. We want to support usage similar to the following:
+</p>
+<pre>
+java SmartJavaBurner -verbose -speed 4 -filter normalization -filter noisereduction \
+	-title -tracks -speed 8 -- -track1 -track2 -track3 -track4
+</pre>
+<p>Where:</p>
+<ul>
+	<li>
+		<p>
+			<code>-verbose</code> is a switch turning a verbose logging on; it does not require any value.
+		</p>
+	</li>
+	<li>
+		<p>
+			<code>-speed</code> is a single-value option expecting a burning speed. This is typed two times
+			on command line, and so the second occurence with value 8 is going to be used.
+		</p>
+	</li>
+	<li>
+		<p>
+			<code>-filter</code> is a multi-value option expecting some "track preprocessors". Two preprocessors
+			are provided, 'normalization' and 'noisereduction'. The both values will be used, in this order.
+		</p>
+	</li>
+	<li>
+		<p>
+			<code>-title</code> is a single value option expecting a "CD title". Even if provided value seems
+			like an option "-tracks", it is not recognized so, because it is placed where <em>value</em> is
+			expected.
+		</p>
+	</li>
+	<li>
+		<p>
+			<code>--</code> is a stopword. It simply stops a recognition of command line options and it is
+			ignored itself. All the subsequent strings '-track#' are <em>resting arguments</em> and they possibly
+			stands for CD track files.
+		</p>
+	</li>
+</ul -->
+</body>
