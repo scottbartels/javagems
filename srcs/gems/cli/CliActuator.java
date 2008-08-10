@@ -1,6 +1,6 @@
 package gems.cli;
 
-import gems.Identifiable;
+import gems.AbstractIdentifiable;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,14 +11,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class CliActuator implements Identifiable<String> {
-
-	/**
-	 * An identifier of the actuator. This is the same identifier
-	 * as an identifier of the option, for which was this identifier
-	 * created.
-	 */
-	private final String id;
+public final class CliActuator extends AbstractIdentifiable<String> {
 
 	/**
 	 * Values.
@@ -34,20 +27,10 @@ public final class CliActuator implements Identifiable<String> {
 	 * @throws IllegalArgumentException if {@code id} is {@code null} or if it is an empty string.
 	 */
 	public CliActuator(final String id) {
-		if (id == null) {
-			throw new IllegalArgumentException();
-		}
+		super(id);
 		if (id.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		this.id = id;
-	}
-
-	/**
-	 * {@inheritDoc} This method always returns non-empty string.
-	 */
-	public String getId() {
-		return id;
 	}
 
 	/**
@@ -91,33 +74,6 @@ public final class CliActuator implements Identifiable<String> {
 	 */
 	public List<String> getValues() {
 		return Collections.unmodifiableList(values);
-	}
-
-	/**
-	 * Defines an equality of two actuators. Two actuators are considered to be equal if and only if their IDs are the same.
-	 *
-	 * @param o a compared actuator.
-	 *
-	 * @return {@code true} if {@code o} is an actuator with the same ID, {@code false} otherwise.
-	 */
-	@Override public boolean equals(final Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final CliActuator actuator = (CliActuator) o;
-		return id.equals(actuator.id);
-	}
-
-	/**
-	 * Returns a hash code value for the option.
-	 *
-	 * @return a hash code value for the option.
-	 */
-	@Override public int hashCode() {
-		return id.hashCode();
 	}
 
 }
