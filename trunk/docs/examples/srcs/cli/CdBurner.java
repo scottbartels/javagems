@@ -9,7 +9,6 @@ import gems.cli.CliParserImpl;
 
 /**
  * Let say that we need to implement a command line CD burning tool. We want to support usage similar to the following:
- * </p>
  * <pre>
  * java CdBurner -verbose -speed 4 -filter normalization -filter noisereduction \
  *               -speed 8 -- -track1 -track2 -track3 -track4
@@ -17,28 +16,20 @@ import gems.cli.CliParserImpl;
  * <p>Where:</p>
  * <ul>
  * <li>
- * <p/>
  * <code>-verbose</code> is a switch turning a verbose logging on; it does not require any value.
- * </p>
  * </li>
  * <li>
- * <p/>
  * <code>-speed</code> is a single-value option expecting a burning speed. This is typed two times
  * on command line, and so the second occurence with value 8 is going to be used.
- * </p>
  * </li>
  * <li>
- * <p/>
  * <code>-filter</code> is a multi-value option expecting some "track preprocessors". Two preprocessors
  * are provided, 'normalization' and 'noisereduction'. The both values will be used, in this order.
- * </p>
  * </li>
  * <li>
- * <p/>
  * <code>--</code> is a stopword. It simply stops a recognition of command line options and it is
  * ignored itself. All the subsequent strings '-track#' are <em>resting arguments</em> and they possibly
  * stands for CD track files.
- * </p>
  * </li>
  * </ul>
  *
@@ -80,6 +71,13 @@ public final class CdBurner {
 		OPTIONS.add(OPTION_VERBOSE);
 		OPTIONS.add(OPTION_SPEED);
 		OPTIONS.add(OPTION_FILTER);
+	}
+
+	/**
+	 * Just disables an instance creation.
+	 */
+	private CdBurner() {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
