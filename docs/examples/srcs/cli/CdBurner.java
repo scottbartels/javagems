@@ -81,7 +81,7 @@ public final class CdBurner {
 	}
 
 	/**
-	 * The entry point for Smart Java CD Burner application.
+	 * The entry point for CD Burner example application.
 	 *
 	 * @param args command line arguments.
 	 */
