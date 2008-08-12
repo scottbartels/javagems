@@ -191,4 +191,4 @@ The resting arguments are: '-speed' '-speed2' '-speed3'
 
 == Best practices == 
 
-In complex program with many command line options, not all this stuff will be placed in one class. Maybe it is good idea to dedicate one final utility class defining and holding options. Afterwards `main()` function will be responsible only for arguments parsing and maybe for very basic checks (Are there required resting arguments? Does user requires help printing instead of real operation? Etc.). Recognized actuators will be subsequently provided to specialized classes responsible for application launching or subsystems configuration.
+In complex program with many command line options, not all this stuff will be placed in one class. Maybe it is good idea to dedicate one final utility class defining and holding options. Afterwards `main()` function will be responsible only for arguments parsing and maybe for very basic checks (Are there required resting arguments? Does user require help printing instead of real operation? Etc.). Recognized actuators will be subsequently provided to specialized classes responsible for application launching or subsystems configuration.
