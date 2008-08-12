@@ -93,6 +93,62 @@ System.out.println();
 Let's burn!
 
 {{{
-...
+# java cli.CdBurner
+Using a default speed.
+The resting arguments are:
+#
+}}}
 
+{{{
+#java cli.CdBurner -verbose
+Using verbose output.
+Using a default speed.
+The resting arguments are: 
+#
+}}}
+
+{{{
+#java cli.CdBurner -speed 4
+User requires this speed: 4
+The resting arguments are: 
+#
+#java cli.CdBurner -speed 4 -speed 8
+User requires this speed: 8
+The resting arguments are: 
+#
+}}}
+
+{{{
+#java cli.CdBurner -track -track2 -track3
+Using a default speed.
+The resting arguments are: '-track' '-track2' '-track3' 
+#
+#java cli.CdBurner -- -speed -speed2 -speed3
+Using a default speed.
+The resting arguments are: '-speed' '-speed2' '-speed3' 
+#
+}}}
+
+{{{
+#java cli.CdBurner -filter normalization track track2 track3
+Using a default speed.
+User requires following filters: 'normalization' 
+The resting arguments are: 'track' 'track2' 'track3' 
+#
+}}}
+
+{{{
+#java cli.CdBurner -filter normalization -filter noisereduction track track2 track3
+Using a default speed.
+User requires following filters: 'normalization' 'noisereduction' 
+The resting arguments are: 'track' 'track2' 'track3' 
+#
+}}}
+
+{{{
+#java cli.CdBurner -speed 4 -filter normalization -speed 8 -filter noisereduction -- -speed -speed2 -speed3
+User requires this speed: 8
+User requires following filters: 'normalization' 'noisereduction' 
+The resting arguments are: '-speed' '-speed2' '-speed3' 
+#
 }}}
