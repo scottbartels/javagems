@@ -104,7 +104,7 @@ public final class CdBurner {
 
 		final CliActuator filters = actuators.getActuatorById(OPTION_FILTER.getId());
 		if (filters != null) {
-			System.out.print("User requires following filtes: ");
+			System.out.print("User requires following filters: ");
 			for (final String filter : filters.getValues()) {
 				System.out.print("'" + filter + "' ");
 			}
