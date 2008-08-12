@@ -2,6 +2,8 @@
 
 = CLI Usage Example =
 
+== Problem definition ==
+
 Let's say that we need to implement CD burning tool used from command line, pretty similar to `cdrecord` or `burncd`. For a sake of simplicity, suppose that it is going to be use as follows:
 
 {{{
@@ -13,6 +15,8 @@ where available options are these:
   * `-verbose` - A switch without any value, turning on verbose output.
   * `-speed #` - An option with an integer value specifying a burning speed.
   * `-filter name` - An option with a sting value specifying a track preprocessing filter. It is required to be able to use many filters in the same time.
+
+== Options definition ==
 
 The first what we need to do is to create options, as designed by a programmer and expected by the applicaiton:
 
@@ -33,7 +37,11 @@ static {
 }
 }}}
 
-At this moment, command line interface desing is complete. Now, let's handle users input:
+At this moment, command line interface desing is complete. 
+
+== User input parsing ==
+
+Now, let's handle users input:
 
 {{{
 public static void main(final String[] args) {
@@ -46,6 +54,8 @@ Ok, game over. New CLI parser was created and command line arguments typed by th
 
   * Prefix - specifies a prefix identifying an option typed by the user.
   * Stopword - special option stopping arguments parsing. 
+
+== Actuators investigation ==
 
 Ok, let's see what is recognized in different usage scenarios. The following code will do it for `-verbose` switch: 
 
@@ -90,7 +100,9 @@ for (final String resting : actuators.getRests()) {
 System.out.println();
 }}}
 
-Let's burn!
+A complete source code of this example is a [http://code.google.com/p/javagems/source/browse/trunk/docs/examples/srcs/cli/CdBurner.java part] of Java Gems. 
+
+== Let's burn! ==
 
 {{{
 # java cli.CdBurner
