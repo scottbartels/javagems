@@ -32,3 +32,14 @@ static {
     OPTIONS.add(OPTION_FILTER);
 }
 }}}
+
+At this moment, command line interface desing is complete. Now, let's handle users input:
+
+{{{
+public static void main(final String[] args) {
+    final CliActuators actuators = new CliParserImpl(PREFIX, STOPWORD).parse(args, OPTIONS);
+    // ...
+}
+}}}
+
+Ok, game over. New CLI parser was created and command line arguments typed by the user were parsed agains designed options. There is no need to handle magic parsing exception, hopefully it is possible to parse each user input, regardless how dumb _it_ is. (User or input? Do you choose as you wish.)
