@@ -181,9 +181,14 @@ The both filters are here, an order specified on command line is kept.
 
 Putting all together:
 {{{
-#java CdBurner -speed 4 -filter normalization -speed 8 -filter noisereduction -- -speed -speed2 -speed3
+#java CdBurner -speed 4 -filter normalization -speed 8 -filter noisereduction -verbose -- -speed -speed2 -speed3
+Using verbose output.
 User requires this speed: 8
 User requires following filters: 'normalization' 'noisereduction' 
 The resting arguments are: '-speed' '-speed2' '-speed3' 
 #
 }}}
+
+== Best practices == 
+
+In complex program with many command line options, not all this stuff will be placed in one class. Maybe it is good idea to dedicate one final utility class defining and holding options. Afterwards `main()` function will be responsible only for arguments parsing and maybe for very basic checks (Are there required resting arguments? Does user requires help printing instead of real operation? Etc.). Recognized actuators will be subsequently provided to specialized classes responsible for application launching or subsystems configuration.
