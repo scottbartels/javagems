@@ -104,61 +104,84 @@ A complete source code of this example is a [http://code.google.com/p/javagems/s
 
 == Let's burn! ==
 
+At first, try to start program without any arguments:
 {{{
-# java cli.CdBurner
+# java CdBurner
 Using a default speed.
 The resting arguments are:
 #
 }}}
+Nothing interesting happens: no options nor resting arguments here.
 
+Let's add `-verbose` argument. We use dash prefix, because we designed a parser so:
 {{{
-#java cli.CdBurner -verbose
+#java CdBurner -verbose
 Using verbose output.
 Using a default speed.
 The resting arguments are: 
 #
 }}}
+Yes, verbose argument was recognized.
 
+What about speed?
 {{{
-#java cli.CdBurner -speed 4
+#java CdBurner -speed 4
 User requires this speed: 4
 The resting arguments are: 
 #
-#java cli.CdBurner -speed 4 -speed 8
+}}}
+Yes, we caught it.
+
+The `-speed` option is designed to be single-value. What if the user type it twice?
+{{{
+#java CdBurner -speed 4 -speed 8
 User requires this speed: 8
 The resting arguments are: 
 #
 }}}
+The last occurence wins.
 
+Unfortunately, our CD ripping tool produced a little bit stupid names of track files, their names start with dash, so they seem like options. How are the parser going to deal with these _unrecognizable options_? 
 {{{
-#java cli.CdBurner -track -track2 -track3
+#java CdBurner -track -track2 -track3
 Using a default speed.
 The resting arguments are: '-track' '-track2' '-track3' 
 #
-#java cli.CdBurner -- -speed -speed2 -speed3
+}}}
+Yeah! Names seem like options, but no such options were designed. So it is easy: they are resting arguments.
+
+Yep, but what if track files' names _are_ exactly as options expected? We can use _stopword_ specified during a parser creation:
+{{{
+#java CdBurner -- -speed -speed2 -speed3
 Using a default speed.
 The resting arguments are: '-speed' '-speed2' '-speed3' 
 #
 }}}
+A stopword `--` prevents all subsequent arguments to be interpreted as options.
 
+The last feature is track preprocessing. Let's use a normalization preprocessor:
 {{{
-#java cli.CdBurner -filter normalization track track2 track3
+#java CdBurner -filter normalization track track2 track3
 Using a default speed.
 User requires following filters: 'normalization' 
 The resting arguments are: 'track' 'track2' 'track3' 
 #
 }}}
+Yes, the filter is recognized.
 
+But an original requirement was to be able to use more filters:
 {{{
-#java cli.CdBurner -filter normalization -filter noisereduction track track2 track3
+#java CdBurner -filter normalization -filter noisereduction track track2 track3
 Using a default speed.
 User requires following filters: 'normalization' 'noisereduction' 
 The resting arguments are: 'track' 'track2' 'track3' 
 #
 }}}
+The both filters are here, an order specified on command line is kept.
 
+Putting all together:
 {{{
-#java cli.CdBurner -speed 4 -filter normalization -speed 8 -filter noisereduction -- -speed -speed2 -speed3
+#java CdBurner -speed 4 -filter normalization -speed 8 -filter noisereduction -- -speed -speed2 -speed3
 User requires this speed: 8
 User requires following filters: 'normalization' 'noisereduction' 
 The resting arguments are: '-speed' '-speed2' '-speed3' 
