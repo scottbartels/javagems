@@ -22,7 +22,7 @@ private static final CliOption OPTION_SPEED = new CliOption("speed", CliOptionTy
 private static final CliOption OPTION_FILTER = new CliOption("filter", CliOptionType.MULTIPLE);
 }}}
 
-Please note that each option has a different type, see the 2nd constructor parameter. Now, we need to group options together for a further processing:
+Please note that each option has a different type, see the 2nd constructor parameter. Also take care about options' names: they are written without any dash prefix. In fact, it is up to parser how to recognize command line options, not up to options themselves. Now, we need to group options together for a further processing:
 
 {{{
 private static final CliOptions OPTIONS = new CliOptions();
@@ -37,9 +37,62 @@ At this moment, command line interface desing is complete. Now, let's handle use
 
 {{{
 public static void main(final String[] args) {
-    final CliActuators actuators = new CliParserImpl(PREFIX, STOPWORD).parse(args, OPTIONS);
+    final CliActuators actuators = new CliParserImpl("-", "--").parse(args, OPTIONS);
     // ...
 }
 }}}
 
-Ok, game over. New CLI parser was created and command line arguments typed by the user were parsed agains designed options. There is no need to handle magic parsing exception, hopefully it is possible to parse each user input, regardless how dumb _it_ is. (User or input? Do you choose as you wish.)
+Ok, game over. New CLI parser was created and command line arguments typed by the user were parsed agains designed options. There is no need to handle magic parsing exception, hopefully it is possible to parse each user input, regardless how dumb _it_ is. (User or input? Do you choose as you wish.) The parser's constructor has two string arguments:
+
+  * Prefix - specifies a prefix identifying an option typed by the user.
+  * Stopword - special option stopping arguments parsing. 
+
+Ok, let's see what is recognized in different usage scenarios. The following code will do it for `-verbose` switch: 
+
+{{{
+if (actuators.getActuatorById(OPTION_VERBOSE.getId()) != null) {
+    System.out.println("Using verbose output.");
+}
+
+}}}
+
+The following code will do it for `-speed` option:
+
+{{{
+final CliActuator speed = actuators.getActuatorById(OPTION_SPEED.getId());
+if (speed != null) {
+    System.out.println("User requires this speed: " + speed.getValue());
+} else {
+    System.out.println("Using a default speed.");
+}
+}}}
+
+The last snipped for `-filter` multivalue option:
+
+{{{
+final CliActuator filters = actuators.getActuatorById(OPTION_FILTER.getId());
+if (filters != null) {
+    System.out.print("User requires following filters: ");
+    for (final String filter : filters.getValues()) {
+        System.out.print("'" + filter + "' ");
+    }
+    System.out.println();
+}
+}}}
+
+It is also important to know, what was _not_ recognized:
+
+{{{
+System.out.print("The resting arguments are: ");
+for (final String resting : actuators.getRests()) {
+    System.out.print("'" + resting + "' ");
+}
+System.out.println();
+}}}
+
+Let's burn!
+
+{{{
+...
+
+}}}
