@@ -1,0 +1,34 @@
+#summary Parsing command line arguments using Java Gems.
+
+= CLI Usage Example =
+
+Let's say that we need to implement CD burning tool used from command line, pretty similar to `cdrecord` or `burncd`. For a sake of simplicity, suppose that it is going to be use as follows:
+
+{{{
+# java CdBurner [optons] track [track ...]
+}}}
+
+where available options are these:
+
+  * `-verbose` - A switch without any value, turning on verbose output.
+  * `-speed #` - An option with an integer value specifying a burning speed.
+  * `-filter name` - An option with a sting value specifying a track preprocessing filter. It is required to be able to use many filters in the same time.
+
+The first what we need to do is to create options, as designed by a programmer and expected by the applicaiton:
+
+{{{
+private static final CliOption OPTION_VERBOSE = new CliOption("verbose", CliOptionType.NONE);
+private static final CliOption OPTION_SPEED = new CliOption("speed", CliOptionType.SINGLE);
+private static final CliOption OPTION_FILTER = new CliOption("filter", CliOptionType.MULTIPLE);
+}}}
+
+Please note that each option has a different type, see the 2nd constructor parameter. Now, we need to group options together for a further processing:
+
+{{{
+private static final CliOptions OPTIONS = new CliOptions();
+static {
+    OPTIONS.add(OPTION_VERBOSE);
+    OPTIONS.add(OPTION_SPEED);
+    OPTIONS.add(OPTION_FILTER);
+}
+}}}
