@@ -9,6 +9,8 @@ package gems.filtering;
  * {@code IllegalArgumentException} encouraging clients to ensure
  * that only not-null values are passed to filter.
  *
+ * @param <T> a type of filtered objects.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public interface Filter<T> {
