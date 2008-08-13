@@ -10,6 +10,8 @@ import java.util.List;
  * The empty chain does not allow object processing regardless of
  * a chaning policy.
  *
+ * @param <T> a type of filtered objects.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class FilterChain<T> implements Filter<T> {

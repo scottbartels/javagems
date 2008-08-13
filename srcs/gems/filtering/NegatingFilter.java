@@ -3,6 +3,8 @@ package gems.filtering;
 /**
  * A wrapper negating a decision of a wrapped filter.
  *
+ * @param <T> a type of filtered objects.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class NegatingFilter<T> implements Filter<T> {

@@ -13,6 +13,8 @@ package gems;
  * fact, IDs of {@code Identifiable} objects are used as hash map keys on
  * many places. 
  *
+ * @param <T> a type of the object ID.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public interface Identifiable<T> {
