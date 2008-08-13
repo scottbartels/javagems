@@ -6,6 +6,8 @@ package gems;
  * responsibility to use a suitable type of the ID is still up to implementing
  * subclass.  
  *
+ * @param <T> a type of the object ID.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
@@ -56,15 +58,8 @@ public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 		return id.equals(that.getId());
 	}
 
-	/**
-	 * Returns a hash code value for the object.
-	 *
-	 * @return a hash code value for the object.
-	 */
 	@Override public final int hashCode() {
 		return id.hashCode();
 	}
-
-
 
 }
