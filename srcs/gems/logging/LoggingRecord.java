@@ -113,9 +113,7 @@ public final class LoggingRecord {
 			return NULL_AS_STRING;
 		}
 		if (object instanceof Throwable) {
-			final String result = throwableToMessage((Throwable) object);
-			assert result != null;
-			return result;
+			return throwableToMessage((Throwable) object);
 		}
 		final String result = object.toString();
 		return result == null ? NULL_AS_STRING : result;
