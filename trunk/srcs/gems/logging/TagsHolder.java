@@ -13,7 +13,7 @@ import java.util.Map;
 	/**
 	 * A maximal severity.
 	 */
-	private final LoggingSeverity maximalSeverity = null; // todo: fix this
+	private final LoggingSeverity maximalSeverity;
 
 	/**
 	 * Tags.
@@ -21,7 +21,35 @@ import java.util.Map;
 	private final Map<LoggingFacility, LoggingSeverity> tags = new HashMap<LoggingFacility, LoggingSeverity>();
 
 	TagsHolder(final LoggingTag[] tags) {
-		// todo: init stuff
+		if (tags == null) {
+			throw new IllegalArgumentException();
+		}
+		if (tags.length == 0) {
+			throw new IllegalArgumentException();
+		}
+		LoggingSeverity auxMax = null;
+		for (final LoggingTag tag : tags) {
+			if (tag == null) {
+				throw new IllegalArgumentException();
+			}
+			putConditionally(tag.getFacility(), tag.getSeverity());
+			if (auxMax == null || tag.getSeverity().compareTo(auxMax) > 0) {
+				auxMax = tag.getSeverity();
+			}
+
+		}
+		maximalSeverity = auxMax;
+	}
+
+	private void putConditionally(final LoggingFacility facility, final LoggingSeverity severity) {
+		final LoggingSeverity known = this.tags.get(facility);
+		if (known == null) {
+			this.tags.put(facility, severity);
+		} else {
+			if (severity.compareTo(known) > 0) {
+				this.tags.put(facility, severity);
+			}
+		}
 	}
 
 	public LoggingSeverity getSeverity(final LoggingFacility facility) {
