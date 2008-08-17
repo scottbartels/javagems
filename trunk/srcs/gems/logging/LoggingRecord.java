@@ -132,7 +132,6 @@ public final class LoggingRecord {
 	 * @return a string representation of a given object.
 	 */
 	private static String throwableToMessage(final Throwable throwable) {
-		assert throwable != null;
 		final OutputStream stream = new ByteArrayOutputStream();
 		final PrintWriter writer = new PrintWriter(stream, true);
 		throwable.printStackTrace(writer);
