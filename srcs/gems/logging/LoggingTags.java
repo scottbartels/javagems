@@ -11,8 +11,8 @@ import java.util.Map;
  * An immutable holder of logging tags. It is created as a part
  * of each logging record and always contains at least one logging
  * tag. It provides several querying methods and it is also possible
- * to iterate over logging tags.
- *  
+ * to iterate over stored logging tags.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class LoggingTags implements Iterable<LoggingTag> {
@@ -34,6 +34,15 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	private final List<LoggingTag> list;
 
 
+	/**
+	 * Creates a new logging tags holder for a given tags. At least one tag should be given.
+	 * If there is more than one tag for the same facility, a tag with the highest severity
+	 * is kept.
+	 *
+	 * @param tags logging tags.
+	 *
+	 * @throws IllegalArgumentException if {@code tags} or any of its elements is {@code null}.
+	 */
 	LoggingTags(final LoggingTag[] tags) {
 		if (tags == null) {
 			throw new IllegalArgumentException();
@@ -185,8 +194,7 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	}
 
 	/**
-	 * Returns an iterator over stored logging tags. A returned operator is created
-	 * over unmodifiable collection of logging tags. This method never returns {@code null}.
+	 * Returns an immutable iterator over stored logging tags. This method never returns {@code null}.
 	 *
 	 * @return an iterator over stored logging tags.
 	 */

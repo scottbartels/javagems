@@ -5,6 +5,10 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 /**
+ * A <em>logging record</em> is a unit of logged information.
+ * It encapsulates a logged information as well as any related
+ * metadata. A logging record is immutable after creation. 
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class LoggingRecord {
@@ -45,7 +49,8 @@ public final class LoggingRecord {
 	private final LoggingTags tags;
 
 	/**
-	 * Creates a new logging record holding a given object as a message and with optional logging tags metadata.
+	 * Creates a new logging record holding a given object as a message and
+	 * with logging tags metadata. At least one logging tag must be given. 
 	 *
 	 * @param object an object.
 	 * @param tags optional metadata.
@@ -136,7 +141,7 @@ public final class LoggingRecord {
 	}
 
 	/**
-	 * Ties to find a caller producing the logging record by stack trace analysis.
+	 * Tries to find a caller producing the logging record by stack trace analysis.
 	 *
 	 * @return a caller producing the logging record.
 	 */
