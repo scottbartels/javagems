@@ -42,7 +42,7 @@ public final class LoggingRecord {
 	/**
 	 * Tags associated with the logging record.
 	 */
-	private final TagsHolder tags;
+	private final LoggingTags tags;
 
 	/**
 	 * Creates a new logging record holding a given object as a message and with optional logging tags metadata.
@@ -52,7 +52,7 @@ public final class LoggingRecord {
 	 */
 	public LoggingRecord(final Object object, final LoggingTag... tags) {
 		message = objectToMessage(object);
-		this.tags = new TagsHolder(tags);
+		this.tags = new LoggingTags(tags);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public final class LoggingRecord {
 	 *
 	 * @return tags associated with the logging record.
 	 */
-	public TagsHolder getTags() {
+	public LoggingTags getTags() {
 		return tags;
 	}
 
