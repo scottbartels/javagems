@@ -5,7 +5,7 @@ import static gems.logging.LoggingFacility.NULL_FACILITY;
 /**
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-@Deprecated public final class LoggingEntryPoint {
+public final class LoggingEntryPoint {
 
 	/**
 	 * A wrapped logger.
@@ -82,6 +82,10 @@ import static gems.logging.LoggingFacility.NULL_FACILITY;
 			throw new IllegalArgumentException();
 		}
 		logger.log(new LoggingRecord(object, new LoggingTag(facility, severity)));
+	}
+
+	public void log(final Object object, final LoggingTag... tags) {
+		logger.log(new LoggingRecord(object, tags));
 	}
 
 }

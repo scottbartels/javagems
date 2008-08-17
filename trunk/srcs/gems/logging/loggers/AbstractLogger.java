@@ -1,7 +1,9 @@
 package gems.logging.loggers;
 
+import gems.filtering.Filter;
 import gems.logging.Logger;
 import gems.logging.LoggingHandler;
+import gems.logging.LoggingRecord;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -14,12 +16,31 @@ import java.util.List;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public abstract class AbstractLogger implements Logger {
+abstract class AbstractLogger implements Logger {
 
 	/**
 	 * Handlers. Unmodifiable defense copy is hold here, so it is safe to provide it outside.
 	 */
 	private volatile List<LoggingHandler> handlers = Collections.unmodifiableList(new LinkedList<LoggingHandler>());
+
+	/**
+	 * A filter of logging records.
+	 */
+	private final Filter<LoggingRecord> filter;
+
+	/**
+	 * Creates a new filtering logger with a given filter.
+	 *
+	 * @param filter a filter.
+	 *
+	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
+	 */
+	protected AbstractLogger(final Filter<LoggingRecord> filter) {
+		if (filter == null) {
+			throw new IllegalArgumentException();
+		}
+		this.filter = filter;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -44,5 +65,31 @@ public abstract class AbstractLogger implements Logger {
 	public final List<LoggingHandler> getHandlers() {
 		return handlers;
 	}
+
+	/**
+	 * {@inheritDoc} Only logging records allowed by an underlaying filter
+	 * are passed to handlers. A decision what it really means "log the record"
+	 * is delegated to subclasses; only filtering is done here.
+	 *
+	 * @throws IllegalArgumentException if {@code record} is {@code null}.
+	 */
+	public final void log(final LoggingRecord record) {
+		if (record == null) {
+			throw new IllegalArgumentException();
+		}
+		if (filter.allows(record)) {
+			doLog(record);
+		}
+	}
+
+	/**
+	 * Logs a given record. This method is invoked for each logging record,
+	 * which was allowed to be logged by the underlaying filter. It is up to
+	 * subclass implementation what to do with a given logging record, i.e.
+	 * likely how to pass it to handlers.
+	 *
+	 * @param record a logged record.
+	 */
+	protected abstract void doLog(LoggingRecord record);
 
 }
