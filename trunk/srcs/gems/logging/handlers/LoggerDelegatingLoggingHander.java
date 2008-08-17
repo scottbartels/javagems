@@ -1,6 +1,8 @@
-package gems.logging;
+package gems.logging.handlers;
 
 import gems.filtering.Filter;
+import gems.logging.Logger;
+import gems.logging.LoggingRecord;
 
 /**
  * This <em>logging handler</em> delegates all passed <em>logging records</em> to

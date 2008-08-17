@@ -1,6 +1,8 @@
-package gems.logging;
+package gems.logging.loggers;
 
 import gems.filtering.Filter;
+import gems.logging.LoggingHandler;
+import gems.logging.LoggingRecord;
 
 /**
  * A straightforward implementation of <em>logger</em>. It simply pass

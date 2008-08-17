@@ -1,4 +1,8 @@
-package gems.logging;
+package gems.logging.formatters;
+
+import gems.logging.LoggingRecord;
+import gems.logging.LoggingRecordFormatter;
+import gems.logging.LoggingTag;
 
 import java.util.Date;
 

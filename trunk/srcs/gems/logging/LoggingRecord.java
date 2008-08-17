@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 /**
  * A <em>logging record</em> is a unit of logged information.
  * It encapsulates a logged information as well as any related
- * metadata. A logging record is immutable after creation. 
+ * metadata. A logging record is immutable after creation.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
@@ -50,7 +50,7 @@ public final class LoggingRecord {
 
 	/**
 	 * Creates a new logging record holding a given object as a message and
-	 * with logging tags metadata. At least one logging tag must be given. 
+	 * with logging tags metadata. At least one logging tag must be given.
 	 *
 	 * @param object an object.
 	 * @param tags optional metadata.

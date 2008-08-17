@@ -1,6 +1,8 @@
-package gems.logging;
+package gems.logging.handlers;
 
 import gems.filtering.Filter;
+import gems.logging.LoggingHandler;
+import gems.logging.LoggingRecord;
 
 /**
  * A skeleton implementation of a <em>logging handlers</em>. It adds an ability
