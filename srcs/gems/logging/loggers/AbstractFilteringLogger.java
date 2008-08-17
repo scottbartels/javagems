@@ -1,6 +1,7 @@
-package gems.logging;
+package gems.logging.loggers;
 
 import gems.filtering.Filter;
+import gems.logging.LoggingRecord;
 
 /**
  * Provides additional ability to filter <em>logging records</em> by the logger.

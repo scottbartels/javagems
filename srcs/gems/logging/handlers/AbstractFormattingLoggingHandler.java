@@ -1,6 +1,8 @@
-package gems.logging;
+package gems.logging.handlers;
 
 import gems.filtering.Filter;
+import gems.logging.LoggingRecord;
+import gems.logging.LoggingRecordFormatter;
 
 /**
  * A skeleton implementation of <em>logger</em> dedicated to format <em>logging records</em>.

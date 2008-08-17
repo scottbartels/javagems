@@ -1,4 +1,7 @@
-package gems.logging;
+package gems.logging.loggers;
+
+import gems.logging.Logger;
+import gems.logging.LoggingHandler;
 
 import java.util.Collections;
 import java.util.LinkedList;

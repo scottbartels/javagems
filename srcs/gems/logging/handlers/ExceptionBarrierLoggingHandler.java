@@ -1,4 +1,7 @@
-package gems.logging;
+package gems.logging.handlers;
+
+import gems.logging.LoggingHandler;
+import gems.logging.LoggingRecord;
 
 /**
  * An exception catching barrier for a logging hander. All logging records

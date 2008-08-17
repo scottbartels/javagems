@@ -1,6 +1,8 @@
-package gems.logging;
+package gems.logging.loggers;
 
 import gems.filtering.Filter;
+import gems.logging.LoggingHandler;
+import gems.logging.LoggingRecord;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
