@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class AsynchronousLogger extends AbstractFilteringLogger {
+public final class AsynchronousLogger extends AbstractLogger {
 
 	/**
 	 * An internal asynchronous processor of logging records.
