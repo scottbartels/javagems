@@ -8,13 +8,13 @@ import gems.logging.LoggingSeverity;
 /**
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class SeverityForFacilityFilter implements Filter<LoggingRecord> {
+public final class SeverityOfFacilityFilter implements Filter<LoggingRecord> {
 
 	private final LoggingSeverity treshold;
 
 	private final LoggingFacility facility;
 
-	public SeverityForFacilityFilter(final LoggingSeverity treshold, final LoggingFacility facility) {
+	public SeverityOfFacilityFilter(final LoggingSeverity treshold, final LoggingFacility facility) {
 		if (treshold == null) {
 			throw new IllegalArgumentException();
 		}
