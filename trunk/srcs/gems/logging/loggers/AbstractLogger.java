@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * A skeleton implementation of <em>logger</em>. It ensures the common functionality
  * of adding and providing underlaying <em>logging handlers</em>. A real handling of
- * <em>logging records</em> is still delegated to subclasses.
+ * <em>logging records</em> is still delegated to subclasses. It also adds an ability
+ * to filter logging records. 
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
@@ -21,7 +22,7 @@ abstract class AbstractLogger implements Logger {
 	/**
 	 * Handlers. Unmodifiable defense copy is hold here, so it is safe to provide it outside.
 	 */
-	private volatile List<LoggingHandler> handlers = Collections.unmodifiableList(new LinkedList<LoggingHandler>());
+	private volatile List<LoggingHandler> handlers = Collections.emptyList();
 
 	/**
 	 * A filter of logging records.
