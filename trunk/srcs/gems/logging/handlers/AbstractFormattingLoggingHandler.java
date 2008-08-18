@@ -11,7 +11,7 @@ import gems.logging.LoggingRecordFormatter;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public abstract class AbstractFormattingLoggingHandler extends AbstractFilteringLoggingHandler {
+abstract class AbstractFormattingLoggingHandler extends AbstractFilteringLoggingHandler {
 
 	/**
 	 * A logging record formatter.

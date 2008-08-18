@@ -19,11 +19,6 @@ public final class LoggingRecord {
 	private static final String NULL_AS_STRING = "null";
 
 	/**
-	 * A name of this package.
-	 */
-	private static final String CURRENT_PACKAGE = LoggingRecord.class.getPackage().getName();
-
-	/**
 	 * A logging record creation timestamp.
 	 */
 	private final long timestamp = System.currentTimeMillis();
@@ -36,7 +31,7 @@ public final class LoggingRecord {
 	/**
 	 * A caller creating the logging record.
 	 */
-	private final StackTraceElement creator = findCaller();
+	private final CreatorInfo creatorInfo = new CreatorInfo();
 
 	/**
 	 * A logging record message.
@@ -93,8 +88,8 @@ public final class LoggingRecord {
 	 *
 	 * @return a record creator identification.
 	 */
-	public StackTraceElement getCreator() {
-		return creator;
+	public CreatorInfo getCreatorInfo() {
+		return creatorInfo;
 	}
 
 	/**
@@ -137,20 +132,6 @@ public final class LoggingRecord {
 		throwable.printStackTrace(writer);
 		writer.close();
 		return stream.toString();
-	}
-
-	/**
-	 * Tries to find a caller producing the logging record by stack trace analysis.
-	 *
-	 * @return a caller producing the logging record.
-	 */
-	private static StackTraceElement findCaller() {
-		for (final StackTraceElement element : (new Throwable()).getStackTrace()) {
-			if (!element.getClassName().startsWith(CURRENT_PACKAGE)) {
-				return element;
-			}
-		}
-		return null;
 	}
 
 }
