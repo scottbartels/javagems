@@ -1,5 +1,6 @@
 package gems.logging.formatters;
 
+import gems.logging.CreatorInfo;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingRecordFormatter;
 import gems.logging.LoggingTag;
@@ -22,12 +23,20 @@ import java.util.Date;
 		if (record == null) {
 			throw new IllegalArgumentException();
 		}
-
-		final StringBuilder result = new StringBuilder().append(new Date(record.getTimestamp())).append(" {");
+		// timestamp
+		final StringBuilder result = new StringBuilder().append(new Date(record.getTimestamp()));
+		// tags
+		result.append(" {");
 		for (final LoggingTag tag : record.getTags()) {
 			result.append(tag);
 		}
-		result.append("} '").append(record.getMessage()).append("'");
+		result.append("}");
+		// creator and thread info
+		result.append(" [");
+		final CreatorInfo creator = record.getCreatorInfo();
+		// TODO: TU SOM SKONCIL
+		// message
+		result.append(" '").append(record.getMessage()).append("'");
 		return result.toString();
 	}
 

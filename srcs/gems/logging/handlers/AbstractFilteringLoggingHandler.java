@@ -12,7 +12,7 @@ import gems.logging.LoggingRecord;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public abstract class AbstractFilteringLoggingHandler implements LoggingHandler {
+abstract class AbstractFilteringLoggingHandler implements LoggingHandler {
 
 	/**
 	 * A filter of logging records.
