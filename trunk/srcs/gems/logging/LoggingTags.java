@@ -73,7 +73,7 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	private List<LoggingTag> initList() {
 		final List<LoggingTag> result = new LinkedList<LoggingTag>();
 		for (final LoggingFacility facility : map.keySet()) {
-			list.add(new LoggingTag(facility, map.get(facility)));
+			result.add(new LoggingTag(facility, map.get(facility)));
 		}
 		return result;
 	}
