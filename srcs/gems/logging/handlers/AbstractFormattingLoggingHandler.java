@@ -38,9 +38,6 @@ abstract class AbstractFormattingLoggingHandler extends AbstractFilteringLogging
 	}
 
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override protected final void doHandle(final LoggingRecord record) {
 		assert record != null;
 		handleFormattedRecord(formatter.format(record));

@@ -115,8 +115,18 @@ public final class LoggingRecord {
 		if (object instanceof Throwable) {
 			return throwableToMessage((Throwable) object);
 		}
-		final String result = object.toString();
-		return result == null ? NULL_AS_STRING : result;
+		return ensureNotNull(object.toString());
+	}
+
+	/**
+	 * If a given arument si {@code null}, converts it to "null" string.
+	 *
+	 * @param s a checked string.
+	 *
+	 * @return the same string {@code s} if it is not {@code null} or string "null" otherwise.
+	 */
+	private static String ensureNotNull(final String s) {
+		return s == null ? NULL_AS_STRING : s;
 	}
 
 	/**
