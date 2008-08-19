@@ -1,20 +1,20 @@
 package gems.logging.formatters;
 
-import gems.logging.CreatorInfo;
-import gems.logging.LoggingRecord;
-import gems.logging.LoggingRecordFormatter;
-import gems.logging.LoggingTag;
-
-import java.util.Date;
+import gems.logging.*;
 
 /**
- * Formatting logging records to plain text.
+ * Formatting logging records to plain text using all available information from logging record.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-@Deprecated public final class PlainLoggingRecordFormatter implements LoggingRecordFormatter {
+public final class PlainLoggingRecordFormatter implements LoggingRecordFormatter {
 
-	/**
+    /**
+     * A timestamp formatter.
+     */
+    private static final TimestampFormatter TIMESTAMP_FORMATTER = new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS");
+
+    /**
 	 * {@inheritDoc}
 	 *
 	 * @throws IllegalArgumentException if {@code record} is {@code null}.
@@ -24,19 +24,22 @@ import java.util.Date;
 			throw new IllegalArgumentException();
 		}
 		// timestamp
-		final StringBuilder result = new StringBuilder().append(new Date(record.getTimestamp()));
-		// tags
+		final StringBuilder result = new StringBuilder().append(TIMESTAMP_FORMATTER.format(record.getTimestamp()));
+        // thread info
+        final ThreadInfo thread = record.getThreadInfo();
+        result.append(" <").append(thread.getName()).append("(").append(thread.getId()).append(")>");
+        // tags
 		result.append(" {");
 		for (final LoggingTag tag : record.getTags()) {
 			result.append(tag);
 		}
 		result.append("}");
-		// creator and thread info
-		result.append(" [");
+		// creator info
+		result.append("\t[");
 		final CreatorInfo creator = record.getCreatorInfo();
-		// TODO: TU SOM SKONCIL
+		result.append(creator.getClassName()).append(".").append(creator.getMethodName()).append("(").append(creator.getLineNumber()).append(")]");
 		// message
-		result.append(" '").append(record.getMessage()).append("'");
+		result.append("\t'").append(record.getMessage()).append("'");
 		return result.toString();
 	}
 
