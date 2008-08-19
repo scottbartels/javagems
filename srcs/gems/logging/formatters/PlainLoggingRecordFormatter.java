@@ -31,7 +31,12 @@ public final class PlainLoggingRecordFormatter implements LoggingRecordFormatter
         // tags
 		result.append(" {");
 		for (final LoggingTag tag : record.getTags()) {
-			result.append(tag);
+			result.append("{");
+			final LoggingFacility facility = tag.getFacility();
+			if (!facility.equals(LoggingFacility.NULL_FACILITY)) {
+				result.append(facility).append(":");
+			}
+			result.append(tag.getSeverity()).append("}");
 		}
 		result.append("}");
 		// creator info
