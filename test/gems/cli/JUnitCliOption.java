@@ -1,7 +1,7 @@
 package gems.cli;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@code CliOption} class.
@@ -51,7 +51,7 @@ public final class JUnitCliOption {
 	}
 
 	/**
-	 * Checks whether a correct type is returned for an option of type {@code MULTIPLE}. 
+	 * Checks whether a correct type is returned for an option of type {@code MULTIPLE}.
 	 */
 	@Test public void getTypeReturnsCorrectTypeForTypeMultiple() {
 		Assert.assertEquals(CliOptionType.MULTIPLE, new CliOption(NAME, CliOptionType.MULTIPLE).getType());

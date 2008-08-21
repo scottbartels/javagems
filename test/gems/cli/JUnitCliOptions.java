@@ -1,8 +1,8 @@
 package gems.cli;
 
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit tests for {@code CliOptions} class.
@@ -63,10 +63,10 @@ public final class JUnitCliOptions {
 	}
 
 	/**
-	 * Checks whether a lookup for a not contained option returns {@code null}. 
+	 * Checks whether a lookup for a not contained option returns {@code null}.
 	 */
 	@Test public void nonContainingIdLeadsToNullReturnValue() {
 		Assert.assertNull(options.getOptionById("nonexists"));
 	}
-	
+
 }
