@@ -106,7 +106,6 @@ public final class FilterChain<T> implements Filter<T> {
 	 * @return {@code true} iff all underlaying filters allow processing for a given object, {@code false} otherwise.
 	 */
 	private boolean allowsBySatisfyAllPolicy(final T object) {
-		assert !isEmpty();
 		for (final Filter<T> filter : filters) {
 			if (!filter.allows(object)) {
 				return false;
