@@ -6,15 +6,27 @@ import org.junit.Assert;
 /**
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class JUnitNegatingFilter {
+@SuppressWarnings({"unchecked"}) public final class JUnitNegatingFilter {
 
-    @Test(expected = IllegalArgumentException.class) public void refusesNull() {
+    /**
+     * Checks whether the constructor forbids a {@code null} argument.
+     */
+    @Test(expected = IllegalArgumentException.class) public void constructorForbidsNull() {
 		new NegatingFilter<Object>(null);
 	}
 
-	@Test public void negates() {
+    /**
+     * Checks whether the negating filter negates a positive decision of a wrapped filter.
+     */
+    @Test public void negatesPositiveDecision() {
 		Assert.assertFalse(new NegatingFilter<Object>(Filter.ALLOW_ALL).allows(new Object()));
-		Assert.assertTrue(new NegatingFilter<Object>(Filter.DENY_ALL).allows(new Object()));
 	}
 	
+    /**
+     * Checks whether the negating filter negates a negative decision of a wrapped filter.
+     */
+    @Test public void negatesNegativeDecision() {
+		Assert.assertTrue(new NegatingFilter<Object>(Filter.DENY_ALL).allows(new Object()));
+	}
+
 }
