@@ -1,8 +1,8 @@
 package gems.cli;
 
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 
@@ -105,7 +105,7 @@ public final class JUnitCliActuator {
 		final List<String> values = actuator.getValues();
 		Assert.assertEquals(2, values.size());
 		Assert.assertEquals(EMPTY_STRING, values.get(0));
-		Assert.assertEquals(EMPTY_STRING, values.get(1));		
+		Assert.assertEquals(EMPTY_STRING, values.get(1));
 	}
 
 	/**
