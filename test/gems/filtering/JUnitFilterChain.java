@@ -14,8 +14,11 @@ public final class JUnitFilterChain {
         new FilterChain<Object>(null);
     }
 
-    @Test public void emptyReturnsFalse() {
+    @Test public void emptyStatisfyAllReturnsFalse() {
 		Assert.assertFalse(new FilterChain<Object>(FilterChainingPolicy.SATISFY_ALL).allows(OBJ));
+	}
+
+    @Test public void emptyStatisfyAnyReturnsFalse() {
 		Assert.assertFalse(new FilterChain<Object>(FilterChainingPolicy.SATISFY_ANY).allows(OBJ));
 	}
 
