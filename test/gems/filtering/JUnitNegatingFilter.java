@@ -8,14 +8,13 @@ import org.junit.Assert;
  */
 public final class JUnitNegatingFilter {
 
-	private final Filter<Object> filter = new NegatingFilter<Object>(Filter.ALLOW_ALL);
-
-	@Test(expected = IllegalArgumentException.class) public void refusesNull() {
+    @Test(expected = IllegalArgumentException.class) public void refusesNull() {
 		new NegatingFilter<Object>(null);
 	}
 
 	@Test public void negates() {
-		Assert.assertFalse(filter.allows(new Object()));
+		Assert.assertFalse(new NegatingFilter<Object>(Filter.ALLOW_ALL).allows(new Object()));
+		Assert.assertTrue(new NegatingFilter<Object>(Filter.DENY_ALL).allows(new Object()));
 	}
 	
 }
