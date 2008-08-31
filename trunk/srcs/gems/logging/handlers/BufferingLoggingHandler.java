@@ -1,10 +1,10 @@
 package gems.logging.handlers;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import gems.logging.LoggingHandler;
 import gems.logging.LoggingRecord;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Buffering wrapper for another handler. It collects logging records in an internal
@@ -101,7 +101,7 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	 * @return a background flusher.
 	 */
 	private Flusher initFlusher(final int timeout) {
-		Flusher result = new Flusher(timeout);
+		final Flusher result = new Flusher(timeout);
 		final Thread thr = new Thread(result);
 		thr.setDaemon(true);
 		thr.start();
