@@ -1,8 +1,18 @@
 #summary Parsing command line arguments using Java Gems.
 
-= CLI Usage Example =
+= Command Line Interface =
 
-== Problem definition ==
+This part of JavaGems project provides a _command line interface_ library, i.e. handling of options typed by user when executing an application from command line. This CLI library has following features:
+
+  * A separation of options _as designed_ by the programmer (aka `CliOption`) and _as typed_ by the user (aka `CliActuator`). This provides clear and unambiguous meaning to objects.
+  * Clear definition of command line options performed by a single constructor with two arguments. There are no magic numbers or misleading setters.
+  * Every user input _is_ parsed, i.e. no excepions should be thrown by parsing process. So, client code is not forced to control a program flow by exception handling. 
+
+The library _does not_ provide any kind of help printing. 
+
+== CLI Usage Example ==
+
+=== Problem definition ===
 
 Let's say that we need to implement CD burning tool used from command line, pretty similar to `cdrecord` or `burncd`. For a sake of simplicity, suppose that it is going to be use as follows:
 
@@ -16,7 +26,7 @@ where available options are these:
   * `-speed #` - An option with an integer value specifying a burning speed.
   * `-filter name` - An option with a sting value specifying a track preprocessing filter. It is required to be able to use many filters in the same time.
 
-== Options definition ==
+=== Options definition ===
 
 The first what we need to do is to create options, as designed by a programmer and expected by the applicaiton:
 
@@ -39,7 +49,7 @@ static {
 
 At this moment, command line interface desing is complete. 
 
-== User input parsing ==
+=== User input parsing ===
 
 Now, let's handle users input:
 
@@ -55,7 +65,7 @@ Ok, game over. New CLI parser was created and command line arguments typed by th
   * Prefix - specifies a prefix identifying an option typed by the user.
   * Stopword - special option stopping arguments parsing. 
 
-== Actuators investigation ==
+=== Actuators investigation ===
 
 Ok, let's see what is recognized in different usage scenarios. The following code will do it for `-verbose` switch: 
 
@@ -102,7 +112,7 @@ System.out.println();
 
 A complete source code of this example is a [http://code.google.com/p/javagems/source/browse/trunk/docs/examples/srcs/cli/CdBurner.java part] of Java Gems. 
 
-== Let's burn! ==
+=== Let's burn! ===
 
 At first, try to start program without any arguments:
 {{{
