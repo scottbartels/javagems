@@ -8,39 +8,9 @@ package gems.logging;
 public enum LoggingSeverity {
 
 	/**
-	 * Application is not able to operate anymore.
+	 * Very deep insight.
 	 */
-	FATAL,
-
-	/**
-	 * Unusual, unexpected and unrecoverable conditions.
-	 */
-	CRITICAL,
-
-	/**
-	 * Unusual, unexpected but recoverable conditions.
-	 */
-	ALERT,
-
-	/**
-	 * Unusual but expected conditions.
-	 */
-	WARNING,
-
-	/**
-	 * Usual but rarely occured conditions.
-	 */
-	NOTICE,
-
-	/**
-	 * Usual and often occured conditions.
-	 */
-	INFO,
-
-	/**
-	 * Processing flow watching.
-	 */
-	VERBOSE,
+	TRACE,	
 
 	/**
 	 * Code flow watching.
@@ -48,8 +18,38 @@ public enum LoggingSeverity {
 	DEBUG,
 
 	/**
-	 * Very deep insight.
+	 * Processing flow watching.
 	 */
-	TRACE
+	VERBOSE,
+
+	/**
+	 * Usual and often occured conditions.
+	 */
+	INFO,
+
+	/**
+	 * Usual but rarely occured conditions.
+	 */
+	NOTICE,
+
+	/**
+	 * Unusual but expected conditions.
+	 */
+	WARNING,
+
+	/**
+	 * Unusual, unexpected but recoverable conditions.
+	 */
+	ALERT,
+
+	/**
+	 * Unusual, unexpected and unrecoverable conditions.
+	 */
+	CRITICAL,
+
+	/**
+	 * Application is not able to operate anymore.
+	 */
+	FATAL
 
 }
