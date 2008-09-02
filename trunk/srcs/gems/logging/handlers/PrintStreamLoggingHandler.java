@@ -3,7 +3,7 @@ package gems.logging.handlers;
 import gems.filtering.Filter;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingRecordFormatter;
-import gems.logging.formatters.SimpleLoggingRecordFormatter;
+import gems.logging.formatters.PlainLoggingRecordFormatter;
 
 import java.io.PrintStream;
 
@@ -40,7 +40,7 @@ public final class PrintStreamLoggingHandler extends AbstractFormattingLoggingHa
 	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
 	public PrintStreamLoggingHandler(final PrintStream stream, final Filter<LoggingRecord> filter) {
-		this(stream, new SimpleLoggingRecordFormatter(), filter);
+		this(stream, new PlainLoggingRecordFormatter(), filter);
 	}
 
 	/**
