@@ -2,7 +2,7 @@
 
 = Java Gems Logging - The First Touch =
 
-This is just another logging framework. It was invented, because its author needed to log one message with different facilities and with different severities for all of severities. For example, the rudimentary requirement was to log "Too many connections" message as "security warning", "performance notice" and "general info". Basic features of Java Gems Logging library are following:
+This is just another logging framework. It was invented, because its author needed to log one message with different facilities and with different severities for the each of these facilities. For example, the rudimentary requirement was to log "Too many connections" message as "security warning", "performance info" and "general notice". Basic features of Java Gems Logging library are following:
 
   * A logging  _facility_ is separated from a logging _severity_. (In fact, what about `java.util.logging.Level.CONFIG`? It is a _severity_, because it is _the_ level, but it seems to be much more like a facility for me.)
   * Each logging severity has a _meaning_ assigned (see javadoc API documentation). So, severities can be used uniformly across the application regardless of a number of developers or teams involved.
