@@ -41,3 +41,34 @@ The basic structure of a logging record is the following:
   # In braces, there are _logging tags_, i.e. pairs of logging facility and corresponding severity. If a logging record was created without any facility, so-called "null facility" with an empty name is used, see lines 1-3. A default severity is `NOTICE` and may be changed when an instance of `LoggingEntryPoint` is created.
   # In square brackets, there is a logging record creator identifications, i.e. a package, class, method and line where the logging record was created.
   # Finally, there is a logging message itself. Please note that the message is quoted, so you can easily catch whitespaces at the beginning and end of message, see line 2. 
+
+The described format is a little bit verbose for simple usage. If this is a case, you can use `gems.logging.formatters.SimpleLoggingRecordFormatter` instead of `gems.logging.formatters.PlainLoggingRecordFormatter`, which is the default one. If you replace a line 
+{{{
+final LoggingHandler handler = new PrintStreamLoggingHandler(System.out);
+}}}
+
+with 
+
+{{{
+final LoggingHandler handler = new PrintStreamLoggingHandler(System.out, new SimpleLoggingRecordFormatter());
+}}}
+
+you will get an output similar to this:
+
+{{{
+2008-09-02 21:46:00 {NOTICE}	'null'
+2008-09-02 21:46:00 {NOTICE}	' Hello, world! '
+2008-09-02 21:46:00 {NOTICE}	'logging.TheFirstTouch@16cd7d5'
+2008-09-02 21:46:00 {WARNING}	'Something is wrong.'
+2008-09-02 21:46:00 {NOTICE}	'Load is too high.'
+2008-09-02 21:46:00 {NOTICE}	'Bad boys are here.'
+2008-09-02 21:46:00 {INFO}	'Performance information.'
+2008-09-02 21:46:00 {WARNING}	'Too many connections.'
+2008-09-02 21:46:00 {FATAL}	'java.lang.RuntimeException: Ooops.
+	at logging.TheFirstTouch.main(TheFirstTouch.java:103)
+Caused by: java.lang.IllegalStateException: I'm the cause.
+	... 1 more
+'
+}}}
+
+In this case, timestamps are formated with seconds precision, there are not any thread and creator information and only a maximal severity is reported instead of complete logging tags.
