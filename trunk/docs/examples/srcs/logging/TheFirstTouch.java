@@ -10,9 +10,11 @@ import gems.logging.handlers.PrintStreamLoggingHandler;
 import gems.logging.loggers.SynchronousLogger;
 
 /**
+ * Very basic example of Java Gems logging library usage.
+ * 
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class LoggingBasicUsage {
+public final class TheFirstTouch {
 
 	/**
 	 * A logging entry point.
@@ -27,8 +29,9 @@ public final class LoggingBasicUsage {
 		 */
 		final Logger logger = new SynchronousLogger();
 		/*
-		 * At third, at least one handler should be provided to ensure
-		 * the output from the logging subsystem.
+		 * At second, at least one handler should be provided to ensure
+		 * the output from the logging subsystem. This will print on
+		 * standard output.
 		 */
 		final LoggingHandler handler = new PrintStreamLoggingHandler(System.out);
 		/*
@@ -42,20 +45,28 @@ public final class LoggingBasicUsage {
 	}
 
 	/**
+	 * Just disables an instance creation from the outside. 
+	 */
+	private TheFirstTouch() {
+		// really nothing here
+	}
+
+	/**
 	 * An example entry point. This is very basic example of logging usage.
 	 *
 	 * @param args command line arguments, completelly ignored.
 	 */
 	public static void main(final String[] args) {
+		
 		/*
 		 * The easiest way how to log something is to put it as a single
 		 * argument to the log() method. Please note that an arbitrary
-		 * object can be use here, not only a string. Even more, 'null'
+		 * object can be used here, not only a string. Even more, 'null'
 		 * is allowed here.
 		 */
 		LEP.log(null);
 		LEP.log(" Hello, world! ");
-		LEP.log(new Object());
+		LEP.log(new TheFirstTouch());
 
 		/*
 		 * A pretty obvious use case is to assign a logging severity to a logged message.
@@ -67,8 +78,8 @@ public final class LoggingBasicUsage {
 		 * for instance "messages related to performance" and "messages related to security",
 		 * the logging facility may be assigned to logging records explicitly.
 		 */
-		LEP.log("Bad boys are here.", LoggingFacility.getFacility("SECURITY"));
 		LEP.log("Load is too high.", LoggingFacility.getFacility("PERFORMANCE"));
+		LEP.log("Bad boys are here.", LoggingFacility.getFacility("SECURITY"));
 
 		/*
 		 * Of course, facility and severity can be assigned to a logging message at one go.
@@ -81,14 +92,14 @@ public final class LoggingBasicUsage {
 		 * in encapsulated in LoggingTag object.
 		 */
 		LEP.log("Too many connections.",
-				new LoggingTag(LoggingFacility.getFacility("PERFORMANCE"), LoggingSeverity.INFO),
-				new LoggingTag(LoggingFacility.getFacility("SECURITY"), LoggingSeverity.WARNING));
+				new LoggingTag(LoggingFacility.getFacility("SECURITY"), LoggingSeverity.WARNING),
+				new LoggingTag(LoggingFacility.getFacility("PERFORMANCE"), LoggingSeverity.INFO));
 
 		/*
 		 * Finally, a special approach is used for exceptions logging.
 		 * A stack trace is generated, including chainded causes.
 		 */
-		LEP.log(new RuntimeException("Ooops.", new RuntimeException("I'm the cause.")), LoggingSeverity.FATAL);
+		LEP.log(new RuntimeException("Ooops.", new IllegalStateException("I'm the cause.")), LoggingSeverity.FATAL);
 	}
 
 }
