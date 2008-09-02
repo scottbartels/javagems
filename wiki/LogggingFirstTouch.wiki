@@ -6,5 +6,5 @@ This is just another logging framework. It was invented, because its author need
 
   * A logging  _facility_ is separated from a logging _severity_. (In fact, what about `java.util.logging.Level.CONFIG`? It is a _severity_, because it is _the_ level, but it seems to be much more like a facility for me.)
   * Each logging severity has a _meaning_ assigned (see javadoc API documentation). So, severities can be used uniformly across the application regardless of a number of developers or teams involved.
-  * Each logging _record_ may have several logging facilities assigned and each of them may have a different severity. So, what is a _warning_ from security point of view can be also a _debug_ information from performance point of view.
+  * Each logging _record_ can have several logging facilities assigned and each of them may have a different severity. So, what is a _warning_ from security point of view can be also a _debug_ information from performance point of view.
   * Java Gems `Logger` is an _interface_. Providing different implementations with a different behavior, different demands of client application may be supported.
