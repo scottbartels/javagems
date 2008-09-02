@@ -89,7 +89,7 @@ public final class TheFirstTouch {
 		/*
 		 * This is the most complex use case: one logging message has assigned more
 		 * facilities, each of them with a different severity. A facility-severity
-		 * in encapsulated in LoggingTag object.
+		 * pair is encapsulated in LoggingTag object.
 		 */
 		LEP.log("Too many connections.",
 				new LoggingTag(LoggingFacility.getFacility("SECURITY"), LoggingSeverity.WARNING),
