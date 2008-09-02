@@ -2,7 +2,7 @@
 
 = Command Line Interface =
 
-This part of JavaGems project provides a _command line interface_ library, i.e. handling of options typed by user when executing an application from command line. This CLI library has following features:
+This part of [JavaGems] project provides a _command line interface_ library, i.e. handling of options typed by user when executing an application from command line. This CLI library has following features:
 
   * A separation of options _as designed_ by the programmer (aka `CliOption`) and _as typed_ by the user (aka `CliActuator`). This provides clear and unambiguous meaning to objects.
   * Clear definition of command line options performed by a single constructor with two arguments. There are no magic numbers or misleading setters.
