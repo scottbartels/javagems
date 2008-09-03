@@ -1,7 +1,0 @@
-#summary Frequently Asked Questions
-
-= Frequently Asked Questions about Java Gems =
-
-== How is this different from Jakarta commons? ==
-
-Commons are very fine, but they are separated to many specialized libraries and contain cross dependencies, brings transient dependencies to the project, and so on. If you have an excellent piece of code in area which is not covered by any commons- library, you have not any way how to share your work except releasing own project. Java Gems are different: there is no particular area which Java Gems are specialized for, and in turn, a code related to _any_ domain can be submitted and shared here. You need to manage several - in fact, many - separate libraries using commons, but there is going to be only one library for Java Gems, without any transient dependencies. A goal of Java Gems is not only to make your coding easier, but also to make your project management easier.
