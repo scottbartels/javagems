@@ -1,4 +1,4 @@
-package gems.logging;
+package gems;
 
 import org.junit.Assert;
 import org.junit.Before;

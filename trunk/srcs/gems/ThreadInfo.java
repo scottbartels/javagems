@@ -1,4 +1,4 @@
-package gems.logging;
+package gems;
 
 /**
  * Encapsulation of thread information. It is immutable after creation.

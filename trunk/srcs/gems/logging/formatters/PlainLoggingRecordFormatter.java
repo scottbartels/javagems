@@ -1,6 +1,7 @@
 package gems.logging.formatters;
 
 import gems.logging.*;
+import gems.ThreadInfo;
 
 /**
  * Formatting logging records to plain text using all available information from logging record.

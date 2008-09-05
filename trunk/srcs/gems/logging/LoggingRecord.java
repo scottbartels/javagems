@@ -1,5 +1,7 @@
 package gems.logging;
 
+import gems.ThreadInfo;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
