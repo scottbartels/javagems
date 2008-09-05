@@ -130,4 +130,91 @@ public final class JUnitLoggingTags {
 		Assert.assertFalse(tags.hasSeverity(TRACE));
 	}
 
+	/**
+	 * Checks whether a {@code hasFacility(LoggingFacility)} method forbids {@code null} argument.
+	 */
+	@Test(expected = IllegalArgumentException.class) public void nullAsFacilityIsForbiddenByHasFacility() {
+		tags.hasFacility(null);
+	}
+
+	/**
+	 * Checks whether a {@code hasFacility(LoggingFacility)} method works as expected.
+	 */
+	@Test public void testHasFacility() {
+		Assert.assertTrue(tags.hasFacility(FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.hasFacility(FACILITY_SECURITY));
+		Assert.assertFalse(tags.hasFacility(FACILITY_UNUSED));
+		Assert.assertFalse(tags.hasFacility(LoggingFacility.NULL_FACILITY));
+	}
+
+
+	/**
+	 * Checks whether a {@code null} value as a facility is forbidden by a {@code getSeverity(LoggingFacility)} method.
+	 */
+	@Test(expected = IllegalArgumentException.class) public void nullIsForbiddenByGetSevetiy() {
+		tags.getSeverity(null);
+	}
+
+	/**
+	 * Checks whether a {@code getSeverity(LoggingFacility)} works as exepected.
+	 */
+	@Test public void testGetSeverity() {
+		Assert.assertEquals(ALERT, tags.getSeverity(FACILITY_PERFORMANCE));
+		Assert.assertEquals(WARNING, tags.getSeverity(FACILITY_SECURITY));
+		Assert.assertNull(tags.getSeverity(FACILITY_UNUSED));
+	}
+
+	/**
+	 * Checks whether a {@code null} value as a severity in
+	 * a {@code isSevere(LoggingSeverity, LoggingFacility)}
+	 * method is forbidden.
+	 */
+	@Test(expected = IllegalArgumentException.class) public void nullAsSeverityIsForbiddenByIsSevereSeverityFacility() {
+		tags.isSevere(null, LoggingFacility.NULL_FACILITY);
+	}
+
+	/**
+	 * Checks whether a {@code null} value as a facility in
+	 * a {@code isSevere(LoggingSeverity, LoggingFacility)}
+	 * method is forbidden.
+	 */
+	@Test(expected = IllegalArgumentException.class) public void nullAsFacilityIsForbiddenByIsSevereSeverityFacility() {
+		tags.isSevere(ALERT, null);
+	}
+
+	/**
+	 * Checks whether a {@code isSevere(LoggingSeverity, LoggingFacility)} method works as expected.
+	 */
+	@Test public void testIsSevereSeverityFacility() {
+		Assert.assertFalse(tags.isSevere(FATAL, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(CRITICAL, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(ALERT, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(WARNING, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(NOTICE, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(INFO, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(VERBOSE, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(DEBUG, FACILITY_UNUSED));
+		Assert.assertFalse(tags.isSevere(TRACE, FACILITY_UNUSED));
+
+		Assert.assertFalse(tags.isSevere(FATAL, FACILITY_PERFORMANCE));
+		Assert.assertFalse(tags.isSevere(CRITICAL, FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.isSevere(ALERT, FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.isSevere(WARNING, FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.isSevere(NOTICE, FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.isSevere(INFO, FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.isSevere(VERBOSE, FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.isSevere(DEBUG, FACILITY_PERFORMANCE));
+		Assert.assertTrue(tags.isSevere(TRACE, FACILITY_PERFORMANCE));
+
+		Assert.assertFalse(tags.isSevere(FATAL, FACILITY_SECURITY));
+		Assert.assertFalse(tags.isSevere(CRITICAL, FACILITY_SECURITY));
+		Assert.assertFalse(tags.isSevere(ALERT, FACILITY_SECURITY));
+		Assert.assertTrue(tags.isSevere(WARNING, FACILITY_SECURITY));
+		Assert.assertTrue(tags.isSevere(NOTICE, FACILITY_SECURITY));
+		Assert.assertTrue(tags.isSevere(INFO, FACILITY_SECURITY));
+		Assert.assertTrue(tags.isSevere(VERBOSE, FACILITY_SECURITY));
+		Assert.assertTrue(tags.isSevere(DEBUG, FACILITY_SECURITY));
+		Assert.assertTrue(tags.isSevere(TRACE, FACILITY_SECURITY));
+	}
+
 }
