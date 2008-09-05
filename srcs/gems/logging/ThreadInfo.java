@@ -1,8 +1,7 @@
 package gems.logging;
 
 /**
- * Encapsulation of thread information. It is created as an internal
- * part of logging record and it is immutable after creation.
+ * Encapsulation of thread information. It is immutable after creation.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
@@ -21,7 +20,7 @@ public final class ThreadInfo {
 	/**
 	 * Creates a new thread info object.
 	 */
-	ThreadInfo() {
+	public ThreadInfo() {
 		final Thread current = Thread.currentThread();
 		id = current.getId();
 		name = current.getName();
