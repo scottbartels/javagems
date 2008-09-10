@@ -1,0 +1,36 @@
+gems.logging - Crash Dump Logging Handler
+
+	Handler holding all logged records for last _M_ minutes or at most
+_N_ latest records. The idea is to create a detailed logging output when
+any severe event occur, but to keep a logging output to be brief and 
+concise under normal circumstances. A handler has following attributes:
+
+SECONDS (integer), defaults to 120(?): This is a time limit for holding 
+logging records. After this time limit, logging records are released, but
+a.t.m. it is not clear what it exactly mean. There are several options:
+	- Simply to forget them.
+	- Log if they are over a treshold.
+
+LIMIT (integer), defaults to 100(?): This a limit for maximal number of
+logging records held. After this limit exceeds, logging records are 
+released, but ... detto. 
+
+TRESHOLD (gems.logging.LoggingSeverity), defaults to ALERT(?): All held
+logging records are logged when a logging record with at least this
+severity is logged to a handler, but a.t.m. it is not clear what it
+exactly mean. There are several options:
+	- To create one-time logging file.
+	- To send an email.
+However, this action should be probably generated to another logging
+handler. So, this seems to be a candidate for another 'wrapping' 
+handler. 
+
+The lowest logged severity may be successfully controlled by general
+filtering capabilities. Implementation of logging record handling might
+be similar to this:
+
+1) Add a received logging record at the end of buffer.
+2) If buffer size exceeded LIMIT, remove a head of buffer.
+3) Remove all held logging records older than SECONDS. 
+4) If a received logging record has at least TRESHOLD severity, log them.
+
