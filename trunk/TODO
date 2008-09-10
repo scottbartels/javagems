@@ -74,3 +74,7 @@ The following new utilities might be useful:
 * a mapping from codes or keys to messages with fast search, different
   physical storage of the mapping and probably with caching capabilities.
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ gems.logging - XML Logging Record Formatter                        @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
