@@ -14,14 +14,23 @@ import java.util.Comparator;
  */
 public final class Shower {
 
+	/**
+	 * A name of the application.
+	 */
 	private static final String APP_NAME = "GEMS Shower";
 
+	/**
+	 * A label displaying images.
+	 */
 	private static final JLabel IMAGE = new JLabel();
 
 	static {
 		IMAGE.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
+	/**
+	 * A scroll pane for images larger than a screen.
+	 */
 	private static final JScrollPane SCROLL = new JScrollPane(IMAGE,
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -30,17 +39,20 @@ public final class Shower {
 		SCROLL.getViewport().setBackground(Color.BLACK);
 	}
 
+	/**
+	 * The main application frame.
+	 */
 	private static final JFrame FRAME = new JFrame(APP_NAME);
 
 	static {
-		FRAME.add(SCROLL);
 		FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FRAME.setUndecorated(true);
 		FRAME.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 		FRAME.addKeyListener(new ExitOnEscapeKeyListener());
-
 		FRAME.addKeyListener(new ChangeImageListener());
+		FRAME.addKeyListener(new SlideshowControlKeyListener());
 		FRAME.addKeyListener(new MoveOversizedListener());
+		FRAME.add(SCROLL);
 	}
 
 	private static File[] files;
@@ -78,24 +90,24 @@ public final class Shower {
 		bar.setValue((min + (max - ext)) / 2);
 	}
 
-	private static void showFirstImage() {
+	private static synchronized void showFirstImage() {
 		index = 0;
 		show();
 	}
 
-	private static void showLastImage() {
+	private static synchronized void showLastImage() {
 		index = files.length - 1;
 		show();
 	}
 
-	private static void showNextImage() {
+	private static synchronized void showNextImage() {
 		if (++index >= files.length) {
 			index = 0; // rewind
 		}
 		show();
 	}
 
-	private static void showPreviousImage() {
+	private static synchronized void showPreviousImage() {
 		if (--index < 0) {
 			index = files.length - 1;
 		}
@@ -145,7 +157,7 @@ public final class Shower {
 		 * Handles arrow keys and moves oversized image in a scroll pane.
 		 * {@code Shift} and {@code Ctrl} modifiers increase scrolling speed 2 and 3 times, respectivelly.
 		 *
-		 * @param e a key event. 
+		 * @param e a key event.
 		 */
 		public void keyPressed(final KeyEvent e) {
 			final int code = e.getKeyCode();
@@ -222,9 +234,20 @@ public final class Shower {
 	}
 
 	/**
+	 * Starts and stops a slideshow.
+	 */
+	private static final class SlideshowControlKeyListener extends AbstractKeyListener {
+		public void keyPressed(final KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_S) {
+				// todo: tu som skoncil
+			}
+		}
+	}
+
+	/**
 	 * Exits the application when {@code ESC} is pressed.
 	 */
-	private static class ExitOnEscapeKeyListener extends AbstractKeyListener {
+	private static final class ExitOnEscapeKeyListener extends AbstractKeyListener {
 
 		/**
 		 * Exits the application if {@code ESC} key was pressed.
