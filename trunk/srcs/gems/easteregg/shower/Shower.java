@@ -14,13 +14,12 @@ import java.util.Comparator;
  */
 public final class Shower {
 
-	private static final String APP_NAME = "Shower";
+	private static final String APP_NAME = "GEMS Shower";
 
 	private static final JLabel IMAGE = new JLabel();
 
 	static {
 		IMAGE.setHorizontalAlignment(SwingConstants.CENTER);
-		IMAGE.setDoubleBuffered(true);
 	}
 
 	private static final JScrollPane SCROLL = new JScrollPane(IMAGE,
@@ -28,7 +27,6 @@ public final class Shower {
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 	static {
-		SCROLL.setDoubleBuffered(true);
 		SCROLL.getViewport().setBackground(Color.BLACK);
 	}
 
@@ -39,7 +37,8 @@ public final class Shower {
 		FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FRAME.setUndecorated(true);
 		FRAME.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		FRAME.setVisible(true);
+		FRAME.addKeyListener(new ExitOnEscapeKeyListener());
+
 		FRAME.addKeyListener(new ChangeImageListener());
 		FRAME.addKeyListener(new MoveOversizedListener());
 	}
@@ -50,35 +49,26 @@ public final class Shower {
 
 	public static void main(final String[] args) throws Exception {
 		files = getFilenames(args[0]);
-		Arrays.sort(files, new Comparator<File>() {
-			public int compare(File o1, File o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
-		if (files.length > 0) {
-			showFile(files[0]);
-		}
-	}
-
-	private static void showNextFile() {
 		if (files.length == 0) {
-			return; // nothing to show;
+			return;
 		}
-		if (++index >= files.length) {
-			index = 0; // rewind
-		}
-		showFile(files[index]);
+		Arrays.sort(files, new FilenamesComparator());
+		showFirstImage();
 	}
 
-	private static void showFile(File file) {
-		IMAGE.setIcon(new ImageIcon(file.getPath()));
-		FRAME.setTitle(APP_NAME + " - " + file.getPath());
+	private static void show() {
+		final String path = files[index].getPath();
+		IMAGE.setIcon(new ImageIcon(path));
+		FRAME.setTitle(APP_NAME + " - " + path);
+		if (!FRAME.isVisible()) {
+			FRAME.setVisible(true);
+		}
 		resetScrollbars();
 	}
 
 	private static void resetScrollbars() {
-		centerScrollbar(SCROLL.getHorizontalScrollBar());
 		centerScrollbar(SCROLL.getVerticalScrollBar());
+		centerScrollbar(SCROLL.getHorizontalScrollBar());
 	}
 
 	private static void centerScrollbar(final JScrollBar bar) {
@@ -88,14 +78,28 @@ public final class Shower {
 		bar.setValue((min + (max - ext)) / 2);
 	}
 
-	private static void showPreviousFile() {
-		if (files.length == 0) {
-			return; // nothing to do
+	private static void showFirstImage() {
+		index = 0;
+		show();
+	}
+
+	private static void showLastImage() {
+		index = files.length - 1;
+		show();
+	}
+
+	private static void showNextImage() {
+		if (++index >= files.length) {
+			index = 0; // rewind
 		}
+		show();
+	}
+
+	private static void showPreviousImage() {
 		if (--index < 0) {
 			index = files.length - 1;
 		}
-		showFile(files[index]);
+		show();
 	}
 
 	private static File[] getFilenames(final String directory) {
@@ -106,6 +110,10 @@ public final class Shower {
 		});
 	}
 
+	/**
+	 * A skeleton implementation of {@code KeyListener} interface
+	 * implementing only unused methods using empty bodies.
+	 */
 	private static abstract class AbstractKeyListener implements KeyListener {
 
 		/**
@@ -128,48 +136,119 @@ public final class Shower {
 
 	}
 
+	/**
+	 * Moves oversized image up, down, right, and left
+	 */
 	private static final class MoveOversizedListener extends AbstractKeyListener {
 
-		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_LEFT) {
-				final JScrollBar bar = SCROLL.getHorizontalScrollBar();
-				final int current = bar.getValue();
-				final int extent = (int) (bar.getModel().getExtent() * 0.382);
-				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					bar.setValue(current + extent);
-				} else {
-					bar.setValue(current - extent);
-				}
-			} else if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
-				final JScrollBar bar = SCROLL.getVerticalScrollBar();
-				final int current = bar.getValue();
-				final int extent = (int) (bar.getModel().getExtent() * 0.382);
-				if (e.getKeyCode() == KeyEvent.VK_UP) {
-					bar.setValue(current - extent);
-				} else {
-					bar.setValue(current + extent);
-				}
+		/**
+		 * Handles arrow keys and moves oversized image in a scroll pane.
+		 * {@code Shift} and {@code Ctrl} modifiers increase scrolling speed 2 and 3 times, respectivelly.
+		 *
+		 * @param e a key event. 
+		 */
+		public void keyPressed(final KeyEvent e) {
+			final int code = e.getKeyCode();
+			final JScrollBar bar;
+			switch (code) {
+				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_LEFT:
+					bar = SCROLL.getHorizontalScrollBar();
+					break;
+				case KeyEvent.VK_UP:
+				case KeyEvent.VK_DOWN:
+					bar = SCROLL.getVerticalScrollBar();
+					break;
+				default:
+					return; // nothing to do
+			}
+
+			double step = 0.1;
+
+			if (e.isShiftDown()) {
+				step *= 2;
+			}
+
+			if (e.isControlDown()) {
+				step *= 3;
+			}
+
+			final int change = (int) (step * bar.getModel().getExtent());
+
+			switch (code) {
+				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_DOWN:
+					bar.setValue(bar.getValue() + change);
+					break;
+				default:
+					bar.setValue(bar.getValue() - change);
+					break;
+			}
+
+		}
+
+	}
+
+	/**
+	 * Moves up and down in list of images when page-up and page-down keys are pressed.
+	 */
+	private static final class ChangeImageListener extends AbstractKeyListener {
+
+		/**
+		 * Goes to previous or next picture if page-up or page-down keys were pressed, respectivelly.
+		 *
+		 * @param e a key event.
+		 */
+		public void keyPressed(final KeyEvent e) {
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_PAGE_DOWN:
+					showNextImage();
+					break;
+				case KeyEvent.VK_PAGE_UP:
+					showPreviousImage();
+					break;
+				case KeyEvent.VK_END:
+					showLastImage();
+					break;
+				case KeyEvent.VK_HOME:
+					showFirstImage();
+					break;
+				default:
+					break;
+			}
+
+		}
+
+	}
+
+	/**
+	 * Exits the application when {@code ESC} is pressed.
+	 */
+	private static class ExitOnEscapeKeyListener extends AbstractKeyListener {
+
+		/**
+		 * Exits the application if {@code ESC} key was pressed.
+		 *
+		 * @param e a key event.
+		 */
+		public void keyPressed(final KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				System.exit(0);
 			}
 		}
 
 	}
 
 	/**
-	 * Moves up and down in list of images when up and down arrows are pressed. 
+	 * Compares files according their names.
 	 */
-	private static final class ChangeImageListener extends AbstractKeyListener {
+	private static final class FilenamesComparator implements Comparator<File> {
 
 		/**
-		 * Goes to previous or next picture if up or down keys were pressed, respectivelly.
-		 *
-		 * @param e a key event.
+		 * {@inheritDoc}
 		 */
-		public void keyPressed(final KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_PAGE_UP) {
-				showPreviousFile();
-			} else if (e.getKeyCode() == KeyEvent.VK_PAGE_DOWN) {
-				showNextFile();
-			}
+		public int compare(final File x, final File y) {
+			return x.getName().compareTo(y.getName());
 		}
 
 	}
