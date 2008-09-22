@@ -17,70 +17,126 @@ public final class Shower {
 	/**
 	 * A name of the application.
 	 */
-	private static final String APP_NAME = "GEMS Shower";
+	private static final String APPLICATION_NAME = "GEMS Shower";
 
 	/**
-	 * A label displaying images.
+	 * A label component displaying an image.
 	 */
-	private static final JLabel IMAGE = new JLabel();
+	private final JLabel image = new JLabel();
 
-	static {
-		IMAGE.setHorizontalAlignment(SwingConstants.CENTER);
+	{
+		image.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	/**
-	 * A scroll pane for images larger than a screen.
+	 * A scroll pane for viewing oversized images.
 	 */
-	private static final JScrollPane SCROLL = new JScrollPane(IMAGE,
+	private final JScrollPane scroll = new JScrollPane(image,
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-	static {
-		SCROLL.getViewport().setBackground(Color.BLACK);
+	{
+		scroll.getViewport().setBackground(Color.BLACK);
 	}
 
 	/**
-	 * The main application frame.
+	 * The application frame.
 	 */
-	private static final JFrame FRAME = new JFrame(APP_NAME);
+	private final JFrame frame = new JFrame(APPLICATION_NAME);
 
-	static {
-		FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FRAME.setUndecorated(true);
-		FRAME.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		FRAME.addKeyListener(new ExitOnEscapeKeyListener());
-		FRAME.addKeyListener(new ChangeImageListener());
-		FRAME.addKeyListener(new SlideshowControlKeyListener());
-		FRAME.addKeyListener(new MoveOversizedListener());
-		FRAME.add(SCROLL);
+	{
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);
+		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		frame.addKeyListener(new ExitOnEscapeKeyListener());
+		frame.addKeyListener(new ChangeImageListener());
+		frame.addKeyListener(new SlideshowControlKeyListener());
+		frame.addKeyListener(new MoveOversizedListener());
+		frame.add(scroll);
 	}
 
-	private static File[] files;
+	/**
+	 * A list of images to display.
+	 */
+	private final File[] images;
 
-	private static int index;
+	/**
+	 * A current target.
+	 */
+	private int target;
+
+	private Shower(final File[] images, final int target) {
+		this.images = images.clone();
+		this.target = target;
+		show();
+	}
 
 	public static void main(final String[] args) throws Exception {
-		files = getFilenames(args[0]);
-		if (files.length == 0) {
+
+		if (args.length == 0) {
 			return;
 		}
-		Arrays.sort(files, new FilenamesComparator());
-		showFirstImage();
+
+		final File givenPath = new File(args[0]);
+
+		if (!givenPath.exists() || !givenPath.canRead()) {
+			return;
+		}
+
+		final File targetDirectory;
+		if (givenPath.isDirectory()) {
+			targetDirectory = givenPath;
+		} else {
+			final File auxParent = givenPath.getParentFile();
+			targetDirectory = auxParent != null ? auxParent : new File(System.getProperty("user.dir"));
+		}
+
+		final File[] images = getFilenames(targetDirectory);
+
+		if (images == null || images.length == 0) {
+			return;
+		}
+
+		Arrays.sort(images, new FilenamesComparator());
+
+		final File targetImage;
+		if (givenPath.isDirectory()) {
+			targetImage = images[0];
+		} else {
+			targetImage = givenPath;
+		}
+
+		final int idx = seachForTarget(images, targetImage);
+
+		if (idx < 0) {
+			return;
+		}
+
+		new Shower(images, idx);
 	}
 
-	private static void show() {
-		final String path = files[index].getPath();
-		IMAGE.setIcon(new ImageIcon(path));
-		FRAME.setTitle(APP_NAME + " - " + path);
-		if (!FRAME.isVisible()) {
-			FRAME.setVisible(true);
+	private static int seachForTarget(File[] images, File target) {
+		for (int i = 0; i < images.length; i++) {
+			if (images[i].equals(target)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	private void show() {
+		final String path = images[target].getPath();
+		image.setIcon(new ImageIcon(path));
+		frame.setTitle(APPLICATION_NAME + " - " + path);
+		if (!frame.isVisible()) {
+			frame.setVisible(true);
 		}
 		resetScrollbars();
 	}
 
-	private static void resetScrollbars() {
-		centerScrollbar(SCROLL.getVerticalScrollBar());
-		centerScrollbar(SCROLL.getHorizontalScrollBar());
+	private void resetScrollbars() {
+		centerScrollbar(scroll.getVerticalScrollBar());
+		centerScrollbar(scroll.getHorizontalScrollBar());
 	}
 
 	private static void centerScrollbar(final JScrollBar bar) {
@@ -90,32 +146,32 @@ public final class Shower {
 		bar.setValue((min + (max - ext)) / 2);
 	}
 
-	private static synchronized void showFirstImage() {
-		index = 0;
+	private synchronized void showFirstImage() {
+		target = 0;
 		show();
 	}
 
-	private static synchronized void showLastImage() {
-		index = files.length - 1;
+	private synchronized void showLastImage() {
+		target = images.length - 1;
 		show();
 	}
 
-	private static synchronized void showNextImage() {
-		if (++index >= files.length) {
-			index = 0; // rewind
+	private synchronized void showNextImage() {
+		if (++target >= images.length) {
+			target = 0;
 		}
 		show();
 	}
 
-	private static synchronized void showPreviousImage() {
-		if (--index < 0) {
-			index = files.length - 1;
+	private synchronized void showPreviousImage() {
+		if (--target < 0) {
+			target = images.length - 1;
 		}
 		show();
 	}
 
-	private static File[] getFilenames(final String directory) {
-		return new File(directory).listFiles(new FilenameFilter() {
+	private static File[] getFilenames(final File directory) {
+		return directory.listFiles(new FilenameFilter() {
 			public boolean accept(final File dir, final String name) {
 				return name.endsWith(".png") || name.endsWith(".jpg");
 			}
@@ -151,7 +207,7 @@ public final class Shower {
 	/**
 	 * Moves oversized image up, down, right, and left
 	 */
-	private static final class MoveOversizedListener extends AbstractKeyListener {
+	private final class MoveOversizedListener extends AbstractKeyListener {
 
 		/**
 		 * Handles arrow keys and moves oversized image in a scroll pane.
@@ -165,11 +221,11 @@ public final class Shower {
 			switch (code) {
 				case KeyEvent.VK_RIGHT:
 				case KeyEvent.VK_LEFT:
-					bar = SCROLL.getHorizontalScrollBar();
+					bar = scroll.getHorizontalScrollBar();
 					break;
 				case KeyEvent.VK_UP:
 				case KeyEvent.VK_DOWN:
-					bar = SCROLL.getVerticalScrollBar();
+					bar = scroll.getVerticalScrollBar();
 					break;
 				default:
 					return; // nothing to do
@@ -204,7 +260,7 @@ public final class Shower {
 	/**
 	 * Moves up and down in list of images when page-up and page-down keys are pressed.
 	 */
-	private static final class ChangeImageListener extends AbstractKeyListener {
+	private final class ChangeImageListener extends AbstractKeyListener {
 
 		/**
 		 * Goes to previous or next picture if page-up or page-down keys were pressed, respectivelly.
