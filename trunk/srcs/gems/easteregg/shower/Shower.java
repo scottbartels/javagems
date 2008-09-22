@@ -71,6 +71,52 @@ public final class Shower {
 		show();
 	}
 
+	private void show() {
+		final String path = images[target].getPath();
+		image.setIcon(new ImageIcon(path)); // TODO: RESIZE IMAGE TO FIT IT INTO A SCREEN
+		frame.setTitle(APPLICATION_NAME + " - " + path);
+		if (!frame.isVisible()) {
+			frame.setVisible(true);
+		}
+		resetScrollbars();
+	}
+
+	private void resetScrollbars() {
+		centerScrollbar(scroll.getVerticalScrollBar());
+		centerScrollbar(scroll.getHorizontalScrollBar());
+	}
+
+	private static void centerScrollbar(final JScrollBar bar) {
+		final int min = bar.getMinimum();
+		final int max = bar.getMaximum();
+		final int ext = bar.getModel().getExtent();
+		bar.setValue((min + (max - ext)) / 2);
+	}
+
+	private synchronized void showFirstImage() {
+		target = 0;
+		show();
+	}
+
+	private synchronized void showLastImage() {
+		target = images.length - 1;
+		show();
+	}
+
+	private synchronized void showNextImage() {
+		if (++target >= images.length) {
+			target = 0;
+		}
+		show();
+	}
+
+	private synchronized void showPreviousImage() {
+		if (--target < 0) {
+			target = images.length - 1;
+		}
+		show();
+	}
+
 	public static void main(final String[] args) throws Exception {
 
 		if (args.length == 0) {
@@ -124,52 +170,6 @@ public final class Shower {
 		return -1;
 	}
 
-	private void show() {
-		final String path = images[target].getPath();
-		image.setIcon(new ImageIcon(path));
-		frame.setTitle(APPLICATION_NAME + " - " + path);
-		if (!frame.isVisible()) {
-			frame.setVisible(true);
-		}
-		resetScrollbars();
-	}
-
-	private void resetScrollbars() {
-		centerScrollbar(scroll.getVerticalScrollBar());
-		centerScrollbar(scroll.getHorizontalScrollBar());
-	}
-
-	private static void centerScrollbar(final JScrollBar bar) {
-		final int min = bar.getMinimum();
-		final int max = bar.getMaximum();
-		final int ext = bar.getModel().getExtent();
-		bar.setValue((min + (max - ext)) / 2);
-	}
-
-	private synchronized void showFirstImage() {
-		target = 0;
-		show();
-	}
-
-	private synchronized void showLastImage() {
-		target = images.length - 1;
-		show();
-	}
-
-	private synchronized void showNextImage() {
-		if (++target >= images.length) {
-			target = 0;
-		}
-		show();
-	}
-
-	private synchronized void showPreviousImage() {
-		if (--target < 0) {
-			target = images.length - 1;
-		}
-		show();
-	}
-
 	private static File[] getFilenames(final File directory) {
 		return directory.listFiles(new FilenameFilter() {
 			public boolean accept(final File dir, final String name) {
@@ -215,7 +215,7 @@ public final class Shower {
 		 *
 		 * @param e a key event.
 		 */
-		public void keyPressed(final KeyEvent e) {
+		public void keyPressed(final KeyEvent e) { // todo: maybe also vi-like moving?
 			final int code = e.getKeyCode();
 			final JScrollBar bar;
 			switch (code) {
@@ -295,7 +295,7 @@ public final class Shower {
 	private static final class SlideshowControlKeyListener extends AbstractKeyListener {
 		public void keyPressed(final KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_S) {
-				// todo: tu som skoncil
+				// TODO: CONTINUE HERE
 			}
 		}
 	}
@@ -311,7 +311,7 @@ public final class Shower {
 		 * @param e a key event.
 		 */
 		public void keyPressed(final KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_Q) {
 				System.exit(0);
 			}
 		}
