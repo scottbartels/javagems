@@ -73,12 +73,22 @@ public final class Shower {
 
 	private void show() {
 		final String path = images[target].getPath();
-		image.setIcon(new ImageIcon(path)); // TODO: RESIZE IMAGE TO FIT IT INTO A SCREEN
+		image.setIcon(new ImageIcon(loadImage(path)));
 		frame.setTitle(APPLICATION_NAME + " - " + path);
 		if (!frame.isVisible()) {
 			frame.setVisible(true);
 		}
 		resetScrollbars();
+	}
+
+	private static Image loadImage(final String path) {
+		final Image image = Toolkit.getDefaultToolkit().getImage(path);
+		// TODO: RESIZE IMAGE TO FIT IT INTO A SCREEN
+//		final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+//		if (image.getHeight(null) > screen.getHeight() || image.getWidth(null) > screen.getWidth()) {
+//			return image.getScaledInstance((int)screen.getWidth(), (int)screen.getHeight(), Image.SCALE_DEFAULT);
+//		}
+		return image;
 	}
 
 	private void resetScrollbars() {
