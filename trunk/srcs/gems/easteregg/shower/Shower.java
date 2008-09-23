@@ -270,9 +270,13 @@ public final class Shower {
 		public void keyPressed(final KeyEvent e) {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_PAGE_DOWN:
+				case KeyEvent.VK_SPACE:
+				case KeyEvent.VK_N:
 					showNextImage();
 					break;
 				case KeyEvent.VK_PAGE_UP:
+				case KeyEvent.VK_BACK_SPACE:
+				case KeyEvent.VK_B:
 					showPreviousImage();
 					break;
 				case KeyEvent.VK_END:
