@@ -47,7 +47,11 @@
 
 	<!-- PACK: Creates a resulting jar file from compiled classes. -->
 	<target name="pack" depends="compile">
-		<jar basedir="${build.classes}" destfile="${jar.bin}"/>
+		<jar basedir="${build.classes}" destfile="${jar.bin}">
+			<manifest>
+				<attribute name="Main-Class" value="gems.easteregg.shower.Shower"/>
+			</manifest>
+		</jar>
 	</target>
 
 	<!-- DIST: Builds everyting from a scratch. -->
