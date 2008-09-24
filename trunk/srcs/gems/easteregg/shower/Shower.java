@@ -168,10 +168,16 @@ public final class Shower {
 			return;
 		}
 
-		new Shower(images, idx);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new Shower(images, idx);
+			}
+		});
+
+
 	}
 
-	private static int seachForTarget(File[] images, File target) {
+	private static int seachForTarget(final File[] images, final File target) { // todo: pretty common
 		for (int i = 0; i < images.length; i++) {
 			if (images[i].equals(target)) {
 				return i;
