@@ -1,10 +1,9 @@
 package gems.logging;
 
 import static gems.logging.LoggingSeverity.*;
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.Assert;
-import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Iterator;
 
@@ -50,13 +49,6 @@ public final class JUnitLoggingTags {
 	 */
 	@Before public void setUp() {
 		tags = new LoggingTags(TAGS);
-	}
-
-	/**
-	 * Disposes a fixture.
-	 */
-	@After public void tearDown() {
-		tags = null;
 	}
 
 	/**

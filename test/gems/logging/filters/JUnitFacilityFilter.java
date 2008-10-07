@@ -5,7 +5,6 @@ import gems.logging.LoggingFacility;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingSeverity;
 import gems.logging.LoggingTag;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,13 +26,6 @@ public final class JUnitFacilityFilter {
 	 */
 	@Before public void setUp() {
 		filter = new FacilityFilter(LoggingFacility.getFacility("SECURITY"));
-	}
-
-	/**
-	 * Disposes a fixture.
-	 */
-	@After public void tearDown() {
-		filter = null;
 	}
 
 	/**
