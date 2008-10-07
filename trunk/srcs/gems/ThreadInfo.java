@@ -5,12 +5,7 @@ package gems;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class ThreadInfo {
-
-	/**
-	 * A thread ID.
-	 */
-	private final long id;
+public final class ThreadInfo extends AbstractIdentifiable<Long> {
 
 	/**
 	 * A thread name.
@@ -21,18 +16,8 @@ public final class ThreadInfo {
 	 * Creates a new thread info object.
 	 */
 	public ThreadInfo() {
-		final Thread current = Thread.currentThread();
-		id = current.getId();
-		name = current.getName();
-	}
-
-	/**
-	 * Returns a thread id.
-	 *
-	 * @return a thread id.
-	 */
-	public long getId() {
-		return id;
+		super(Thread.currentThread().getId());
+		name = Thread.currentThread().getName();
 	}
 
 	/**
