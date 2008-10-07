@@ -6,7 +6,6 @@ import static gems.logging.LoggingFacility.NULL_FACILITY;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingSeverity;
 import gems.logging.LoggingTag;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,13 +37,6 @@ public final class JUnitSeverityOfFacilityFilter {
 	 */
 	@Before public void setUp() {
 		filter = new SeverityOfFacilityFilter(LoggingSeverity.INFO, SECURITY);
-	}
-
-	/**
-	 * Disposes a fixture.
-	 */
-	@After public void tearDown() {
-		filter = null;
 	}
 
 	/**

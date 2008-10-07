@@ -36,13 +36,6 @@ public final class JUnitSeverityFilter {
 	}
 
 	/**
-	 * Disposes a fixture.
-	 */
-	@After public void tearDown() {
-		filter = null;
-	}
-
-	/**
 	 * Checks whether a {@code null} value is forbidden by a construcor.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNull() {
