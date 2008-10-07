@@ -3,6 +3,7 @@ package gems;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.After;
 
 /**
  * Unit tests for {@code ThreadInfo} class.
@@ -39,12 +40,21 @@ public final class JUnitThreadInfo {
 	/**
 	 * Initializes fixtures.
 	 */
-	@Before public void init() {
+	@Before public void setUp() {
 		final Thread currentThread = Thread.currentThread();
 		currentThreadId = currentThread.getId();
 		currentThreadName = currentThread.getName();
 		current = new ThreadInfo();
 		another = new AnotherThread(ANOTHER_NAME).getInfo();
+	}
+
+	/**
+	 * Disposes fixtures.
+	 */
+	@After public void tearDown() {
+		currentThreadName = null;
+		current = null;
+		another = null;
 	}
 
 	/**

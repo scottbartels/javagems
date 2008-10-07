@@ -4,18 +4,35 @@ import static gems.logging.LoggingSeverity.*;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.Assert;
+import org.junit.After;
 
 import java.util.Iterator;
 
 /**
+ * Unit tests for {@code LoggingTags} class.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class JUnitLoggingTags {
 
+	/**
+	 * Security facility.
+	 */
 	private static final LoggingFacility FACILITY_SECURITY = LoggingFacility.getFacility("SECURITY");
+
+	/**
+	 * Performance facility.
+	 */
 	private static final LoggingFacility FACILITY_PERFORMANCE = LoggingFacility.getFacility("PEFRORMANCE");
+
+	/**
+	 * Unsused facility.
+	 */
 	private static final LoggingFacility FACILITY_UNUSED = LoggingFacility.getFacility("UNUSED");
 
+	/**
+	 * Logging tags.
+	 */
 	private static final LoggingTag[] TAGS = new LoggingTag[]{
 			new LoggingTag(FACILITY_PERFORMANCE, DEBUG),
 			new LoggingTag(FACILITY_PERFORMANCE, ALERT),
@@ -31,8 +48,15 @@ public final class JUnitLoggingTags {
 	/**
 	 * Initializes a test fixture.
 	 */
-	@Before public void init() {
+	@Before public void setUp() {
 		tags = new LoggingTags(TAGS);
+	}
+
+	/**
+	 * Disposes a fixture.
+	 */
+	@After public void tearDown() {
+		tags = null;
 	}
 
 	/**
