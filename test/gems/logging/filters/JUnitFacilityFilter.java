@@ -17,24 +17,27 @@ import org.junit.Test;
  */
 public final class JUnitFacilityFilter {
 
-	private Filter<LoggingRecord> fixture;
+	/**
+	 * A tested fixture.
+	 */
+	private Filter<LoggingRecord> filter;
 
 	/**
-	 * Creates a new tested object.
+	 * Creates a new tested filter.
 	 */
 	@Before public void setUp() {
-		fixture = new FacilityFilter(LoggingFacility.getFacility("SECURITY"));
+		filter = new FacilityFilter(LoggingFacility.getFacility("SECURITY"));
 	}
 
 	/**
-	 * Disposes tested object.
+	 * Disposes a fixture.
 	 */
 	@After public void tearDown() {
-		fixture = null;
+		filter = null;
 	}
 
 	/**
-	 * Checks whether a {@code null} value is forbidden by the constructor.
+	 * Checks whether a {@code null} value is forbidden by a constructor.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNull() {
 		new FacilityFilter(null);
@@ -42,19 +45,19 @@ public final class JUnitFacilityFilter {
 
 
 	/**
-	 * Checks whether a {@code null} value is forbidden by the filter.
+	 * Checks whether a {@code null} value is forbidden by a filter.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void filterForbidsNull() {
-		fixture.allows(null);
+		filter.allows(null);
 	}
 
 	/**
 	 * Checks filtering capabilities.
 	 */
 	@Test public void testFiltering() {
-		Assert.assertFalse(fixture.allows(new LoggingRecord(null, new LoggingTag(LoggingFacility.NULL_FACILITY, LoggingSeverity.INFO))));
-		Assert.assertFalse(fixture.allows(new LoggingRecord(null, new LoggingTag(LoggingFacility.getFacility("PERFORMANCE"), LoggingSeverity.INFO))));
-		Assert.assertTrue(fixture.allows(new LoggingRecord(null, new LoggingTag(LoggingFacility.getFacility("SECURITY"), LoggingSeverity.INFO))));
+		Assert.assertFalse(filter.allows(new LoggingRecord(null, new LoggingTag(LoggingFacility.NULL_FACILITY, LoggingSeverity.INFO))));
+		Assert.assertFalse(filter.allows(new LoggingRecord(null, new LoggingTag(LoggingFacility.getFacility("PERFORMANCE"), LoggingSeverity.INFO))));
+		Assert.assertTrue(filter.allows(new LoggingRecord(null, new LoggingTag(LoggingFacility.getFacility("SECURITY"), LoggingSeverity.INFO))));
 	}
 
 }

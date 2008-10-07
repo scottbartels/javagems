@@ -12,10 +12,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Unit tests for {@code SeverityFilter} class.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class JUnitSeverityFilter {
 
+	/**
+	 * Security facility.
+	 */
 	private static final LoggingFacility SECURITY = LoggingFacility.getFacility("SECURITY");
 
 	/**
