@@ -45,7 +45,7 @@ public final class LoggingFacility extends AbstractIdentifiable<String> {
 	}
 
 	/**
-	 * Creates a new logging facility with a given name.
+	 * Returns a logging facility with a given name. This method never returns {@code null}.
 	 *
 	 * @param name a name of the facility.
 	 *
@@ -57,9 +57,6 @@ public final class LoggingFacility extends AbstractIdentifiable<String> {
 		if (name == null) {
 			throw new IllegalArgumentException();
 		}
-		if (name.isEmpty()) {
-			throw new IllegalArgumentException();
-		}
 		final LoggingFacility known = KNOWN_FACILITIES.get(name);
 		if (known != null) {
 			return known;
@@ -69,6 +66,11 @@ public final class LoggingFacility extends AbstractIdentifiable<String> {
 		return unknown;
 	}
 
+	/**
+	 * Returns the name of the facility. This method never returns {@code null}. 
+	 *
+	 * @return the name of the facility.
+	 */
 	@Override public String toString() {
 		return getId();
 	}

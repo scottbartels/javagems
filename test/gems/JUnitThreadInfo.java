@@ -51,7 +51,7 @@ public final class JUnitThreadInfo {
 	 * Checks wheter IDs of the current thread matches.
 	 */
 	@Test public void currentIdMatches() {
-		Assert.assertEquals(currentThreadId, current.getId());
+		Assert.assertEquals(currentThreadId, (long) current.getId());
 	}
 
 	/**
