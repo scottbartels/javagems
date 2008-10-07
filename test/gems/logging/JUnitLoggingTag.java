@@ -3,6 +3,7 @@ package gems.logging;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.Assert;
+import org.junit.After;
 
 /**
  * Unit tests for {@code LoggingTag} class.
@@ -24,8 +25,15 @@ public final class JUnitLoggingTag {
 	/**
 	 * Initializes a tested instance.
 	 */
-	@Before public void init() {
+	@Before public void setUp() {
 		tag = new LoggingTag(LoggingFacility.NULL_FACILITY, ALERT);
+	}
+
+	/**
+	 * Disposes a fixture.
+	 */
+	@After public void tearDown() {
+		tag = null;
 	}
 
 	/**
