@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-abstract class AbstractLogger implements Logger {
+abstract class AbstracFilteringtLogger implements Logger {
 
 	/**
 	 * Handlers. Unmodifiable defense copy is hold here, so it is safe to provide it outside.
@@ -36,7 +36,7 @@ abstract class AbstractLogger implements Logger {
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
-	protected AbstractLogger(final Filter<LoggingRecord> filter) {
+	protected AbstracFilteringtLogger(final Filter<LoggingRecord> filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException();
 		}
