@@ -12,7 +12,7 @@ import gems.logging.LoggingRecord;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class SynchronousLogger extends AbstracFilteringtLogger {
+public final class SynchronousLogger extends AbstractFilteringLogger {
 
 	/**
 	 * Creates a new synchronous logger.
