@@ -72,3 +72,19 @@ Caused by: java.lang.IllegalStateException: I'm the cause.
 }}}
 
 In this case, timestamps are formated with seconds precision, there are not any thread and creator information and only a maximal severity is reported instead of complete logging tags.
+
+== Advanced Usage ==
+
+=== Loggers ===
+
+In the Java Gems Logging library, a logger is an interface. There are multiple implementations of this interface and a client may decide, which implementation is more suitable for it. Basically, a logger interface is simple, only two operations are possible: 
+
+  # To add a logging handler to a logger. This is mostly done early during an application initialization, when logging subsystem is configured. By default, a logger has not any logging handlers. 
+  # To pass a logging record to a logger. This is used for each logging message during the entire application run. Even if it is possible to pass a logging record directly to logger, this is usually done via _logging entry point_, which can more or less hide a complexity of logging record creation.
+
+Additionally, there is a getter method for retriving a collection of logger's undrelaying handlers, but hopefully you will need to use it only when implementing own logger.
+
+Following Logger interface implementations are provided:
+
+  # *Synchronous logger*: A straightforward implementation of logger. It simply pass a given record to all underalying logging handlers. It operates in a thread of the caller, i.e. caller thread needs to wait until logging operation finishes.
+  # *Asynchronous logger*: Logging, i.e. passing logging records to underlaying handlers is performed asynchronously by a background thread. Logging procedure invoked by the caller is designed to return as soon as possible, so a caller thread is not blocked by logging process even if very slow logging backends are used.
