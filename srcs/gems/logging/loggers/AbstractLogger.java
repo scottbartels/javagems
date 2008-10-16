@@ -6,6 +6,7 @@ import gems.logging.LoggingHandler;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Collection;
 
 /**
  * A skeleton implementation of <em>logger</em>. It ensures the common functionality
@@ -43,12 +44,12 @@ abstract class AbstractLogger implements Logger {
 	}
 
 	/**
-	 * {@inheritDoc} Returned list is unmodifiable. This method never returns {@code null};
-	 * at least an empty list returned, even if no handlers were added to the logger.
+	 * {@inheritDoc} Returned collection is unmodifiable. This method never returns {@code null};
+	 * at least an empty collection returned, even if no handlers were added to the logger.
 	 *
 	 * @return handlers of the logger.
 	 */
-	public final List<LoggingHandler> getHandlers() {
+	public final Collection<LoggingHandler> getHandlers() {
 		return handlers;
 	}
 
