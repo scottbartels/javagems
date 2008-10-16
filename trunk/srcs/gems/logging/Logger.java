@@ -1,7 +1,7 @@
 package gems.logging;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * An entry point to the logging subsystem. A <em>logger</em> is able
@@ -53,7 +53,7 @@ public interface Logger {
 		 *
 		 * @return an immutable empty list.
 		 */
-		public List<LoggingHandler> getHandlers() {
+		public Collection<LoggingHandler> getHandlers() {
 			return Collections.emptyList();
 		}
 
@@ -78,6 +78,6 @@ public interface Logger {
 	 *
 	 * @return handlers of the logger.
 	 */
-	List<LoggingHandler> getHandlers();
+	Collection<LoggingHandler> getHandlers();
 
 }
