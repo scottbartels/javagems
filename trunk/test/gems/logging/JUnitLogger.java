@@ -15,7 +15,7 @@ public final class JUnitLogger {
 	 * Checks whether the null-implemnetation returns an empty collection of handlers.
 	 */
 	@Test public void nullImplementationReturnsEmptyCollectionOfHandlers() {
-		Assert.assertTrue(Logger.NULL_IMPLEMENTATION.getHandlers().isEmpty());
+		Assert.assertTrue(NULL_IMPLEMENTATION.getHandlers().isEmpty());
 	}
 
 	/**
@@ -23,7 +23,7 @@ public final class JUnitLogger {
 	 */
 	@Test(expected = UnsupportedOperationException.class)
 	public void nullImplementationRetunrsImmutableCollectionOfHandlers() {
-		Logger.NULL_IMPLEMENTATION.getHandlers().add(null);
+		NULL_IMPLEMENTATION.getHandlers().add(null);
 	}
 
 	/**
@@ -31,19 +31,19 @@ public final class JUnitLogger {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void nullImplementationForbidsNullHandler() {
-		Logger.NULL_IMPLEMENTATION.addHandler(null);
+		NULL_IMPLEMENTATION.addHandler(null);
 	}
 
 	/**
 	 * Checks whether the null-implementation ignores an added handler.
 	 */
 	@Test public void nullImplementationIgnoresHandlers() {
-		Logger.NULL_IMPLEMENTATION.addHandler(new LoggingHandler() {
+		NULL_IMPLEMENTATION.addHandler(new LoggingHandler() {
 			public void handle(final LoggingRecord record) {
 				Assert.fail();
 			}
 		});
-		Assert.assertTrue(Logger.NULL_IMPLEMENTATION.getHandlers().isEmpty());
+		Assert.assertTrue(NULL_IMPLEMENTATION.getHandlers().isEmpty());
 		new LoggingEntryPoint(NULL_IMPLEMENTATION).log("This should fail if passed to that handler.");
 	}
 
@@ -52,7 +52,7 @@ public final class JUnitLogger {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void nullImplementationForbidsNullLoggingRecord() {
-		Logger.NULL_IMPLEMENTATION.log(null);
+		NULL_IMPLEMENTATION.log(null);
 	}
 
 }
