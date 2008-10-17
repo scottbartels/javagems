@@ -38,11 +38,7 @@ public final class JUnitLogger {
 	 * Checks whether the null-implementation ignores an added handler.
 	 */
 	@Test public void nullImplementationIgnoresHandlers() {
-		NULL_IMPLEMENTATION.addHandler(new LoggingHandler() {
-			public void handle(final LoggingRecord record) {
-				Assert.fail();
-			}
-		});
+		NULL_IMPLEMENTATION.addHandler(new ActivityIndicatingHandler());
 		Assert.assertTrue(NULL_IMPLEMENTATION.getHandlers().isEmpty());
 		new LoggingEntryPoint(NULL_IMPLEMENTATION).log("This should fail if passed to that handler.");
 	}
@@ -53,6 +49,22 @@ public final class JUnitLogger {
 	@Test(expected = IllegalArgumentException.class)
 	public void nullImplementationForbidsNullLoggingRecord() {
 		NULL_IMPLEMENTATION.log(null);
+	}
+
+	/**
+	 * A logging handler implementation indicating own activity by a test failure.
+	 */
+	private static final class ActivityIndicatingHandler implements LoggingHandler {
+
+		/**
+		 * Causes a test failure if inwoked.
+		 *
+		 * @param record ignored.
+		 */
+		public void handle(final LoggingRecord record) {
+			Assert.fail();
+		}
+
 	}
 
 }
