@@ -1,6 +1,7 @@
 package gems.logging;
 
 import static gems.logging.Logger.NULL_IMPLEMENTATION;
+import static gems.logging.LoggingFacility.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,7 +41,7 @@ public final class JUnitLogger {
 	@Test public void nullImplementationIgnoresHandlers() {
 		NULL_IMPLEMENTATION.addHandler(new ActivityIndicatingHandler());
 		Assert.assertTrue(NULL_IMPLEMENTATION.getHandlers().isEmpty());
-		new LoggingEntryPoint(NULL_IMPLEMENTATION).log("This should fail if passed to that handler.");
+		NULL_IMPLEMENTATION.log(new LoggingRecord(null, new LoggingTag(NULL_FACILITY, LoggingSeverity.INFO)));
 	}
 
 	/**
