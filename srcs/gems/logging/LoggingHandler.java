@@ -11,7 +11,7 @@ public interface LoggingHandler {
 	 * A null-implementation of a handler. It simply ignores all logging
 	 * records, but a sanity check for {@code null} values is still pefrormed.
 	 */
-	LoggingHandler NULL_IMPLEMENTATION = new LoggingHandler() {
+	LoggingHandler NULL_HANDLER = new LoggingHandler() {
 
 		/**
 		 * Does nothing.
