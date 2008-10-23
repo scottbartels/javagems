@@ -36,7 +36,7 @@ public final class JUnitAbstractLogger {
 	public void handlersAreImmutableWhenEmpty() {
 		final Collection<LoggingHandler> handlers = fixture.getHandlers();
 		Assert.assertTrue(handlers.isEmpty());
-		handlers.add(LoggingHandler.NULL_IMPLEMENTATION);
+		handlers.add(LoggingHandler.NULL_HANDLER);
 	}
 
 	/**
@@ -53,10 +53,10 @@ public final class JUnitAbstractLogger {
 	 */
 	@Test(expected = UnsupportedOperationException.class)
 	public void handersAreImmutableWhenNotEmpty() {
-		fixture.addHandler(LoggingHandler.NULL_IMPLEMENTATION);
+		fixture.addHandler(LoggingHandler.NULL_HANDLER);
 		final Collection<LoggingHandler> handlers = fixture.getHandlers();
 		Assert.assertEquals(1, handlers.size());
-		handlers.add(LoggingHandler.NULL_IMPLEMENTATION);
+		handlers.add(LoggingHandler.NULL_HANDLER);
 	}
 
 	/**
