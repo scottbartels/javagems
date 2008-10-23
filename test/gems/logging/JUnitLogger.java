@@ -1,6 +1,6 @@
 package gems.logging;
 
-import static gems.logging.Logger.NULL_IMPLEMENTATION;
+import static gems.logging.Logger.NULL_LOGGER;
 import static gems.logging.LoggingFacility.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public final class JUnitLogger {
 	 * Checks whether the null-implemnetation returns an empty collection of handlers.
 	 */
 	@Test public void nullImplementationReturnsEmptyCollectionOfHandlers() {
-		Assert.assertTrue(NULL_IMPLEMENTATION.getHandlers().isEmpty());
+		Assert.assertTrue(NULL_LOGGER.getHandlers().isEmpty());
 	}
 
 	/**
@@ -24,7 +24,7 @@ public final class JUnitLogger {
 	 */
 	@Test(expected = UnsupportedOperationException.class)
 	public void nullImplementationRetunrsImmutableCollectionOfHandlers() {
-		NULL_IMPLEMENTATION.getHandlers().add(null);
+		NULL_LOGGER.getHandlers().add(null);
 	}
 
 	/**
@@ -32,16 +32,16 @@ public final class JUnitLogger {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void nullImplementationForbidsNullHandler() {
-		NULL_IMPLEMENTATION.addHandler(null);
+		NULL_LOGGER.addHandler(null);
 	}
 
 	/**
 	 * Checks whether the null-implementation ignores an added handler.
 	 */
 	@Test public void nullImplementationIgnoresHandlers() {
-		NULL_IMPLEMENTATION.addHandler(new ActivityIndicatingHandler());
-		Assert.assertTrue(NULL_IMPLEMENTATION.getHandlers().isEmpty());
-		NULL_IMPLEMENTATION.log(new LoggingRecord(null, new LoggingTag(NULL_FACILITY, LoggingSeverity.INFO)));
+		NULL_LOGGER.addHandler(new ActivityIndicatingHandler());
+		Assert.assertTrue(NULL_LOGGER.getHandlers().isEmpty());
+		NULL_LOGGER.log(new LoggingRecord(null, new LoggingTag(NULL_FACILITY, LoggingSeverity.INFO)));
 	}
 
 	/**
@@ -49,7 +49,7 @@ public final class JUnitLogger {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void nullImplementationForbidsNullLoggingRecord() {
-		NULL_IMPLEMENTATION.log(null);
+		NULL_LOGGER.log(null);
 	}
 
 	/**
