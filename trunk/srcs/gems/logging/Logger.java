@@ -20,7 +20,7 @@ public interface Logger {
 	 * ensuring logging subsytem functionality from the language point of view, i.e. compilation,
 	 * type safety and interface usage.
 	 */
-	Logger NULL_IMPLEMENTATION = new Logger() {
+	Logger NULL_LOGGER = new Logger() {
 
 		/**
 		 * Does nothing.
