@@ -200,7 +200,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 			try {
 				Thread.sleep(delay);
 			} catch (final InterruptedException e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			} finally {
 				stopped = false;
 			}
