@@ -33,7 +33,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * i.e. a {@code Throwable} object thrown by
 	 * a wrapped logging handler.
 	 */
-	public static interface StoppingEventHandler {
+	public interface StoppingEventHandler {
 
 		/**
 		 * Null-implementation of {@code StoppingEventHandler}
