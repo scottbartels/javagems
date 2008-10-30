@@ -77,9 +77,8 @@ public final class CreatorInfo {
 	 *
 	 * @return a caller producing the logging record.
 	 */
-	@SuppressWarnings({"ThrowableInstanceNeverThrown"})
     private static StackTraceElement findCaller() {
-		for (final StackTraceElement element : (new Throwable()).getStackTrace()) {
+		for (final StackTraceElement element : Thread.currentThread().getStackTrace()) {
 			if (!element.getClassName().startsWith(CURRENT_PACKAGE)) {
 				return element;
 			}
