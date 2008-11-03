@@ -99,7 +99,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * number of seconds.
 	 *
 	 * @param loggingHandler a wrapped logging handler.
-	 * @param delay a re-opening delay.
+	 * @param delay a re-opening delay, in seconds.
 	 *
 	 * @throws IllegalArgumentException if {@code loggingHandler} is {@code null} or if {@code delay} is negative.
 	 */
@@ -130,7 +130,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 *
 	 * @param loggingHandler a wrapped logging handler.
 	 * @param stoppingEventHandler a stopping event handler.
-	 * @param delay a re-opening delay.
+	 * @param delay a re-opening delay, in seconds.
 	 *
 	 * @throws IllegalArgumentException if any of handlers is {@code null} or if {@code delay} is negative.
 	 */
