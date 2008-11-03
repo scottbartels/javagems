@@ -22,7 +22,7 @@
 	<property name="version.major" value="2008"/>
 
 	<!-- Minor version number. -->
-	<property name="version.minor" value="09"/>
+	<property name="version.minor" value="11"/>
 
 	<!-- Base name of artifacts. -->
 	<property name="basename" value="gems-${version.major}.${version.minor}"/>
