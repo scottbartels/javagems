@@ -8,4 +8,6 @@
  * logging tags. So, it is possible to specify that a logged information has higher severity for "SECURITY"
  * facility than severity for "PERFORMANCE" facility.  
  */
-package gems.logging;
+@Experimental package gems.logging;
+
+import gems.Experimental;
