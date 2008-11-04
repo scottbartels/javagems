@@ -10,8 +10,8 @@ import java.util.List;
  * Buffering wrapper for another handler. It collects logging records in an internal
  * buffer and flushes them into an underlaying handler. Buffered handler runs an internal
  * thread ensuring that a buffer is flushed at least once per specified timeout (a default
- * timeout is 4 seconds). If a number of logging records in an internal buffer reaches
- * a specified size limit (a default size limit is 8 records), a buffer is flushed
+ * timeout is 5 seconds). If a number of logging records in an internal buffer reaches
+ * a specified size limit (a default size limit is 10 records), a buffer is flushed
  * immediately. <em>Due to necessity to maintain a consistency of an internal buffer,
  * a handling of logging records and flushing operations are synchronized.</em>
  *
@@ -22,12 +22,12 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	/**
 	 * A default buffer size.
 	 */
-	private static final int DEFAULT_SIZE = 8; // If you changed this, fix also a class javadoc.
+	private static final int DEFAULT_SIZE = 10; // If you changed this, fix also a class javadoc.
 
 	/**
 	 * A default timeout.
 	 */
-	private static final int DEFAULT_TIMEOUT = 4; // If you changed this, fix also a class javadoc.
+	private static final int DEFAULT_TIMEOUT = 5; // If you changed this, fix also a class javadoc.
 
 	/**
 	 * An internal buffer of logging records.
