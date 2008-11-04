@@ -1,7 +1,7 @@
 package gems.logging.formatters;
 
 import gems.logging.*;
-import gems.ThreadInfo;
+import gems.ThreadIdentity;
 
 /**
  * Formatting logging records to plain text using all available information from logging record.
@@ -27,7 +27,7 @@ public final class PlainLoggingRecordFormatter implements LoggingRecordFormatter
 		// timestamp
 		final StringBuilder result = new StringBuilder().append(TIMESTAMP_FORMATTER.format(record.getTimestamp()));
         // thread info
-        final ThreadInfo thread = record.getThreadInfo();
+        final ThreadIdentity thread = record.getThreadIdentity();
         result.append(" <").append(thread.getName()).append("(").append(thread.getId()).append(")>");
         // tags
 		result.append(" {");
