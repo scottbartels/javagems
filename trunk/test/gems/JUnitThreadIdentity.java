@@ -9,7 +9,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class JUnitThreadInfo {
+public final class JUnitThreadIdentity {
 
 	/**
 	 * A name of an another thread.
@@ -29,12 +29,12 @@ public final class JUnitThreadInfo {
 	/**
 	 * A thread info object of the current thread.
 	 */
-	private ThreadInfo current;
+	private ThreadIdentity current;
 
 	/**
 	 * A thread info object of an another thread.
 	 */
-	private ThreadInfo another;
+	private ThreadIdentity another;
 
 	/**
 	 * Initializes fixtures.
@@ -43,7 +43,7 @@ public final class JUnitThreadInfo {
 		final Thread currentThread = Thread.currentThread();
 		currentThreadId = currentThread.getId();
 		currentThreadName = currentThread.getName();
-		current = new ThreadInfo();
+		current = new ThreadIdentity();
 		another = new AnotherThread(ANOTHER_NAME).getInfo();
 	}
 
@@ -85,7 +85,7 @@ public final class JUnitThreadInfo {
 		/**
 		 * A thread info object of the another thread.
 		 */
-		private volatile ThreadInfo info;
+		private volatile ThreadIdentity info;
 
 		/**
 		 * Creates an instance of the another thread with a given
@@ -100,7 +100,7 @@ public final class JUnitThreadInfo {
 		}
 
 		@Override public void run() {
-			info = new ThreadInfo();
+			info = new ThreadIdentity();
 		}
 
 		/**
@@ -108,7 +108,7 @@ public final class JUnitThreadInfo {
 		 *
 		 * @return a thread info object
 		 */
-		public ThreadInfo getInfo() {
+		public ThreadIdentity getInfo() {
 			while (info == null) {
 				yield();
 			}

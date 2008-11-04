@@ -1,6 +1,6 @@
 package gems.logging;
 
-import gems.ThreadInfo;
+import gems.ThreadIdentity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -28,7 +28,7 @@ public final class LoggingRecord {
 	/**
 	 * A thread info object.
 	 */
-	private final ThreadInfo threadInfo = new ThreadInfo();
+	private final ThreadIdentity threadIdentity = new ThreadIdentity();
 
 	/**
 	 * A caller creating the logging record.
@@ -80,8 +80,8 @@ public final class LoggingRecord {
 	 *
 	 * @return a thread info object associated with the logging record.
 	 */
-	public ThreadInfo getThreadInfo() {
-		return threadInfo;
+	public ThreadIdentity getThreadIdentity() {
+		return threadIdentity;
 	}
 
 	/**

@@ -1,11 +1,11 @@
 package gems;
 
 /**
- * Encapsulation of thread information. It is immutable after creation.
+ * Encapsulation of thread identity information. It is immutable after creation.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class ThreadInfo extends AbstractIdentifiable<Long> {
+public final class ThreadIdentity extends AbstractIdentifiable<Long> {
 
 	/**
 	 * A thread name.
@@ -15,7 +15,7 @@ public final class ThreadInfo extends AbstractIdentifiable<Long> {
 	/**
 	 * Creates a new thread info object.
 	 */
-	public ThreadInfo() {
+	public ThreadIdentity() {
 		super(Thread.currentThread().getId());
 		name = Thread.currentThread().getName();
 	}
