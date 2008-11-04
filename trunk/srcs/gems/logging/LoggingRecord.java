@@ -21,6 +21,11 @@ public final class LoggingRecord {
 	private static final String NULL_AS_STRING = "null";
 
 	/**
+	 * Estimated length of stacktrace line when printed.
+	 */
+	private static final int ESTIMATED_LINE_LENGTH = 100;
+
+	/**
 	 * A logging record creation timestamp.
 	 */
 	private final long timestamp = System.currentTimeMillis();
@@ -85,8 +90,9 @@ public final class LoggingRecord {
 	}
 
 	/**
-	 * Returns a record creator identification. Be ready for {@code null} return value.
-	 * Please note that this is only an estimation and it can be misleading.
+	 * Returns a record creator identification. Please note that
+	 * this is only an estimation and it can be misleading. This
+	 * method never returns {@code null}.
 	 *
 	 * @return a record creator identification.
 	 */
@@ -132,14 +138,14 @@ public final class LoggingRecord {
 	}
 
 	/**
-	 * Converts a given {@code Throwable} object into a string. This method never returns {@code null}.
+	 * Converts a given {@code Throwable} object into a stacktrace string. This method never returns {@code null}.
 	 *
 	 * @param throwable a converted object.
 	 *
 	 * @return a string representation of a given object.
 	 */
 	private static String throwableToMessage(final Throwable throwable) {
-		final OutputStream stream = new ByteArrayOutputStream();
+		final OutputStream stream = new ByteArrayOutputStream(throwable.getStackTrace().length * ESTIMATED_LINE_LENGTH);
 		final PrintWriter writer = new PrintWriter(stream, true);
 		throwable.printStackTrace(writer);
 		writer.close();
