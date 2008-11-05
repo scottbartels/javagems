@@ -183,7 +183,9 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 			try {
 				while (!stopped) {
 					Thread.sleep(delay);
-					flush();
+					if (!stopped) {
+						flush();
+					}
 				}
 			} catch (final InterruptedException e) {
 				throw new RuntimeException(e);
