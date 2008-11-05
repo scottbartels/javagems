@@ -12,9 +12,7 @@ import gems.logging.LoggingRecord;
  * as well as passing logging records to a handler unable to process them.
  * If a delay is specified during a wrapper creation, logging will be re-enabled
  * after this delay. Zero delay means that ones stopped handler will be never
- * restarted.
- * </p>
- * Because this effectivelly hides errors occured in a wrapped
+ * restarted. Because this effectivelly hides errors occured in a wrapped
  * logging handler, it is possible to handle the stopping event by implementing
  * {@code StoppingEventHandler} interface. By default, there is not any stopping
  * event handling.
@@ -26,7 +24,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	/**
 	 * Number of milliseconds per second.
 	 */
-	private static final int MILLISECONDS_PER_SECOND = 1000;
+	private static final long MILLISECONDS_PER_SECOND = 1000L;
 
 	/**
 	 * Defines an action handling a stopping event,
