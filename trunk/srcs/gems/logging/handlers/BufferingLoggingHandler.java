@@ -164,17 +164,15 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 		 *
 		 * @param delay a flushing period (in seconds).
 		 */
-		public Flusher(final int delay) {
-			if (delay <= 0) {
-				throw new IllegalArgumentException();
-			}
+		private Flusher(final int delay) {
+			assert delay > 0;
 			this.delay = delay * MILLISECONDS_PER_SECOND;
 		}
 
 		/**
 		 * Marks the flusher for stopping.
 		 */
-		public void stop() {
+		private void stop() {
 			stopped = true;
 		}
 
@@ -184,8 +182,8 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 		@Override public void run() {
 			try {
 				while (!stopped) {
-					flush();
 					Thread.sleep(delay);
+					flush();
 				}
 			} catch (final InterruptedException e) {
 				throw new RuntimeException(e);
