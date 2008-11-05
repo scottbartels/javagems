@@ -22,12 +22,12 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	/**
 	 * A default buffer size.
 	 */
-	private static final int DEFAULT_SIZE = 10; // If you changed this, fix also a class javadoc.
+	public static final int DEFAULT_BUFFER_SIZE = 10; // If you changed this, fix also a class javadoc.
 
 	/**
-	 * A default timeout.
+	 * A default flushing timeout (in seconds).
 	 */
-	private static final int DEFAULT_TIMEOUT = 5; // If you changed this, fix also a class javadoc.
+	public static final int DEFAULT_FLUSHING_TIMEOUT = 5; // If you changed this, fix also a class javadoc.
 
 	/**
 	 * An internal buffer of logging records.
@@ -50,24 +50,14 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	private final int size;
 
 	/**
-	 * Creates a new buffering wrapper for a given handler using default size limit and timeout.
+	 * Creates a new buffering wrapper for a given handler using default size limit and flushing timeout.
 	 *
 	 * @param handler a wrapped handler.
+	 *
 	 * @throws IllegalArgumentException if {@code handler} is {@code null}.
 	 */
 	public BufferingLoggingHandler(final LoggingHandler handler) {
-		this(handler, DEFAULT_SIZE, DEFAULT_TIMEOUT);
-	}
-
-	/**
-	 * Creates a new buffering wrapper for a given handler using a given size limit and a default timeout.
-	 *
-	 * @param hander a wrapped handler.
-	 * @param size a maximal number of logging records held in a buffer.
-	 * @throws IllegalArgumentException if {@code hander} is {@code null} or if {@code size} is less than 2.
-	 */
-	public BufferingLoggingHandler(final LoggingHandler hander, final int size) {
-		this(hander, size, DEFAULT_TIMEOUT);
+		this(handler, DEFAULT_BUFFER_SIZE, DEFAULT_FLUSHING_TIMEOUT);
 	}
 
 	/**
@@ -75,15 +65,16 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	 *
 	 * @param handler a wrapped handler.
 	 * @param size a maximal number of logging records held in a buffer.
-	 * @param timeout a maximal time (in seconds) between two subsequent buffer flushes.
+	 * @param timeout time (in seconds) between two subsequent buffer flushes.
+	 *
 	 * @throws IllegalArgumentException if {@code hander} is {@code null} or
-	 * if {@code size} is less than 2 or if {@code timeout} is less than 1.
+	 * if {@code size} is less than 1 or if {@code timeout} is less than 1.
 	 */
 	public BufferingLoggingHandler(final LoggingHandler handler, final int size, final int timeout) {
 		if (handler == null) {
 			throw new IllegalArgumentException();
 		}
-		if (size < 2) {
+		if (size < 1) {
 			throw new IllegalArgumentException("Illegal size: " + size);
 		}
 		if (timeout < 1) {
@@ -98,6 +89,7 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	 * Creates, starts and returns a background flusher thread.
 	 *
 	 * @param timeout a delay for a flusher.
+	 *
 	 * @return a background flusher.
 	 */
 	private Flusher initFlusher(final int timeout) {
