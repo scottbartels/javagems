@@ -76,7 +76,7 @@ public final class JUnitAbstractIdentifiable {
 	/**
 	 * A mock.
 	 */
-	private static final class A extends AbstractIdentifiable<String> {
+	private static class A extends AbstractIdentifiable<String> {
 
 		private A(final String id) {
 			super(id);
@@ -87,7 +87,7 @@ public final class JUnitAbstractIdentifiable {
 	/**
 	 * An another mock.
 	 */
-	private static final class B extends AbstractIdentifiable<String> {
+	private static final class B extends A {
 
 		private B(final String id) {
 			super(id);
