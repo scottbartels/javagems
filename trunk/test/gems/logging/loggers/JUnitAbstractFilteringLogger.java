@@ -28,6 +28,9 @@ public final class JUnitAbstractFilteringLogger {
 	 */
 	private Logger fixture;
 
+	/**
+	 * Creates a new fixture and resets the counter of logged records.
+	 */
 	@Before public void setUp() {
 		fixture = new JUnitAbsractFilteringLoggerMock(new SeverityFilter(LoggingSeverity.NOTICE));
 		counter = 0;
