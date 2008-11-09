@@ -10,5 +10,5 @@ import java.lang.annotation.Documented;
  * @since 2008.11
  */
 @Experimental @Documented public @interface Experimental {
-	// really nothing here
+	// This annotation is an acceptance test of JavaGems project.
 }
