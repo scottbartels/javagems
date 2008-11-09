@@ -62,22 +62,24 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 
 	/**
 	 * Creates a new buffering wrapper of a given handler using specified settings.
+	 * Setting buffer size to 0 means unlimited buffer size. Setting buffer flushing
+	 * timeout to zero means no time-based flushing. 
 	 *
 	 * @param handler a wrapped handler.
 	 * @param size a maximal number of logging records held in a buffer.
 	 * @param timeout time (in seconds) between two subsequent buffer flushes.
 	 *
-	 * @throws IllegalArgumentException if {@code hander} is {@code null} or
-	 * if {@code size} is less than 1 or if {@code timeout} is less than 1.
+	 * @throws IllegalArgumentException if {@code hander} is {@code null}
+	 * or if {@code size} or {@code timeout} is negative.
 	 */
 	public BufferingLoggingHandler(final LoggingHandler handler, final int size, final int timeout) {
 		if (handler == null) {
 			throw new IllegalArgumentException();
 		}
-		if (size < 1) {
+		if (size < 0) {
 			throw new IllegalArgumentException("Illegal size: " + size);
 		}
-		if (timeout < 1) {
+		if (timeout < 0) {
 			throw new IllegalArgumentException("Illegal timeout: " + timeout);
 		}
 		this.handler = handler;
@@ -93,6 +95,9 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	 * @return a background flusher.
 	 */
 	private Flusher initFlusher(final int timeout) {
+		if (timeout == 0) {
+			return null;
+		}
 		final Flusher result = new Flusher(timeout);
 		final Thread thr = new Thread(result);
 		thr.setDaemon(true);
@@ -108,7 +113,7 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 			throw new IllegalArgumentException();
 		}
 		buffer.add(record);
-		if (buffer.size() >= size) {
+		if (size != 0 && buffer.size() >= size) {
 			flush();
 		}
 	}
@@ -134,7 +139,9 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	 */
 	@Override protected void finalize() throws Throwable {
 		super.finalize();
-		flusher.stop();
+		if (flusher != null) {
+			flusher.stop();
+		}
 		flush();
 	}
 

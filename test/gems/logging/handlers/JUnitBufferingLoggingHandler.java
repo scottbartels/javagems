@@ -40,7 +40,7 @@ public final class JUnitBufferingLoggingHandler {
 	/**
 	 * Checks whether a zero value of the buffer size is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void zeroSizeIsForbidden() {
+	@Test public void zeroSizeIsAllowed() {
 		new BufferingLoggingHandler(NULL_HANDLER, 0, DEFAULT_FLUSHING_TIMEOUT);
 	}
 
@@ -61,7 +61,7 @@ public final class JUnitBufferingLoggingHandler {
 	/**
 	 * Checks whether a zero value of the timeout is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void zeroFlushingTimeoutIsForbidden() {
+	@Test public void zeroFlushingTimeoutIsAllowed() {
 		new BufferingLoggingHandler(NULL_HANDLER, DEFAULT_BUFFER_SIZE, 0);
 	}
 
