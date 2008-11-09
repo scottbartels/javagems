@@ -4,6 +4,7 @@ package gems;
  * Encapsulation of thread identity information. It is immutable after creation.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @since 2008.11
  */
 public final class ThreadIdentity extends AbstractIdentifiable<Long> {
 
