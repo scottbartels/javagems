@@ -6,7 +6,9 @@
  * one <em>logging tag</em>. The logging tag encapsulates a <em>logging facility</em> and a <em>logging
  * severity</em> for that facility. The important feature is that one logging record may have several
  * logging tags. So, it is possible to specify that a logged information has higher severity for "SECURITY"
- * facility than severity for "PERFORMANCE" facility.  
+ * facility than severity for "PERFORMANCE" facility.
+ *
+ * @since 2008.11
  */
 @Experimental package gems.logging;
 
