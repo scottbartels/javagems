@@ -91,6 +91,8 @@ Following Logger interface implementations are provided:
 
 === Handlers ===
 
+Generally speaking, logging handlers are end points of the logging subsystem, as a opposite to loggers. In fact, some logging handler implementations provides another 'technical' functions as buffering, delegating, and so on. Actually, following logging handlers are provided:
+
   # *`PrintStreamLoggingHandler`* - A logging handler writing formatted logging records into a print stream. This is the endpoint logging handler making possible to append logging records to a file or print them to the screen.
   # *`LoggerDelegatingLoggingHander`* - This logging handler delegates all passed logging records to another logger. Doing so, it enables create a tree of hierarchical loggers for more complex applications. 
   # *`BufferingLoggingHandler`* - Buffering wrapper for another handler. It collects logging records in an internal buffer and flushes them into an underlaying handler. Buffered handler may run an internal thread ensuring that a buffer is flushed at least once per specified timeout. If a number of logging records in an internal buffer reaches a specified size limit, a buffer is flushed immediately.
