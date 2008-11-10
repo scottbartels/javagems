@@ -98,8 +98,13 @@ Following Logger interface implementations are provided:
 
 === Filtering ===
 
-_todo: complete this_
+All loggers and end-point logging handlers have a filtering capability. It allows to specify which logging records are processed and which ones are ignored. Several filters based on logging record severity and facility are provided in `gems.logging.filters` package.
 
-== Advanced Usage ==
+=== Formatters ===
 
-_todo: complete this_
+  # *`PlainLoggingRecordFormatter`* - Formatting logging records to plain text using all available information from logging record. 
+  # *`SimpleLoggingRecordFormatter`* - Formatting logging records to plain text using only basic information from logging record.
+
+=== Logging Entry Point === 
+
+A convenient entry point to the logging subsystem. It encapsulates a logger, but provides a facade for creation of logging records and logging tags. It provides simplified ways how to create logging records, especially when logging facility or logging severity is not required. 
