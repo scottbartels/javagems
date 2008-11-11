@@ -1,8 +1,5 @@
 package gems.logging;
 
-import java.util.Collections;
-import java.util.Collection;
-
 /**
  * An entry point to the logging subsystem. A <em>logger</em> is able
  * to receive <em>logging records</em> and pass them to underlaying
@@ -48,15 +45,6 @@ public interface Logger {
 			}
 		}
 
-		/**
-		 * Always returns an immutable empty list.
-		 *
-		 * @return an immutable empty list.
-		 */
-		public Collection<LoggingHandler> getHandlers() {
-			return Collections.emptyList();
-		}
-
 	};
 
 	/**
@@ -72,12 +60,5 @@ public interface Logger {
 	 * @param handler a new handler.
 	 */
 	void addHandler(LoggingHandler handler);
-
-	/**
-	 * Returns handlers of the logger.
-	 *
-	 * @return handlers of the logger.
-	 */
-	Collection<LoggingHandler> getHandlers();
 
 }
