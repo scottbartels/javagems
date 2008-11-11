@@ -44,12 +44,13 @@ abstract class AbstractLogger implements Logger {
 	}
 
 	/**
-	 * {@inheritDoc} Returned collection is unmodifiable. This method never returns {@code null};
-	 * at least an empty collection returned, even if no handlers were added to the logger.
+	 * Returns handlers of the logger. Returned collection is unmodifiable.
+	 * This method never returns {@code null}; at least an empty collection
+	 * returned, even if no handlers were added to the logger.
 	 *
 	 * @return handlers of the logger.
 	 */
-	public final Collection<LoggingHandler> getHandlers() {
+	protected final Collection<LoggingHandler> getHandlers() {
 		return handlers;
 	}
 

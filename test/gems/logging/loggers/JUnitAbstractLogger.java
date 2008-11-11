@@ -1,13 +1,9 @@
 package gems.logging.loggers;
 
-import gems.logging.LoggingRecord;
 import gems.logging.Logger;
-import gems.logging.LoggingHandler;
+import gems.logging.LoggingRecord;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
-
-import java.util.Collection;
 
 /**
  * Unit tests of {@code AbstractLogger} class.
@@ -29,34 +25,11 @@ public final class JUnitAbstractLogger {
 	}
 
 	/**
-	 * Checks whether a logger returns an immutable collection
-	 * of handlers even if no logging handers were added.
-	 */
-	@Test(expected = UnsupportedOperationException.class)
-	public void handlersAreImmutableWhenEmpty() {
-		final Collection<LoggingHandler> handlers = fixture.getHandlers();
-		Assert.assertTrue(handlers.isEmpty());
-		handlers.add(LoggingHandler.NULL_HANDLER);
-	}
-
-	/**
 	 * Checks whether a {@code null} value is forbidden for a logging hander.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void addingNullHandlerIsForbidden() {
 		fixture.addHandler(null);
-	}
-
-	/**
-	 * Checks whether a logger returns an immutable collection
-	 * of handlers when some logging handlers were added.
-	 */
-	@Test(expected = UnsupportedOperationException.class)
-	public void handersAreImmutableWhenNotEmpty() {
-		fixture.addHandler(LoggingHandler.NULL_HANDLER);
-		final Collection<LoggingHandler> handlers = fixture.getHandlers();
-		Assert.assertEquals(1, handlers.size());
-		handlers.add(LoggingHandler.NULL_HANDLER);
 	}
 
 	/**
