@@ -16,6 +16,11 @@ import org.junit.Assert;
 abstract class JUnitLoggersImplementations {
 
 	/**
+	 * How long time to wait for asynchronous operations finishing.
+	 */
+	private static final long DELAY = 100L;
+
+	/**
 	 * A tested fixture.
 	 */
 	private Logger fixture;
@@ -53,8 +58,21 @@ abstract class JUnitLoggersImplementations {
 	 */
 	private void recordIsPassedToHandlers() {
 		fixture.log(new LoggingRecord(null, new LoggingTag(NULL_FACILITY, LoggingSeverity.INFO)));
-		Thread.yield();
+		try {
+			Thread.sleep(DELAY);
+		} catch (final InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 		Assert.assertEquals(1, counter);
+	}
+
+	/**
+	 * Makes a tested fixture accessible in subclasses.
+	 *
+	 * @return a tested fixture.
+	 */
+	protected Logger getFixture() {
+		return fixture;
 	}
 
 	/**
