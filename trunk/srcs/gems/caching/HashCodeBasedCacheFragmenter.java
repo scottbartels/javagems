@@ -17,7 +17,7 @@ public final class HashCodeBasedCacheFragmenter<K> implements CacheFragmenter<K>
 	private final int fragments;
 
 	/**
-	 * Create a new instance supporting a given muber of fragments.
+	 * Create a new instance supporting a given number of fragments.
 	 *
 	 * @param fragments a number of fragments.
 	 *
