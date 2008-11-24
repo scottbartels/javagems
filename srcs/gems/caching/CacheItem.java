@@ -7,9 +7,9 @@ import gems.Identifiable;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> a type of keys.
- * @param <V> a type of values.
+ * @param <O> a type of objects.
  */
-final class CacheItem<V extends Identifiable<K>, K> {
+public final class CacheItem<O extends Identifiable<K>, K> {
 
 	/**
 	 * A timestamp when an item was placed into a cache.
@@ -19,7 +19,7 @@ final class CacheItem<V extends Identifiable<K>, K> {
 	/**
 	 * A cached item.
 	 */
-	private final V item;
+	private final O item;
 
 	/**
 	 * Hits counter.
@@ -38,7 +38,7 @@ final class CacheItem<V extends Identifiable<K>, K> {
 	 *
 	 * @throws IllegalArgumentException if {@code item} is {@code null}.
 	 */
-	CacheItem(final V item) {
+	CacheItem(final O item) {
 		if (item == null) {
 			throw new IllegalArgumentException();
 		}
@@ -50,7 +50,7 @@ final class CacheItem<V extends Identifiable<K>, K> {
 	 *
 	 * @return a number of cache hits for the item.
 	 */
-	int getHits() {
+	public int getHits() {
 		return hits;
 	}
 
@@ -59,7 +59,7 @@ final class CacheItem<V extends Identifiable<K>, K> {
 	 *
 	 * @return a time how long the item is cached, in milliseconds.
 	 */
-	long getAge() {
+	public long getAge() {
 		return System.currentTimeMillis() - birth;
 	}
 
@@ -68,7 +68,7 @@ final class CacheItem<V extends Identifiable<K>, K> {
 	 *
 	 * @return a timestamp ot the last access of the item.
 	 */
-	long getAccess() {
+	public long getAccess() {
 		return access;
 	}
 
@@ -77,7 +77,7 @@ final class CacheItem<V extends Identifiable<K>, K> {
 	 *
 	 * @return the cached item.
 	 */
-	V getItem() {
+	O getItem() {
 		hits++;
 		access = System.currentTimeMillis();
 		return item;
