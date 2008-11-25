@@ -1,7 +1,9 @@
 package gems.caching;
 
 /**
- * This exception is thrown when inconsistent work with a cache storage is detected.
+ * This exception is thrown when inconsistent work with a cache storage is
+ * detected. This is usualy a case of loading or removing a non-existent
+ * object from a cache storage.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
