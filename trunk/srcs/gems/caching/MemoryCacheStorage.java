@@ -6,11 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * A cache storage implementation holding objects in memory.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class MemoryCacheStorage<O extends Identifiable<K>, K> implements CacheStorage<O, K> {
 
-	private final Map<K, O> map = new HashMap<K, O>();
+	/**
+	 * The storage.
+	 */
+	private final Map<K, O> storage = new HashMap<K, O>();
 
 	/**
 	 * {@inheritDoc}
@@ -21,28 +26,40 @@ public final class MemoryCacheStorage<O extends Identifiable<K>, K> implements C
 		if (object == null) {
 			throw new IllegalArgumentException();
 		}
-		map.put(object.getId(), object);
+		storage.put(object.getId(), object);
 	}
 
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 * @throws CacheStorageConsistencyException if no object with a given key is found in the storage.
+	 */
 	public synchronized O load(final K id) {
 		if (id == null) {
 			throw new IllegalArgumentException();
 		}
-		if (!map.containsKey(id)) {
-			throw new RuntimeException(); // TODO: REPLACE BY CUSTOM EXCEPTION.
+		if (!storage.containsKey(id)) {
+			throw new CacheStorageConsistencyException();
 		}
-		return map.get(id);
+		return storage.get(id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 * @throws CacheStorageConsistencyException if no object with a given key is found in the storage.
+	 */
 	public synchronized void remove(final K id) {
 		if (id == null) {
 			throw new IllegalArgumentException();
 		}
-		if (!map.containsKey(id)) {
-			throw new RuntimeException(); // TODO: REPLACE BY CUSTOM EXCEPTION.
+		if (!storage.containsKey(id)) {
+			throw new CacheStorageConsistencyException();
 		}
-		map.remove(id);
+		storage.remove(id);
 	}
-	
+
 }
