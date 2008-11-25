@@ -1,25 +1,19 @@
 package gems.caching;
 
-import gems.Identifiable;
+import gems.AbstractIdentifiable;
 
 /**
  * Encapsulates one cached item and gathers data about cache access for the item.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> a type of keys.
- * @param <O> a type of objects.
  */
-public final class CacheItem<O extends Identifiable<K>, K> {
+public final class CacheItem<K> extends AbstractIdentifiable<K> {
 
 	/**
 	 * A timestamp when an item was placed into a cache.
 	 */
 	private final long birth = System.currentTimeMillis();
-
-	/**
-	 * A cached item.
-	 */
-	private final O item;
 
 	/**
 	 * Hits counter.
@@ -34,15 +28,19 @@ public final class CacheItem<O extends Identifiable<K>, K> {
 	/**
 	 * Creates a new cache item for a given item.
 	 *
-	 * @param item a cached item.
+	 * @param id an ID of cached object.
 	 *
 	 * @throws IllegalArgumentException if {@code item} is {@code null}.
 	 */
-	CacheItem(final O item) {
-		if (item == null) {
-			throw new IllegalArgumentException();
-		}
-		this.item = item;
+	CacheItem(final K id) {
+		super(id);
+	}
+
+	/**
+	 * Increases a hit counter by one.
+	 */
+	public void hit() {
+		hits++;
 	}
 
 	/**
@@ -70,17 +68,6 @@ public final class CacheItem<O extends Identifiable<K>, K> {
 	 */
 	public long getAccess() {
 		return access;
-	}
-
-	/**
-	 * Returns the cached item.
-	 *
-	 * @return the cached item.
-	 */
-	O getItem() {
-		hits++;
-		access = System.currentTimeMillis();
-		return item;
 	}
 
 }
