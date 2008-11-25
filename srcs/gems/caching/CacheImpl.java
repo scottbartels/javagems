@@ -36,7 +36,7 @@ public final class CacheImpl<O extends Identifiable<K>, K> implements Cache<O, K
 			throw new IllegalArgumentException();
 		}
 		if (filter.allows(object)) {
-			fragments.get(fragmenter.getFragment(object.getId())).put(new CacheItem<O, K>(object));
+			fragments.get(fragmenter.getFragment(object.getId())).put(object);
 		}
 	}
 

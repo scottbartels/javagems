@@ -7,8 +7,8 @@ import gems.Identifiable;
  */
 final class CacheFragment<O extends Identifiable<K>, K> {
 
-	void put(final CacheItem<O, K> item) {
-		if (item == null) {
+	void put(final O object) {
+		if (object == null) {
 			throw new IllegalArgumentException();
 		}
 		// todo: implement this.
