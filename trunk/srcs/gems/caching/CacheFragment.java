@@ -7,7 +7,7 @@ import gems.Identifiable;
  */
 final class CacheFragment<O extends Identifiable<K>, K> extends AbstractLimitedCache<O, K> {
 
-	private final CacheStorage<O, K> storage = new MemoryCacheStorage<O,K>();
+	private final CacheStorage<O, K> storage = new MemoryCacheStorage<O, K>();
 
 	CacheFragment(final CacheLimits limits) {
 		super(limits);
