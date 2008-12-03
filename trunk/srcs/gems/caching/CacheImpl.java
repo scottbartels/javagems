@@ -11,7 +11,7 @@ import java.util.List;
  */
 public final class CacheImpl<O extends Identifiable<K>, K> implements Cache<O, K> {
 
-	private final List<CacheFragment<O, K>> fragments = new ArrayList<CacheFragment<O, K>>();
+	private final List<Cache<O, K>> fragments = new ArrayList<Cache<O, K>>();
 
 	private final Filter<O> filter;
 
@@ -36,7 +36,7 @@ public final class CacheImpl<O extends Identifiable<K>, K> implements Cache<O, K
 			throw new IllegalArgumentException();
 		}
 		if (filter.allows(object)) {
-			fragments.get(fragmenter.getFragment(object.getId())).put(object);
+			fragments.get(fragmenter.getFragment(object.getId())).offer(object);
 		}
 	}
 
