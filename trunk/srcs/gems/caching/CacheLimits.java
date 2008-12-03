@@ -7,27 +7,41 @@ package gems.caching;
  */
 public final class CacheLimits {
 
+	public static final CacheLimits UNLIMITED = new CacheLimits(Integer.MAX_VALUE, Long.MAX_VALUE);
+
 	/**
 	 * Maximal number of cached items.
 	 */
-	private int count = Integer.MAX_VALUE;
+	private final int count;
 
 	/**
 	 * Maximal size of cached items.
 	 */
-	private long size = Long.MAX_VALUE;
+	private final long size;
 
 	/**
-	 * Creates a new cache limits holder.
+	 * Creates a new cache limits holder with given limits.
+	 *
+	 * @param count maximal number of cached items.
+	 * @param size maximal size of cached items.
+	 *
+	 * @throws IllegalArgumentException if any of arguments is negative.
 	 */
-	public CacheLimits() {
-		// really nothing here
+	public CacheLimits(final int count, final long size) {
+		if (count < 0) {
+			throw new IllegalArgumentException();
+		}
+		if (size < 0L) {
+			throw new IllegalArgumentException();
+		}
+		this.count = count;
+		this.size = size;
 	}
 
 	/**
-	 * Copying constructor. Creates a new cache limits holder, getting
-	 * limits from a given {@code limits} object, but dividing them by
-	 * a given fragmentation.
+	 * Copying constructor. Creates a new cache limits holder,
+	 * getting limits from a given object, but dividing them
+	 * by a given fragmentation.
 	 *
 	 * @param limits copied cache limits.
 	 * @param fragmentation a required fragmentation.
@@ -46,22 +60,8 @@ public final class CacheLimits {
 	}
 
 	/**
-	 * Sets maximal number of cached items.
-	 *
-	 * @param count new maximal limit of cached items.
-	 *
-	 * @throws IllegalArgumentException if {@code count} is negative.
-	 */
-	public void setCount(final int count) {
-		if (count < 0) {
-			throw new IllegalArgumentException();
-		}
-		this.count = count;
-	}
-
-	/**
-	 * Returns maximal number of cached items. This method always returns a non-negative
-	 * number. If the limit was not set, {@code Integer.MAX_VALUE} is returned.
+	 * Returns maximal number of cached items. This
+	 * method always returns a non-negative number.
 	 *
 	 * @return maximal number of cached items.
 	 */
@@ -70,22 +70,8 @@ public final class CacheLimits {
 	}
 
 	/**
-	 * Sets maximal size of cached items.
-	 *
-	 * @param size new maximal size of cached items.
-	 *
-	 * @throws IllegalArgumentException if {@code size} is nagative.
-	 */
-	public void setSize(final long size) {
-		if (size < 0) {
-			throw new IllegalArgumentException();
-		}
-		this.size = size;
-	}
-
-	/**
-	 * Returns maximal size of cached items. This method always returns a non-negative
-	 * number. If the limit was not set, {@code Long.MAX_VALUE} is returned.
+	 * Returns maximal size of cached items. This
+	 * method always returns a non-negative number.
 	 *
 	 * @return maximal size of cached items.
 	 */
