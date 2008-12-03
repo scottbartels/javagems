@@ -26,7 +26,7 @@ public interface CacheSizeEvaluator<T> {
 			if (object == null) {
 				throw new IllegalArgumentException();
 			}
-			return 0;
+			return 0L;
 		}
 
 	};
