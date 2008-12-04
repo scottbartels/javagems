@@ -45,10 +45,16 @@ public final class ComposedComparator<T> implements Comparator<T> {
 	}
 
 	/**
-	 * Compares
-	 * @param x
-	 * @param y
-	 * @return
+	 * Compares given values using wrapped comparators in specified order.
+	 * The first non-zero comparison result is returned, or zero if all
+	 * comarisoins returned zero.
+	 *
+	 * @param x the first object to be compared.
+	 * @param y the second object to be compared.
+	 *
+	 * @return a negative integer, zero, or a positive integer as the
+	 *         first argument is less than, equal to, or greater than the
+	 *         second.
 	 */
 	public int compare(final T x, final T y) {
 		for (final Comparator<T> comparator : comparators) {
