@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class CacheImpl<O extends Identifiable<K>, K> extends AbstractLimitedCache<O, K> {
+public final class CacheImpl<O extends Identifiable<K>, K> implements Cache<O, K> {
 
 	private final List<Cache<O, K>> fragments = new ArrayList<Cache<O, K>>();
 
@@ -18,7 +18,6 @@ public final class CacheImpl<O extends Identifiable<K>, K> extends AbstractLimit
 	private final CacheFragmenter<K> fragmenter;
 
 	public CacheImpl(final CacheLimits limits, final CacheFragmenter<K> fragmenter, final Filter<O> filter) {
-		super(limits);
 		if (fragmenter == null) {
 			throw new IllegalArgumentException();
 		}
@@ -27,7 +26,7 @@ public final class CacheImpl<O extends Identifiable<K>, K> extends AbstractLimit
 		}
 		this.fragmenter = fragmenter;
 		for (int i = 0; i < fragmenter.fragments(); i++) {
-			fragments.add(new CacheFragment<O, K>(new CacheLimits(getLimits(), fragmenter.fragments())));
+			fragments.add(new CacheFragment<O, K>(new CacheLimits(limits, fragmenter.fragments())));
 		}
 		this.filter = filter;
 	}
