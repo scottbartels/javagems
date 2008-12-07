@@ -40,6 +40,7 @@ public final class CacheItem<K> extends AbstractIdentifiable<K> {
 	 * Increases a hit counter by one.
 	 */
 	public void hit() {
+		access = System.currentTimeMillis();
 		hits++;
 	}
 
