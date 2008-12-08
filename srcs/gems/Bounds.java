@@ -17,6 +17,14 @@ final public class Bounds {
 	 */
 	private final int end;
 
+	/**
+	 * Creates a new bounds object holding given indexes.
+	 *
+	 * @param begin a "from" index.
+	 * @param end a "to" index.
+	 *
+	 * @throws IllegalArgumentException if any of indexes is negative or if {@code begin} is greather than {@code end}.
+	 */
 	public Bounds(final int begin, final int end) {
 		if (begin < 0) {
 			throw new IllegalArgumentException();
@@ -32,7 +40,7 @@ final public class Bounds {
 	}
 
 	/**
-	 * Returns the first index.
+	 * Returns the first index. This method always returns a non-negative integer.
 	 *
 	 * @return the first index.
 	 */
@@ -41,7 +49,7 @@ final public class Bounds {
 	}
 
 	/**
-	 * Returns the second index.
+	 * Returns the second index. This method always returns a non-negative integer.
 	 *
 	 * @return the second index.
 	 */
@@ -52,6 +60,7 @@ final public class Bounds {
 	/**
 	 * Returns a number of 'items' between begin and end. In another words,
 	 * it returns exactly the value of expression {@code end - begin}.
+	 *  This method always returns a non-negative integer.
 	 *
 	 * @return a number of 'items' between begin and end.
 	 */
