@@ -15,6 +15,7 @@ import java.util.LinkedList;
  * creation.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @since 2008.12
  */
 @Experimental public final class ComposedComparator<T> implements Comparator<T> {
 
@@ -55,7 +56,8 @@ import java.util.LinkedList;
 	 * @return a negative integer, zero, or a positive integer as the
 	 *         first argument is less than, equal to, or greater than the
 	 *         second.
-	 * @throws IllegalArgumentException if any of arguments is {@code null}. 
+	 *
+	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
 	public int compare(final T x, final T y) {
 		if (x == null) {
