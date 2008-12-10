@@ -37,7 +37,7 @@ final class ByteSubContent extends AbstractNonAggregatedByteContent {
 			throw new IllegalArgumentException();
 		}
 		if (bounds.end() > content.length()) {
-			throw new IndexOutOfBoundsException("Bounds too large: " + bounds);
+			throw new IndexOutOfBoundsException(String.valueOf(bounds.end()));
 		}
 		this.content = content;
 		this.offset = bounds.begin();
@@ -47,7 +47,7 @@ final class ByteSubContent extends AbstractNonAggregatedByteContent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public byte getByteAt(final int index) {
+	public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
 			throw new IllegalArgumentException("Wrong index: " + index);
 		}
