@@ -4,6 +4,7 @@ package gems;
  * Represents from-to bounds for operations based on a range of indexed values.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @since 2008.12
  */
 final public class Bounds {
 
@@ -60,7 +61,7 @@ final public class Bounds {
 	/**
 	 * Returns a number of 'items' between begin and end. In another words,
 	 * it returns exactly the value of expression {@code end - begin}.
-	 *  This method always returns a non-negative integer.
+	 * This method always returns a non-negative integer.
 	 *
 	 * @return a number of 'items' between begin and end.
 	 */
