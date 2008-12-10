@@ -16,7 +16,7 @@ import java.util.LinkedList;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class ComposedComparator<T> implements Comparator<T> {
+@Experimental public final class ComposedComparator<T> implements Comparator<T> {
 
 	/**
 	 * Wrapped comparators.
@@ -55,8 +55,15 @@ public final class ComposedComparator<T> implements Comparator<T> {
 	 * @return a negative integer, zero, or a positive integer as the
 	 *         first argument is less than, equal to, or greater than the
 	 *         second.
+	 * @throws IllegalArgumentException if any of arguments is {@code null}. 
 	 */
 	public int compare(final T x, final T y) {
+		if (x == null) {
+			throw new IllegalArgumentException();
+		}
+		if (y == null) {
+			throw new IllegalArgumentException();
+		}
 		for (final Comparator<T> comparator : comparators) {
 			final int result = comparator.compare(x, y);
 			if (result != 0) {
