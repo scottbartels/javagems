@@ -3,11 +3,9 @@ package gems.io;
 import gems.Bounds;
 
 /**
- * Common parts of the {@code ByteContent} interface implementation. It holds
- * content length and implements 'unsupported' version of optional operation
- * {@code addContent(ByteContent)}.
+ * Common parts of the {@code ByteContent} interface implementation.
  *
- * @author Jozef BABJAK
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 abstract class AbstractByteContent implements ByteContent {
 
@@ -17,25 +15,18 @@ abstract class AbstractByteContent implements ByteContent {
 	private int length;
 
 	/**
-	 * Sets a content length.
-	 *
-	 * @param length a new length.
-	 */
-	protected void setLength(final int length) {
-		this.length = length;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
-	public final int length() {
+	public final synchronized int length() {
 		return length;
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc} This method always returns a defense copy, i.e. it
+	 * creates a new byte array. This method never returns {@code null};
+	 * if the content is empty, an emtpy array is returned.
 	 */
-	public final byte[] getBytes() {
+	public final synchronized byte[] getBytes() {
 		final byte[] result = new byte[length];
 		for (int index = 0; index < length; index++) {
 			result[index] = getByteAt(index);
@@ -44,19 +35,37 @@ abstract class AbstractByteContent implements ByteContent {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc} The returned object uses the same backing store
+	 * as this object. This method never returns {@code null}.
+	 *
+	 * @throws IllegalArgumentException if {@code bounds} is {@code null}. 
 	 */
-	public final ByteContent getSubcontent(final Bounds bounds) {
+	public final synchronized ByteContent getSubcontent(final Bounds bounds) {
+		if (bounds == null) {
+			throw new IllegalArgumentException();
+		}
 		return new ByteSubContent(this, bounds);
 	}
 
 	/**
-	 * Provides a human-readable representation of stored content; suitable only for debug purpose.
+	 * Provides a string representation of stored content, using a platform's default charset.
 	 *
-	 * @return a human-readable representation of stored content
+	 * @return a string representation of stored content.
 	 */
 	@Override public String toString() {
-		return new String(getBytes()).replaceAll("\r", "<CR>").replaceAll("\n", "<LF>").replaceAll("\t", "<TAB>");
+		return new String(getBytes());
+	}
+
+	/**
+	 * Sets a content length.
+	 *
+	 * @param length a new length.
+	 */
+	protected final synchronized void setLength(final int length) {
+		if (length < 0) {
+			throw new IllegalArgumentException(String.valueOf(length));
+		}
+		this.length = length;
 	}
 
 }

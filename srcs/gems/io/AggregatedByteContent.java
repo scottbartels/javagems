@@ -26,7 +26,7 @@ public final class AggregatedByteContent extends AbstractByteContent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public byte getByteAt(final int index) {
+	public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException("Wrong index: " + index);
 		}
@@ -46,21 +46,12 @@ public final class AggregatedByteContent extends AbstractByteContent {
 	 * @param content an added content.
 	 * @throws IllegalArgumentException if {@code content} is {@code null}.
 	 */
-	@Override public void addContent(final ByteContent content) {
+	@Override public synchronized void addContent(final ByteContent content) {
 		if (content == null) {
 			throw new IllegalArgumentException();
 		}
 		setLength(length() + content.length());
 		parts.add(content);
-	}
-
-	/**
-	 * Provides a human readable information about aggregated content; suitable only for debug purpose.
-	 *
-	 * @return a human readable information about aggregated content;
-	 */
-	@Override public String toString() {
-		return "Aggregated content: " + length() + " bytes in " + parts.size() + " part(s).";
 	}
 
 }
