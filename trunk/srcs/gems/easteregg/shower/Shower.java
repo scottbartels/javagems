@@ -127,6 +127,13 @@ public final class Shower {
 		show();
 	}
 
+	/**
+	 * An application entry point.
+	 *
+	 * @param args command line arguments.
+	 *
+	 * @throws Exception if any occurs.
+	 */
 	public static void main(final String[] args) throws Exception {
 
 		if (args.length == 0) {
@@ -221,7 +228,7 @@ public final class Shower {
 	}
 
 	/**
-	 * Moves oversized image up, down, right, and left
+	 * Moves oversized image up, down, right, and left.
 	 */
 	private final class MoveOversizedListener extends AbstractKeyListener {
 

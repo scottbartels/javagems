@@ -15,6 +15,7 @@ import java.util.LinkedList;
  * creation.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @param <T> a type of compared objects.
  * @since 2008.12
  */
 @Experimental public final class ComposedComparator<T> implements Comparator<T> {
