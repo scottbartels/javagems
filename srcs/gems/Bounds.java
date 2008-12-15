@@ -6,7 +6,7 @@ package gems;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @since 2008.12
  */
-final public class Bounds {
+public final class Bounds {
 
 	/**
 	 * The first index.
