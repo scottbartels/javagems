@@ -6,29 +6,27 @@ import java.util.List;
 /**
  * Aggregation of contents. It provides easy way how to concatenate partial
  * contents into one long content without a neccesity of copying them. The only
- * exception is {@code getBytes()} method, which still need to copy underlaying
- * contents.
+ * exception is {@code getBytes()} method, which still copies underlaying
+ * contents and returns a defense copy.
  *
- * @author Jozef BABJAK
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class AggregatedByteContent extends AbstractByteContent {
 
 	/**
-	 * Default initial capacity for array list holding parts of this aggregated content.
-	 */
-	private static final int ARRAY_LIST_INITIAL_CAPACITY = 100;
-
-	/**
 	 * Aggregated content parts.
 	 */
-	private final List<ByteContent> parts = new ArrayList<ByteContent>(ARRAY_LIST_INITIAL_CAPACITY);
+	private final List<ByteContent> parts = new ArrayList<ByteContent>();
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @throws IndexOutOfBoundsException if {@code index} is negative or
+	 * if {@code index} is greater than or equal to subcontent length.
 	 */
 	public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
-			throw new IndexOutOfBoundsException("Wrong index: " + index);
+			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		int offset = 0;
 		for (final ByteContent content : parts) {

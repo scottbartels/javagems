@@ -7,7 +7,7 @@ import gems.Bounds;
  * to split existing content to parts and use only a sub-part when
  * necessary. This sub-part is still backed by original content.
  *
- * @author Jozef BABJAK
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 final class ByteSubContent extends AbstractNonAggregatedByteContent {
 
@@ -26,7 +26,8 @@ final class ByteSubContent extends AbstractNonAggregatedByteContent {
 	 *
 	 * @param content a 'whole' content.
 	 * @param bounds requested bounds of a subcontent.
-	 * @throws IllegalArgumentException if any of arguments is {@code null} of if given bounds are inconsistent.
+	 *
+	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 * @throws IndexOutOfBoundsException if it is not possible to get requested subcontent due to wrong bounds.
 	 */
 	ByteSubContent(final ByteContent content, final Bounds bounds) {
@@ -46,10 +47,13 @@ final class ByteSubContent extends AbstractNonAggregatedByteContent {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @throws IndexOutOfBoundsException if {@code index} is negative or
+	 * if {@code index} is greater than or equal to subcontent length.
 	 */
 	public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
-			throw new IllegalArgumentException("Wrong index: " + index);
+			throw new IllegalArgumentException(String.valueOf(index));
 		}
 		return content.getByteAt(offset + index);
 	}
