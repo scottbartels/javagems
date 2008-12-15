@@ -22,7 +22,7 @@ import java.util.LinkedList;
 	/**
 	 * Wrapped comparators.
 	 */
-	final Collection<Comparator<T>> comparators = new LinkedList<Comparator<T>>();
+	private final Collection<Comparator<T>> comparators = new LinkedList<Comparator<T>>();
 
 	/**
 	 * Creates a new composed comparator for a given collection of comparators.
