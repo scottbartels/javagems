@@ -1,5 +1,6 @@
 package gems;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -12,13 +13,21 @@ import java.util.LinkedList;
  * result is returned. If all wrapped comparators return zero, the comparator
  * also return zero. It implies that the comparator always returns zero, if
  * an empty collection of comparators was specified during a comparator
- * creation.
+ * creation. Note: This comparator implementation itself is serializable,
+ * but for a correct serialization and deserialization all involved comparators
+ * should be serializable, too.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <T> a type of compared objects.
  * @since 2008.12
  */
-@Experimental public final class ComposedComparator<T> implements Comparator<T> {
+@Experimental public final class ComposedComparator<T> implements Comparator<T>, Serializable {
+
+
+	/**
+	 * Serialization version UID. 
+	 */
+	private static final long serialVersionUID = 4780011141633267767L;
 
 	/**
 	 * Wrapped comparators.
