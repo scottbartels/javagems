@@ -48,7 +48,7 @@ public final class Shower {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		frame.addKeyListener(new ExitOnEscapeKeyListener());
+		frame.addKeyListener(new ExitOnEscapeKeyListener(frame));
 		frame.addKeyListener(new ChangeImageListener());
 		frame.addKeyListener(new SlideshowControlKeyListener());
 		frame.addKeyListener(new MoveOversizedListener());
@@ -333,13 +333,31 @@ public final class Shower {
 	private static final class ExitOnEscapeKeyListener extends AbstractKeyListener {
 
 		/**
+		 * A frame to dispose when triggered.
+		 */
+		private final JFrame frame;
+
+		/**
+		 * Creates a new listener disposing the given frame when triggered.
+		 *
+		 * @param frame a frame to dispose.
+		 * @throws IllegalArgumentException if {@code frame} is {@code null}.
+		 */
+		private ExitOnEscapeKeyListener(final JFrame frame) {
+			if (frame == null) {
+				throw new IllegalArgumentException();
+			}
+			this.frame = frame;
+		}
+
+		/**
 		 * Exits the application if {@code ESC} key was pressed.
 		 *
 		 * @param e a key event.
 		 */
 		public void keyPressed(final KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_Q) {
-				System.exit(0);
+				frame.dispose();
 			}
 		}
 
