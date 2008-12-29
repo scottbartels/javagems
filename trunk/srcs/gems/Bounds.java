@@ -4,7 +4,7 @@ package gems;
  * Represents from-to bounds for operations based on a range of indexed values.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
- * @since 2008.12
+ * @since 2009.01
  */
 public final class Bounds {
 
