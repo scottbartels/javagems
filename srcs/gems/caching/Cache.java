@@ -1,17 +1,23 @@
 package gems.caching;
 
 import gems.Identifiable;
+import gems.Option;
 
 /**
- * A cache abstraction. It provides type-safe operations for storing
- * indentifiable objects in a cache and retriving objects from that
- * cache according their identificators.
+ * A cache is a temporary storage of indentifiable objects
+ * which can be retrieved back according their identifiers.
+ * Stored objects may be evicted meantime by cache internal
+ * processes, so the client have to be ready for the situation
+ * when previously stored object is not in cache anymore. This
+ * interface provides an abstraction for a cache: it allows to
+ * store indentifiable objects and to try to retrieve them back
+ * in type-safe manner.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> a type of keys.
- * @param <O> a type of objects.
+ * @param <T> a type of objects.
  */
-public interface Cache<O extends Identifiable<K>, K> {
+public interface Cache<T extends Identifiable<K>, K> {
 
 	/**
 	 * Offers a given object for a caching. The object may or
@@ -19,18 +25,20 @@ public interface Cache<O extends Identifiable<K>, K> {
 	 *
 	 * @param object an object offered for a caching.
 	 */
-	void offer(O object);
+	void offer(T object);
 
 	/**
-	 * Returns an object with the given ID from the cache or {@code null}
-	 * if no such object is fournd in the cache. Please note that a client
-	 * should always expect {@code null} value as a result of cached object
-	 * retrieving.
+	 * Returns an object idnetified by the given key. The returned
+	 * object is encapsulated to {@code Option} object, so the client
+	 * has to check whether a required object was or was not found in
+	 * the cache. This method should never return {@code null}.
 	 *
 	 * @param id an ID of required object.
 	 *
-	 * @return a cached object with a given ID or {@code null} if no such object is currently cached.
+	 * @return an optional value holding a cached object or holding
+	 *         no value if no object with the given identifier  was
+	 *         found in the cache.
 	 */
-	O get(K id);
+	Option<T> get(K id);
 
 }
