@@ -8,6 +8,7 @@ package gems;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <T> a type of stored value.
+ * @since 2009.01
  */
 @Experimental public final class Option<T> {
 
