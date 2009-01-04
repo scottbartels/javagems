@@ -10,6 +10,7 @@ import java.util.List;
  * contents and returns a defense copy.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @deprecated Should be replaced by some kind of ByteContentBuilder. 
  */
 public final class AggregatedByteContent extends AbstractByteContent {
 

@@ -19,7 +19,7 @@ public interface ByteContent {
 	 * support {@code append(ByteContent)} and {@code prepend(ByteContent)}
 	 * operations.
 	 */
-	ByteContent EMPTY_CONTENT = new BasicByteContent(new byte[0]);
+	ByteContent EMPTY_CONTENT = new AtomicByteContent(new byte[0]);
 
 	/**
 	 * Returns a length of the stored content in bytes.
@@ -67,6 +67,7 @@ public interface ByteContent {
 	 * implementations.
 	 *
 	 * @param content added content.
+	 * @deprecated ByteContent should be immutable except content.
 	 */
 	void append(ByteContent content);
 
@@ -76,6 +77,7 @@ public interface ByteContent {
 	 * implementations.
 	 *
 	 * @param content added content.
+	 * @deprecated ByteContent should be immutable except content.
 	 */
 	void prepend(ByteContent content);
 

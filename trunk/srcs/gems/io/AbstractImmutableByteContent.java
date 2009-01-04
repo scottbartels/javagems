@@ -5,6 +5,7 @@ package gems.io;
  * optional {@code append(ByteContent)} and {@code prepend(ByteContent)} operations.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @deprecated This class is going to be obsolete after removing deprecated methods.
  */
 abstract class AbstractImmutableByteContent extends AbstractByteContent {
 
