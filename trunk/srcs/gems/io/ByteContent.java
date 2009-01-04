@@ -61,24 +61,4 @@ public interface ByteContent {
 	 */
 	ByteContent getSubcontent(Bounds bounds);
 
-	/**
-	 * Appends an additional content at the end of this content. This
-	 * is an optional operation and it may not be supported by all
-	 * implementations.
-	 *
-	 * @param content added content.
-	 * @deprecated ByteContent should be immutable except content.
-	 */
-	void append(ByteContent content);
-
-	/**
-	 * Prepends an additional content at the beginning of this content.
-	 * This is an optional operation and it may not be supported by all
-	 * implementations.
-	 *
-	 * @param content added content.
-	 * @deprecated ByteContent should be immutable except content.
-	 */
-	void prepend(ByteContent content);
-
 }
