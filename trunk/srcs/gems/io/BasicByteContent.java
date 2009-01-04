@@ -6,7 +6,7 @@ package gems.io;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class BasicByteContent extends AbstractNonAggregatedByteContent {
+public final class BasicByteContent extends AbstractImmutableByteContent {
 
 	/**
 	 * Content.
