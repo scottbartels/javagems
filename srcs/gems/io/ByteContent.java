@@ -45,6 +45,14 @@ public interface ByteContent {
 	byte getByteAt(int index);
 
 	/**
+	 * Sets a byte of the content with a given index. The indexing is zero-based.
+	 *
+	 * @param index an index of the set byte.
+	 * @param b a new value of the byte.
+	 */
+	void setByteAt(int index, byte b);
+
+	/**
 	 * Returns a subcontent of the content specified by given bounds.
 	 *
 	 * @param bounds required bounds of a subcontent.

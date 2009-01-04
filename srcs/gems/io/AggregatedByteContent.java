@@ -22,7 +22,7 @@ public final class AggregatedByteContent extends AbstractByteContent {
 	 * {@inheritDoc}
 	 *
 	 * @throws IndexOutOfBoundsException if {@code index} is negative or
-	 * if {@code index} is greater than or equal to subcontent length.
+	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
@@ -36,6 +36,28 @@ public final class AggregatedByteContent extends AbstractByteContent {
 			offset += content.length();
 		}
 		throw new RuntimeException("You should never see this message.");
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IndexOutOfBoundsException if {@code index} is negative or
+	 * if {@code index} is greater than or equal to content length.
+	 */
+	@Override public synchronized void setByteAt(final int index, final byte b) {
+		if (index < 0 || index >= length()) {
+			throw new IndexOutOfBoundsException(String.valueOf(index));
+		}
+		int offset = 0;
+		for (final ByteContent content : parts) {
+			if (index < offset + content.length()) {
+				content.setByteAt(index - offset, b);
+			}
+			offset += content.length();
+		}
+		throw new RuntimeException("You should never see this message.");
+
 	}
 
 	/**
