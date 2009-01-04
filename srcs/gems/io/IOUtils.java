@@ -65,7 +65,7 @@ public final class IOUtils {
 		int bytesRead;
 		try {
 			while ((bytesRead = input.read(buffer)) > 0) {
-				result.addContent(new BasicByteContent(buffer, bytesRead));
+				result.append(new BasicByteContent(buffer, bytesRead));
 			}
 		} catch (final IOException e) {
 			throw new RuntimeIOException(e);

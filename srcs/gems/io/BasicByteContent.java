@@ -53,7 +53,7 @@ public final class BasicByteContent extends AbstractImmutableByteContent {
 	 * @throws IndexOutOfBoundsException if {@code index} is negative or
 	 * if {@code index} is greater than or equal to subcontent length.
 	 */
-	public synchronized byte getByteAt(final int index) {
+	@Override public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}

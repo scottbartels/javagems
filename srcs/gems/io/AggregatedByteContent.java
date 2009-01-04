@@ -24,7 +24,7 @@ public final class AggregatedByteContent extends AbstractByteContent {
 	 * @throws IndexOutOfBoundsException if {@code index} is negative or
 	 * if {@code index} is greater than or equal to subcontent length.
 	 */
-	public synchronized byte getByteAt(final int index) {
+	@Override public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
@@ -39,17 +39,36 @@ public final class AggregatedByteContent extends AbstractByteContent {
 	}
 
 	/**
-	 * Adds an additional content to aggregation. Added content is put on the end of aggregation.
+	 * Appends an additional content to the aggregation. Added content is put on the
+	 * end of the aggregation.
 	 *
 	 * @param content an added content.
+	 *
 	 * @throws IllegalArgumentException if {@code content} is {@code null}.
 	 */
-	@Override public synchronized void addContent(final ByteContent content) {
+	@Override public synchronized void append(final ByteContent content) {
 		if (content == null) {
 			throw new IllegalArgumentException();
 		}
 		setLength(length() + content.length());
 		parts.add(content);
+	}
+
+
+	/**
+	 * Prepends an additional content to the aggregation. Added content is put on the
+	 * beginning of the aggregation.
+	 *
+	 * @param content an added content.
+	 *
+	 * @throws IllegalArgumentException if {@code content} is {@code null}.
+	 */
+	@Override public synchronized void prepend(final ByteContent content) {
+		if (content == null) {
+			throw new IllegalArgumentException();
+		}
+		setLength(length() + content.length());
+		parts.add(0, content);
 	}
 
 }

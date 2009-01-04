@@ -23,7 +23,7 @@ public final class JUnitByteContent {
 	 * Checks whether the emtpy content is immutable.
 	 */
 	@Test(expected = UnsupportedOperationException.class) public void checkEmptyContentImmutability() {
-		EMPTY_CONTENT.addContent(EMPTY_CONTENT);
+		EMPTY_CONTENT.append(EMPTY_CONTENT);
 	}
 
 }

@@ -17,7 +17,7 @@ abstract class AbstractByteContent implements ByteContent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final synchronized int length() {
+	@Override public final synchronized int length() {
 		return length;
 	}
 
@@ -26,7 +26,7 @@ abstract class AbstractByteContent implements ByteContent {
 	 * creates a new byte array. This method never returns {@code null};
 	 * if the content is empty, an emtpy array is returned.
 	 */
-	public final synchronized byte[] getBytes() {
+	@Override public final synchronized byte[] getBytes() {
 		final byte[] result = new byte[length];
 		for (int index = 0; index < length; index++) {
 			result[index] = getByteAt(index);
@@ -40,7 +40,7 @@ abstract class AbstractByteContent implements ByteContent {
 	 *
 	 * @throws IllegalArgumentException if {@code bounds} is {@code null}. 
 	 */
-	public final synchronized ByteContent getSubcontent(final Bounds bounds) {
+	@Override public final synchronized ByteContent getSubcontent(final Bounds bounds) {
 		if (bounds == null) {
 			throw new IllegalArgumentException();
 		}
