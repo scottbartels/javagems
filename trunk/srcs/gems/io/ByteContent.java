@@ -15,8 +15,9 @@ import gems.Bounds;
 public interface ByteContent {
 
 	/**
-	 * An empty content. It is immutable, i.e. the implementation
-	 * does not support {@code addContent(ByteContent)} operation.
+	 * An empty content. It is immutable, i.e. the implementation does not
+	 * support {@code append(ByteContent)} and {@code prepend(ByteContent)}
+	 * operations.
 	 */
 	ByteContent EMPTY_CONTENT = new BasicByteContent(new byte[0]);
 
@@ -38,6 +39,7 @@ public interface ByteContent {
 	 * Returns a byte of the content with a given index. The indexing is zero-based.
 	 *
 	 * @param index an index of the requested byte.
+	 *
 	 * @return a byte with a given index.
 	 */
 	byte getByteAt(int index);
@@ -46,16 +48,27 @@ public interface ByteContent {
 	 * Returns a subcontent of the content specified by given bounds.
 	 *
 	 * @param bounds required bounds of a subcontent.
+	 *
 	 * @return a subcontent of the content specified by given bounds.
 	 */
 	ByteContent getSubcontent(Bounds bounds);
 
 	/**
-	 * Adds an additional content. This is an optional operation
-	 * and it may not be supported by all implementations.
+	 * Appends an additional content at the end of this content. This
+	 * is an optional operation and it may not be supported by all
+	 * implementations.
 	 *
 	 * @param content added content.
 	 */
-	void addContent(ByteContent content);
+	void append(ByteContent content);
+
+	/**
+	 * Prepends an additional content at the beginning of this content.
+	 * This is an optional operation and it may not be supported by all
+	 * implementations.
+	 *
+	 * @param content added content.
+	 */
+	void prepend(ByteContent content);
 
 }
