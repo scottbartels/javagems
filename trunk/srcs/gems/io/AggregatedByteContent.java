@@ -38,7 +38,6 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 		throw new RuntimeException("You should never see this message.");
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 *
@@ -57,7 +56,6 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 			offset += content.length();
 		}
 		throw new RuntimeException("You should never see this message.");
-
 	}
 
 	/**
@@ -75,7 +73,6 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 		setLength(length() + content.length());
 		parts.add(content);
 	}
-
 
 	/**
 	 * Prepends an additional content to the aggregation. Added content is put on the
