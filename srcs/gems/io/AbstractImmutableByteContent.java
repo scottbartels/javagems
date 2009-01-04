@@ -6,7 +6,7 @@ package gems.io;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-abstract class AbstractNonAggregatedByteContent extends AbstractByteContent {
+abstract class AbstractImmutableByteContent extends AbstractByteContent {
 
 	/**
 	 * An 'unsupported' implementation of the method. It
