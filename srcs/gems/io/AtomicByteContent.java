@@ -1,7 +1,7 @@
 package gems.io;
 
 /**
- * The 'leaf' implementation of {@code ByteContent}
+ * The basic implementation of {@code ByteContent}
  * interface. It holds raw byte content data.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
@@ -62,7 +62,6 @@ public final class AtomicByteContent extends AbstractByteContent {
 		return content[index];
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 *
@@ -75,4 +74,5 @@ public final class AtomicByteContent extends AbstractByteContent {
 		}
 		content[index] = b;
 	}
+
 }
