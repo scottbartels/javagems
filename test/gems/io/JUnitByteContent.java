@@ -19,11 +19,4 @@ public final class JUnitByteContent {
 		Assert.assertEquals(0, EMPTY_CONTENT.getBytes().length);
 	}
 
-	/**
-	 * Checks whether the emtpy content is immutable.
-	 */
-	@Test(expected = UnsupportedOperationException.class) public void checkEmptyContentImmutability() {
-		EMPTY_CONTENT.append(EMPTY_CONTENT);
-	}
-
 }

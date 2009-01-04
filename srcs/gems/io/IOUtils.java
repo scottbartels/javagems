@@ -60,7 +60,7 @@ public final class IOUtils {
 		if (input == null) {
 			throw new IllegalArgumentException();
 		}
-		final ByteContent result = new AggregatedByteContent();
+		final ExpandableByteContent result = new AggregatedByteContent();
 		final byte buffer[] = new byte[CHUNK_SIZE];
 		int bytesRead;
 		try {

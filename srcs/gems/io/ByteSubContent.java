@@ -9,7 +9,7 @@ import gems.Bounds;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-final class ByteSubContent extends AbstractImmutableByteContent {
+final class ByteSubContent extends AbstractByteContent {
 
 	/**
 	 * Backend 'whole' content.
