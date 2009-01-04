@@ -6,7 +6,7 @@ package gems.io;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class BasicByteContent extends AbstractImmutableByteContent {
+public final class AtomicByteContent extends AbstractImmutableByteContent {
 
 	/**
 	 * Content.
@@ -20,7 +20,7 @@ public final class BasicByteContent extends AbstractImmutableByteContent {
 	 *
 	 * @throws IllegalArgumentException if {@code content} is {@code null}.
 	 */
-	public BasicByteContent(final byte[] content) {
+	public AtomicByteContent(final byte[] content) {
 		this(content, content.length);
 	}
 
@@ -37,7 +37,7 @@ public final class BasicByteContent extends AbstractImmutableByteContent {
 	 * @throws IllegalArgumentException if {@code content} is {@code null}.
 	 * @throws IndexOutOfBoundsException if {@code length} is negative or greater than a {@code content} length.
 	 */
-	public BasicByteContent(final byte[] content, final int length) {
+	public AtomicByteContent(final byte[] content, final int length) {
 		if (content == null) {
 			throw new IllegalArgumentException();
 		}
