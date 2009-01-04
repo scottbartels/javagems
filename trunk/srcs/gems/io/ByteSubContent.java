@@ -58,4 +58,17 @@ final class ByteSubContent extends AbstractImmutableByteContent {
 		return content.getByteAt(offset + index);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IndexOutOfBoundsException if {@code index} is negative or
+	 * if {@code index} is greater than or equal to subcontent length.
+	 */
+	@Override public synchronized void setByteAt(final int index, final byte b) {
+		if (index < 0 || index >= length()) {
+			throw new IllegalArgumentException(String.valueOf(index));
+		}
+		content.setByteAt(offset + index, b);
+	}
+
 }

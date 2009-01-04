@@ -2,7 +2,7 @@ package gems.io;
 
 /**
  * The 'leaf' implementation of {@code ByteContent}
- * interface. It holds raw byte content data.  
+ * interface. It holds raw byte content data.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
@@ -17,6 +17,7 @@ public final class BasicByteContent extends AbstractImmutableByteContent {
 	 * Creates a new instance storing the whole given content.
 	 *
 	 * @param content a content.
+	 *
 	 * @throws IllegalArgumentException if {@code content} is {@code null}.
 	 */
 	public BasicByteContent(final byte[] content) {
@@ -32,6 +33,7 @@ public final class BasicByteContent extends AbstractImmutableByteContent {
 	 *
 	 * @param content a content.
 	 * @param length a valid lenght.
+	 *
 	 * @throws IllegalArgumentException if {@code content} is {@code null}.
 	 * @throws IndexOutOfBoundsException if {@code length} is negative or greater than a {@code content} length.
 	 */
@@ -51,7 +53,7 @@ public final class BasicByteContent extends AbstractImmutableByteContent {
 	 * {@inheritDoc}
 	 *
 	 * @throws IndexOutOfBoundsException if {@code index} is negative or
-	 * if {@code index} is greater than or equal to subcontent length.
+	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
@@ -60,4 +62,17 @@ public final class BasicByteContent extends AbstractImmutableByteContent {
 		return content[index];
 	}
 
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IndexOutOfBoundsException if {@code index} is negative or
+	 * if {@code index} is greater than or equal to content length.
+	 */
+	@Override public synchronized void setByteAt(final int index, final byte b) {
+		if (index < 0 || index >= length()) {
+			throw new IndexOutOfBoundsException(String.valueOf(index));
+		}
+		content[index] = b;
+	}
 }
