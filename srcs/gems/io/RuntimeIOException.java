@@ -5,7 +5,7 @@ package gems.io;
  * is exactly the same as the meaning of {@code java.io.IOException}, but using this exception
  * do not force exception handling in a client code.
  *
- * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a> 
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public class RuntimeIOException extends RuntimeException {
 
