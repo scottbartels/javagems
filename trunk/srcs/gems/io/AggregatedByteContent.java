@@ -1,5 +1,7 @@
 package gems.io;
 
+import gems.ShouldNeverHappenException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,7 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 			}
 			offset += content.length();
 		}
-		throw new RuntimeException("You should never see this message.");
+		throw new ShouldNeverHappenException();
 	}
 
 	/**
@@ -52,10 +54,11 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 		for (final ByteContent content : parts) {
 			if (index < offset + content.length()) {
 				content.setByteAt(index - offset, b);
+				return;
 			}
 			offset += content.length();
 		}
-		throw new RuntimeException("You should never see this message.");
+		throw new ShouldNeverHappenException();
 	}
 
 	/**

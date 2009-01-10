@@ -60,19 +60,19 @@ public final class IOUtils {
 		if (input == null) {
 			throw new IllegalArgumentException();
 		}
-		final ExpandableByteContent result = new AggregatedByteContent();
-		final byte buffer[] = new byte[CHUNK_SIZE];
-		int bytesRead;
 		try {
+			final ExpandableByteContent result = new AggregatedByteContent();
+			final byte buffer[] = new byte[CHUNK_SIZE];
+			int bytesRead;
 			while ((bytesRead = input.read(buffer)) > 0) {
 				result.append(new AtomicByteContent(buffer, bytesRead));
 			}
+			return result;
 		} catch (final IOException e) {
 			throw new RuntimeIOException(e);
 		} finally {
 			close(input);
 		}
-		return result;
 	}
-	
+
 }
