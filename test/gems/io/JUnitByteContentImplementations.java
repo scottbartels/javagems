@@ -17,6 +17,8 @@ abstract class JUnitByteContentImplementations {
 
 	protected void runAllTests() {
 
+		Assert.assertEquals("abcd", fixture.toString());
+
 		Assert.assertEquals(4, fixture.length());
 		Assert.assertEquals((byte) 'a', fixture.getByteAt(0));
 		Assert.assertEquals((byte) 'b', fixture.getByteAt(1));
@@ -56,6 +58,8 @@ abstract class JUnitByteContentImplementations {
 		Assert.assertEquals((byte) 'r', fixture.getByteAt(3));
 
 		Assert.assertArrayEquals("spqr".getBytes(), fixture.getBytes());
+
+		Assert.assertEquals("spqr", fixture.toString());
 
 	}
 
