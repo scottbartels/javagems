@@ -4,7 +4,7 @@
 
 == Option ==
 
-Using `gems.Option` wrapper around and arbitrary object return value, you can enforce client code to check presence of the return value. Thus, even if your method may or may not return a result, you can sleep well ant to be sure that client's code is robust enough. 
+Using `gems.Option` wrapper around and arbitrary object return value, you can enforce client code to check presence of the return value. Thus, even if your method _may_ or _may not_ return a result, you can sleep well and be sure that client's code is robust enough to handle an empty return value. 
 
 == Composed Comparator ==
 
@@ -31,7 +31,7 @@ try {
 
 Or even the same without re-throwing RuntimeException (poor guy)? How many times did you check a file existence and reading permissions before actual reading, but you was still enforced to handle `IOException` thrown during the file reading, even if you cannot do anything reasonable about it? Do you also hate copy-pasting the `while` loop reading an input stream into a byte array among each and every project? Do you check `gems.io` package. At the moment, basic ideas are as follows:
 
-  * `java.io.IOException` is hidden into `gems.io.RuntimeIOException`. A client code _may_ catch it, if it want to handle it, but it is _not_ enforced to do so. 
+  * `java.io.IOException` is hidden into `gems.io.RuntimeIOException`. A client code _may_ catch it, if it want to handle it, but it is _not enforced_ to do so. 
   * A raw byte content is encapsulated into an array-like object, but there is no need to have a continuous memory are for its storage.
   * A subcontent view upon that byte array content can be used without necessity to copy bytes. 
   * A reading of input stream into `gems.io.ByteContent` is as straightforward as possible. 
