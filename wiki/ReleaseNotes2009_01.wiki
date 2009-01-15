@@ -1,8 +1,8 @@
 #summary JavaGems Release Notes 2009.01
 
-== Java Gems 2009.01 Release Notes ==
+= Java Gems 2009.01 Release Notes =
 
-Exactly two months after the previous release, a new version of Java Gems general-purpose library is released. In the very short history of this project, this release is the closest to our original goal to provide small tools, which are reimplemented again and again in many projects, only because they are too simple for its own library. 
+Exactly two months after the previous release, a new version of Java Gems general-purpose library was released. In the very short history of this project, this release is the closest to our original goal to provide small tools, which are reimplemented again and again in many projects, only because they are too simple for its own library. Besides new features and improvements listed below, we also significantly increased test coverage behind the scene. Measuring by Emma, now we have 68% of classes and 65% of lines covered by unit tests.
 
 == New Features ==
 
