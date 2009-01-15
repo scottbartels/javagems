@@ -4,15 +4,21 @@
 
 Exactly two months after the previous release, a new version of Java Gems general-purpose library was released. In the very short history of this project, this release is the closest to our original goal to provide small tools, which are reimplemented again and again in many projects, only because they are too simple for its own library. Besides new features and improvements listed below, we also significantly increased test coverage behind the scene. Measuring by Emma, now we have 68% of classes and 65% of lines covered by unit tests.
 
+[http://code.google.com/p/javagems/downloads/list Download the latest version.]
+
 == New Features ==
 
 === Option ===
 
-Using `gems.Option` wrapper around and arbitrary object return value, you can enforce client code to check presence of the return value. Thus, even if your method _may_ or _may not_ return a result, you can sleep well and be sure that client's code is robust enough to handle an empty return value. 
+Using `gems.Option` wrapper around and arbitrary object return value, you can enforce client code to check presence of the return value. Thus, even if your method _may_ or _may not_ return a result, you can sleep well and be sure that client's code is robust enough to handle an empty return value.
+
+[http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/Option.java See the source code.] 
 
 === Composed Comparator ===
 
 Sometime is necessary to sort a collection according to several criteria. Defining one complex comparator leads to complex code, breaks design orthogonality and makes a code reuse harder. Instead of this, you can create several simple comparators and apply them using `gems.ComposedComparator`. 
+
+[http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/ComposedComparator.java See the source code.]
 
 === IO Package ===
 
@@ -42,14 +48,22 @@ Or even the same without re-throwing RuntimeException (poor guy)? How many times
 
 We are sure that you have _many_ ideas ho this package may be extended. 
 
+[http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/io/IOUtils.java See the source code.]
+
 === Mission Impossible? ===
 
 If you have an unreacheable code somewhere, explain it very clearly to your colleagues, and ensure that it is really unreachable using `gems.ShouldNeverHappenException`. 
+
+[http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/ShouldNeverHappenException.java See the source code.]
 
 == Changes ==
 
 `gems.logging.Logger` interface does not contain the `getHandlers()` method anymore. In fact, this functionality is not a logger responsibility and the presence of this mehod in the `Logger` interface only made implementations harder. 
 
+[http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/logging/Logger.java See the source code.]
+
 == Improvements == 
 
 A new iplementation of `gems.logging.Logger` interface is provided: `gems.logging.loggers.ParallelLogger`. It is an asynchronous logger passing logging recods to each of its handlers in own thread.
+
+[http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/logging/loggers/ParallelLogger.java See the source code.]
