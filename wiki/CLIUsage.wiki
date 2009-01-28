@@ -87,7 +87,7 @@ if (speed != null) {
 }
 }}}
 
-The last snipped for `-filter` multivalue option:
+The last snippet for the `-filter` multivalue option:
 
 {{{
 final CliActuator filters = actuators.getActuatorById(OPTION_FILTER.getId());
