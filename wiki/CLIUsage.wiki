@@ -60,7 +60,7 @@ public static void main(final String[] args) {
 }
 }}}
 
-Ok, game over. New CLI parser was created and command line arguments typed by the user were parsed agains designed options. There is no need to handle magic parsing exception, hopefully it is possible to parse each user input, regardless how dumb _it_ is. (User or input? Do you choose as you wish.) The parser's constructor has two string arguments:
+Ok, game over. New CLI parser was created and command line arguments typed by the user were parsed against designed options. There is no need to handle magic parsing exception, hopefully it is possible to parse each user input, regardless how dumb _it_ is. (User or input? Do you choose as you wish.) The parser's constructor has two string arguments:
 
   * Prefix - specifies a prefix identifying an option typed by the user.
   * Stopword - special option stopping arguments parsing. 
