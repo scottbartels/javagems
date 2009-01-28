@@ -39,7 +39,7 @@ try {
 }
 }}}
 
-Or even the same without re-throwing RuntimeException (poor guy)? How many times did you check a file existence and reading permissions before actual reading, but you was still enforced to handle `IOException` thrown during the file reading, even if you cannot do anything reasonable about it? Do you also hate copy-pasting the `while` loop reading an input stream into a byte array among each and every project? Do you check `gems.io` package. At the moment, basic ideas are as follows:
+Or even the same without re-throwing a runtime exception (poor guy)? How many times did you check a file existence and reading permissions before actual reading, but you was still enforced to handle `IOException` thrown during the file reading, even if you cannot do anything reasonable about it? Do you also hate copy-pasting the `while` loop reading an input stream into a byte array among each and every project? Do you check `gems.io` package. At the moment, basic ideas are as follows:
 
   * `java.io.IOException` is hidden into `gems.io.RuntimeIOException`. A client code _may_ catch it, if it want to handle it, but it is _not enforced_ to do so. 
   * A raw byte content is encapsulated into an array-like object -- an instance of `gems.io.ByteContent` interface, but there is no need to have a continuous memory for its storage.
