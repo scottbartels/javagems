@@ -24,7 +24,7 @@ where available options are these:
 
   * `-verbose` - A switch without any value, turning on verbose output.
   * `-speed #` - An option with an integer value specifying a burning speed.
-  * `-filter name` - An option with a sting value specifying a track preprocessing filter. It is required to be able to use many filters in the same time.
+  * `-filter name` - An option with a string value specifying a track preprocessing filter. It is required to be able to use many filters in the same time.
 
 === Options definition ===
 
