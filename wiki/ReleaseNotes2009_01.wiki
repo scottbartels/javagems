@@ -46,7 +46,7 @@ Or even the same without re-throwing a runtime exception (poor guy)? How many ti
   * A sub-content view upon that `gems.io.ByteContent` can be used without necessity to copy bytes. 
   * A reading of input stream into `gems.io.ByteContent` is as straightforward as possible.
 
-We are sure that you have _many_ ideas ho this package may be extended. 
+We are sure that you have _many_ ideas how this package may be extended. 
 
 [http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/io/IOUtils.java See the source code.]
 
