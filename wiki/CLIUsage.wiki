@@ -151,7 +151,7 @@ The resting arguments are:
 }}}
 The last occurence wins.
 
-Unfortunately, our CD ripping tool produced a little bit stupid names of track files, their names start with dash, so they seem like options. How are the parser going to deal with these _unrecognizable options_? 
+Unfortunately, our CD ripping tool produced a little bit stupid names of track files, their names start with dash, so they seem like options. How is the parser going to deal with these _unrecognizable options_? 
 {{{
 #java CdBurner -track -track2 -track3
 Using a default speed.
