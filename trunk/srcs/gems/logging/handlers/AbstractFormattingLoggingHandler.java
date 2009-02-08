@@ -29,7 +29,7 @@ abstract class AbstractFormattingLoggingHandler extends AbstractFilteringLogging
 	 * <em>null implementation</em> {@code gems.filtering.Filter.ALLOW_ALL}.
 	 */
 	protected AbstractFormattingLoggingHandler(final LoggingRecordFormatter formatter,
-											   final Filter<LoggingRecord> filter) {
+											   final Filter<? super LoggingRecord> filter) {
 		super(filter);
 		if (formatter == null) {
 			throw new IllegalArgumentException();

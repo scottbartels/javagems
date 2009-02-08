@@ -25,7 +25,6 @@ public final class LoggerDelegatingLoggingHander extends AbstractFilteringLoggin
 	 *
 	 * @throws IllegalArgumentException if {@code logger} is {@code null}.
 	 */
-	@SuppressWarnings({"unchecked"})
 	public LoggerDelegatingLoggingHander(final Logger logger) {
 		this(logger, Filter.ALLOW_ALL);
 	}
@@ -38,7 +37,7 @@ public final class LoggerDelegatingLoggingHander extends AbstractFilteringLoggin
 	 *
 	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
-	public LoggerDelegatingLoggingHander(final Logger logger, final Filter<LoggingRecord> filter) {
+	public LoggerDelegatingLoggingHander(final Logger logger, final Filter<? super LoggingRecord> filter) {
 		super(filter);
 		if (logger == null) {
 			throw new IllegalArgumentException();

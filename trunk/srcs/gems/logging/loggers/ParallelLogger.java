@@ -22,7 +22,6 @@ public final class ParallelLogger implements Logger {
 	/**
 	 * Creates a new parallel logger.
 	 */
-	@SuppressWarnings({"unchecked"})
 	public ParallelLogger() {
 		this(Filter.ALLOW_ALL);
 	}
@@ -35,7 +34,7 @@ public final class ParallelLogger implements Logger {
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
-	public ParallelLogger(final Filter<LoggingRecord> filter) {
+	public ParallelLogger(final Filter<? super LoggingRecord> filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException();
 		}

@@ -26,7 +26,6 @@ public final class AsynchronousLogger extends AbstractFilteringLogger {
 	/**
 	 * Creates a new asynchronous logger.
 	 */
-	@SuppressWarnings({"unchecked"})
 	public AsynchronousLogger() {
 		this(Filter.ALLOW_ALL);
 	}
@@ -38,7 +37,7 @@ public final class AsynchronousLogger extends AbstractFilteringLogger {
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
-	public AsynchronousLogger(final Filter<LoggingRecord> filter) {
+	public AsynchronousLogger(final Filter<? super LoggingRecord> filter) {
 		super(filter);
 	}
 

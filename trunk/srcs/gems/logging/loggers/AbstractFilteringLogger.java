@@ -13,7 +13,7 @@ abstract class AbstractFilteringLogger extends AbstractLogger {
 	/**
 	 * A filter of logging records.
 	 */
-	private final Filter<LoggingRecord> filter;
+	private final Filter<? super LoggingRecord> filter;
 
 	/**
 	 * Creates a new filtering logger with a given filter.
@@ -22,7 +22,7 @@ abstract class AbstractFilteringLogger extends AbstractLogger {
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
-	protected AbstractFilteringLogger(final Filter<LoggingRecord> filter) {
+	protected AbstractFilteringLogger(final Filter<? super LoggingRecord> filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException();
 		}

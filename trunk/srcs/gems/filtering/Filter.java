@@ -19,7 +19,7 @@ public interface Filter<T> {
 	 * Null-implementation of a filter allowing all objects for a processing. This
 	 * filter forbids {@code null} values by an {@code IllegalArgumentException} throwing.
 	 */
-	Filter ALLOW_ALL = new Filter() {
+	Filter<Object> ALLOW_ALL = new Filter<Object>() {
 
 		/**
 		 * Always returns {@code true}, but a sanity check for {@code null} argument is still performed.
@@ -43,7 +43,7 @@ public interface Filter<T> {
 	 * Null-implementation of a filter denying all objects for a processing. This
 	 * filter forbids {@code null} values by an {@code IllegalArgumentException} throwing.
 	 */
-	Filter DENY_ALL = new Filter() {
+	Filter<Object> DENY_ALL = new Filter<Object>() {
 
 		/**
 		 * Always returns {@code false}, but a sanity check for {@code null} argument is still performed.

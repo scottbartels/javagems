@@ -17,7 +17,7 @@ abstract class AbstractFilteringLoggingHandler implements LoggingHandler {
 	/**
 	 * A filter of logging records.
 	 */
-	private final Filter<LoggingRecord> filter;
+	private final Filter<? super LoggingRecord> filter;
 
 	/**
 	 * Creates a new filtering logging handler with a given filter.
@@ -26,7 +26,7 @@ abstract class AbstractFilteringLoggingHandler implements LoggingHandler {
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
-	protected AbstractFilteringLoggingHandler(final Filter<LoggingRecord> filter) {
+	protected AbstractFilteringLoggingHandler(final Filter<? super LoggingRecord> filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException();
 		}
