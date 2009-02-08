@@ -42,6 +42,12 @@ public final class IOUtils {
 		close(c, IOExceptionWrapper.INSTANCE);
 	}
 
+	/**
+	 * Closes a given {@code Closeable} object and handle occasional {@code IOException} by a given handler.
+	 *
+	 * @param c an object to be closed; it should not be {@code null}.
+	 * @param h an exception handler; it shoutd not be {@code null}.
+	 */
 	private static void close(final Closeable c, final ExceptionHandler<? super IOException> h) {
 		assert c != null;
 		assert h != null;
@@ -93,8 +99,14 @@ public final class IOUtils {
 		}
 	}
 
+	/**
+	 * Exception handler wrapping passed {@code IOException} by {@code RuntimeIOException}.
+	 */
 	private static final class IOExceptionWrapper implements ExceptionHandler<IOException> {
 
+		/**
+		 * A (lazy initialized) singleton instance of the wrapper.
+		 */
 		private static final IOExceptionWrapper INSTANCE = new IOExceptionWrapper();
 
 		/**
