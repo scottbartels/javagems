@@ -8,7 +8,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-@SuppressWarnings({"unchecked"}) public final class JUnitFilter {
+public final class JUnitFilter {
 
 	/**
 	 * A not-null object.

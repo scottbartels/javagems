@@ -30,10 +30,10 @@ public final class JUnitLogger {
 	/**
 	 * A logging handler implementation indicating own activity by a test failure.
 	 */
-	private static final class ActivityIndicatingHandler implements LoggingHandler {
+	private static final class ActivityIndicatingHandler implements LoggingHandler { // TODO: UNUSED?
 
 		/**
-		 * Causes a test failure if inwoked.
+		 * Causes a test failure if invoked.
 		 *
 		 * @param record ignored.
 		 */

@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-@SuppressWarnings({"unchecked"}) public final class JUnitNegatingFilter {
+public final class JUnitNegatingFilter {
 
 	/**
 	 * Checks whether the constructor forbids a {@code null} argument.

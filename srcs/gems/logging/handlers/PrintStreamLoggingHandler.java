@@ -26,7 +26,6 @@ public final class PrintStreamLoggingHandler extends AbstractFormattingLoggingHa
 	 *
 	 * @throws IllegalArgumentException if {@code stream} is {@code null}.
 	 */
-	@SuppressWarnings({"unchecked"})
 	public PrintStreamLoggingHandler(final PrintStream stream) {
 		this(stream, Filter.ALLOW_ALL);
 	}
@@ -39,7 +38,7 @@ public final class PrintStreamLoggingHandler extends AbstractFormattingLoggingHa
 	 *
 	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
-	public PrintStreamLoggingHandler(final PrintStream stream, final Filter<LoggingRecord> filter) {
+	public PrintStreamLoggingHandler(final PrintStream stream, final Filter<? super LoggingRecord> filter) {
 		this(stream, new PlainLoggingRecordFormatter(), filter);
 	}
 
@@ -51,7 +50,6 @@ public final class PrintStreamLoggingHandler extends AbstractFormattingLoggingHa
 	 *
 	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
-	@SuppressWarnings({"unchecked"})
 	public PrintStreamLoggingHandler(final PrintStream stream, final LoggingRecordFormatter formatter) {
 		this(stream, formatter, Filter.ALLOW_ALL);
 	}
@@ -67,7 +65,7 @@ public final class PrintStreamLoggingHandler extends AbstractFormattingLoggingHa
 	 */
 	public PrintStreamLoggingHandler(final PrintStream stream,
 									 final LoggingRecordFormatter formatter,
-									 final Filter<LoggingRecord> filter) {
+									 final Filter<? super LoggingRecord> filter) {
 		super(formatter, filter);
 		if (stream == null) {
 			throw new IllegalArgumentException();
