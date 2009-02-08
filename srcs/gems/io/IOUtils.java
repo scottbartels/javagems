@@ -1,11 +1,13 @@
 package gems.io;
 
+import gems.ExceptionHandler;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Usefull IO gems.
+ * Useful IO gems.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
@@ -37,10 +39,16 @@ public final class IOUtils {
 		if (c == null) {
 			throw new IllegalArgumentException();
 		}
+		close(c, IOExceptionWrapper.INSTANCE);
+	}
+
+	private static void close(final Closeable c, final ExceptionHandler<? super IOException> h) {
+		assert c != null;
+		assert h != null;
 		try {
 			c.close();
 		} catch (final IOException e) {
-			throw new RuntimeIOException(e);
+			h.handle(e);
 		}
 	}
 
@@ -60,6 +68,7 @@ public final class IOUtils {
 		if (input == null) {
 			throw new IllegalArgumentException();
 		}
+		boolean exceptionThrown = true;
 		try {
 			final ExpandableByteContent result = new AggregatedByteContent();
 			final byte buffer[] = new byte[CHUNK_SIZE];
@@ -67,12 +76,38 @@ public final class IOUtils {
 			while ((bytesRead = input.read(buffer)) > 0) {
 				result.append(new AtomicByteContent(buffer, bytesRead));
 			}
+			exceptionThrown = false;
 			return result;
 		} catch (final IOException e) {
 			throw new RuntimeIOException(e);
 		} finally {
-			close(input);
+			/*
+			 * If exeception was thrown in 'try' block, avoid throwing exception
+			 * from this 'finally' block to prevent possible swallowed exception.
+			 */
+			if (exceptionThrown) {
+				close(input, ExceptionHandler.NULL_HANDLER);
+			} else {
+				close(input, IOExceptionWrapper.INSTANCE);
+			}
 		}
+	}
+
+	private static final class IOExceptionWrapper implements ExceptionHandler<IOException> {
+
+		private static final IOExceptionWrapper INSTANCE = new IOExceptionWrapper();
+
+		/**
+		 * Rethrows a given {@code IOException} encabsulated by {@code RuntimeIOException).
+		 *
+		 * @param e an IO Exception.
+		 *
+		 * @throws a new {@code RuntimeIOException} encapsulating a given {@code IOException}; always.
+		 */
+		public void handle(final IOException e) {
+			throw new RuntimeIOException(e);
+		}
+
 	}
 
 }
