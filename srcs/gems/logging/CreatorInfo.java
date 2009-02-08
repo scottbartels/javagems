@@ -64,9 +64,9 @@ public final class CreatorInfo {
 	}
 
 	/**
-	 * Returns a creator line number or zero if inknown.
+	 * Returns a creator line number or zero if unknown.
 	 *
-	 * @return a creator line number or zero if inknown.
+	 * @return a creator line number or zero if unknown.
 	 */
 	public int getLineNumber() {
 		return lineNumber;
@@ -86,6 +86,5 @@ public final class CreatorInfo {
 		}
 		return null;
 	}
-
 
 }
