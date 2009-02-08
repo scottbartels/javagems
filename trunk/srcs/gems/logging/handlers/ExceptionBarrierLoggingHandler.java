@@ -2,6 +2,7 @@ package gems.logging.handlers;
 
 import gems.logging.LoggingHandler;
 import gems.logging.LoggingRecord;
+import gems.ExceptionHandler;
 
 /**
  * An exception catching barrier for a logging hander. All logging records
@@ -14,7 +15,7 @@ import gems.logging.LoggingRecord;
  * after this delay. Zero delay means that ones stopped handler will be never
  * restarted. Because this effectivelly hides errors occured in a wrapped
  * logging handler, it is possible to handle the stopping event by implementing
- * {@code StoppingEventHandler} interface. By default, there is not any stopping
+ * {@code ExceptionHandler} interface. By default, there is not any stopping
  * event handling.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
@@ -27,40 +28,6 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	private static final long MILLISECONDS_PER_SECOND = 1000L;
 
 	/**
-	 * Defines an action handling a stopping event,
-	 * i.e. a {@code Throwable} object thrown by
-	 * a wrapped logging handler.
-	 */
-	public interface StoppingEventHandler {
-
-		/**
-		 * Null-implementation of {@code StoppingEventHandler}
-		 * interface. It effectivelly does nothing.
-		 */
-		StoppingEventHandler NULL_STOPPING_EVENT_HANDLER = new StoppingEventHandler() {
-
-			/**
-			 * Does nothing.
-			 *
-			 * @param t ignored.
-			 */
-			public void handleStopEvent(final Throwable t) {
-				assert t != null;
-				// really nothing here
-			}
-
-		};
-
-		/**
-		 * Allows to react on stopping event occured in underlaying logging handler.
-		 *
-		 * @param t an exception thrown by underlaying logging handler.
-		 */
-		void handleStopEvent(Throwable t);
-
-	}
-
-	/**
 	 * A wrapped handler.
 	 */
 	private final LoggingHandler loggingHandler;
@@ -68,7 +35,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	/**
 	 * Stopping event handler.
 	 */
-	private final StoppingEventHandler stoppingEventHandler;
+	private final ExceptionHandler<Throwable> exceptionHandler;
 
 	/**
 	 * Restarting delay.
@@ -88,7 +55,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * @throws IllegalArgumentException if {@code loggingHandler} is {@code null}. 
 	 */
 	public ExceptionBarrierLoggingHandler(final LoggingHandler loggingHandler) {
-		this(loggingHandler, StoppingEventHandler.NULL_STOPPING_EVENT_HANDLER, 0);
+		this(loggingHandler, 0);
 	}
 
 	/**
@@ -102,7 +69,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * @throws IllegalArgumentException if {@code loggingHandler} is {@code null} or if {@code delay} is negative.
 	 */
 	public ExceptionBarrierLoggingHandler(final LoggingHandler loggingHandler, final int delay) {
-		this(loggingHandler, StoppingEventHandler.NULL_STOPPING_EVENT_HANDLER, delay);
+		this(loggingHandler, ExceptionHandler.NULL_HANDLER, delay);
 	}
 
 	/**
@@ -111,13 +78,13 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * logging handler. The exception barrier will not be re-opened.
 	 *
 	 * @param loggingHandler a wrapped logging handler.
-	 * @param stoppingEventHandler a stopping event handler.
+	 * @param exceptionHandler a stopping event handler.
 	 *
 	 * @throws IllegalArgumentException if any of arguments is {@code null}. 
 	 */
 	public ExceptionBarrierLoggingHandler(final LoggingHandler loggingHandler,
-										  final StoppingEventHandler stoppingEventHandler) {
-		this(loggingHandler, stoppingEventHandler, 0);
+										  final ExceptionHandler<Throwable> exceptionHandler) {
+		this(loggingHandler, exceptionHandler, 0);
 	}
 
 	/**
@@ -127,25 +94,25 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * after this number of seconds. 
 	 *
 	 * @param loggingHandler a wrapped logging handler.
-	 * @param stoppingEventHandler a stopping event handler.
+	 * @param exceptionHandler a stopping event handler.
 	 * @param delay a re-opening delay, in seconds.
 	 *
 	 * @throws IllegalArgumentException if any of handlers is {@code null} or if {@code delay} is negative.
 	 */
 	public ExceptionBarrierLoggingHandler(final LoggingHandler loggingHandler,
-										  final StoppingEventHandler stoppingEventHandler,
+										  final ExceptionHandler<Throwable> exceptionHandler,
 										  final int delay) {
 		if (loggingHandler == null) {
 			throw new IllegalArgumentException();
 		}
-		if (stoppingEventHandler == null) {
+		if (exceptionHandler == null) {
 			throw new IllegalArgumentException();
 		}
 		if (delay < 0) {
 			throw new IllegalArgumentException();
 		}
 		this.loggingHandler = loggingHandler;
-		this.stoppingEventHandler = stoppingEventHandler;
+		this.exceptionHandler = exceptionHandler;
 		this.delay = delay * MILLISECONDS_PER_SECOND;
 	}
 
@@ -172,7 +139,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 			if (delay > 0) {
 				new BarrierRestarterDaemon().start();
 			}
-			stoppingEventHandler.handleStopEvent(t);
+			exceptionHandler.handle(t);
 		}
 	}
 

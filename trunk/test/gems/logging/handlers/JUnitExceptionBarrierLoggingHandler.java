@@ -6,6 +6,7 @@ import static gems.logging.LoggingHandler.NULL_HANDLER;
 import gems.logging.LoggingRecord;
 import static gems.logging.LoggingSeverity.INFO;
 import gems.logging.LoggingTag;
+import gems.ExceptionHandler;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -103,7 +104,7 @@ public final class JUnitExceptionBarrierLoggingHandler {
 	 * A stopping event handler detecting whether the last logging
 	 * record closed an exception barrier logging handler.
 	 */
-	private static final class LastRecordStoppedEventHander implements ExceptionBarrierLoggingHandler.StoppingEventHandler {
+	private static final class LastRecordStoppedEventHander implements ExceptionHandler {
 
 		/**
 		 * A flag that the last record closed barrier.
@@ -115,7 +116,7 @@ public final class JUnitExceptionBarrierLoggingHandler {
 		 *
 		 * @param t ignored.
 		 */
-		public void handleStopEvent(final Throwable t) {
+		public void handle(final Throwable t) {
 			lastStoppedDetected = true;
 		}
 
