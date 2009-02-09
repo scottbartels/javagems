@@ -3,6 +3,8 @@ package gems;
 /**
  * Defines an action handling an exception. It is suitable where pluggable execpion handling is desired.
  *
+ * @param <T> a type of accepted exception.
+ *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 @Experimental public interface ExceptionHandler<T extends Throwable> {
