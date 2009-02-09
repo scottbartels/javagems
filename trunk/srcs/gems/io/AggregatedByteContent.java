@@ -43,8 +43,8 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws IndexOutOfBoundsException if {@code index} is negative or
-	 * if {@code index} is greater than or equal to content length.
+	 * @throws IndexOutOfBoundsException if {@code index} is negative
+	 * or if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized void setByteAt(final int index, final byte b) {
 		if (index < 0 || index >= length()) {
