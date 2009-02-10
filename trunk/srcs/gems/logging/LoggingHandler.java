@@ -20,7 +20,7 @@ public interface LoggingHandler {
 		 *
 		 * @throws IllegalArgumentException if {@code record} is {@code null}.
 		 */
-		public void handle(final LoggingRecord record) {
+		@Override public void handle(final LoggingRecord record) {
 			if (record == null) {
 				throw new IllegalArgumentException();
 			}

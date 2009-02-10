@@ -4,11 +4,10 @@ package gems;
  * A skeleton implementation of {@code Identifiable} interface. It provides
  * an easy way how to implement {@code Identifiable} interface correctly. A
  * responsibility to use a suitable type of the ID is still up to implementing
- * subclass.  
- *
- * @param <T> a type of the object ID.
+ * subclass.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @param <T> a type of the object ID.
  */
 public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 
@@ -34,7 +33,7 @@ public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 	/**
 	 * {@inheritDoc} This method never returns {@code null}.
 	 */
-	public final T getId() {
+	@Override public final T getId() {
 		return id;
 	}
 
@@ -46,8 +45,8 @@ public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 	 *
 	 * @return {@code true} if {@code o} is an objects of the same type and with the same ID, {@code false} otherwise.
 	 */
-	@SuppressWarnings({"unchecked"})
-	@Override public final boolean equals(final Object o) {
+
+	@Override @SuppressWarnings({"unchecked"}) public final boolean equals(final Object o) {
 		if (this == o) {
 			return true;
 		}

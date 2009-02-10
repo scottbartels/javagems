@@ -40,7 +40,7 @@ abstract class AbstractFilteringLoggingHandler implements LoggingHandler {
 	 *
 	 * @throws IllegalArgumentException if {@code record} is {@code null}.
 	 */
-	public final void handle(final LoggingRecord record) {
+	@Override public final void handle(final LoggingRecord record) {
 		if (record == null) {
 			throw new IllegalArgumentException();
 		}

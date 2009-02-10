@@ -26,7 +26,7 @@ public interface Logger {
 		 *
 		 * @throws IllegalArgumentException if {@code record} is {@code null}.
 		 */
-		public void log(final LoggingRecord record) {
+		@Override public void log(final LoggingRecord record) {
 			if (record == null) {
 				throw new IllegalArgumentException();
 			}
@@ -39,7 +39,7 @@ public interface Logger {
 		 *
 		 * @throws IllegalArgumentException if {@code handler} is {@code null}.
 		 */
-		public void addHandler(final LoggingHandler handler) {
+		@Override public void addHandler(final LoggingHandler handler) {
 			if (handler == null) {
 				throw new IllegalArgumentException();
 			}

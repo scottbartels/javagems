@@ -34,7 +34,7 @@ abstract class AbstractLogger implements Logger {
 	 *
 	 * @throws IllegalArgumentException if {@code handler} is {@code null}.
 	 */
-	public final synchronized void addHandler(final LoggingHandler handler) {
+	@Override public final synchronized void addHandler(final LoggingHandler handler) {
 		if (handler == null) {
 			throw new IllegalArgumentException();
 		}

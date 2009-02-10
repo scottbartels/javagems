@@ -74,7 +74,7 @@ public final class AsynchronousLogger extends AbstractFilteringLogger {
 		/**
 		 * {@inheritDoc}
 		 */
-		public void run() {
+		@Override public void run() {
 			for (final LoggingHandler handler : getHandlers()) {
 				handler.handle(record);
 			}

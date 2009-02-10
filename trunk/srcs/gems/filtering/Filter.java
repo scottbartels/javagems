@@ -30,7 +30,7 @@ public interface Filter<T> {
 		 *
 		 * @throws IllegalArgumentException if {@code object} is {@code null}.
 		 */
-		public boolean allows(final Object object) {
+		@Override public boolean allows(final Object object) {
 			if (object == null) {
 				throw new IllegalArgumentException();
 			}
@@ -54,7 +54,7 @@ public interface Filter<T> {
 		 *
 		 * @throws IllegalArgumentException if {@code object} is {@code null}.
 		 */
-		public boolean allows(final Object object) {
+		@Override public boolean allows(final Object object) {
 			if (object == null) {
 				throw new IllegalArgumentException();
 			}

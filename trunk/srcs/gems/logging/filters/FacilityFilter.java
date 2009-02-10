@@ -42,7 +42,7 @@ public final class FacilityFilter implements Filter<LoggingRecord> {
 	 *
 	 * @throws IllegalArgumentException if {@code record} is {@code null}.
 	 */
-	public boolean allows(final LoggingRecord record) {
+	@Override public boolean allows(final LoggingRecord record) {
 		if (record == null) {
 			throw new IllegalArgumentException();
 		}
