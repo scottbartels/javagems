@@ -102,7 +102,7 @@ public final class IOUtils {
 	/**
 	 * Exception handler wrapping passed {@code IOException} by {@code RuntimeIOException}.
 	 */
-	private static final class IOExceptionWrapper implements ExceptionHandler<IOException> {
+	static final class IOExceptionWrapper implements ExceptionHandler<IOException> {
 
 		/**
 		 * A (lazy initialized) singleton instance of the wrapper.
