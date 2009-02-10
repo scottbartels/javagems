@@ -26,7 +26,7 @@ public final class FilterChain<T> implements Filter<T> {
 	/**
 	 * Underlaying filters.
 	 */
-	private final List<Filter<T>> filters = new LinkedList<Filter<T>>();
+	private final List<Filter<? super T>> filters = new LinkedList<Filter<? super T>>();
 
 	/**
 	 * Creates a new empty filter chain with a given aggregation policy.
@@ -51,7 +51,7 @@ public final class FilterChain<T> implements Filter<T> {
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
-	public void add(final Filter<T> filter) {
+	public void add(final Filter<? super T> filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException();
 		}
@@ -94,7 +94,7 @@ public final class FilterChain<T> implements Filter<T> {
 	 * @return {@code true} iff at least one underlaying filter allows processing for a given object, {@code false} otherwise.
 	 */
 	private boolean allowsBySatisfyAnyPolicy(final T object) {
-		for (final Filter<T> filter : filters) {
+		for (final Filter<? super T> filter : filters) {
 			if (filter.allows(object)) {
 				return true;
 			}
@@ -112,7 +112,7 @@ public final class FilterChain<T> implements Filter<T> {
 	 * @return {@code true} iff all underlaying filters allow processing for a given object, {@code false} otherwise.
 	 */
 	private boolean allowsBySatisfyAllPolicy(final T object) {
-		for (final Filter<T> filter : filters) {
+		for (final Filter<? super T> filter : filters) {
 			if (!filter.allows(object)) {
 				return false;
 			}
