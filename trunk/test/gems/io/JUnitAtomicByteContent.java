@@ -13,4 +13,16 @@ public final class JUnitAtomicByteContent extends JUnitByteContentImplementation
 		runAllTests();
 	}
 
+	@Test(expected = IllegalArgumentException.class) public void contentCannotBeNull() {
+		new AtomicByteContent(null, 0);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class) public void lengthCannotBeNegative() {
+		new AtomicByteContent(new byte[0], -1);
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class) public void lengthCannotBeGreaterThanContentLength() {
+		new AtomicByteContent(new byte[]{(byte) 0}, 2);
+	}
+
 }
