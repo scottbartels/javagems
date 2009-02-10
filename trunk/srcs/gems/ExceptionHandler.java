@@ -19,7 +19,7 @@ package gems;
 		 *
 		 * @param t ignored.
 		 */
-		public void handle(final Throwable t) {
+		@Override public void handle(final Throwable t) {
 			// really nothing here
 		}
 
