@@ -1,5 +1,7 @@
 package gems.filtering;
 
+import gems.ShouldNeverHappenException;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,7 +75,11 @@ public final class FilterChain<T> implements Filter<T> {
 			case SATISFY_ANY:
 				return allowsBySatisfyAnyPolicy(object);
 			default:
-				throw new IllegalStateException();
+				/*
+				 * This occurs when someone adds a new policy to the
+				 * enumeration but forgot to add its handling here. 
+				 */
+				throw new ShouldNeverHappenException();
 		}
 	}
 
@@ -118,6 +124,10 @@ public final class FilterChain<T> implements Filter<T> {
 	 * Checks if the chain is empty, i.e. it does not contain any filter.
 	 *
 	 * @return {@code true} if the chain does not contain any filter, {@code false} otherwise.
+	 *
+	 * @deprecated This method is not a valid part of the class interface and your code should
+	 * not depend on it. If you think opposite, please let us know about your use case.
+	 * However, the method will not be removed before 2010.02.
 	 */
 	@Deprecated public boolean isEmpty() {
 		return filters.isEmpty();
