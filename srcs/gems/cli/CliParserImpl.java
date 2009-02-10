@@ -54,7 +54,7 @@ public final class CliParserImpl implements CliParser {
 	 *
 	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
-	public CliActuators parse(final String[] args, final CliOptions options) {
+	@Override public CliActuators parse(final String[] args, final CliOptions options) {
 		if (args == null) {
 			throw new IllegalArgumentException();
 		}

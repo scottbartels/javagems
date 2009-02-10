@@ -19,7 +19,7 @@ public final class SimpleLoggingRecordFormatter implements LoggingRecordFormatte
 	 *
 	 * @throws IllegalArgumentException if {@code record} is {@code null}.
 	 */
-	public String format(final LoggingRecord record) {
+	@Override public String format(final LoggingRecord record) {
 		if (record == null) {
 			throw new IllegalArgumentException();
 		}

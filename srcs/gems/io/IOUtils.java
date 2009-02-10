@@ -116,7 +116,7 @@ public final class IOUtils {
 		 *
 		 * @throws a new {@code RuntimeIOException} encapsulating a given {@code IOException}; always.
 		 */
-		public void handle(final IOException e) {
+		@Override public void handle(final IOException e) {
 			throw new RuntimeIOException(e);
 		}
 

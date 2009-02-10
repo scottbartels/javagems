@@ -116,7 +116,7 @@ public final class JUnitExceptionBarrierLoggingHandler {
 		 *
 		 * @param t ignored.
 		 */
-		public void handle(final Throwable t) {
+		@Override public void handle(final Throwable t) {
 			lastStoppedDetected = true;
 		}
 

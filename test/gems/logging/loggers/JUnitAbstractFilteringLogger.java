@@ -96,7 +96,7 @@ public final class JUnitAbstractFilteringLogger {
 		 *
 		 * @param record a logged record; ignored.
 		 */
-		protected void doLog(final LoggingRecord record) {
+		@Override protected void doLog(final LoggingRecord record) {
 			counter++;
 		}
 

@@ -12,7 +12,7 @@ public final class NegatingFilter<T> implements Filter<T> {
 	/**
 	 * A wrapped filter.
 	 */
-	private final Filter<T> filter;
+	private final Filter<? super T> filter;
 
 	/**
 	 * Creates a new negating wrapper around a given filter.
@@ -21,7 +21,7 @@ public final class NegatingFilter<T> implements Filter<T> {
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
-	public NegatingFilter(final Filter<T> filter) {
+	public NegatingFilter(final Filter<? super T> filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException();
 		}
@@ -35,7 +35,7 @@ public final class NegatingFilter<T> implements Filter<T> {
 	 *
 	 * @return a negated decision of the wrapped filter.
 	 */
-	public boolean allows(final T object) {
+	@Override public boolean allows(final T object) {
 		/*
 		 * A check for null object SHOULD NOT be performed here, because wrapped
 		 * filter can be designed to handle null value as a valid input.

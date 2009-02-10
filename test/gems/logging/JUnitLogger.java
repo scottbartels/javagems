@@ -37,7 +37,7 @@ public final class JUnitLogger {
 		 *
 		 * @param record ignored.
 		 */
-		public void handle(final LoggingRecord record) {
+		@Override public void handle(final LoggingRecord record) {
 			Assert.fail();
 		}
 

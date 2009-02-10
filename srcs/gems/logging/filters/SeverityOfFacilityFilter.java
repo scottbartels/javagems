@@ -54,7 +54,7 @@ public final class SeverityOfFacilityFilter implements Filter<LoggingRecord> {
 	 * @return {@code true} if a given logging record contains logging tag metadata with
 	 *         at least checked treshold for the filtered facility, {@code false} otherwise.
 	 */
-	public boolean allows(final LoggingRecord record) {
+	@Override public boolean allows(final LoggingRecord record) {
 		if (record == null) {
 			throw new IllegalArgumentException();
 		}

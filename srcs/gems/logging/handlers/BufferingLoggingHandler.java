@@ -108,7 +108,7 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	/**
 	 * {@inheritDoc}
 	 */
-	public synchronized void handle(final LoggingRecord record) {
+	@Override public synchronized void handle(final LoggingRecord record) {
 		if (record == null) {
 			throw new IllegalArgumentException();
 		}

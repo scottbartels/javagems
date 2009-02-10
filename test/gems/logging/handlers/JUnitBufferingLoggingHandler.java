@@ -123,7 +123,7 @@ public final class JUnitBufferingLoggingHandler {
 		 *
 		 * @param record ignored.
 		 */
-		public void handle(final LoggingRecord record) {
+		@Override public void handle(final LoggingRecord record) {
 			assert record != null;
 			counter++;
 		}

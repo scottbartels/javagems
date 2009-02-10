@@ -59,7 +59,7 @@ public final class FilterChain<T> implements Filter<T> {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean allows(final T object) {
+	@Override public boolean allows(final T object) {
 		/*
 		 * A check for null object SHOULD NOT be performed here, because underlaying
 		 * filters can be designed to handle null value as a valid input.
@@ -119,7 +119,7 @@ public final class FilterChain<T> implements Filter<T> {
 	 *
 	 * @return {@code true} if the chain does not contain any filter, {@code false} otherwise.
 	 */
-	public boolean isEmpty() {
+	@Deprecated public boolean isEmpty() {
 		return filters.isEmpty();
 	}
 

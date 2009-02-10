@@ -85,7 +85,7 @@ abstract class JUnitLoggersImplementations {
 		 *
 		 * @param record a logging record, ignored.
 		 */
-		public void handle(final LoggingRecord record) {
+		@Override public void handle(final LoggingRecord record) {
 			counter++;
 		}
 		
