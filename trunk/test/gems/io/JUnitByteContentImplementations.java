@@ -4,9 +4,10 @@ import org.junit.Assert;
 
 abstract class JUnitByteContentImplementations {
 
-	private ByteContent fixture;
 	protected static final String ABCDEF = "abcdef";
 	protected static final int INIT_LENGTH = 4;
+
+	private ByteContent fixture;
 
 	void setUp(final ByteContent fixture) {
 		if (fixture == null) {
