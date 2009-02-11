@@ -86,7 +86,7 @@ Following Logger interface implementations are provided:
 
   # *Synchronous logger*: A straightforward implementation of logger. It simply pass a given record to all underalying logging handlers. It operates in a thread of the caller, i.e. caller thread needs to wait until logging operation finishes.
   # *Asynchronous logger*: Logging, i.e. passing logging records to underlaying handlers is performed asynchronously by a background thread. Logging procedure invoked by the caller is designed to return as soon as possible, so a caller thread is not blocked by logging process even if very slow logging backends are used.
-  # *ParallelLogger*: A logging handler processing logging records in a separate thread for each logging handler.
+  # *Parallel logger*: A logging handler processing logging records in a separate thread for each logging handler.
 
 === Handlers ===
 
