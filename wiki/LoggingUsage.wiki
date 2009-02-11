@@ -17,7 +17,7 @@ Basic features of Java Gems Logging library are following:
 
 At this moment, you should see [http://code.google.com/p/javagems/source/browse/trunk/docs/examples/srcs/logging/TheFirstTouch.java TheFirstTouch.java] example. 
 
-The output of the example is as follows (except line numbers at the  beginnings of lines):
+The output of the example is as follows (except line numbers at the  beginning of lines):
 
 {{{
 01: 2008-09-02 21:06:40.733 <main(1)> {{NOTICE}}	[logging.TheFirstTouch.main(67)]	'null'
