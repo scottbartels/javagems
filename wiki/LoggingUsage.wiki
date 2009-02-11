@@ -82,8 +82,6 @@ Basically, loggers are entry points to the logging subsystem. In the Java Gems L
   # To add a logging handler to a logger. This is mostly done early during an application initialization, when logging subsystem is configured. By default, a logger has not any logging handlers. 
   # To pass a logging record to a logger. This is used for each logging message during the entire application run. Even if it is possible to pass a logging record directly to logger, this is usually done via _logging entry point_, which can more or less hide a complexity of logging record creation.
 
-Additionally, there is a getter method for retriving a collection of logger's undrelaying handlers, but hopefully you will need to use it only when implementing own logger.
-
 Following Logger interface implementations are provided:
 
   # *Synchronous logger*: A straightforward implementation of logger. It simply pass a given record to all underalying logging handlers. It operates in a thread of the caller, i.e. caller thread needs to wait until logging operation finishes.
