@@ -1,6 +1,6 @@
-# Java Gems 2009.02 Release Notes
+#summary Java Gems 2009.02 Release Notes
 
-= Introduction =
+= Java Gems 2009.02 Release Notes =
 
 This is a maintenance release containing only a few changes. Thanks to all users providing a feedback and helping us to provide even better building blocks.
 
