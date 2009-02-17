@@ -50,7 +50,7 @@ package gems;
 	 *
 	 * @return a value held by the option.
 	 *
-	 * @throws IllegalStateException if a value presence was not checked by {@code hasValue()} call yet6.
+	 * @throws IllegalStateException if a value presence was not checked by {@code hasValue()} call yet.
 	 */
 	public T getValue() {
 		if (!checked) {
