@@ -19,6 +19,7 @@ public final class ContentMimeDetectorSentinelWrapper extends AbstractSentinelWr
 		this.detector = detector;
 	}
 
+	// TODO: EXPLAINT IN JavaDoc THAT RETURNED Option IS ALREADY CHECKED.
 	@Override public Option<MimeType> detect(final ByteContent content) {
 		return ensureDefault(detector.detect(content));
 	}

@@ -1,6 +1,7 @@
 package gems.io.mime;
 
 import gems.Option;
+import gems.ShouldNeverHappenException;
 
 abstract class AbstractSentinelWrapper {
 	
@@ -13,14 +14,17 @@ abstract class AbstractSentinelWrapper {
 		this.defaultType = defaultType;
 	}
 
+	// TODO: EXPLAINT IN JavaDoc THAT RETURNED Option IS ALREADY CHECKED.
 	protected final Option<MimeType> ensureDefault(final Option<MimeType> type) {
-		/*
-		 * TODO: THIS METHOD MIGHT RETURN ALREADY CHECKED OPTION. 
-		 */
 		assert type != null;
 		if (type.hasValue()) {
-			return new Option<MimeType>(type.getValue());
+			return type;
 		}
-		return new Option<MimeType>(defaultType);
+		final Option<MimeType> result = new Option<MimeType>(defaultType);
+		if (result.hasValue()) {
+			return result;
+		}
+		throw new ShouldNeverHappenException();
 	}
+	
 }

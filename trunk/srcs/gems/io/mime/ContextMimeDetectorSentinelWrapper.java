@@ -18,6 +18,7 @@ public final class ContextMimeDetectorSentinelWrapper extends AbstractSentinelWr
 		this.detector = detector;
 	}
 
+	// TODO: EXPLAINT IN JavaDoc THAT RETURNED Option IS ALREADY CHECKED.
 	@Override public Option<MimeType> detect(final String context) {
 		return ensureDefault(detector.detect(context));
 	}
