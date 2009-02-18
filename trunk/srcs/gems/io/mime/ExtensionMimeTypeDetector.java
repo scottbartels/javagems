@@ -20,6 +20,8 @@ public final class ExtensionMimeTypeDetector implements ContextMimeTypeDetector 
 
 	private final String separator;
 
+	// TODO: INJECT OPTIONAL FUNCTINALITY FOR LOCAL FILESYSTEM DETECTION OF DIRECTORIES.
+
 	public ExtensionMimeTypeDetector() {
 		this(File.separator);
 	}
@@ -41,19 +43,22 @@ public final class ExtensionMimeTypeDetector implements ContextMimeTypeDetector 
 		if (context.endsWith(separator)) {
 			return new Option<MimeType>(MimeType.getMimeType("application/directory"));
 		}
+
 		// TODO: Here are use cases:
-		//                          INPUT    FILENAME            EXTENSION     WHAT TO DO      MIME
-		//                             "" ->            (handle as a special case)          -> _unknown_
-		//                            "/" -> _empty_          -> _unknown_  -> directory    -> application/directory
-		//                          "var" -> "var"            -> "var"      -> _detect_     -> _unknown_
-		//                         "/var" -> "var"            -> "var"      -> _detect_     -> _unknown_
-		//                         "var/" -> _empty_          -> _unknown_  -> directory    -> application/directory
-		//                         ".svn" -> "svn"            -> "svn"      -> _detect_     -> _unknown_
-		//                     "Makefile" -> "Makefile"       -> "Makefile" -> _detect_     -> text/x-makefile
-		//               "Linux.Makefile" -> "Linux.Makefile" -> "Makefile" -> _detect_     -> text/x-makefile
-		//        "/usr/home/user/my.doc" -> "my.doc"         -> "doc"      -> _detect_     -> application/msword
-		//       "/usr/home/user/my.doc/" -> _empty_          -> unknown    -> directory"   -> application/directory
-		// "/usr/home/user/my.doc/me.png" -> "me.png"         -> "png"      -> _detect_     -> image/png
+		//                          INPUT    FILENAME            EXTENSION      WHAT TO DO      MIME
+		//                             "" ->            (handle as a special case)           -> _unknown_
+		//                            "/" -> _empty_          -> _unknown_   -> directory    -> application/directory
+		//                          "var" -> "var"            -> "var"       -> _detect_     -> _unknown_
+		//                         "/var" -> "var"            -> "var"       -> _detect_     -> _unknown_
+		//                         "var/" -> _empty_          -> _unknown_   -> directory    -> application/directory
+		//                         ".svn" -> "svn"            -> "svn"       -> _detect_     -> _unknown_
+		//                     "Makefile" -> "Makefile"       -> "Makefile"  -> _detect_     -> text/x-makefile
+		//               "Linux.Makefile" -> "Linux.Makefile" -> "Makefile"  -> _detect_     -> text/x-makefile
+		//        "/usr/home/user/my.doc" -> "my.doc"         -> "doc"       -> _detect_     -> application/msword
+		//       "/usr/home/user/my.doc." -> "my.doc."        -> _empty_     -> _unknown_    -> _unknown_
+		//       "/usr/home/user/my.doc/" -> _empty_          -> unknown     -> directory    -> application/directory
+		// "/usr/home/user/my.doc/me.png" -> "me.png"         -> "png"       -> _detect_     -> image/png
+
 		return new Option<MimeType>(null);
 	}
 
