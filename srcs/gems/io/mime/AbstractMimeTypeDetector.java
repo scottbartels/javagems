@@ -3,9 +3,9 @@ package gems.io.mime;
 import gems.Option;
 import gems.io.ByteContent;
 
-abstract class AbstractMimeDetector implements MimeDetector {
+abstract class AbstractMimeTypeDetector implements MimeTypeDetector {
 	
-	private final ContentMimeDetector detector = new MagicMimeDetector();
+	private final ContentMimeTypeDetector detector = new MagicMimeTypeDetector();
 
 	@Override public final Option<MimeType> detect(final ByteContent content) {
 		if (content == null) {

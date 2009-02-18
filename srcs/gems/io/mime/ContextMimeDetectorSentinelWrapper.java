@@ -2,15 +2,15 @@ package gems.io.mime;
 
 import gems.Option;
 
-public final class ContextMimeDetectorSentinelWrapper extends AbstractSentinelWrapper implements ContextMimeDetector {
+public final class ContextMimeDetectorSentinelWrapper extends AbstractSentinelWrapper implements ContextMimeTypeDetector {
 
-	private final ContextMimeDetector detector;
+	private final ContextMimeTypeDetector detector;
 
-	public ContextMimeDetectorSentinelWrapper(final ContextMimeDetector detector) {
+	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector detector) {
 		this(detector, MimeUtils.GLOBAL_DEFAULT_MIME_TYPE);
 	}
 
-	public ContextMimeDetectorSentinelWrapper(final ContextMimeDetector detector, final MimeType defaultType) {
+	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector detector, final MimeType defaultType) {
 		super(defaultType);
 		if (detector == null) {
 			throw new IllegalArgumentException();
