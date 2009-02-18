@@ -3,15 +3,15 @@ package gems.io.mime;
 import gems.Option;
 import gems.ShouldNeverHappenException;
 
-abstract class AbstractSentinelWrapper {
+abstract class AbstractMimeTypeDetectorSentinelWrapper {
 	
-	private final MimeType defaultType;
+	private final MimeType sentinel;
 
-	protected AbstractSentinelWrapper(final MimeType defaultType) {
-		if (defaultType == null) {
+	protected AbstractMimeTypeDetectorSentinelWrapper(final MimeType sentinel) {
+		if (sentinel == null) {
 			throw new IllegalArgumentException();
 		}
-		this.defaultType = defaultType;
+		this.sentinel = sentinel;
 	}
 
 	// TODO: EXPLAINT IN JavaDoc THAT RETURNED Option IS ALREADY CHECKED.
@@ -20,7 +20,7 @@ abstract class AbstractSentinelWrapper {
 		if (type.hasValue()) {
 			return type;
 		}
-		final Option<MimeType> result = new Option<MimeType>(defaultType);
+		final Option<MimeType> result = new Option<MimeType>(sentinel);
 		if (result.hasValue()) {
 			return result;
 		}
