@@ -48,6 +48,7 @@ public final class ExtensionMimeTypeDetector implements ContextMimeTypeDetector 
 		//                          "var" -> "var"            -> "var"      -> _detect_     -> _unknown_
 		//                         "/var" -> "var"            -> "var"      -> _detect_     -> _unknown_
 		//                         "var/" -> _empty_          -> _unknown_  -> directory    -> application/directory
+		//                         ".svn" -> "svn"            -> "svn"      -> _detect_     -> _unknown_
 		//                     "Makefile" -> "Makefile"       -> "Makefile" -> _detect_     -> text/x-makefile
 		//               "Linux.Makefile" -> "Linux.Makefile" -> "Makefile" -> _detect_     -> text/x-makefile
 		//        "/usr/home/user/my.doc" -> "my.doc"         -> "doc"      -> _detect_     -> application/msword
