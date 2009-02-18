@@ -6,23 +6,23 @@ public final class MimeType extends AbstractIdentifiable<String> {
 
 	private MimeType(final String spec) {
 		super(spec);
+		// todo: check specification
 	}
 
 	static MimeType getMimeType(final String spec) {
 		if (spec == null) {
 			throw new IllegalArgumentException();
 		}
-		// todo: check specification
 		// todo: add chaching
 		return new MimeType(spec);
 	}
 
-	public String getType() {
-		return getId().split("/")[0];
+	@Deprecated public String getType() {
+		return getId().split("/")[0]; // TODO: TO BE LAZY OR NOT TO BE LAZY?
 	}
 
-	public String getSubtype() {
-		return getId().split("/")[1];
+	@Deprecated public String getSubtype() {
+		return getId().split("/")[1]; // TODO: TO BE LAZY OR NOT TO BE LAZY?
 	}
 
 	@Override public String toString() {
