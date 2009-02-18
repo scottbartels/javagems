@@ -2,19 +2,19 @@ package gems.io.mime;
 
 import gems.Option;
 
-public final class SmartMimeDetector extends AbstractMimeDetector {
+public final class FastMimeTypeDetector extends AbstractMimeTypeDetector {
 
-	private final ContextMimeDetector detector = new ExtensionMimeDetector();
+	private final ContextMimeTypeDetector detector = new ExtensionMimeTypeDetector();
 
 	@Override public Option<MimeType> detect(final String context) {
 		if (context == null) {
 			throw new IllegalArgumentException();
 		}
-		final Option<MimeType> type = detect(MimeUtils.context2content(context));
+		final Option<MimeType> type = detector.detect(context);
 		if (type.hasValue()) {
 			return new Option<MimeType>(type.getValue());
 		}
-		return detector.detect(context);
+		return detect(MimeUtils.context2content(context));
 	}
 
 }
