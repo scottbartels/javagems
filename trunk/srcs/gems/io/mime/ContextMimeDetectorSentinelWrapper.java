@@ -7,7 +7,7 @@ public final class ContextMimeDetectorSentinelWrapper<T> extends AbstractMimeTyp
 	private final ContextMimeTypeDetector<T> detector;
 
 	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector<T> detector) {
-		this(detector, MimeUtils.GLOBAL_DEFAULT_MIME_TYPE);
+		this(detector, MimeType.DEFAULT_MIME_TYPE);
 	}
 
 	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector<T> detector, final MimeType defaultType) {
