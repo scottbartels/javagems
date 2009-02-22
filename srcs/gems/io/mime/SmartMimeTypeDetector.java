@@ -10,7 +10,7 @@ import gems.Option;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class SmartMimeTypeDetector extends AbstractMimeTypeDetector {
+public final class SmartMimeTypeDetector extends AbstractMimeTypeDetector<String> {
 
 	/**
 	 * A context-based detector.

@@ -5,6 +5,6 @@ package gems.io.mime;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public interface MimeTypeDetector extends ContextMimeTypeDetector, ContentMimeTypeDetector {
+public interface MimeTypeDetector<T> extends ContextMimeTypeDetector<T>, ContentMimeTypeDetector {
 	// really nothing here
 }
