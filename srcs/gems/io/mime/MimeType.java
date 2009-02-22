@@ -4,6 +4,8 @@ import gems.AbstractIdentifiable;
 
 public final class MimeType extends AbstractIdentifiable<String> {
 
+	static final MimeType DEFAULT_MIME_TYPE = getMimeType("application/octet-stream");
+
 	private MimeType(final String spec) {
 		super(spec);
 		// todo: check specification

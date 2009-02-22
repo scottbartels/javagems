@@ -8,7 +8,7 @@ public final class ContentMimeTypeDetectorSentinelWrapper extends AbstractMimeTy
 	private final ContentMimeTypeDetector detector;
 
 	public ContentMimeTypeDetectorSentinelWrapper(final ContentMimeTypeDetector detector) {
-		this(detector, MimeUtils.GLOBAL_DEFAULT_MIME_TYPE);
+		this(detector, MimeType.DEFAULT_MIME_TYPE);
 	}
 
 	public ContentMimeTypeDetectorSentinelWrapper(final ContentMimeTypeDetector detector, final MimeType defaultType) {
