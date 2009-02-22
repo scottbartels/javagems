@@ -15,9 +15,9 @@ import gems.Option;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> a type of keys.
- * @param <T> a type of objects.
+ * @param <V> a type of objects.
  */
-public interface Cache<T extends Identifiable<K>, K> {
+public interface Cache<V extends Identifiable<K>, K> {
 
 	/**
 	 * Offers a given object for a caching. The object may or
@@ -25,7 +25,7 @@ public interface Cache<T extends Identifiable<K>, K> {
 	 *
 	 * @param object an object offered for a caching.
 	 */
-	void offer(T object);
+	void offer(V object);
 
 	/**
 	 * Returns an object idnetified by the given key. The returned
@@ -39,6 +39,6 @@ public interface Cache<T extends Identifiable<K>, K> {
 	 *         no value if no object with the given identifier  was
 	 *         found in the cache.
 	 */
-	Option<T> get(K id);
+	Option<V> get(K id);
 
 }
