@@ -17,6 +17,10 @@ public final class SmartMimeTypeDetector extends AbstractMimeTypeDetector<String
 	 */
 	private final ContextMimeTypeDetector detector = new ExtensionMimeTypeDetector();
 
+	protected SmartMimeTypeDetector() {
+		super(new Context2ContentImpl());
+	}
+
 	/**
 	 * For a givne context, tries to acquire its content and analyze it first.
 	 * If this fails, uses a context analysis as a fallback option.  Please note
@@ -32,7 +36,7 @@ public final class SmartMimeTypeDetector extends AbstractMimeTypeDetector<String
 		if (context == null) {
 			throw new IllegalArgumentException();
 		}
-		final Option<MimeType> type = detect(MimeUtils.context2content(context));
+		final Option<MimeType> type = detect(getC2C().context2content(context));
 		if (type.hasValue()) {
 			return new Option<MimeType>(type.getValue());
 		}

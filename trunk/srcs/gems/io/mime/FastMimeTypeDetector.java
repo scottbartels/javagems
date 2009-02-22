@@ -17,6 +17,10 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 	 */
 	private final ContextMimeTypeDetector<String> detector = new ExtensionMimeTypeDetector();
 
+	protected FastMimeTypeDetector() {
+		super(new Context2ContentImpl());
+	}
+
 	/**
 	 * Analyses a givne context and tries to determine its MIME type. If this fails,
 	 * tries to acquire a content for a given context and analyzes the content. Please
@@ -36,7 +40,7 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 		if (type.hasValue()) {
 			return new Option<MimeType>(type.getValue());
 		}
-		return detect(MimeUtils.context2content(context));
+		return detect(getC2C().context2content(context));
 	}
 
 }
