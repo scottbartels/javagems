@@ -30,4 +30,5 @@ public final class MimeType extends AbstractIdentifiable<String> {
 	@Override public String toString() {
 		return getId();
 	}
+	
 }
