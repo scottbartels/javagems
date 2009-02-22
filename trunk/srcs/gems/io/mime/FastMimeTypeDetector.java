@@ -10,12 +10,12 @@ import gems.Option;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class FastMimeTypeDetector extends AbstractMimeTypeDetector {
+public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String> {
 
 	/**
 	 * A context-based detector.
 	 */
-	private final ContextMimeTypeDetector detector = new ExtensionMimeTypeDetector();
+	private final ContextMimeTypeDetector<String> detector = new ExtensionMimeTypeDetector();
 
 	/**
 	 * Analyses a givne context and tries to determine its MIME type. If this fails,

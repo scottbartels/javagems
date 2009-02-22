@@ -8,7 +8,7 @@ import gems.io.ByteContent;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-abstract class AbstractMimeTypeDetector implements MimeTypeDetector {
+abstract class AbstractMimeTypeDetector<T> implements MimeTypeDetector<T> {
 
 	/**
 	 * A content-based detector.

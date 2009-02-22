@@ -8,8 +8,9 @@ import gems.Option;
  * the 'context' mean.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @param <T> a type of anlyzed context.
  */
-public interface ContextMimeTypeDetector {
+public interface ContextMimeTypeDetector<T> {
 
 	/**
 	 * Analyses given context and tries to determine its MIME type.
@@ -17,8 +18,9 @@ public interface ContextMimeTypeDetector {
 	 * contain a value.
 	 *
 	 * @param context analysed context.
+	 *
 	 * @return a determined MIME type.
 	 */
-	Option<MimeType> detect(String context);
+	Option<MimeType> detect(T context);
 
 }
