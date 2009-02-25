@@ -32,7 +32,7 @@ import java.util.LinkedList;
 	/**
 	 * Wrapped comparators.
 	 */
-	private final Collection<Comparator<T>> comparators = new LinkedList<Comparator<T>>();
+	private final Collection<Comparator<? super T>> comparators = new LinkedList<Comparator<? super T>>();
 
 	/**
 	 * Creates a new composed comparator for a given collection of comparators.
@@ -43,11 +43,11 @@ import java.util.LinkedList;
 	 *
 	 * @throws IllegalArgumentException if {@code comparators} or any of its elements is {@code null}.
 	 */
-	public ComposedComparator(final Collection<? extends Comparator<T>> comparators) {
+	public ComposedComparator(final Iterable<? extends Comparator<? super T>> comparators) {
 		if (comparators == null) {
 			throw new IllegalArgumentException();
 		}
-		for (final Comparator<T> comparator : comparators) {
+		for (final Comparator<? super T> comparator : comparators) {
 			if (comparator == null) {
 				throw new IllegalArgumentException();
 			}
@@ -76,7 +76,7 @@ import java.util.LinkedList;
 		if (y == null) {
 			throw new IllegalArgumentException();
 		}
-		for (final Comparator<T> comparator : comparators) {
+		for (final Comparator<? super T> comparator : comparators) {
 			final int result = comparator.compare(x, y);
 			if (result != 0) {
 				return result;
