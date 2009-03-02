@@ -15,9 +15,9 @@ abstract class AbstractMimeTypeDetector<T> implements MimeTypeDetector<T> {
 	 */
 	private final ContentMimeTypeDetector detector = new MagicMimeTypeDetector();
 
-	private final Context2Content<T> c2c;
+	private final Context2Content<? super T> c2c;
 
-	protected AbstractMimeTypeDetector(final Context2Content<T> c2c) {
+	protected AbstractMimeTypeDetector(final Context2Content<? super T> c2c) {
 		if (c2c == null) {
 			throw new IllegalArgumentException();
 		}
@@ -36,7 +36,7 @@ abstract class AbstractMimeTypeDetector<T> implements MimeTypeDetector<T> {
 		return detector.detect(content);
 	}
 
-	protected final Context2Content<T> getC2C() {
+	protected final Context2Content<? super T> getC2C() {
 		return c2c;
 	}
 	
