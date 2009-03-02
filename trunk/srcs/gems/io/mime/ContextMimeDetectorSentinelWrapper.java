@@ -2,6 +2,11 @@ package gems.io.mime;
 
 import gems.Option;
 
+/**
+ * Provides a wrapper ensuring a default MIME type usage when a wrapped detector is not able to determine it.
+ *
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ */
 public final class ContextMimeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements ContextMimeTypeDetector<T> {
 
 	/**
