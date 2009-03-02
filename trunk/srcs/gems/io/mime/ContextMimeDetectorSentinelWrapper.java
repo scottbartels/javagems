@@ -2,7 +2,7 @@ package gems.io.mime;
 
 import gems.Option;
 
-public final class ContextMimeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements ContextMimeTypeDetector<T> {
+@Deprecated public final class ContextMimeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements ContextMimeTypeDetector<T> {
 
 	private final ContextMimeTypeDetector<? super T> detector;
 
