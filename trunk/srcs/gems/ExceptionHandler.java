@@ -7,7 +7,7 @@ package gems;
  * @param <T> a type of accepted exception.
  * @since 2009.02
  */
-@Experimental public interface ExceptionHandler<T extends Throwable> {
+public interface ExceptionHandler<T extends Throwable> {
 
 	/**
 	 * Null-implementation of {@code ExceptionHandler} interface. It does nothing.
