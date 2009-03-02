@@ -4,7 +4,7 @@ import gems.Identifiable;
 import gems.Option;
 
 /**
- * A cache is a temporary storage of indentifiable objects
+ * A cache is a likely transient storage of indentifiable objects
  * which can be retrieved back according their identifiers.
  * Stored objects may be evicted meantime by cache internal
  * processes, so the client have to be ready for the situation
