@@ -18,12 +18,12 @@ public final class SmartMimeTypeDetector extends AbstractMimeTypeDetector<String
 	 */
 	private final ContextMimeTypeDetector detector = new ExtensionMimeTypeDetector();
 
-	protected SmartMimeTypeDetector() {
-		super(Context2Content.NULL_IMPLEMENTATION);
+	public SmartMimeTypeDetector(final Context2Content<? super String> c2c) {
+		super(c2c);
 	}
 
 	/**
-	 * For a givne context, tries to acquire its content and analyze it first.
+	 * For a given context, tries to acquire its content and analyze it first.
 	 * If this fails, uses a context analysis as a fallback option.  Please note
 	 * that the return value is encapsulated in a {@code Option} object. Client
 	 * code must always check a value presence before usage.

@@ -18,8 +18,8 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 	 */
 	private final ContextMimeTypeDetector<String> detector = new ExtensionMimeTypeDetector();
 
-	protected FastMimeTypeDetector() {
-		super(Context2Content.NULL_IMPLEMENTATION);
+	protected FastMimeTypeDetector(final Context2Content<Object> c2c) {
+		super(c2c);
 	}
 
 	/**
