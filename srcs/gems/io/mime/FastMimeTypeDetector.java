@@ -1,6 +1,7 @@
 package gems.io.mime;
 
 import gems.Option;
+import gems.io.ByteContent;
 
 /**
  * If a context-based MIME type detection is requested, tries to determine the type
@@ -18,7 +19,7 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 	private final ContextMimeTypeDetector<String> detector = new ExtensionMimeTypeDetector();
 
 	protected FastMimeTypeDetector() {
-		super(new Context2ContentImpl());
+		super(Context2Content.NULL_IMPLEMENTATION);
 	}
 
 	/**
@@ -40,7 +41,11 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 		if (type.hasValue()) {
 			return new Option<MimeType>(type.getValue());
 		}
-		return detect(getC2C().context2content(context));
+		final Option<ByteContent> content = getC2C().context2content(context);
+		if (content.hasValue()) {
+			return detect(content.getValue());
+		}
+		return new Option<MimeType>(null);
 	}
 
 }
