@@ -3,15 +3,15 @@ package gems.io.mime;
 import gems.Option;
 import gems.io.ByteContent;
 
-public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractMimeTypeDetectorSentinelWrapper implements MimeTypeDetector<T> {
+public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements MimeTypeDetector<T> {
 
-	private final MimeTypeDetector<T> detector;
+	private final MimeTypeDetector<? super T> detector;
 
-	public MimeTypeDetectorSentinelWrapper(final MimeTypeDetector detector) {
+	public MimeTypeDetectorSentinelWrapper(final MimeTypeDetector<T> detector) {
 		this(detector, MimeType.DEFAULT_MIME_TYPE);
 	}
 
-	public MimeTypeDetectorSentinelWrapper(final MimeTypeDetector<T> detector, final MimeType defaultType) {
+	public MimeTypeDetectorSentinelWrapper(final MimeTypeDetector<? super T> detector, final MimeType defaultType) {
 		super(defaultType);
 		if (detector == null) {
 			throw new IllegalArgumentException();

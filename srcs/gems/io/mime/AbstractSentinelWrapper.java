@@ -3,11 +3,11 @@ package gems.io.mime;
 import gems.Option;
 import gems.ShouldNeverHappenException;
 
-abstract class AbstractMimeTypeDetectorSentinelWrapper {
+abstract class AbstractSentinelWrapper {
 	
 	private final MimeType sentinel;
 
-	protected AbstractMimeTypeDetectorSentinelWrapper(final MimeType sentinel) {
+	protected AbstractSentinelWrapper(final MimeType sentinel) {
 		if (sentinel == null) {
 			throw new IllegalArgumentException();
 		}
