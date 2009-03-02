@@ -13,14 +13,18 @@ abstract class AbstractMimeTypeDetector<T> implements MimeTypeDetector<T> {
 	/**
 	 * A content-based detector.
 	 */
-	private final ContentMimeTypeDetector detector = new MagicMimeTypeDetector();
+	private final ContentMimeTypeDetector detector;
 
 	private final Context2Content<? super T> c2c;
 
-	protected AbstractMimeTypeDetector(final Context2Content<? super T> c2c) {
+	protected AbstractMimeTypeDetector(final ContentMimeTypeDetector detector, final Context2Content<? super T> c2c) {
+		if (detector == null) {
+			throw new IllegalArgumentException();
+		}
 		if (c2c == null) {
 			throw new IllegalArgumentException();
 		}
+		this.detector = detector;
 		this.c2c = c2c;
 	}
 
@@ -36,8 +40,8 @@ abstract class AbstractMimeTypeDetector<T> implements MimeTypeDetector<T> {
 		return detector.detect(content);
 	}
 
-	protected final Context2Content<? super T> getC2C() {
-		return c2c;
+	protected final Option<ByteContent> c2c(final T context) {
+		return c2c.context2content(context);
 	}
-	
+
 }

@@ -18,8 +18,9 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 	 */
 	private final ContextMimeTypeDetector<String> detector = new ExtensionMimeTypeDetector();
 
-	protected FastMimeTypeDetector(final Context2Content<Object> c2c) {
-		super(c2c);
+	protected FastMimeTypeDetector(final ContentMimeTypeDetector contentDetector,
+								   final Context2Content<Object> c2c) {
+		super(contentDetector, c2c);
 	}
 
 	/**
@@ -41,7 +42,7 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 		if (type.hasValue()) {
 			return new Option<MimeType>(type.getValue());
 		}
-		final Option<ByteContent> content = getC2C().context2content(context);
+		final Option<ByteContent> content = c2c(context);
 		if (content.hasValue()) {
 			return detect(content.getValue());
 		}
