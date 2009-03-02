@@ -18,7 +18,7 @@ public interface Context2Content<T> {
 	 * A null-implementation of the interface. The conversion operation is
 	 * always unsuccessful, i.e. an empty {@code Option} is always returned.
 	 */
-	Context2Content<Object> NULL_IMPLEMENTATION = new Context2Content<Object>() {
+	Context2Content<Object> NULL_CONVERTOR = new Context2Content<Object>() {
 
 		/**
 		 * Always returns an empty {@code Option} for any non-null context.
