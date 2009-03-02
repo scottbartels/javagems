@@ -20,7 +20,7 @@ import gems.Option;
 
 	// TODO: EXPLAINT IN JavaDoc THAT RETURNED Option IS ALREADY CHECKED.
 	@Override public Option<MimeType> detect(final T context) {
-		return ensureDefault(detector.detect(context));
+		return ensureCheckedDefault(detector.detect(context));
 	}
 
 }
