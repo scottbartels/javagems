@@ -135,6 +135,27 @@ import java.util.*;
 	}
 
 	/**
+	 * Checks a sorting using two different comparators, the first one
+	 * sorts persons by age, the second one sorts by their names. In this
+	 * test case, input collection contains one comparator more times.
+	 */
+	@Test public void repeatingComparatorsTestII() {
+		final AgeComparator ageComparator = new AgeComparator();
+		final NameComparator nameComparator = new NameComparator();
+		final Collection<Comparator<Person>> comparators = new LinkedList<Comparator<Person>>();
+		comparators.add(ageComparator);
+		comparators.add(nameComparator);
+		comparators.add(nameComparator);
+		comparators.add(ageComparator);
+		final ComposedComparator<Person> fixture = new ComposedComparator<Person>(comparators);
+		Collections.sort(persons, fixture);
+		Assert.assertSame(JANE_10, persons.get(0));
+		Assert.assertSame(JOHN_10, persons.get(1));
+		Assert.assertSame(JOHN_20, persons.get(2));
+		Assert.assertSame(JILL_30, persons.get(3));
+	}
+
+	/**
 	 * A persion - the entity described by two attributes, age and name.
 	 */
 	private static final class Person {
