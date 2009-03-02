@@ -15,7 +15,7 @@ import java.io.File;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public class LocalFilesystemContext2Content implements Context2Content<String> {
+public final class LocalFilesystemContext2Content implements Context2Content<String> {
 
 	/**
 	 * Get content by reading a local file. The {@code context} is interpreted as a path.
