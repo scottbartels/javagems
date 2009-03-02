@@ -2,9 +2,7 @@ package gems.io;
 
 import gems.ExceptionHandler;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Useful IO gems.
@@ -59,6 +57,26 @@ public final class IOUtils {
 	}
 
 	/**
+	 * Gives an input stream for a given file.
+	 *
+	 * @param file a file.
+	 *
+	 * @return an input stream for a given file.
+	 * @throws IllegalArgumentException if {@code file} is {@code null}.
+	 * @throws RuntimeIOException if any {@code IOException} occurs during stream opening.
+	 */
+	public static InputStream asInputStream(final File file) {
+		if (file == null) {
+			throw new IllegalArgumentException();
+		}
+		try {
+			return new FileInputStream(file);
+		} catch (final FileNotFoundException e) {
+			throw new RuntimeIOException(e);
+		}
+	}
+
+	/**
 	 * Reads bytes from a given input stream. The entire stream is read before
 	 * returning and the input stream is always closed after reading, regardless
 	 * of a reading success. This method never returns {@code null}.
@@ -66,7 +84,6 @@ public final class IOUtils {
 	 * @param input an input stream to read.
 	 *
 	 * @return a byte content read from a stream.
-	 *
 	 * @throws IllegalArgumentException if {@code input} is {@code null}.
 	 * @throws RuntimeIOException if any {@code IOException} occurs during stream reading or closing.
 	 */

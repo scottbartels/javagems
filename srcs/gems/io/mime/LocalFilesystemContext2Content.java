@@ -1,12 +1,9 @@
 package gems.io.mime;
 
+import gems.Option;
 import gems.io.ByteContent;
 import gems.io.IOUtils;
-import gems.io.RuntimeIOException;
-import gems.Option;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.File;
 
 /**
@@ -37,11 +34,7 @@ public final class LocalFilesystemContext2Content implements Context2Content<Str
 			return new Option<ByteContent>(null);
 		}
 
-		try {
-			return new Option<ByteContent>(IOUtils.read(new FileInputStream(file)));
-		} catch (final FileNotFoundException e) {
-			throw new RuntimeIOException(e);
-		}
+		return new Option<ByteContent>(IOUtils.read(IOUtils.asInputStream(file)));
 	}
 
 }
