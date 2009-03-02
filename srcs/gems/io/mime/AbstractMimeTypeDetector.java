@@ -15,8 +15,20 @@ abstract class AbstractMimeTypeDetector<T> implements MimeTypeDetector<T> {
 	 */
 	private final ContentMimeTypeDetector detector;
 
+	/**
+	 * A coverter converting context to content.
+	 */
 	private final Context2Content<? super T> c2c;
 
+	/**
+	 * Creates a new abstract detector using given detector for content analysis
+	 * and given converter for context-to-content transformation.
+	 *
+	 * @param detector a content-based detector.
+	 * @param c2c a context-to-content converter.
+	 *
+	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 */
 	protected AbstractMimeTypeDetector(final ContentMimeTypeDetector detector, final Context2Content<? super T> c2c) {
 		if (detector == null) {
 			throw new IllegalArgumentException();
@@ -40,7 +52,14 @@ abstract class AbstractMimeTypeDetector<T> implements MimeTypeDetector<T> {
 		return detector.detect(content);
 	}
 
+	/**
+	 * Converts given context to byt content.
+	 *
+	 * @param context converted context. 
+	 * @return byte content encapsulated in {@code Option} wrapper.
+	 */
 	protected final Option<ByteContent> c2c(final T context) {
+		assert context != null;
 		return c2c.context2content(context);
 	}
 

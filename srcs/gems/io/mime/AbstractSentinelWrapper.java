@@ -3,7 +3,7 @@ package gems.io.mime;
 import gems.Option;
 import gems.ShouldNeverHappenException;
 
-abstract class AbstractSentinelWrapper {
+@Deprecated abstract class AbstractSentinelWrapper {
 	
 	private final MimeType sentinel;
 

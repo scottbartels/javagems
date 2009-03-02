@@ -3,7 +3,7 @@ package gems.io.mime;
 import gems.Option;
 import gems.io.ByteContent;
 
-public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements MimeTypeDetector<T> {
+@Deprecated public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements MimeTypeDetector<T> {
 
 	private final MimeTypeDetector<? super T> detector;
 

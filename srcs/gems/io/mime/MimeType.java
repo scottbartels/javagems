@@ -2,7 +2,7 @@ package gems.io.mime;
 
 import gems.AbstractIdentifiable;
 
-public final class MimeType extends AbstractIdentifiable<String> {
+@Deprecated public final class MimeType extends AbstractIdentifiable<String> {
 
 	static final MimeType DEFAULT_MIME_TYPE = getMimeType("application/octet-stream");
 
