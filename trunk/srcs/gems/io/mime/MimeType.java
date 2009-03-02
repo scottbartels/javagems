@@ -4,13 +4,24 @@ import gems.AbstractIdentifiable;
 import gems.Option;
 import gems.caching.Cache;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
-@Deprecated public final class MimeType extends AbstractIdentifiable<String> {
+/**
+ * An object representation of MIME type.
+ *
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ */
+public final class MimeType extends AbstractIdentifiable<String> {
 
+	/**
+	 * A default MIME type useful for an unknown type.
+	 */
 	static final MimeType DEFAULT_MIME_TYPE = getMimeType("application/octet-stream");
 
+	/**
+	 * Internal cache.
+	 */
 	private static final Cache<MimeType, String> cache = new CacheAllForever();
 
 	/**
@@ -77,7 +88,7 @@ import java.util.HashMap;
 
 	private static final class CacheAllForever implements Cache<MimeType, String> {
 
-		private final Map<String, MimeType> store = new HashMap<String, MimeType>(); 
+		private final Map<String, MimeType> store = new HashMap<String, MimeType>();
 
 		@Override public synchronized void offer(final MimeType object) {
 			assert object != null;
@@ -90,5 +101,5 @@ import java.util.HashMap;
 			return new Option<MimeType>(store.get(id));
 		}
 	}
-	
+
 }
