@@ -90,4 +90,6 @@ import java.util.LinkedList;
 		return 0;
 	}
 
+	// TODO: Implement proper equals() [and hashCode(), of course]. 
+
 }
