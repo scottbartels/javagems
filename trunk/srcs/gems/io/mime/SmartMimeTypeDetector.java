@@ -18,6 +18,10 @@ public final class SmartMimeTypeDetector extends AbstractMimeTypeDetector<String
 	 */
 	private final ContextMimeTypeDetector<? super String> detector;
 
+	public SmartMimeTypeDetector() {
+		this(new MagicMimeTypeDetector(), new ExtensionMimeTypeDetector(), new LocalFilesystemContext2Content());
+	}
+
 	public SmartMimeTypeDetector(final ContentMimeTypeDetector contentDetector,
 								 final ContextMimeTypeDetector<? super String> contextDetector,
 								 final Context2Content<? super String> c2c) {

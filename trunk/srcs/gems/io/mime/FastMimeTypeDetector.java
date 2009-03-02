@@ -18,9 +18,13 @@ public final class FastMimeTypeDetector extends AbstractMimeTypeDetector<String>
 	 */
 	private final ContextMimeTypeDetector<? super String> detector;
 
-	protected FastMimeTypeDetector(final ContentMimeTypeDetector contentDetector,
+	public FastMimeTypeDetector() {
+		this(new MagicMimeTypeDetector(), new ExtensionMimeTypeDetector(), new LocalFilesystemContext2Content());
+	}
+
+	public FastMimeTypeDetector(final ContentMimeTypeDetector contentDetector,
 								   final ContextMimeTypeDetector<? super String> contextDetector,
-								   final Context2Content<Object> c2c) {
+								   final Context2Content<? super String> c2c) {
 		super(contentDetector, c2c);
 		if (contextDetector == null) {
 			throw new IllegalArgumentException();
