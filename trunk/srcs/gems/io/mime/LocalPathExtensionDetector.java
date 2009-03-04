@@ -1,5 +1,12 @@
 package gems.io.mime;
 
+/**
+ * A filename extensions detector for local filenames analysis. Please
+ * note that this class do not touch a local filesystem anyhow. It simply
+ * consider the context to be an ordinary path. 
+ *
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ */
 final class LocalPathExtensionDetector implements ExtensionDetector<String> {
 
 	/**
