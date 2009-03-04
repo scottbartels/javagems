@@ -13,6 +13,12 @@ final class LocalPathExtensionDetector implements ExtensionDetector<String> {
 		if (extensionSeparator == null) {
 			throw new IllegalArgumentException();
 		}
+		if (pathSeparator.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		if (extensionSeparator.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		this.pathSeparator = pathSeparator;
 		this.extensionSeparator = extensionSeparator;
 
