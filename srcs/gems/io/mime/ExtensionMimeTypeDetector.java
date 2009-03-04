@@ -20,6 +20,8 @@ import java.io.File;
 
 	private final String separator;
 
+	private final ExtensionDetector extensionDetector;
+
 	// TODO: INJECT OPTIONAL FUNCTINALITY FOR LOCAL FILESYSTEM DETECTION OF DIRECTORIES.
 
 	public ExtensionMimeTypeDetector() {
@@ -31,6 +33,7 @@ import java.io.File;
 			throw new IllegalArgumentException();
 		}
 		this.separator = separator;
+		extensionDetector = new LocalPathExtensionDetector(separator, DOT);
 	}
 
 	@Override public Option<MimeType> detect(final String context) {
