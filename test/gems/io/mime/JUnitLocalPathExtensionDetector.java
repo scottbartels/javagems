@@ -47,6 +47,17 @@ public final class JUnitLocalPathExtensionDetector {
 		Assert.assertEquals("d", new LocalPathExtensionDetector(":", ".").detect(path));
 		Assert.assertEquals("a/b\\c::d", new LocalPathExtensionDetector(";", ".").detect(path));
 		Assert.assertEquals(":d", new LocalPathExtensionDetector("c:", ".").detect(path));
+		Assert.assertEquals("", new LocalPathExtensionDetector(path, ".").detect(path));
+	}
+
+	@Test public void testVariousExtensionSeparators() {
+		final String path = "a/b\\c::d";
+		Assert.assertEquals("a/b\\c::d", new LocalPathExtensionDetector("@", ".").detect(path));
+		Assert.assertEquals("d", new LocalPathExtensionDetector("@", ":").detect(path));
+		Assert.assertEquals("c::d", new LocalPathExtensionDetector("@", "\\").detect(path));
+		Assert.assertEquals("b\\c::d", new LocalPathExtensionDetector("@", "/").detect(path));
+		Assert.assertEquals(":d", new LocalPathExtensionDetector("@", "c:").detect(path));
+		Assert.assertEquals("", new LocalPathExtensionDetector("@", path).detect(path));
 	}
 	
 }
