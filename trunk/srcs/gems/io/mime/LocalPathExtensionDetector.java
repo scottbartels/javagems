@@ -2,10 +2,24 @@ package gems.io.mime;
 
 final class LocalPathExtensionDetector implements ExtensionDetector<String> {
 
+	/**
+	 * A path separator.
+	 */
 	private final String pathSeparator;
 
+	/**
+	 * An extension separator.
+	 */
 	private final String extensionSeparator;
 
+	/**
+	 * Creates a new detector using given separators.
+	 *
+	 * @param pathSeparator a path separator.
+	 * @param extensionSeparator an extension separator.
+	 *
+	 * @throws IllegalArgumentException if any of argumens is {@code null} or empty string.
+	 */
 	LocalPathExtensionDetector(final String pathSeparator, final String extensionSeparator) {
 		if (pathSeparator == null) {
 			throw new IllegalArgumentException();
@@ -24,23 +38,50 @@ final class LocalPathExtensionDetector implements ExtensionDetector<String> {
 
 	}
 
-	@Override public String detect(final String path) {
-		if (path == null) {
+	/**
+	 * {@inheritDoc} In this case, a context is considered to be a filesystem path.
+	 *
+	 * @throws IllegalArgumentException if {@code context} is {@code null}.
+	 */
+	@Override public String detect(final String context) {
+		if (context == null) {
 			throw new IllegalArgumentException();
 		}
-		return name2extension(path2name(path));
+		return name2extension(path2name(context));
 	}
 
+	/**
+	 * Returns a name detected from given path.
+	 *
+	 * @param path a path.
+	 *
+	 * @return a name detected from given path.
+	 */
 	private String path2name(final String path) {
 		return lastFragment(path, pathSeparator);
 	}
 
+	/**
+	 * Returns an extension detected from given name.
+	 *
+	 * @param name a name.
+	 *
+	 * @return an extension detected from given name.
+	 */
 	private String name2extension(final String name) {
 		return lastFragment(name, extensionSeparator);
 	}
 
+	/**
+	 * Returns the last fragment of {@code source} splitting it by {@code separator}.
+	 *
+	 * @param source a source string.
+	 * @param separator a delimiting separator.
+	 *
+	 * @return the last fragment of {@code source} splitting it by {@code separator}.
+	 */
 	private static String lastFragment(final String source, final String separator) {
-		return source.substring(source.lastIndexOf(separator) + 1);
+		return source.substring(source.lastIndexOf(separator) + separator.length());
 	}
 
 }

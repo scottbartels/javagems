@@ -46,6 +46,7 @@ public final class JUnitLocalPathExtensionDetector {
 		Assert.assertEquals("c::d", new LocalPathExtensionDetector("\\", ".").detect(path));
 		Assert.assertEquals("d", new LocalPathExtensionDetector(":", ".").detect(path));
 		Assert.assertEquals("a/b\\c::d", new LocalPathExtensionDetector(";", ".").detect(path));
+		Assert.assertEquals(":d", new LocalPathExtensionDetector("c:", ".").detect(path));
 	}
 	
 }
