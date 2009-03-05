@@ -20,11 +20,12 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		this.limits = new CacheLimits(limits);
 	}
 
-	@Override public synchronized void offer(V object) {
+	@Override public synchronized void offer(final V object) {
 		// TODO: IMPLEMENT
 	}
 
-	@Override public synchronized Option<V> get(K id) {
+	@Override public synchronized Option<V> get(final K id) {
 		return null; // TODO: IMPLEMENT
 	}
+	
 }
