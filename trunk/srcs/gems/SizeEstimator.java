@@ -1,4 +1,4 @@
-package gems.caching;
+package gems;
 
 /**
  * Estimates size of objects of some type. Please note
@@ -7,7 +7,7 @@ package gems.caching;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <T> type of estimated objects.
  */
-public interface SizeEstimator<T> {  // todo: move one package up; it seems quite general.
+@Experimental public interface SizeEstimator<T> {
 
 	/**
 	 * A null-iplementation of the interface. It does not do any estimation,
