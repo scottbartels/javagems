@@ -54,6 +54,10 @@ import gems.SizeEstimator;
 		}
 	}
 
+	private synchronized void evict() {
+		storage.evict();
+	}
+
 	private final class EvictSchedulerDaemon extends Thread {
 
 		private final long delay;
@@ -70,7 +74,7 @@ import gems.SizeEstimator;
 				} catch (final InterruptedException e) {
 					throw new RuntimeException(e); // todo: or smething smarter?
 				}
-				storage.evict();
+				evict();
 			}
 		}
 
