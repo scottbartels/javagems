@@ -34,7 +34,8 @@ public final class ContextMimeDetectorSentinelWrapper<T> extends AbstractSentine
 	 *
 	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
-	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector<? super T> detector, final MimeType defaultType) {
+	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector<? super T> detector,
+											  final MimeType defaultType) {
 		super(defaultType);
 		if (detector == null) {
 			throw new IllegalArgumentException();
