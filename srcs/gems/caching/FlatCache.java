@@ -4,7 +4,10 @@ import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
 
-final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
+/**
+ * @deprecated due to incomplete implementation. 
+ */
+@Deprecated final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
 	private final CacheEvicter<?> evicter;
 
