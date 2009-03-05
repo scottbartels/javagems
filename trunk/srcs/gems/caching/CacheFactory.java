@@ -1,6 +1,7 @@
 package gems.caching;
 
 import gems.Identifiable;
+import gems.SizeEstimator;
 
 public final class CacheFactory {
 
