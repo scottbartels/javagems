@@ -12,7 +12,12 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 
 	private final List<Cache<V, K>> segments;
 
-	SegmentedCache(final CacheEvicter<?> evicter, final SizeEstimator<V> sizer, final CacheLimits limits, final CacheSegmenter<K> segmenter) {
+	SegmentedCache(
+			final CacheEvicter<?> evicter,
+			final SizeEstimator<V> sizer,
+			final CacheLimits limits,
+			final CacheSegmenter<K> segmenter
+	) {
 		assert segmenter != null;
 		this.segmenter = segmenter;
 		segments = new ArrayList<Cache<V, K>>(segmenter.maxSegments());
@@ -25,14 +30,14 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		return segments.get(segmenter.getSegment(id));
 	}
 
-	@Override public synchronized void offer(final V object) {
+	@Override public void offer(final V object) {
 		if (object == null) {
 			throw new IllegalArgumentException();
 		}
 		getSegment(object.getId()).offer(object);
 	}
 
-	@Override public synchronized Option<V> get(final K id) {
+	@Override public Option<V> get(final K id) {
 		if (id == null) {
 			throw new IllegalArgumentException();
 		}
