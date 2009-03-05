@@ -28,13 +28,13 @@ public final class Bounds {
 	 */
 	public Bounds(final int begin, final int end) {
 		if (begin < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(String.valueOf(begin));
 		}
 		if (end < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(String.valueOf(end));
 		}
 		if (begin > end) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(begin + " > " + end);
 		}
 		this.begin = begin;
 		this.end = end;

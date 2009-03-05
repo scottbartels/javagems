@@ -86,7 +86,7 @@ public final class MimeType extends AbstractIdentifiable<String> {
 		return getId();
 	}
 
-	private static final class CacheAllForever implements Cache<MimeType, String> {
+	@Deprecated private static final class CacheAllForever implements Cache<MimeType, String> {
 
 		private final Map<String, MimeType> store = new HashMap<String, MimeType>();
 

@@ -32,6 +32,9 @@ import java.io.File;
 		if (separator == null) {
 			throw new IllegalArgumentException();
 		}
+		if (separator.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		this.separator = separator;
 		extensionDetector = new LocalPathExtensionDetector(separator, DOT);
 	}

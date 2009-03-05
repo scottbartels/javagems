@@ -22,7 +22,7 @@ abstract class AbstractCacheSegmenter<K> implements CacheSegmenter<K> {
 	 */
 	protected AbstractCacheSegmenter(final int segments) {
 		if (segments < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(String.valueOf(segments));
 		}
 		this.segments = segments;
 	}
