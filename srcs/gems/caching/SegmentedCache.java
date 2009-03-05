@@ -2,6 +2,7 @@ package gems.caching;
 
 import gems.Identifiable;
 import gems.Option;
+import gems.SizeEstimator;
 
 import java.util.ArrayList;
 import java.util.List;
