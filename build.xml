@@ -3,8 +3,11 @@
 <!-- Main build file for Java Gems. -->
 <project name="Java Gems" basedir="." default="dist">
 
-	<!-- A directory with source files.  -->
+	<!-- A directory with production source files.  -->
 	<property name="srcs.home" value="${basedir}/srcs"/>
+
+	<!-- A directory with testing source files.  -->
+	<property name="test.home" value="${basedir}/test"/>
 
 	<!-- A directory with ompilation results.  -->
 	<property name="build.home" value="${basedir}/build"/>
@@ -43,11 +46,12 @@
 	<target name="compile">
 		<mkdir dir="${build.classes}"/>
 		<javac srcdir="${srcs.home}" destdir="${build.classes}" debug="true" deprecation="true"/>
+        <javac srcdir="${test.home}" destdir="${build.classes}" debug="true" deprecation="false"/>
 	</target>
 
 	<!-- PACK: Creates a resulting jar file from compiled classes. -->
-	<target name="pack" depends="compile">
-		<jar basedir="${build.classes}" destfile="${jar.bin}">
+	<target name="pack">
+		<jar basedir="${build.classes}" excludes="**/JUnit*.class" destfile="${jar.bin}">
 			<manifest>
 				<attribute name="Main-Class" value="gems.easteregg.shower.Shower"/>
 			</manifest>
@@ -55,7 +59,7 @@
 	</target>
 
 	<!-- DIST: Builds everyting from a scratch. -->
-	<target name="dist" depends="clean, pack, docs">
+	<target name="dist" depends="clean, compile, pack, docs">
 		<mkdir dir="${dist.home}"/>
 		<copy file="${jar.bin}" todir="${dist.home}"/>
 		<jar destfile="${jar.api}" basedir="${docs.api}"/>
