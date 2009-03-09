@@ -79,7 +79,8 @@
                 <pathelement location="${build.classes}"/>
             </classpath>
             <batchtest todir="${junit.reports}">
-                <fileset dir="${build.classes}" includes="**/JUnit*.class" excludes="**/*$*.class"/>
+                <!-- TODO: The following exclude of **/*Implementations.class is just and workaround; that tests design should be fixed instead. -->
+                <fileset dir="${build.classes}" includes="**/JUnit*.class" excludes="**/*$*.class,**/*Implementations.class"/>
             </batchtest>
             <formatter type="brief"/>
         </junit>
@@ -102,7 +103,7 @@
 	<target name="javadoc">
 		<mkdir dir="${docs.api}"/>
 		<javadoc destdir="${docs.api}" author="true" access="protected">
-			<packageset dir="${srcs.home}"/>
+			<packageset dir="${srcs.home}" excludes="gems/easteregg/**"/>
 		</javadoc>
 	</target>
 
