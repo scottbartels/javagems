@@ -42,14 +42,23 @@
 	<!-- A directory containing a generated JavaDoc documentation. -->
 	<property name="docs.api" value="${docs.home}/api"/>
 
+    <property name="reports.home" value="${build.home}/reports"/>
+
+    <property name="junit.reports" value="${reports.home}/junit"/>
+
+    <!-- 3rd party libraries -->
     <property name="lib.home" value="${basedir}/libs"/>
+
+    <path id="junit.library">
+        <path location="${lib.home}/junit/4.5/bin/junit-4.5.jar"/>
+    </path>
 
 	<!-- COMPILE: Compiles source codes. -->
 	<target name="compile">
 		<mkdir dir="${build.classes}"/>
 		<javac srcdir="${srcs.home}" destdir="${build.classes}" debug="true" deprecation="true"/>
-        <javac srcdir="${test.home}" destdir="${build.classes}" debug="true" deprecation="false">
-            <classpath location="${lib.home}/junit/4.5/bin/junit-4.5.jar"/>
+        <javac srcdir="${test.home}" destdir="${build.classes}" debug="true" deprecation="true">
+            <classpath refid="junit.library"/>
         </javac>
 	</target>
 
@@ -63,10 +72,16 @@
 	</target>
 
     <target name="test" depends="compile">
+        <mkdir dir="${junit.reports}"/>
         <junit errorproperty="junit.error" failureproperty="junit.failure">
-            <batchtest>
-                <fileset dir="${build.classes}" includes="**/JUnit*.class"/>
+            <classpath>
+                <path refid="junit.library"/>
+                <pathelement location="${build.classes}"/>
+            </classpath>
+            <batchtest todir="${junit.reports}">
+                <fileset dir="${build.classes}" includes="**/JUnit*.class" excludes="**/*$*.class"/>
             </batchtest>
+            <formatter type="brief"/>
         </junit>
         <fail if="junit.error" message="Error occurred during unit tests."/>
         <fail if="junit.failure" message="Unit test failure detected."/>
