@@ -71,6 +71,7 @@
 		</jar>
 	</target>
 
+    <!-- TEST: Runs unit tests. -->
     <target name="test" depends="compile">
         <mkdir dir="${junit.reports}"/>
         <junit errorproperty="junit.error" failureproperty="junit.failure">
