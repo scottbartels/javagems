@@ -2,12 +2,15 @@ package gems.caching;
 
 import gems.Option;
 
-interface CacheStorage<K, V> {
+/**
+ * @deprecated due to incomplete design.
+ */
+@Deprecated interface CacheStorage<K, V> {
 
-	Option<CacheItem<V>> get(K key);
+	Option<CacheItem<V>> get(K key); // todo: common 'Storage' functionality
 
-	void put(CacheItem<V> item);
+	void put(CacheItem<V> item); // todo: common 'Storage' functionality
 
-	void evict();
+	void evict(); // todo: cache-specific functionality
 
 }

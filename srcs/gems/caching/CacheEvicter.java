@@ -2,11 +2,8 @@ package gems.caching;
 
 import java.util.Collection;
 
-/**
- * @deprecated due to incomplete design. 
- */
-@Deprecated public interface CacheEvicter<T> { // todo: needs to be generified better.
+public interface CacheEvicter<T> {
 
-	Collection<T> evict(Collection<T> items);
+	void evict(Collection<CacheItem<T>> items);
 	
 }
