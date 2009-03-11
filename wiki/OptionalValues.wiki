@@ -83,7 +83,7 @@ Unfortunately, it is easy to forget to do this sanity check and if it is omitted
 
 == How to enforce robust client code? ==
 
-Anybody designing that sensitive `getLoan()` operation is aware that the case of loan agreement is only one of two possible results. The question how to enforce client code to be aware of this, too. As shown above, an ordinary design is not sufficient. For this reason, we can design `CreditBank` interface differently: 
+Anybody designing that sensitive `getLoan()` operation is aware that the case of loan agreement is only one of two possible results. The question is how to enforce client code to be aware of this, too. As shown above, an ordinary design is not sufficient. For this reason, we can design `CreditBank` interface differently: 
 
 {{{
 /**
@@ -131,7 +131,40 @@ public final class Option<T> {
 }
 }}}
 
-It is a type-safe wrapper for any value of type `T`, including `null`. It provides two methods, one for checking whether a stored value is real object (i.e. it is not `null`), and the second is for getting that value. The key point is that it ensures that value presence is checked before getting value, regardless of value stored. 
+It is a type-safe wrapper for any value of type `T`, including `null`. It provides two methods, one for checking whether a stored value is real object (i.e. it is not `null`), and the second is for getting that value. The key point is that it ensures that value presence is checked before getting value, regardless of the value stored inside.
+
+So, if the client code was lazily written:
+
+{{{
+final Option<Loan> loan = bank.getLoan(amount);
+System.out.println("From credit bank I have this amount: " + loan.getValue().getAmount());
+}}}
+
+it throws `IllegalStateException` each time and it can be immediatelly revealed that something is wrong. Robust checking is enforced:
+
+{{{
+final Option<Loan> loan = bank.getLoan(amount);
+if (loan.hasValue()) {
+	System.out.println("From credit bank I have this amount: " + loan.getValue().getAmount());
+} else {
+	System.out.println("I have nothing.");
+}
+}}}
+
+Just for completeness, a possible implementation of `getLoan()` method using `Option` wrapper around returned `Loan` might be as follows: 
+
+{{{
+
+private static final int LIMIT = 10000;
+
+@Override public Option<Loan> getLoan(final int amount) {
+	if (amount <= LIMIT) {
+		return new Option<Loan>(new Loan(amount >> 1));
+	}
+	return new Option<Loan>(null);
+}
+
+}}}
 
 == References ==
 
@@ -145,5 +178,18 @@ Even if this design gem is useful, do not overuse it blindly. Very often a bette
 Please note that `Option` is immutable from a point of view of stored value, but its internal state is _not_ immutable and it changes when value presence is checked. Remember this when tempted to do (likely premature) performance optimization using wannabe constant for _none_ value: 
 
 {{{
-// TODO: COMPLETE THIS
+
+private static final int LIMIT = 10000;
+
+private static final Option<Loan> NO_LOAN = new Option<Loan>(null);
+
+@Override public Option<Loan> getLoan(final int amount) {
+	if (amount <= LIMIT) {
+		return new Option<Loan>(new Loan(amount >> 1));
+	}
+	return NO_LOAN;
+}
+
 }}}
+
+Generally speaking, it is not a good idea. 
