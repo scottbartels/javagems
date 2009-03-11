@@ -2,7 +2,34 @@
 
 = Optional Values =
 
+This short article will show you a simple trick how to significantly improve robustness of client code which use methods returning _optional_ values. A method returning _optional_ value is such method usually returning an object, but sometimes returning ... simply _nothing_. A good example is a method returning object stored in a cache: usually it returns cached object identified by some kind of key, but sometime it has nothing to return, because the object was evicted from cache storage meantime. 
 
+== Example ==
+
+In our example, provider is a credit bank and consumer is a client requesting for a loan. The business entity _loan_ is represented by a simple immutable class holding an amout of money:
+
+{{{
+public final class Loan {
+
+	private final int amount;
+
+	public Loan(final int amount) {
+		this.amount = amount;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+	
+}
+}}}
+
+Many of sanity checks and javadoc comments are omitted here. See "References" section below to see where to find fully documented and runable code used in this example. In fact, internals of the `Loan` class are not important for this example. 
+
+== References ==
+
+  * ToDo: Option sources
+  * ToDo: Example sources
 
 == Best practices == 
 
