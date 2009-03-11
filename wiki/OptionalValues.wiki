@@ -24,7 +24,62 @@ public final class Loan {
 }
 }}}
 
-Many of sanity checks and javadoc comments are omitted here. See "References" section below to see where to find fully documented and runable code used in this example. In fact, internals of the `Loan` class are not important for this example. 
+Many of sanity checks and javadoc comments are omitted here. See "References" section below to see where to find fully documented and runable code used in this example. In fact, internals of the `Loan` class are not important for this example. What we are interested in is a bank providing loans. Because there can be many of banks providing that service, let's design an interface for the intended interaction. At first, let's try an ordinary approach:
+
+{{{
+/**
+ * A credit bank providing loans to clients.
+ */
+public interface CreditBank {
+
+	/**
+	 * Returns a new loan or {@code null} if a request is withheld.
+	 *
+	 * @param amount requested amount.
+	 *
+	 * @return  a new loan or {@code null} if a request is withheld.
+	 */
+	Loan getLoan(int amount);
+
+}
+}}}
+
+Specified contract is as straightforward as possible: client requires a loan of given amount and bank _may_ or _may not_ satisfy it. Implementation might be for instance as follows:
+
+{{{
+
+private static final int LIMIT = 10000;
+
+@Override public Loan getLoan(final int amount) {
+	if (amount <= LIMIT) {
+		return new Loan(amount >> 1);
+	}
+	return null;
+}
+
+}}}
+
+In this example we can ignore that fact why the bank returns only a fragment of requested amount. At the moment, optimistic client code is hurry to say friends that it's ready for a new business:
+
+{{{
+final CreditBank bank = myFriend.getFavouriteBank();
+final int amount = myWife.getNecessaryAmount();
+final Loan loan = bank.getLoan(amount);
+System.out.println("From credit bank I have this amount: " + loan.getAmount());
+}}}
+
+This is very easy and works very well when the loan is agreed. In oposite case, the last line will clearly throw `NullPointerException`. The proper usage needs a bit more careful approach:
+
+{{{
+final Loan loan = bank.getLoan(amount);
+if (loan != null) {
+	System.out.println("From credit bank I have this amount: " + loan.getAmount());
+} else {
+	System.out.println("I have nothing.");
+}
+}}}
+
+Unfortunately, it is easy to forget to do this sanity check and if it is omitted, the application can run well many times, but it fails later; you know, directly when presented to customer first time. 
 
 == References ==
 
