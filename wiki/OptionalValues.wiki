@@ -79,7 +79,7 @@ if (loan != null) {
 }
 }}}
 
-Unfortunately, it is easy to forget to do this sanity check and if it is omitted, the application can run well many times, but it fails later; you know, directly when presented to customer first time. 
+Unfortunately, it is easy to forget to do this sanity check and if it is omitted, the application can run well many times, but it fails later; you know, directly when presented to a customer first time. 
 
 == How to enforce robust client code? ==
 
