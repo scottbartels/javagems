@@ -1,4 +1,4 @@
-package gems.io.mime;
+package gems.io.mime.mimetype;
 
 /**
  * A filename extensions detector for local filenames analysis. Please

@@ -1,4 +1,4 @@
-package gems.io.mime;
+package gems.io.mime.mimetype;
 
 import org.junit.Assert;
 import org.junit.Test;

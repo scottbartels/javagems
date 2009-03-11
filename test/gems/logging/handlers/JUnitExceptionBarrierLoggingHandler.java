@@ -59,6 +59,7 @@ public final class JUnitExceptionBarrierLoggingHandler {
 	 *
 	 * @throws InterruptedException hopefully never.
 	 */
+	@SuppressWarnings({"unchecked"})
 	@Test public void testStoppingByExceptionAndReopening() throws InterruptedException {
 		final LastRecordStoppedEventHander eventHandler = new LastRecordStoppedEventHander();
 		final LoggingHandler handler = new ExceptionBarrierLoggingHandler(new MockLoggingHandler(), eventHandler, 1);
