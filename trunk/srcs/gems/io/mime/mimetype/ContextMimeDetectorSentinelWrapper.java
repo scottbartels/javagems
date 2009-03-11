@@ -1,19 +1,18 @@
-package gems.io.mime;
+package gems.io.mime.mimetype;
 
 import gems.Option;
-import gems.io.ByteContent;
 
 /**
  * Provides a wrapper ensuring a default MIME type usage when a wrapped detector is not able to determine it.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements MimeTypeDetector<T> {
+public final class ContextMimeDetectorSentinelWrapper<T> extends AbstractSentinelWrapper implements ContextMimeTypeDetector<T> {
 
 	/**
 	 * An uderlaying detector.
 	 */
-	private final MimeTypeDetector<? super T> detector;
+	private final ContextMimeTypeDetector<? super T> detector;
 
 	/**
 	 * Creates a new sentinel wrapper around a given detector.
@@ -22,7 +21,7 @@ public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractSentinelWr
 	 *
 	 * @throws IllegalArgumentException if {@code detector} is {@code null}.
 	 */
-	public MimeTypeDetectorSentinelWrapper(final MimeTypeDetector<? super T> detector) {
+	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector<? super T> detector) {
 		this(detector, MimeType.DEFAULT_MIME_TYPE);
 	}
 
@@ -35,7 +34,8 @@ public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractSentinelWr
 	 *
 	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
-	public MimeTypeDetectorSentinelWrapper(final MimeTypeDetector<? super T> detector, final MimeType defaultType) {
+	public ContextMimeDetectorSentinelWrapper(final ContextMimeTypeDetector<? super T> detector,
+											  final MimeType defaultType) {
 		super(defaultType);
 		if (detector == null) {
 			throw new IllegalArgumentException();
@@ -56,22 +56,6 @@ public final class MimeTypeDetectorSentinelWrapper<T> extends AbstractSentinelWr
 	@Override public Option<MimeType> detect(final T context) {
 		// Do not test for null here; underlaying detector may be designed to handle such input
 		return ensureCheckedDefault(detector.detect(context));
-	}
-
-	/**
-	 * Analyses given content by the underlaying detector and ensures a default
-	 * value if it does not detect any MIME type. Because this makes an Option's
-	 * value checking really unnecessary, it is also ensured that returned
-	 * Option is already cheched. In another words, client code using the
-	 * sentinel wrapper is not obliged to check Option value presence before
-	 * usage.
-	 *
-	 * @param content analysed content.
-	 * @return a non-empty already-checked Option with MIME Type.
-	 */
-	@Override public Option<MimeType> detect(final ByteContent content) {
-		// Do not test for null here; underlaying detector may be designed to handle such input
-		return ensureCheckedDefault(detector.detect(content));
 	}
 
 }

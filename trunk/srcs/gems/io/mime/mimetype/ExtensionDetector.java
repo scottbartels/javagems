@@ -1,4 +1,4 @@
-package gems.io.mime;
+package gems.io.mime.mimetype;
 
 /**
  * An extension detector gets a filename extension from givne context information.

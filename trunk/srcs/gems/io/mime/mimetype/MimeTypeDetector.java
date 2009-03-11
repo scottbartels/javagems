@@ -1,4 +1,4 @@
-package gems.io.mime;
+package gems.io.mime.mimetype;
 
 /**
  * Provides an convenient union of context-based and content-based MIME type detectors.

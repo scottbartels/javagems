@@ -1,4 +1,4 @@
-package gems.io.mime;
+package gems.io.mime.mimetype;
 
 import gems.Option;
 import gems.io.ByteContent;
