@@ -173,7 +173,7 @@ private static final int LIMIT = 10000;
 
 == Best practices == 
 
-Even if this design gem is useful, do not overuse it blindly. Very often a better solution exists: Empty collection or zero-lenght array can be returned as safe return value. Where an instance of an interface is required, its _null-implementation_ could be the perfect sentinel value. Nota bene, `Option` wrapper is quite good for a return value, but it is only seldom a smart choice for input attributes. However, this is also possible ... (Later we will add a link to an example here when it is committed to repository. If you see this message here for a long time, you should send us an email that we forgot it.) 
+Even if this design gem is useful, do not overuse it blindly. Using `Option` wrapper around a return value, all users of that API need to write a little bit more complex conditional code. Very often a better solution exists: empty collection or zero-lenght array can be returned as safe return value. Where an instance of an interface is required, its _null-implementation_ could be the perfect sentinel value. Nota bene, `Option` wrapper is quite good for a return value, but it is only seldom a smart choice for input attributes. However, this is also possible ... (Later we will add a link to an example here when it is committed to repository. If you see this message here for a long time, you should send us an email that we forgot it.) 
 
 Please note that `Option` is immutable from a point of view of stored value, but its internal state is _not_ immutable and it changes when value presence is checked. Remember this when tempted to do (likely premature) performance optimization using wannabe constant for _none_ value: 
 
