@@ -4,7 +4,7 @@
 
 This short article will show you a simple trick how to significantly improve robustness of client code which use methods returning _optional_ values. A method returning _optional_ value is such method usually returning an object, but sometimes returning ... simply _nothing_. A good example is a method returning object stored in a cache: usually it returns cached object identified by some kind of key, but sometime it has nothing to return, because the object was evicted from cache storage meantime. 
 
-== Example ==
+== Problem and its ordinary solution ==
 
 In our example, provider is a credit bank and consumer is a client requesting for a loan. The business entity _loan_ is represented by a simple immutable class holding an amout of money:
 
@@ -81,6 +81,58 @@ if (loan != null) {
 
 Unfortunately, it is easy to forget to do this sanity check and if it is omitted, the application can run well many times, but it fails later; you know, directly when presented to customer first time. 
 
+== How to enforce robust client code? ==
+
+Anybody designing that sensitive `getLoan()` operation is aware that the case of loan agreement is only one of two possible results. The question how to enforce client code to be aware of this, too. As shown above, an ordinary design is not sufficient. For this reason, we can design `CreditBank` interface differently: 
+
+{{{
+/**
+ * A credit bank providing loans to clients.
+ */
+public interface CreditBank {
+
+	/**
+	 * Returns a new loan. Returned option is empty if a request was witheld.
+	 *
+	 * @param amount requested amount.
+	 *
+	 * @return  a new loan.
+	 */
+	Option<Loan> getLoan(int amount);
+
+}
+}}}
+
+The difference is very subtle: the only change is that return value of `getLoan()` method has been changed. Instead of `Loan` business entity, `Option` object is returned. `Option` is implemented as follows:
+
+{{{
+public final class Option<T> {
+
+	private final T value;
+
+	private volatile boolean checked;
+
+	public Option(final T value) {
+		this.value = value;
+	}
+
+	public boolean hasValue() {
+		checked = true;
+		return value != null;
+	}
+
+	public T getValue() {
+		if (!checked) {
+			throw new IllegalStateException();
+		}
+		return value;
+	}
+
+}
+}}}
+
+It is a type-safe wrapper for any value of type `T`, including `null`. It provides two methods, one for checking whether a stored value is real object (i.e. it is not `null`), and the second is for getting that value. The key point is that it ensures that value presence is checked before getting value, regardless of value stored. 
+
 == References ==
 
   * ToDo: Option sources
@@ -89,3 +141,9 @@ Unfortunately, it is easy to forget to do this sanity check and if it is omitted
 == Best practices == 
 
 Even if this design gem is useful, do not overuse it blindly. Very often a better solution exists: Empty collection or zero-lenght array can be returned as safe return value. Where an instance of an interface is required, its _null-implementation_ could be the perfect sentinel value. Nota bene, `Option` wrapper is quite good for a return value, but it is only seldom a smart choice for input attributes. However, this is also possible ... (Later we will add a link to an example here when it is committed to repository. If you see this message here for a long time, you should send us an email that we forgot it.) 
+
+Please note that `Option` is immutable from a point of view of stored value, but its internal state is _not_ immutable and it changes when value presence is checked. Remember this when tempted to do (likely premature) performance optimization using wannabe constant for _none_ value: 
+
+{{{
+// TODO: COMPLETE THIS
+}}}
