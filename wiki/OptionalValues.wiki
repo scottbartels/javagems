@@ -1,0 +1,9 @@
+#summary Improving code robustness by proper design of method returning optional values.
+
+= Optional Values =
+
+
+
+== Best practices == 
+
+Even if this design gem is useful, do not overuse it blindly. Very often a better solution exists: Empty collection or zero-lenght array can be returned as safe return value. Where an instance of an interface is required, its _null-implementation_ could be the perfect sentinel value. Nota bene, {{Option}} wrapper is quite good for return value, but it is only seldom a smart choice for input attribute. However, this is also possible ... (Later we will add a link to an example here when it is committed to repository. If you see this message here for a long time, you should send us an email that we forgot it.) 
