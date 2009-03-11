@@ -3,6 +3,7 @@ package gems.caching;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.ShouldNeverHappenException;
 
 /**
  * @deprecated due to incomplete implementation. 
@@ -35,9 +36,7 @@ import gems.SizeEstimator;
 		}
 		final Option<CacheItem<V>> item = storage.get(id);
 		if (item.hasValue()) {
-			final CacheItem<V> cachedItem = item.getValue();
-			cachedItem.recordAccess();
-			return new Option<V>(cachedItem.getValue());
+			return new Option<V>(item.getValue().getValue());
 		}
 		return new Option<V>(null);
 	}
@@ -72,7 +71,7 @@ import gems.SizeEstimator;
 				try {
 					Thread.sleep(delay);
 				} catch (final InterruptedException e) {
-					throw new RuntimeException(e); // todo: or smething smarter?
+					throw new ShouldNeverHappenException(e); // todo: or smething smarter?
 				}
 				evict();
 			}

@@ -86,6 +86,9 @@ public final class MimeType extends AbstractIdentifiable<String> {
 		return getId();
 	}
 
+	/**
+	 * @deprecated Replace with cache from {@code gems.cache} package when it is ready. 
+	 */
 	@Deprecated private static final class CacheAllForever implements Cache<MimeType, String> {
 
 		private final Map<String, MimeType> store = new HashMap<String, MimeType>();
