@@ -7,6 +7,8 @@ import gems.AbstractIdentifiable;
  */
 @Deprecated public final class CacheItem<K> extends AbstractIdentifiable<K> {
 
+	// todo: cross-thread visibility of all modifications should be ensured
+
 	private long access = System.currentTimeMillis();
 
 	private long hits;
