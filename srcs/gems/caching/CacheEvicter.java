@@ -2,8 +2,8 @@ package gems.caching;
 
 import java.util.Collection;
 
-public interface CacheEvicter<T> {
+public interface CacheEvicter<K> {
 
-	void evict(Collection<CacheItem<T>> items);
+	Collection<K> evict(Collection<CacheItem<K>> items);
 	
 }

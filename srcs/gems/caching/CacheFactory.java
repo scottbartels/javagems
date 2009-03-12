@@ -9,8 +9,8 @@ public final class CacheFactory {
 		throw new UnsupportedOperationException();
 	}
 
-	public static <V extends Identifiable<K>, K> Cache<V, K> create(
-			final CacheEvicter<?> evicter,
+	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
+			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
 			final CacheLimits limits,
 			final CacheSegmenter<K> segmenter
@@ -30,8 +30,8 @@ public final class CacheFactory {
 		return new SegmentedCache<V, K>(evicter, sizer, limits, segmenter);
 	}
 
-	public static <V extends Identifiable<K>, K> Cache<V, K> create(
-			final CacheEvicter<?> evicter,
+	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
+			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
 			final CacheLimits limits
 	) {

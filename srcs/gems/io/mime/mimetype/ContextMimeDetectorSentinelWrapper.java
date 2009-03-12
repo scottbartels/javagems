@@ -44,14 +44,11 @@ public final class ContextMimeDetectorSentinelWrapper<T> extends AbstractSentine
 	}
 
 	/**
-	 * Analyses given context by the underlaying detector and ensures a default
-	 * value if it does not detect any MIME type. Because this makes an Option's
-	 * value checking really unnecessary, it is also ensured that returned
-	 * Option is already cheched. In another words, client code using the sentinel
-	 * wrapper is not obliged to check Option value presence before usage.
+	 * Analyses given context by the underlaying detector and ensures
+	 * a default value if it does not detect any MIME type.
 	 *
 	 * @param context analysed content.
-	 * @return a non-empty already-checked Option with MIME Type.
+	 * @return a non-empty Option with MIME Type.
 	 */
 	@Override public Option<MimeType> detect(final T context) {
 		// Do not test for null here; underlaying detector may be designed to handle such input
