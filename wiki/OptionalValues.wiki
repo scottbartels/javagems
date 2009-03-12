@@ -187,5 +187,5 @@ Generally speaking, it is not a good idea.
 
 == References ==
 
-  * ToDo: Option sources
-  * ToDo: Example sources
+  * `Option<T>` wrapper [http://code.google.com/p/javagems/source/browse/trunk/srcs/gems/Option.javasource code]
+  * [http://code.google.com/p/javagems/source/browse/#svn/trunk/docs/examples/srcs/option Runable and documented examples]
