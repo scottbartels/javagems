@@ -1,33 +1,20 @@
 package gems.caching;
 
+import gems.AbstractIdentifiable;
+
 /**
  * @deprecated due to incomplete implementation.
  */
-@Deprecated public final class CacheItem<T> {
+@Deprecated public final class CacheItem<K> extends AbstractIdentifiable<K> {
 
-	private T value;
+	private long access = System.currentTimeMillis();
 
-	CacheItem(final T value) {
-		updateValue(value);
+	private long hits;
+
+	private long size;
+
+	CacheItem(final K key) {
+		super(key);
 	}
 
-	boolean isValid() { // todo: how to invalidate objects? See that example with weather conditions buoy. 
-		return false;
-	}
-
-	T getValue() {
-		recordAccess();
-		return value;
-	}
-
-	private void recordAccess() {
-		// todo: implemnt
-	}
-
-	void updateValue(final T value) {
-		if (value == null) {
-			throw new IllegalArgumentException();
-		}
-		this.value = value;
-	}
 }

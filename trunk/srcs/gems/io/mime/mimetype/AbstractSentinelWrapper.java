@@ -1,7 +1,6 @@
 package gems.io.mime.mimetype;
 
 import gems.Option;
-import gems.ShouldNeverHappenException;
 
 /**
  * This class contains common parts of sentinel wrappers: it holds the default MIME type (sentinel)
@@ -31,25 +30,19 @@ abstract class AbstractSentinelWrapper {
 	}
 
 	/**
-	 * Ensures that returned Option always contains a value and it is already checked.
-	 * If given Option contains a value, that option is returned. If givne Option does
+	 * Ensures that returned Option always contains a value. If given Option does
 	 * not contain a value, a new Opition containing a sentinel value is returned.
-	 * Anyhow, returned Option object is already checked.
 	 *
 	 * @param type a possibly empty Option.
 	 *
-	 * @return an already checked and never empty Option.
+	 * @return a non-empty Option.
 	 */
 	protected final Option<MimeType> ensureCheckedDefault(final Option<MimeType> type) {
 		assert type != null;
 		if (type.hasValue()) {
-			return type;
+			return new Option<MimeType>(type.getValue());
 		}
-		final Option<MimeType> result = new Option<MimeType>(sentinel);
-		if (result.hasValue()) {
-			return result;
-		}
-		throw new ShouldNeverHappenException();
+		return new Option<MimeType>(sentinel);
 	}
 
 }

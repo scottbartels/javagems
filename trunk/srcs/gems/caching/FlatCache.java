@@ -1,63 +1,47 @@
 package gems.caching;
 
+import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
-import gems.ShouldNeverHappenException;
 
-/**
- * @deprecated due to incomplete implementation. 
- */
-@Deprecated final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
+final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
 	private static final int DELAY = 10; // TODO: INJECT
 
-	private final CacheStorage<K, V> storage = null; // todo: real implementation needed here
+	private final CacheEvicter<K> evicter;
 
-	private final CacheEvicter<?> evicter; // TODO: MOVE TO STORAGE.
+	private final CacheStorage<K, V> storage = null;
 
-	private final SizeEstimator<V> sizer; // TODO: MOVE TO STORAGE.
-
-	private final CacheLimits limits; // TODO: MOVE TO STORAGE.
-
-	FlatCache(final CacheEvicter<?> evicter, final SizeEstimator<V> sizer, final CacheLimits limits) {
+	FlatCache(final CacheEvicter<K> evicter, final SizeEstimator<V> sizer, final CacheLimits limits) {
 		assert evicter != null;
 		assert sizer != null;
 		assert limits != null;
 		this.evicter = evicter;
-		this.sizer = sizer;
-		this.limits = new CacheLimits(limits);
 		new EvictSchedulerDaemon(DELAY).start();
-	}
-
-	@Override public synchronized Option<V> get(final K id) {
-		if (id == null) {
-			throw new IllegalArgumentException();
-		}
-		final Option<CacheItem<V>> item = storage.get(id);
-		if (item.hasValue()) {
-			return new Option<V>(item.getValue().getValue());
-		}
-		return new Option<V>(null);
 	}
 
 	@Override public synchronized void offer(final V object) {
 		if (object == null) {
 			throw new IllegalArgumentException();
 		}
-		final Option<CacheItem<V>> item = storage.get(object.getId());
-		if (item.hasValue()) {
-			item.getValue().updateValue(object);
-		} else {
-			storage.put(new CacheItem<V>(object));
-		}
+		storage.put(object);
 	}
+
+	@Override public synchronized Option<V> get(final K id) {
+		if (id == null) {
+			throw new IllegalArgumentException();
+		}
+		return storage.get(id);
+	}
+	
+	// TODO: USE SYNCHRONIZATION ALLOWING SEVERAL CONCURRENT LOOKUPS
 
 	private synchronized void evict() {
-		storage.evict();
+		storage.evict(evicter.evict(storage.itemsForEviction()));
 	}
 
-	private final class EvictSchedulerDaemon extends Thread {
+	private final class EvictSchedulerDaemon extends Thread { // TODO: SOMETHING SMARTER MIGHT BE USEFUL FOR HIGH LOADS
 
 		private final long delay;
 
@@ -66,12 +50,13 @@ import gems.ShouldNeverHappenException;
 			this.setDaemon(true);
 		}
 
+		@SuppressWarnings({"InfiniteLoopStatement"})
 		@Override public void run() {
 			while (true) {
 				try {
 					Thread.sleep(delay);
 				} catch (final InterruptedException e) {
-					throw new ShouldNeverHappenException(e); // todo: or smething smarter?
+					ExceptionHandler.NULL_HANDLER.handle(e); // TODO: IS THERE ANY SMARTER OPTION?
 				}
 				evict();
 			}

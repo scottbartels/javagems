@@ -36,7 +36,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 	 * @param segmenter a segmenter defining a segmentation for the cache.
 	 */
 	SegmentedCache(
-			final CacheEvicter<?> evicter,
+			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
 			final CacheLimits limits,
 			final CacheSegmenter<K> segmenter
@@ -45,7 +45,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		this.segmenter = segmenter;
 		segments = new ArrayList<Cache<V, K>>(segmenter.maxSegments());
 		for (int i = 0; i < segmenter.maxSegments(); i++) {
-			segments.add(CacheFactory.create(evicter, sizer, new CacheLimits(limits, segmenter.maxSegments())));
+			segments.add(CacheFactory.createCache(evicter, sizer, new CacheLimits(limits, segmenter.maxSegments())));
 		}
 	}
 
