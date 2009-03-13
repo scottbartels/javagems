@@ -16,6 +16,8 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
 	private final ReadWriteLock lock = new ReentrantReadWriteLock(true);
 
+	private final CacheLimits limits;
+
 	private final CacheEvicter<K> evicter;
 
 	private final CacheStorage<K, V> storage = null;
@@ -24,6 +26,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		assert evicter != null;
 		assert sizer != null;
 		assert limits != null;
+		this.limits = limits;
 		this.evicter = evicter;
 		new EvictSchedulerDaemon(DELAY).start();
 	}
@@ -103,7 +106,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 			// usually highly depends on them.
 			lock.writeLock().lock();
 			try {
-				final Collection<K> keysToEvict = evicter.evict(storage.itemsForEviction());
+				final Collection<K> keysToEvict = evicter.evict(storage.itemsForEviction(), limits);
 				if (!keysToEvict.isEmpty()) {
 					storage.evict(Collections.unmodifiableCollection(keysToEvict));
 				}
