@@ -44,9 +44,10 @@ interface CacheStorage<K, V extends Identifiable<K>> {
 	/**
 	 * Evicts all cached items identified by keys in a given collection.
 	 * If a collection contains a key which is not contained in the storage
-	 * itself, the storage has to ignore it silently.
+	 * itself, the storage has to ignore it silently. Please note that the
+	 * {@code keys} collection may be unmodifiable. 
 	 *
-	 * @param keys keys of cache items to evict. 
+	 * @param keys keys of cache items to evict.
 	 */
 	void evict(Collection<K> keys);
 
