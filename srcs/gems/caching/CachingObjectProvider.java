@@ -2,13 +2,10 @@ package gems.caching;
 
 import gems.Identifiable;
 import gems.Option;
+import gems.ObjectProvider;
 import gems.filtering.Filter;
 
-public final class CachingManager<V extends Identifiable<K>, K> {
-
-	public interface ObjectProvider<V, K> { // todo: seems pretty common
-		Option<V> provide(K key);
-	}
+public final class CachingObjectProvider<V extends Identifiable<K>, K> implements ObjectProvider<V, K> {
 
 	private final Cache<V, K> cache;
 
@@ -18,12 +15,12 @@ public final class CachingManager<V extends Identifiable<K>, K> {
 
 	private final Filter<? super V> valueFilter;
 
-	public CachingManager(final Cache<V, K> cache, final ObjectProvider<V, K> provider) {
+	public CachingObjectProvider(final Cache<V, K> cache, final ObjectProvider<V, K> provider) {
 		this(cache, provider, Filter.ALLOW_ALL, Filter.ALLOW_ALL);
 
 	}
 
-	public CachingManager(
+	public CachingObjectProvider(
 			final Cache<V, K> cache,
 			final ObjectProvider<V, K> provider,
 			final Filter<? super K> keyFilter,
@@ -41,7 +38,7 @@ public final class CachingManager<V extends Identifiable<K>, K> {
 		this.valueFilter = valueFilter;
 	}
 
-	public Option<V> get(final K id) {
+	@Override public Option<V> provide(final K id) {
 		if (keyFilter.allows(id)) {
 			final Option<V> cached = cache.get(id);
 			if (cached.hasValue()) {
