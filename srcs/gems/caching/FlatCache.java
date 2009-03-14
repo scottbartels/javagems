@@ -12,23 +12,24 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
-	private static final int DELAY = 10; // TODO: INJECT
-
 	private final ReadWriteLock lock = new ReentrantReadWriteLock(true);
-
-	private final CacheLimits limits;
-
-	private final CacheEvicter<K> evicter;
 
 	private final CacheStorage<K, V> storage = null;
 
 	FlatCache(final CacheEvicter<K> evicter, final SizeEstimator<V> sizer, final CacheLimits limits) {
-		assert evicter != null;
 		assert sizer != null;
-		assert limits != null;
-		this.limits = limits;
-		this.evicter = evicter;
-		new EvictSchedulerDaemon(DELAY).start();
+		startEvicterDaemon(new EvictScheduler(evicter, limits));
+	}
+
+	/**
+	 * Starts scheduler daemon for eviction.
+	 *
+	 * @param scheduler scheduler implementation.
+	 */
+	private static void startEvicterDaemon(final Runnable scheduler) {
+		final Thread daemon = new Thread(scheduler);
+		daemon.setDaemon(true);
+		daemon.start();
 	}
 
 	@Override public void offer(final V object) {
@@ -55,28 +56,47 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		}
 	}
 
-	private final class EvictSchedulerDaemon extends Thread {
+	/**
+	 * Eviction scheduler. Periodically runs eviction on storage of the
+	 * encapsulating cache. A delay between two subsequent evictions is
+	 * adaptive and depends on the churn of cached objects.
+	 */
+	@SuppressWarnings({"ConstantConditions"}) private final class EvictScheduler implements Runnable {
 
-		// TODO: SOMETHING SMARTER FOR HIGH LOADS?
-		//
-		// 1) delay might be adaptive. If no items are evicted in one run,
-		//    delay might be increased. If some items are evicted [in N subsequent
-		//    runs, delay might be decreased.
-		//
-		// 2) frequency of adding new items might be observed and this information
-		//    can be used somehow.
-		//
-		// 3) wait-notify mechamizm might be used instead of sleeping. 
+		/**
+		 * Minimal possible delay, in seconds.
+		 */
+		private static final int MIN_DELAY = 2;
 
-		private final long delay;
+		/**
+		 * Maximal possible delay, in seconds.
+		 */
+		private static final int MAX_DELAY = 32;
 
-		private EvictSchedulerDaemon(final int delay) {
-			this.delay = delay * 1000L;
-			this.setDaemon(true);
+		private final CacheEvicter<K> evicter;
+
+		private final CacheLimits limits;
+
+
+		{
+			assert MIN_DELAY > 0;
+			assert MIN_DELAY <= MAX_DELAY;
+		}
+
+		private EvictScheduler(final CacheEvicter<K> evicter, final CacheLimits limits) {
+			assert evicter != null;
+			assert limits != null;
+			this.evicter = evicter;
+			this.limits = limits;
 		}
 
 		/**
-		 * Periodically invokes eviction. 
+		 * An adaptive delay between two subsequent evictions, in seconds.
+		 */
+		private int delay = MIN_DELAY;
+
+		/**
+		 * Periodically invokes eviction.
 		 */
 		@Override @SuppressWarnings({"InfiniteLoopStatement"}) public void run() {
 			while (true) { // TODO: COULD BE STOPPED BY FINALIZER OF ENCAPSULATING CLASS?
@@ -86,18 +106,21 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		}
 
 		/**
-		 * Sleeps.  
+		 * Sleeps.
 		 */
 		private void sleep() {
 			try {
-				Thread.sleep(delay);
+				Thread.sleep(delay * 1000L);
 			} catch (final InterruptedException e) {
 				ExceptionHandler.NULL_HANDLER.handle(e); // TODO: IS THERE ANY SMARTER OPTION?
 			}
 		}
 
 		/**
-		 * Performs eviction on storage.
+		 * Performs eviction on storage. As a side effect of the eviction,
+		 * a delay is adapted. If some objects were selected for eviction,
+		 * subsequent delay is set to {@code MIN_DELAY}. In oposite case,
+		 * delay is increased by one second up to {@code MAX_DELAY}.
 		 */
 		private void evict() {
 			// Everything must be done holding the write lock. It ensures that there is
@@ -107,7 +130,12 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 			lock.writeLock().lock();
 			try {
 				final Collection<K> keysToEvict = evicter.evict(storage.itemsForEviction(), limits);
-				if (!keysToEvict.isEmpty()) {
+				if (keysToEvict.isEmpty()) {
+					if (delay < MAX_DELAY) {
+						delay++;
+					}
+				} else {
+					delay = MIN_DELAY;
 					storage.evict(Collections.unmodifiableCollection(keysToEvict));
 				}
 			} finally {
