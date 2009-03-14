@@ -1,7 +1,7 @@
 package gems.caching;
 
 import gems.Identifiable;
-import gems.Option;
+import gems.ObjectProvider;
 
 /**
  * A cache is a likely transient storage of indentifiable objects
@@ -17,7 +17,7 @@ import gems.Option;
  * @param <K> a type of keys.
  * @param <V> a type of objects.
  */
-public interface Cache<V extends Identifiable<K>, K> {
+public interface Cache<V extends Identifiable<K>, K> extends ObjectProvider<V, K> {
 
 	/**
 	 * Offers a given object for a caching. The object may or
@@ -26,19 +26,5 @@ public interface Cache<V extends Identifiable<K>, K> {
 	 * @param object an object offered for a caching.
 	 */
 	void offer(V object);
-
-	/**
-	 * Returns an object idnetified by the given key. The returned
-	 * object is encapsulated to {@code Option} object, so the client
-	 * has to check whether a required object was or was not found in
-	 * the cache. This method should never return {@code null}.
-	 *
-	 * @param id an ID of required object.
-	 *
-	 * @return an optional value holding a cached object or holding
-	 *         no value if no object with the given identifier  was
-	 *         found in the cache.
-	 */
-	Option<V> get(K id);
 
 }
