@@ -59,6 +59,11 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		return segments.get(segmenter.getSegment(id));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IllegalArgumentException if {@code object} is {@code null}.
+	 */
 	@Override public void offer(final V object) {
 		if (object == null) {
 			throw new IllegalArgumentException();
@@ -66,11 +71,16 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		getSegment(object.getId()).offer(object);
 	}
 
-	@Override public Option<V> provide(final K id) {
-		if (id == null) {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IllegalArgumentException if {@code key} is {@code null}.
+	 */
+	@Override public Option<V> provide(final K key) {
+		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		return getSegment(id).provide(id);
+		return getSegment(key).provide(key);
 	}
 	
 }
