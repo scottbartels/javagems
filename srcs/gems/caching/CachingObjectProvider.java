@@ -40,7 +40,7 @@ public final class CachingObjectProvider<V extends Identifiable<K>, K> implement
 
 	@Override public Option<V> provide(final K id) {
 		if (keyFilter.allows(id)) {
-			final Option<V> cached = cache.get(id);
+			final Option<V> cached = cache.provide(id);
 			if (cached.hasValue()) {
 				return new Option<V>(cached.getValue());
 			}

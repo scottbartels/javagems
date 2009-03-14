@@ -54,7 +54,7 @@ public final class MimeType extends AbstractIdentifiable<String> {
 		if (spec == null) {
 			throw new IllegalArgumentException();
 		}
-		final Option<MimeType> cached = cache.get(spec);
+		final Option<MimeType> cached = cache.provide(spec);
 		if (cached.hasValue()) {
 			return cached.getValue();
 		}
@@ -99,7 +99,7 @@ public final class MimeType extends AbstractIdentifiable<String> {
 			store.put(object.getId(), object);
 		}
 
-		@Override public synchronized Option<MimeType> get(final String id) {
+		@Override public synchronized Option<MimeType> provide(final String id) {
 			assert id != null;
 			return new Option<MimeType>(store.get(id));
 		}

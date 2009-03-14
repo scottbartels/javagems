@@ -66,11 +66,11 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		getSegment(object.getId()).offer(object);
 	}
 
-	@Override public Option<V> get(final K id) {
+	@Override public Option<V> provide(final K id) {
 		if (id == null) {
 			throw new IllegalArgumentException();
 		}
-		return getSegment(id).get(id);
+		return getSegment(id).provide(id);
 	}
 	
 }
