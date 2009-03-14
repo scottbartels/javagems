@@ -1,7 +1,7 @@
 package gems;
 
 /**
- * A factory-like interface defining a type-safe object provider, which creates
+ * A factory-like interface defining a type-safe object provider, which optionally provides
  * objects of certain type {@code T} according to some kind of key of type {@code K}.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
