@@ -12,12 +12,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
+	/**
+	 * A lock controlling access to storage. 
+	 */
 	private final ReadWriteLock lock = new ReentrantReadWriteLock(true);
 
 	private final CacheStorage<K, V> storage = null;
 
 	FlatCache(final CacheEvicter<K> evicter, final SizeEstimator<V> sizer, final CacheLimits limits) {
-		assert sizer != null;
+		assert sizer != null; // TODO: USE SIZER
 		startEvicterDaemon(new EvictScheduler(evicter, limits));
 	}
 
@@ -32,6 +35,11 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		daemon.start();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IllegalArgumentException if {@code object} is {@code null}.
+	 */
 	@Override public void offer(final V object) {
 		if (object == null) {
 			throw new IllegalArgumentException();
@@ -44,6 +52,11 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 */
 	@Override public Option<V> get(final K id) {
 		if (id == null) {
 			throw new IllegalArgumentException();
@@ -112,7 +125,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 			try {
 				Thread.sleep(delay * 1000L);
 			} catch (final InterruptedException e) {
-				ExceptionHandler.NULL_HANDLER.handle(e); // TODO: IS THERE ANY SMARTER OPTION?
+				ExceptionHandler.NULL_HANDLER.handle(e);
 			}
 		}
 
