@@ -45,4 +45,24 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		// todo: pass keys to all storages in parallel.
 	}
 
+	private static final class EvictionExecutor<T> implements Runnable {
+
+		private final CacheStorage<T, ? extends Identifiable<T>> storage;
+
+		private final Collection<T> keys;
+
+		private EvictionExecutor(
+				final CacheStorage<T, ? extends Identifiable<T>> storage,
+				final Collection<T> keys
+		) {
+			this.storage = storage;
+			this.keys = keys;
+		}
+
+		public void run() {
+			storage.evict(keys);
+		}
+		
+	}
+
 }
