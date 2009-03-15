@@ -49,6 +49,6 @@ interface CacheStorage<K, V extends Identifiable<K>> {
 	 *
 	 * @param keys keys of cache items to evict.
 	 */
-	void evict(Collection<K> keys);
+	void evict(Collection<K> keys); // TODO: RETURNS NUMBER OF EVICTED OBJECTS.
 
 }
