@@ -28,10 +28,27 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	}
 
 	@Override public Option<V> get(final K key) {
-		// todo: 1) get from all storages in parallel
-		// todo: 2) ensure that at most one was found (assert?)
-		// todo: 3) if one was found, re-pack into new Option and return
-		return new Option<V>(null);
+		final Collection<Future<Option<V>>> tasks = new LinkedList<Future<Option<V>>>();
+		for (final CacheStorage<K, V> storage : storages) {
+			tasks.add(pool.submit(new GetTask<K, V>(storage, key)));
+		}
+		return new Option<V>(getValue(tasks));
+	}
+
+	private static <T> T getValue(final Iterable<Future<Option<T>>> tasks) {
+		for (final Future<Option<T>> task : tasks) {
+			try {
+				final Option<T> option = task.get();
+				if (option.hasValue()) {
+					return option.getValue();
+				}
+			} catch (final InterruptedException e) {
+				ExceptionHandler.NULL_HANDLER.handle(e);
+			} catch (final ExecutionException e) {
+				ExceptionHandler.NULL_HANDLER.handle(e);
+			}
+		}
+		return null;
 	}
 
 	@Override public void put(final V value) {
@@ -44,17 +61,21 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	@Override public Collection<CacheItem<K>> itemsForEviction() {
 		final Collection<Future<Collection<CacheItem<K>>>> tasks = new LinkedList<Future<Collection<CacheItem<K>>>>();
 		for (final CacheStorage<K, V> storage : storages) {
-			tasks.add(pool.submit(new GatheringEvictablesTask<K>(storage)));
+			tasks.add(pool.submit(new GatheringEvictablesTask<K, V>(storage)));
 		}
-		final List<CacheItem<K>> result = new LinkedList<CacheItem<K>>();
-		try {
-			for (final Future<Collection<CacheItem<K>>> task : tasks) {
+		return mergeEvictableItems(tasks);
+	}
+
+	private static <T> Collection<CacheItem<T>> mergeEvictableItems(final Iterable<Future<Collection<CacheItem<T>>>> tasks) {
+		final List<CacheItem<T>> result = new LinkedList<CacheItem<T>>();
+		for (final Future<Collection<CacheItem<T>>> task : tasks) {
+			try {
 				result.addAll(task.get());
+			} catch (final InterruptedException e) {
+				ExceptionHandler.NULL_HANDLER.handle(e);
+			} catch (final ExecutionException e) {
+				ExceptionHandler.NULL_HANDLER.handle(e);
 			}
-		} catch (final InterruptedException e) {
-			ExceptionHandler.NULL_HANDLER.handle(e);
-		} catch (final ExecutionException e) {
-			ExceptionHandler.NULL_HANDLER.handle(e);
 		}
 		return result;
 	}
@@ -65,57 +86,76 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		}
 		final Collection<Future<?>> tasks = new LinkedList<Future<?>>();
 		for (final CacheStorage<K, V> storage : storages) {
-			tasks.add(pool.submit(new EvictionTask<K>(storage, keys)));
+			tasks.add(pool.submit(new EvictionTask<K, V>(storage, keys)));
 		}
-		try {
-			for (final Future<?> task : tasks) {
+		randezVous(tasks);
+	}
+
+	private static void randezVous(Collection<Future<?>> tasks) {
+		for (final Future<?> task : tasks) {
+			try {
 				task.get();
+
+			} catch (final InterruptedException e) {
+				ExceptionHandler.NULL_HANDLER.handle(e);
+			} catch (final ExecutionException e) {
+				ExceptionHandler.NULL_HANDLER.handle(e);
 			}
-		} catch (final InterruptedException e) {
-			ExceptionHandler.NULL_HANDLER.handle(e);
-		} catch (final ExecutionException e) {
-			ExceptionHandler.NULL_HANDLER.handle(e);
 		}
 	}
 
 
-	private static abstract class AbstractStorageTask<T> {
+	private static abstract class AbstractStorageTask<K, V extends Identifiable<K>> {
 
-		private final CacheStorage<T, ? extends Identifiable<T>> storage;
+		private final CacheStorage<K, V> storage;
 
-		protected AbstractStorageTask(final CacheStorage<T, ? extends Identifiable<T>> storage) {
+		protected AbstractStorageTask(final CacheStorage<K, V> storage) {
 			this.storage = storage;
 		}
 
-		protected CacheStorage<T, ? extends Identifiable<T>> getStorage() {
+		protected CacheStorage<K, V> getStorage() {
 			return storage;
 		}
 
 	}
 
-	private static final class EvictionTask<T> extends AbstractStorageTask<T> implements Runnable {
+	private static final class GetTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Option<V>> {
 
-		private final Collection<T> keys;
+		private final K key;
 
-		private EvictionTask(final CacheStorage<T, ? extends Identifiable<T>> storage, final Collection<T> keys) {
+		private GetTask(CacheStorage<K, V> storage, final K key) {
+			super(storage);
+			this.key = key;
+		}
+
+		public Option<V> call() throws Exception {
+			return getStorage().get(key);
+		}
+	}
+
+	private static final class GatheringEvictablesTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Collection<CacheItem<K>>> {
+
+		private GatheringEvictablesTask(final CacheStorage<K, V> storage) {
+			super(storage);
+		}
+
+		@Override public Collection<CacheItem<K>> call() throws Exception {
+			return getStorage().itemsForEviction();
+		}
+
+	}
+
+	private static final class EvictionTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Runnable {
+
+		private final Collection<K> keys;
+
+		private EvictionTask(final CacheStorage<K, V> storage, final Collection<K> keys) {
 			super(storage);
 			this.keys = keys;
 		}
 
 		@Override public void run() {
 			getStorage().evict(keys);
-		}
-
-	}
-
-	private static final class GatheringEvictablesTask<T> extends AbstractStorageTask<T> implements Callable<Collection<CacheItem<T>>> {
-
-		private GatheringEvictablesTask(final CacheStorage<T, ? extends Identifiable<T>> storage) {
-			super(storage);
-		}
-
-		@Override public Collection<CacheItem<T>> call() throws Exception {
-			return getStorage().itemsForEviction();
 		}
 
 	}
