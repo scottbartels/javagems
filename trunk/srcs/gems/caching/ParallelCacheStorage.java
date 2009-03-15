@@ -3,6 +3,7 @@ package gems.caching;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,8 +43,25 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	}
 
 	public void evict(final Collection<K> keys) {
-		// todo: pass keys to all storages in parallel.
+		final Collection<Thread> excutors = new LinkedList<Thread>();
+		for (CacheStorage<K, V> storage : storages) {
+			final Thread thread = new Thread(new EvictionExecutor<K>(storage, keys));
+			thread.start();
+			excutors.add(thread);
+		}
+		randezVous(excutors);
 	}
+
+	private static void randezVous(final Iterable<? extends Thread> excutors) {
+		try {
+			for(final Thread thread : excutors) {
+				thread.join();
+			}
+		} catch (final InterruptedException e) {
+			ExceptionHandler.NULL_HANDLER.handle(e);
+		}
+	}
+
 
 	private static final class EvictionExecutor<T> implements Runnable {
 
@@ -59,10 +77,12 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 			this.keys = keys;
 		}
 
-		public void run() {
+		@Override public void run() {
 			storage.evict(keys);
 		}
 		
 	}
+
+	
 
 }
