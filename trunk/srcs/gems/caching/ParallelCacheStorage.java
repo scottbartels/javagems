@@ -89,6 +89,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 			tasks.add(pool.submit(new EvictionTask<K, V>(storage, keys)));
 		}
 		randezVous(tasks);
+		// todo: reorder storages that way to have the emptiest one first; it will be used for subsequent insert.  
 	}
 
 	private static void randezVous(Collection<Future<?>> tasks) {
@@ -104,56 +105,125 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		}
 	}
 
-
+	/**
+	 * Abstract task executed on a cache storage. In fact, it holds only
+	 * that cache storage which is a subject of real task execution.
+	 */
 	private static abstract class AbstractStorageTask<K, V extends Identifiable<K>> {
 
+		/**
+		 * A cache storage which is a subject of task execution.
+		 */
 		private final CacheStorage<K, V> storage;
 
+		/**
+		 * Creates a new task for the given cache storage.
+		 *
+		 * @param storage a cache storage.
+		 */
 		protected AbstractStorageTask(final CacheStorage<K, V> storage) {
+			assert storage != null;
 			this.storage = storage;
 		}
 
+		/**
+		 * Returns the storage which is a subject of task execution.
+		 *
+		 * @return the storage which is a subject of task execution.
+		 */
 		protected CacheStorage<K, V> getStorage() {
 			return storage;
 		}
 
 	}
 
+	/**
+	 * Implements getting value from a storage.
+	 */
 	private static final class GetTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Option<V>> {
 
+		/**
+		 * A key of required value.
+		 */
 		private final K key;
 
-		private GetTask(CacheStorage<K, V> storage, final K key) {
+		/**
+		 * Creates a new task for a getting value identified by {@code key} from the {@code storage}.
+		 *
+		 * @param storage a storage which is a subject of getting task.
+		 * @param key a key of required object.
+		 */
+		private GetTask(final CacheStorage<K, V> storage, final K key) {
 			super(storage);
+			assert key != null;
 			this.key = key;
 		}
 
-		public Option<V> call() throws Exception {
+		/**
+		 * Gets a value from the cache storage.
+		 *
+		 * @return a value from the cache storage.
+		 *
+		 * @throws Exception hopefully never.
+		 */
+		@Override public Option<V> call() throws Exception {
 			return getStorage().get(key);
 		}
+
 	}
 
+	/**
+	 * Gets evictable items from the storage.
+	 */
 	private static final class GatheringEvictablesTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Collection<CacheItem<K>>> {
 
+		/**
+		 * Creates a new task for the given cache storage.
+		 *
+		 * @param storage a cache storage.
+		 */
 		private GatheringEvictablesTask(final CacheStorage<K, V> storage) {
 			super(storage);
 		}
 
+		/**
+		 * Returns evictable items from the cache storage.
+		 *
+		 * @return a collection of evictable items from the cache storage.
+		 *
+		 * @throws Exception hopefully never.
+		 */
 		@Override public Collection<CacheItem<K>> call() throws Exception {
 			return getStorage().itemsForEviction();
 		}
 
 	}
 
+	/**
+	 * Runs eviction on the storage.
+	 */
 	private static final class EvictionTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Runnable {
 
+		/**
+		 * Keys to evict.
+		 */
 		private final Collection<K> keys;
 
+		/**
+		 * Creates a new task evicting {@code keys} from {@code storage}.
+		 *
+		 * @param storage a cache storage.
+		 * @param keys keys to evict.
+		 */
 		private EvictionTask(final CacheStorage<K, V> storage, final Collection<K> keys) {
 			super(storage);
+			assert keys != null;
 			this.keys = keys;
 		}
 
+		/**
+		 * Runs eviction.
+		 */
 		@Override public void run() {
 			getStorage().evict(keys);
 		}
