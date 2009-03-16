@@ -55,7 +55,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	@Override public Option<V> get(final K key) {
 		final Collection<Future<Option<V>>> tasks = new LinkedList<Future<Option<V>>>();
 		for (final StorageHolder<K, V> storage : storages) {
-			tasks.add(pool.submit(new GetTask<K, V>(storage.getStorage(), key)));
+			tasks.add(pool.submit(new GetTask<K, V>(storage, key)));
 		}
 		return new Option<V>(getValue(tasks));
 	}
@@ -86,7 +86,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	@Override public Collection<CacheItem<K>> itemsForEviction() {
 		final Collection<Future<Collection<CacheItem<K>>>> tasks = new LinkedList<Future<Collection<CacheItem<K>>>>();
 		for (final StorageHolder<K, V> storage : storages) {
-			tasks.add(pool.submit(new GatheringEvictablesTask<K, V>(storage.getStorage())));
+			tasks.add(pool.submit(new GatheringEvictablesTask<K, V>(storage)));
 		}
 		return mergeEvictableItems(tasks);
 	}
@@ -111,7 +111,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		}
 		final Collection<Future<Integer>> tasks = new LinkedList<Future<Integer>>();
 		for (final StorageHolder<K, V> storage : storages) {
-			tasks.add(pool.submit(new EvictionTask<K, V>(storage.getStorage(), keys)));
+			tasks.add(pool.submit(new EvictionTask<K, V>(storage, keys)));
 		}
 		try {
 			return randezVous(tasks);
@@ -147,14 +147,14 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		/**
 		 * A cache storage which is a subject of task execution.
 		 */
-		private final CacheStorage<K, V> storage;
+		private final StorageHolder<K, V> storage;
 
 		/**
 		 * Creates a new task for the given cache storage.
 		 *
 		 * @param storage a cache storage.
 		 */
-		protected AbstractStorageTask(final CacheStorage<K, V> storage) {
+		protected AbstractStorageTask(final StorageHolder<K, V> storage) {
 			assert storage != null;
 			this.storage = storage;
 		}
@@ -164,7 +164,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 *
 		 * @return the storage which is a subject of task execution.
 		 */
-		protected CacheStorage<K, V> getStorage() {
+		protected StorageHolder<K, V> getStorage() {
 			return storage;
 		}
 
@@ -186,7 +186,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 * @param storage a storage which is a subject of getting task.
 		 * @param key a key of required object.
 		 */
-		private GetTask(final CacheStorage<K, V> storage, final K key) {
+		private GetTask(final StorageHolder<K, V> storage, final K key) {
 			super(storage);
 			assert key != null;
 			this.key = key;
@@ -200,7 +200,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 * @throws Exception hopefully never.
 		 */
 		@Override public Option<V> call() throws Exception {
-			return getStorage().get(key);
+			return getStorage().getStorage().get(key);
 		}
 
 	}
@@ -215,7 +215,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 *
 		 * @param storage a cache storage.
 		 */
-		private GatheringEvictablesTask(final CacheStorage<K, V> storage) {
+		private GatheringEvictablesTask(final StorageHolder<K, V> storage) {
 			super(storage);
 		}
 
@@ -227,7 +227,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 * @throws Exception hopefully never.
 		 */
 		@Override public Collection<CacheItem<K>> call() throws Exception {
-			return getStorage().itemsForEviction();
+			return getStorage().getStorage().itemsForEviction();
 		}
 
 	}
@@ -248,7 +248,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 * @param storage a cache storage.
 		 * @param keys keys to evict.
 		 */
-		private EvictionTask(final CacheStorage<K, V> storage, final Collection<K> keys) {
+		private EvictionTask(final StorageHolder<K, V> storage, final Collection<K> keys) {
 			super(storage);
 			assert keys != null;
 			this.keys = keys;
@@ -258,7 +258,10 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 * Runs eviction.
 		 */
 		@Override public Integer call() throws Exception {
-			return getStorage().evict(keys);
+			final StorageHolder<K, V> holder = getStorage();
+			final int evictedItems = holder.getStorage().evict(keys);
+			holder.setSize(holder.getSize() - evictedItems);
+			return evictedItems;
 		}
 
 	}
