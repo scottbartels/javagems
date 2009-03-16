@@ -16,22 +16,31 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		this.sizer = sizer;
 	}
 
-	public Option<V> get(final K key) {
+	@Override public Option<V> get(final K key) {
+		if (key == null) {
+			throw new IllegalArgumentException();
+		}
 		// todo: implement
 		return new Option<V>(null);
 	}
 
-	public void put(final V value) {
+	@Override public void put(final V value) {
+		if (value == null) {
+			throw new IllegalArgumentException();
+		}
 		// todo: if already owned, update value, or create new one otherwise
 	}
 
-	public Collection<CacheItem<K>> itemsForEviction() {
+	@Override public Collection<CacheItem<K>> itemsForEviction() {
 		// todo: return all evictable items.
 		return new LinkedList<CacheItem<K>>();
 	}
 
-	public void evict(final Collection<K> keys) {
-		// todo: remove each key in collection ignoring not owned
+	@Override public int evict(final Collection<K> keys) {
+		if (keys == null) {
+			throw new IllegalArgumentException();
+		}
+		return 0; // todo: remove each key in collection ignoring not owned
 	}
 
 }

@@ -80,29 +80,37 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		return result;
 	}
 
-	@Override public void evict(final Collection<K> keys) {
+	@Override public int evict(final Collection<K> keys) {
 		if (keys == null) {
 			throw new IllegalArgumentException();
 		}
-		final Collection<Future<?>> tasks = new LinkedList<Future<?>>();
+		final Collection<Future<Integer>> tasks = new LinkedList<Future<Integer>>();
 		for (final CacheStorage<K, V> storage : storages) {
 			tasks.add(pool.submit(new EvictionTask<K, V>(storage, keys)));
 		}
-		randezVous(tasks);
-		// todo: reorder storages that way to have the emptiest one first; it will be used for subsequent insert.  
+		try {
+			return randezVous(tasks);
+		} finally {
+			reorderStorages();
+		}
 	}
 
-	private static void randezVous(Collection<Future<?>> tasks) {
-		for (final Future<?> task : tasks) {
-			try {
-				task.get();
+	private void reorderStorages() {
+		// todo: reorder storages that way to have the emptiest one first; it will be used for subsequent insert.
+	}
 
+	private static int randezVous(Collection<Future<Integer>> tasks) {
+		int result = 0;
+		for (final Future<Integer> task : tasks) {
+			try {
+				result += task.get();
 			} catch (final InterruptedException e) {
 				ExceptionHandler.NULL_HANDLER.handle(e);
 			} catch (final ExecutionException e) {
 				ExceptionHandler.NULL_HANDLER.handle(e);
 			}
 		}
+		return result;
 	}
 
 	/**
@@ -202,7 +210,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	/**
 	 * Runs eviction on the storage.
 	 */
-	private static final class EvictionTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Runnable {
+	private static final class EvictionTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Integer> {
 
 		/**
 		 * Keys to evict.
@@ -224,8 +232,8 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		/**
 		 * Runs eviction.
 		 */
-		@Override public void run() {
-			getStorage().evict(keys);
+		@Override public Integer call() throws Exception {
+			return getStorage().evict(keys);
 		}
 
 	}
