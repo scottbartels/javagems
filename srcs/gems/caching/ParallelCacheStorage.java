@@ -38,7 +38,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 
 	}
 
-	private final Collection<StorageHolder<K, V>> storages;
+	private final List<StorageHolder<K, V>> storages;
 
 	private final ExecutorService pool;
 
@@ -53,19 +53,27 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	}
 
 	@Override public Option<V> get(final K key) {
-		final Collection<Future<Option<V>>> tasks = new LinkedList<Future<Option<V>>>();
+		final GetTaskResult<K, V> result = getImpl(key);
+		if (result != null) {
+			return new Option<V>(result.getOption().getValue());
+		}
+		return new Option<V>(null);
+	}
+
+	private GetTaskResult<K, V> getImpl(final K key) {
+		final Collection<Future<GetTaskResult<K, V>>> tasks = new LinkedList<Future<GetTaskResult<K, V>>>();
 		for (final StorageHolder<K, V> storage : storages) {
 			tasks.add(pool.submit(new GetTask<K, V>(storage, key)));
 		}
-		return new Option<V>(getValue(tasks));
+		return getTaskResult(tasks);
 	}
 
-	private static <T> T getValue(final Iterable<Future<Option<T>>> tasks) {
-		for (final Future<Option<T>> task : tasks) {
+	private static <K, V extends Identifiable<K>> GetTaskResult<K, V> getTaskResult(final Iterable<Future<GetTaskResult<K, V>>> tasks) {
+		for (final Future<GetTaskResult<K, V>> task : tasks) {
 			try {
-				final Option<T> option = task.get();
-				if (option.hasValue()) {
-					return option.getValue();
+				final GetTaskResult<K, V> taskResult = task.get();
+				if (taskResult.getOption().hasValue()) {
+					return taskResult;
 				}
 			} catch (final InterruptedException e) {
 				ExceptionHandler.NULL_HANDLER.handle(e);
@@ -77,10 +85,29 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	}
 
 	@Override public void put(final V value) {
-		// todo: 1) try to get
-		// todo: 2) if found, update in the right storage and finish
-		// todo: 3) otherwise select storage
-		// todo: 4) put value into
+		if (value == null) {
+			throw new IllegalArgumentException();
+		}
+		final GetTaskResult<K, V> result = getImpl(value.getId());
+		if (result != null) {
+			result.getStorage().put(value);
+		} else {
+			final StorageHolder<K, V> storage = getEmptiestStorage();
+			storage.getStorage().put(value);
+			storage.setSize(storage.getSize() + 1);
+
+		}
+	}
+
+	private StorageHolder<K, V> getEmptiestStorage() {
+		StorageHolder<K, V> result = storages.get(0);
+		for (int i = 1; i < storages.size(); i++) {
+			final StorageHolder<K, V> storage = storages.get(i);
+			if (storage.getSize() < result.getSize()) {
+				result = storage;
+			}
+		}
+		return result;
 	}
 
 	@Override public Collection<CacheItem<K>> itemsForEviction() {
@@ -113,18 +140,10 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		for (final StorageHolder<K, V> storage : storages) {
 			tasks.add(pool.submit(new EvictionTask<K, V>(storage, keys)));
 		}
-		try {
-			return randezVous(tasks);
-		} finally {
-			reorderStorages();
-		}
+		return randezVousEvicters(tasks);
 	}
 
-	private void reorderStorages() {
-		// todo: reorder storages that way to have the emptiest one first; it will be used for subsequent insert.
-	}
-
-	private static int randezVous(Collection<Future<Integer>> tasks) {
+	private static int randezVousEvicters(Collection<Future<Integer>> tasks) {
 		int result = 0;
 		for (final Future<Integer> task : tasks) {
 			try {
@@ -170,10 +189,30 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 
 	}
 
+	private static final class GetTaskResult<K, V extends Identifiable<K>> {
+
+		private final Option<V> option;
+
+		private final CacheStorage<K, V> storage;
+
+		private GetTaskResult(final Option<V> option, final CacheStorage<K, V> storage) {
+			this.option = option;
+			this.storage = storage;
+		}
+
+		public Option<V> getOption() {
+			return option;
+		}
+
+		public CacheStorage<K, V> getStorage() {
+			return storage;
+		}
+	}
+
 	/**
 	 * Implements getting value from a storage.
 	 */
-	private static final class GetTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Option<V>> {
+	private static final class GetTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<GetTaskResult<K, V>> { // todo: review documentation
 
 		/**
 		 * A key of required value.
@@ -199,8 +238,10 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 *
 		 * @throws Exception hopefully never.
 		 */
-		@Override public Option<V> call() throws Exception {
-			return getStorage().getStorage().get(key);
+		@Override public GetTaskResult<K, V> call() throws Exception {
+			final CacheStorage<K, V> storage = getStorage().getStorage();
+			final Option<V> option = storage.get(key);
+			return new GetTaskResult<K,V>(option, storage);
 		}
 
 	}
