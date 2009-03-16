@@ -149,7 +149,8 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 					}
 				} else {
 					delay = MIN_DELAY;
-					storage.evict(Collections.unmodifiableCollection(keysToEvict));
+					final int itemsEvicted = storage.evict(Collections.unmodifiableCollection(keysToEvict));
+					assert keysToEvict.size() == itemsEvicted;
 				}
 			} finally {
 				lock.writeLock().unlock();
