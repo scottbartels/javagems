@@ -74,7 +74,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	 * encapsulating cache. A delay between two subsequent evictions is
 	 * adaptive and depends on the churn of cached objects.
 	 */
-	@SuppressWarnings({"ConstantConditions"}) private final class EvictScheduler implements Runnable {
+	private final class EvictScheduler implements Runnable {
 
 		/**
 		 * Minimal possible delay, in seconds.
@@ -89,12 +89,6 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		private final CacheEvicter<K> evicter;
 
 		private final CacheLimits limits;
-
-
-		{
-			assert MIN_DELAY > 0;
-			assert MIN_DELAY <= MAX_DELAY;
-		}
 
 		private EvictScheduler(final CacheEvicter<K> evicter, final CacheLimits limits) {
 			assert evicter != null;
