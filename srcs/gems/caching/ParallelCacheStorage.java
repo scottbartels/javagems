@@ -5,42 +5,89 @@ import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 
 final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheStorage<K, V> {
 
+	/**
+	 * Stores one underlaying storage and tracks information
+	 * about number of items stored in that storage. Please
+	 * note that this class is only bean-like holder for the
+	 * storage size and it is responsibility of client code
+	 * to set right value everytime the storage is changed.   
+	 */
 	private static final class StorageHolder<K, V extends Identifiable<K>> {
 
+		/**
+		 * A wrapped cache storage.
+		 */
 		private final CacheStorage<K, V> storage;
 
+		/**
+		 * Number of items actually kept in the cache storage.
+		 */
 		private volatile int size;
 
+		/**
+		 * Creates a new storage holder for the given storage and initiates
+		 * number of items stored inside to zero. In another words, it is
+		 * supposed that the storage is empty.
+		 *
+		 * @param storage a storage.
+		 *
+		 * @throws IllegalArgumentException if {@code storage} is {@code null}. 
+		 */
 		private StorageHolder(final CacheStorage<K, V> storage) {
+			if (storage == null) {
+				throw new IllegalArgumentException();
+			}
 			this.storage = storage;
 		}
 
+		/**
+		 * Returns the wrapped cache storage. This method never returns {@code null}.
+		 * 
+		 * @return  the wrapped cache storage.
+		 */
 		private CacheStorage<K, V> getStorage() {
 			return storage;
 		}
 
+		/**
+		 * Returns number of items in the wrapped storage. This method never returns a negative value.
+		 *
+		 * @return number if items in the wrapped storage.
+		 */
 		private int getSize() {
 			return size;
 		}
 
+		/**
+		 * Sets a new size of the cache storage.
+		 *
+		 * @param size a new size of the cache storage.
+		 *
+		 * @throws IllegalArgumentException if {@code size} is {@code null}. 
+		 */
 		private void setSize(final int size) {
-			assert size >= 0;
+			if (size < 0) {
+				throw new IllegalArgumentException(String.valueOf(size));
+			}
 			this.size = size;
 		}
 
 	}
 
+	/**
+	 * Underlaying storage holders.
+	 */
 	private final List<StorageHolder<K, V>> storages;
 
-	private final ExecutorService pool;
+	/**
+	 * Thread pool executing tasks on underlaying storages.
+	 */
+	private final ExecutorService pool; // TODO: HAVE TO BE SHARED AMONG CACHES WHEN SEGMENTED CACHE IS USED.
 
 	ParallelCacheStorage(final SizeEstimator<V> sizer) {
 		assert sizer != null;
