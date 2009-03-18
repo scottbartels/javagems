@@ -11,6 +11,8 @@ import java.util.concurrent.Executors;
 
 
 public final class CacheFactory {
+
+	
 	public static final class MemoryStorageFactory<K, V extends Identifiable<K>> implements StorageFactory<K, V> {
 
 		@Override public Storage<K, V> getStorage() {
@@ -25,6 +27,18 @@ public final class CacheFactory {
 
 	// PARALLEL CACHE FACTORIES
 
+	/**
+	 * Creates a new segmented in-memory cache defined by given attributes. 
+	 *
+	 * @param evicter a cache evicter.
+	 * @param sizer an implementation of size estimation of cached objects.
+	 * @param limits cache limits.
+	 * @param segmenter a cache segmenter defining cache segments.
+	 *
+	 * @return a new in-memory cache.
+	 *
+	 * @throws IllegalArgumentException if any of atributes is {@code null}.
+	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
@@ -34,6 +48,16 @@ public final class CacheFactory {
 		return createCache(evicter, sizer, limits, new MemoryStorageFactory<K, V>(), segmenter);
 	}
 
+	/**
+	 * Cretes a new segmented cache defined by given attributes.
+	 *
+	 * @param evicter a cache evicter.
+	 * @param sizer an implementation of size estimation of cached objects.
+	 * @param limits cache limits.
+	 * @param factory a factory providing low-level storage objects for cached objects.
+	 * @param segmenter a cache segmenter defining cache segments.
+	 * @return
+	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
@@ -56,14 +80,21 @@ public final class CacheFactory {
 		if (segmenter == null) {
 			throw new IllegalArgumentException();
 		}
-		final ExecutorService pool;
+		return new SegmentedCache<V, K>(evicter, sizer, limits, factory, segmenter, getPool());
+	}
+
+	/**
+	 * Creates a new fixed thread pool with number of threads equal
+	 * to number of available processors on multi-processor system.
+	 * This method returns {@code null} if only one avalilable
+	 * processor is reported by {@code Runtime.availableProcessor()}
+	 * method. 
+	 *
+	 * @return a new thread pool on MP system, or {@code null} on UP system.
+	 */
+	private static ExecutorService getPool() {
 		final int cpus = Runtime.getRuntime().availableProcessors();
-		if (cpus == 1) {
-			pool = null;
-		} else {
-			pool = Executors.newFixedThreadPool(cpus);
-		}
-		return new SegmentedCache<V, K>(evicter, sizer, limits, factory, segmenter, pool);
+		return (cpus == 1 ? null : Executors.newFixedThreadPool(cpus));
 	}
 
 	// FLAT CACHE FACTORIES
