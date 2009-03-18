@@ -4,6 +4,7 @@ import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.StorageFactory;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -87,16 +88,17 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	/**
 	 * Thread pool executing tasks on underlaying storages.
 	 */
-	private final ExecutorService pool; // TODO: HAVE TO BE SHARED AMONG CACHES WHEN SEGMENTED CACHE IS USED.
+	private final ExecutorService pool;
 
-	ParallelCacheStorage(final SizeEstimator<V> sizer) {
+	ParallelCacheStorage(final SizeEstimator<V> sizer, final StorageFactory<K, V> factory, ExecutorService pool) {
 		assert sizer != null;
+		assert pool != null;
+		this.pool = pool;
 		final int cpus = Runtime.getRuntime().availableProcessors();
 		storages = new ArrayList<StorageHolder<K, V>>(cpus);
 		for (int i = 0; i < cpus; i++) {
-			storages.add(new StorageHolder<K, V>(new FlatCacheStorage<K, V>(sizer)));
+			storages.add(new StorageHolder<K, V>(new FlatCacheStorage<K, V>(sizer, factory)));
 		}
-		pool = Executors.newFixedThreadPool(cpus);
 	}
 
 	@Override public Option<V> get(final K key) {

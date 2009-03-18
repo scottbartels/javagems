@@ -4,11 +4,13 @@ import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.StorageFactory;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.ExecutorService;
 
 final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
@@ -17,10 +19,19 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	 */
 	private final ReadWriteLock lock = new ReentrantReadWriteLock(true);
 
-	private final CacheStorage<K, V> storage = null;
+	private final CacheStorage<K, V> storage;
 
-	FlatCache(final CacheEvicter<K> evicter, final SizeEstimator<V> sizer, final CacheLimits limits) {
-		assert sizer != null; // TODO: USE SIZER
+	FlatCache(
+			final CacheEvicter evicter,
+			final SizeEstimator sizer,
+			final CacheLimits limits,
+			final StorageFactory factory,
+			ExecutorService pool) {
+		if (pool != null) {
+			storage = new ParallelCacheStorage<K,V>(sizer, factory, pool);
+		} else {
+			storage = new FlatCacheStorage<K,V>(sizer, factory);
+		}
 		startEvicterDaemon(new EvictScheduler(evicter, limits));
 	}
 

@@ -3,6 +3,8 @@ package gems.caching;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.StorageFactory;
+import gems.Storage;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -11,9 +13,12 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 	private final SizeEstimator<V> sizer;
 
-	FlatCacheStorage(final SizeEstimator<V> sizer) {
+	private final Storage<K, V> storage;
+
+	FlatCacheStorage(final SizeEstimator<V> sizer, StorageFactory<K, V> factory) {
 		assert sizer != null;
 		this.sizer = sizer;
+		storage = factory.getStorage();
 	}
 
 	@Override public Option<V> get(final K key) {
