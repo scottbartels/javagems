@@ -3,9 +3,11 @@ package gems.caching;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.StorageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Segmented cache implementation. It holds a flat cache for
@@ -33,19 +35,25 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 	 * @param evicter passed to flat cache segments as is.
 	 * @param sizer passed to flat cache segments as is.
 	 * @param limits passed to flat cache segments splitting limits across them.
+	 * @param factory
 	 * @param segmenter a segmenter defining a segmentation for the cache.
+	 *
+	 * @param pool
+	 * @throws IllegalArgumentException if {@code segmenter} is {@code null}.
 	 */
 	SegmentedCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
 			final CacheLimits limits,
-			final CacheSegmenter<K> segmenter
-	) {
-		assert segmenter != null;
+			StorageFactory<K, V> factory, final CacheSegmenter<K> segmenter,
+			ExecutorService pool) {
+		if (segmenter == null) {
+			throw new IllegalArgumentException();
+		}
 		this.segmenter = segmenter;
 		segments = new ArrayList<Cache<V, K>>(segmenter.maxSegments());
 		for (int i = 0; i < segmenter.maxSegments(); i++) {
-			segments.add(CacheFactory.createCache(evicter, sizer, new CacheLimits(limits, segmenter.maxSegments())));
+			segments.add(CacheFactory.createCache(evicter, sizer, new CacheLimits(limits, segmenter.maxSegments()), factory, pool));
 		}
 	}
 
