@@ -53,7 +53,7 @@ final class ByteSubContent extends AbstractByteContent {
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
 		if (index < 0 || index >= length()) {
-			throw new IllegalArgumentException(String.valueOf(index));
+			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		return content.getByteAt(offset + index);
 	}
@@ -66,7 +66,7 @@ final class ByteSubContent extends AbstractByteContent {
 	 */
 	@Override public synchronized void setByteAt(final int index, final byte b) {
 		if (index < 0 || index >= length()) {
-			throw new IllegalArgumentException(String.valueOf(index));
+			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		content.setByteAt(offset + index, b);
 	}
