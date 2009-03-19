@@ -4,7 +4,7 @@ import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
-import gems.StorageFactory;
+import gems.storage.StorageFactory;
 
 import java.util.Collection;
 import java.util.Collections;

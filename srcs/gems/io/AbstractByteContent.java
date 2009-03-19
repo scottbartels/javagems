@@ -7,7 +7,7 @@ import gems.Bounds;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-abstract class AbstractByteContent implements ByteContent {
+abstract class AbstractByteContent implements ByteContent { // TODO: More scalable synchronization might be used
 
 	/**
 	 * Content length.

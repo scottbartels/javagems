@@ -27,9 +27,6 @@ abstract class AbstractCacheSegmenter<K> implements CacheSegmenter<K> {
 		this.segments = segments;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override public final int maxSegments() {
 		return segments;
 	}

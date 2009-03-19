@@ -51,6 +51,6 @@ interface CacheStorage<K, V extends Identifiable<K>> {
 	 *
 	 * @return number of evicted really items.
 	 */
-	int evict(Collection<K> keys); // TODO: RETURNS NUMBER OF EVICTED OBJECTS.
+	int evict(Collection<K> keys);
 
 }

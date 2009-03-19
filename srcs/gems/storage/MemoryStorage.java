@@ -1,9 +1,11 @@
-package gems;
+package gems.storage;
+
+import gems.Identifiable;
 
 import java.util.Map;
 import java.util.HashMap;
 
-@Experimental public final class MemoryStorage<K, V extends Identifiable<K>> implements Storage<K, V> {
+public final class MemoryStorage<K, V extends Identifiable<K>> implements Storage<K, V> {
 
 	private final Map<K, V> map = new HashMap<K,V>();
 

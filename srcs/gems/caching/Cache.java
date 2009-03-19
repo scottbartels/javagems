@@ -11,7 +11,9 @@ import gems.ObjectProvider;
  * when previously stored object is not in cache anymore. This
  * interface provides an abstraction for a cache: it allows to
  * store indentifiable objects and to try to retrieve them back
- * in type-safe manner.
+ * in type-safe manner. If you are using a cache, probably
+ * the {@code gesm.caching.CachingObjectProvider} wrapper can
+ * do your life even easyier.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> a type of keys.
