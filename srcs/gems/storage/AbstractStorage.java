@@ -13,7 +13,7 @@ abstract class AbstractStorage<K, V extends Identifiable<K>> implements Storage<
 	 *
 	 * @throws IllegalArgumentException if {@code filter} is {@code null}. 
 	 */
-	@Override public final Collection<V> search(final Filter<V> filter) {
+	@Override public final Collection<V> search(final Filter<? super V> filter) {
 		if (filter == null) {
 			throw new IllegalArgumentException();
 		}

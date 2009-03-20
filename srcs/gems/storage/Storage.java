@@ -39,6 +39,6 @@ public interface Storage<K, V extends Identifiable<K>> extends Iterable<V>, Obje
 	 * @param filter a filter of returned values.
 	 * @return  a collection of stored values which satisfy a condistion specified by a given filter.
 	 */
-	Collection<V> search(Filter<V> filter);
+	Collection<V> search(Filter<? super V> filter);
 	
 }
