@@ -110,7 +110,7 @@ public final class CachingObjectProvider<V extends Identifiable<K>, K> implement
 		if (provided.hasValue()) {
 			final V value = provided.getValue();
 			if (keyFilter.allows(key) && valueFilter.allows(value)) {
-				cache.offer(value);
+				cache.put(value);
 			}
 			return new Option<V>(value);
 

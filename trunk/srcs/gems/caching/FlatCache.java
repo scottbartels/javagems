@@ -51,7 +51,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	 *
 	 * @throws IllegalArgumentException if {@code object} is {@code null}.
 	 */
-	@Override public void offer(final V object) {
+	@Override public void put(final V object) {
 		if (object == null) {
 			throw new IllegalArgumentException();
 		}
