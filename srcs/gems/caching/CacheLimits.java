@@ -6,7 +6,7 @@ package gems.caching;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class CacheLimits {
+public final class CacheLimits { // TODO: SHOULD BE AN INTERFACE, but it breaks current usage in segmented cache (splitting limits for segments)
 
 	/**
 	 * Default maximal number of items allowed to be stored in a cache.

@@ -16,7 +16,12 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 	private final Storage<K, V> storage;
 
 	FlatCacheStorage(final SizeEstimator<V> sizer, StorageFactory<K, V> factory) {
-		assert sizer != null;
+		if (sizer == null) {
+			throw new IllegalArgumentException();
+		}
+		if (factory == null) {
+			throw new IllegalArgumentException();
+		}
 		this.sizer = sizer;
 		storage = factory.getStorage();
 	}
@@ -25,7 +30,10 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		// todo: implement
+		// todo: 1) try to find
+		// todo: 2) if nothing found, return an empty Option
+		// todo: 3) if the found one is expired, destroy it and return an empty Option
+		// todo: 4) return Option with value gotten from the found one
 		return new Option<V>(null);
 	}
 
@@ -36,16 +44,18 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		// todo: if already owned, update value, or create new one otherwise
 	}
 
-	@Override public Collection<CacheItem<K>> itemsForEviction() {
-		// todo: return all evictable items.
-		return new LinkedList<CacheItem<K>>();
+	@Override public Collection<CacheItem<K, ?>> itemsForEviction() {
+		// todo: 1) Remove expired items first
+		// todo: 2) Return all evictable items.
+		return new LinkedList<CacheItem<K,?>>();
 	}
 
 	@Override public int evict(final Collection<K> keys) {
 		if (keys == null) {
 			throw new IllegalArgumentException();
 		}
-		return 0; // todo: remove each key in collection ignoring not owned
+		// todo: remove each key in collection ignoring not owned
+		return 0;
 	}
 
 }
