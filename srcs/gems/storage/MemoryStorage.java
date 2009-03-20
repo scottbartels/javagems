@@ -2,16 +2,13 @@ package gems.storage;
 
 import gems.Identifiable;
 import gems.Option;
-import gems.filtering.Filter;
 
-import java.util.Map;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Collections;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Map;
 
-public final class MemoryStorage<K, V extends Identifiable<K>> implements Storage<K, V> {
+public final class MemoryStorage<K, V extends Identifiable<K>> extends AbstractStorage<K, V> {
 
 	private final Map<K, V> map = new HashMap<K,V>();
 
@@ -34,19 +31,6 @@ public final class MemoryStorage<K, V extends Identifiable<K>> implements Storag
 			throw new IllegalArgumentException();
 		}
 		map.remove(key);
-	}
-
-	@Override public Collection<V> search(final Filter<V> filter) {
-		if (filter == null) {
-			throw new IllegalArgumentException();
-		}
-		final Collection<V> result = new LinkedList<V>();
-		for (final V value : map.values()) {
-			if (filter.allows(value)) {
-				result.add(value);
-			}
-		}
-		return result;
 	}
 
 	@Override public Iterator<V> iterator() {
