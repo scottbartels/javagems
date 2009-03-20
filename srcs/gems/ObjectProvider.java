@@ -24,7 +24,7 @@ package gems;
 		 *
 		 * @throws IllegalArgumentException if {@code key} is {@code null}.
 		 */
-		public Option<Object> get(final Object key) {
+		@Override public Option<Object> get(final Object key) {
 			if (key == null) {
 				throw new IllegalArgumentException();
 			}
