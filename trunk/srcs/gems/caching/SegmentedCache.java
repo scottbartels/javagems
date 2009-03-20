@@ -72,11 +72,11 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 	 *
 	 * @throws IllegalArgumentException if {@code object} is {@code null}.
 	 */
-	@Override public void put(final V object) {
+	@Override public void offer(final V object) {
 		if (object == null) {
 			throw new IllegalArgumentException();
 		}
-		getSegment(object.getId()).put(object);
+		getSegment(object.getId()).offer(object);
 	}
 
 	/**

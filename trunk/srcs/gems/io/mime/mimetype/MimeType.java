@@ -60,7 +60,7 @@ public final class MimeType extends AbstractIdentifiable<String> {
 		}
 
 		final MimeType result = new MimeType(spec);
-		cache.put(result);
+		cache.offer(result);
 		return result;
 	}
 
@@ -93,7 +93,7 @@ public final class MimeType extends AbstractIdentifiable<String> {
 
 		private final Map<String, MimeType> store = new HashMap<String, MimeType>();
 
-		@Override public synchronized void put(final MimeType object) {
+		@Override public synchronized void offer(final MimeType object) {
 			assert object != null;
 			assert !store.containsKey(object.getId());
 			store.put(object.getId(), object);
