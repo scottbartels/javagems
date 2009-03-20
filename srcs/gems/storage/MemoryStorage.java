@@ -1,6 +1,7 @@
 package gems.storage;
 
 import gems.Identifiable;
+import gems.Option;
 import gems.filtering.Filter;
 
 import java.util.Map;
@@ -21,11 +22,11 @@ public final class MemoryStorage<K, V extends Identifiable<K>> implements Storag
 		map.put(value.getId(), value);
 	}
 
-	@Override public V get(final K key) {
+	@Override public Option<V> get(final K key) {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		return map.get(key);
+		return new Option<V>(map.get(key));
 	}
 
 	@Override public void remove(final K key) {
