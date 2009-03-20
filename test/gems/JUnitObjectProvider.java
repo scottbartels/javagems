@@ -14,14 +14,14 @@ public final class JUnitObjectProvider {
 	 * Checks whether null-implementation of the interface forbids a {@code null} key.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void nullImplementationForbidsNullKey() {
-		ObjectProvider.NULL_PROVIDER.provide(null);
+		ObjectProvider.NULL_PROVIDER.get(null);
 	}
 
 	/**
 	 * Checks whether null-implementation of the interface returns an empty {@code Option}.
 	 */
 	@Test public void nullImplementationReturnsEmptyOption() {
-		Assert.assertFalse(ObjectProvider.NULL_PROVIDER.provide(new Object()).hasValue());
+		Assert.assertFalse(ObjectProvider.NULL_PROVIDER.get(new Object()).hasValue());
 	}
 
 }

@@ -24,7 +24,7 @@ package gems;
 		 *
 		 * @throws IllegalArgumentException if {@code key} is {@code null}.
 		 */
-		public Option<Object> provide(final Object key) {
+		public Option<Object> get(final Object key) {
 			if (key == null) {
 				throw new IllegalArgumentException();
 			}
@@ -44,6 +44,6 @@ package gems;
 	 * @return an optional value holding a provided object or empty
 	 *         option if required object cannot be provided.
 	 */
-	Option<T> provide(K key); // todo: maybe simple name get() is beter here.
+	Option<T> get(K key); // todo: maybe simple name get() is beter here.
 
 }
