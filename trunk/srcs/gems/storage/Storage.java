@@ -1,15 +1,14 @@
 package gems.storage;
 
 import gems.Identifiable;
+import gems.ObjectProvider;
 import gems.filtering.Filter;
 
 import java.util.Collection;
 
-public interface Storage<K, V extends Identifiable<K>> extends Iterable<V> {
+public interface Storage<K, V extends Identifiable<K>> extends Iterable<V>, ObjectProvider<V, K> {
 
 	void put(V value);
-
-	V get(K key);  // todo: maybe storage IS object provider. 
 
 	/**
 	 * Guarantees that object identified by a givne key is not in the storage

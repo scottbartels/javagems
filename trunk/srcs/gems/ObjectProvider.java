@@ -44,6 +44,6 @@ package gems;
 	 * @return an optional value holding a provided object or empty
 	 *         option if required object cannot be provided.
 	 */
-	Option<T> get(K key); // todo: maybe simple name get() is beter here.
+	Option<T> get(K key);
 
 }
