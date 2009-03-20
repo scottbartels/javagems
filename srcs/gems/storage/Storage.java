@@ -6,17 +6,8 @@ import gems.filtering.Filter;
 
 import java.util.Collection;
 
-/**
- * A storage is a place for holding identifiable objects.
- * 
- */
 public interface Storage<K, V extends Identifiable<K>> extends Iterable<V>, ObjectProvider<V, K> {
 
-	/**
-	 * Places a given value into the storage.
-	 *
-	 * @param value a value added into the storage.
-	 */
 	void put(V value);
 
 	/**
