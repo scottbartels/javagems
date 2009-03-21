@@ -39,7 +39,7 @@ interface CacheStorage<K, V extends Identifiable<K>> {
 	 *
 	 * @return a collection of cached items suitable for eviction.
 	 */
-	Collection<CacheItem<K, ?>> itemsForEviction();
+	Collection<CacheItemStatistics<K>> itemsForEviction();
 
 	/**
 	 * Evicts all cached items identified by keys in a given collection.

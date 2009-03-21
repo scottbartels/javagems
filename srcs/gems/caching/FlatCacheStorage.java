@@ -44,10 +44,10 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		// todo: if already owned, update value, or create new one otherwise
 	}
 
-	@Override public Collection<CacheItem<K, ?>> itemsForEviction() {
+	@Override public Collection<CacheItemStatistics<K>> itemsForEviction() {
 		// todo: 1) Remove expired items first
 		// todo: 2) Return all evictable items.
-		return new LinkedList<CacheItem<K,?>>();
+		return new LinkedList<CacheItemStatistics<K>>();
 	}
 
 	@Override public int evict(final Collection<K> keys) {
