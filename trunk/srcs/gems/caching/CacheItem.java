@@ -14,30 +14,7 @@ import gems.Identifiable;
  */
 public final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdentifiable<K> { // TODO: MAKE READY FOR A PERSISTENT STORAGE
 
-	/**
-	 * A timestamp indicating when the item was added to acache.
-	 */
-	private final long dateOfBirth = System.currentTimeMillis();
-
-	/**
-	 * A timestamp indicating the last access to the item's value.
-	 */
-	private volatile long lastAccess = dateOfBirth;
-
-	/**
-	 * A counter for successful requests of the items value.
-	 */
-	private volatile long hits;
-
-	/**
-	 * A counter for unsuccessful requests of the item size. 
-	 */
-	private volatile long misses;
-
-	/**
-	 * Actual size of item; should be zero for evicted item.
-	 */
-	private volatile long size;
+	private final CacheItemStatistics<K> statistics;
 
 	/**
 	 * A flag indicating that the cache item is expired. If a cache item is
@@ -47,11 +24,6 @@ public final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdent
 	private volatile boolean expired;
 
 	/**
-	 * A cached value.
-	 */
-	private V value;
-
-	/*
 	 * TODO: Do not hold value directly. An indirection between CacheItem and its value is necessary. Deja-vu?
 	 *
 	 * This is still tricky. Let's have 10GB of web pages cached in a persistent cache
@@ -59,9 +31,11 @@ public final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdent
 	 * expiration and evictability. Whit a current implementation, it means to load 10GB
 	 * of data into memory.
 	 */
+	private V value;
 
 	CacheItem(final K key, final V value, final long size) {
 		super(key);
+		statistics = new CacheItemStatistics<K>(key);
 		update(value, size);
 	}
 
@@ -69,14 +43,11 @@ public final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdent
 
 	synchronized void evict() { // TODO: Document ItemAlreadyExpiredExpception for this method.
 		ensureNonExpiredStatus();
-		checkInvariants();
 		value = null;
-		size = 0;
-		checkInvariants();
+		statistics.recordEviction();
 	}
 
 	synchronized void update(final V value, final long size) { // TODO: Document ItemAlreadyExpiredExpception for this method.
-		checkInvariants();
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
@@ -88,32 +59,13 @@ public final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdent
 		}
 		ensureNonExpiredStatus();
 		this.value = value;
-		this.size = size;
-		checkInvariants();
+		statistics.setSize(size);
 	}
 
 	synchronized V getValue() { // TODO: Document ItemAlreadyExpiredExpception for this method.
-		checkInvariants();
-
 		ensureNonExpiredStatus();
-
-		if (value == null) {
-			misses++;
-		} else {
-			hits++;
-		}
-		lastAccess = System.currentTimeMillis();
-		checkInvariants();
+		statistics.recordAccess(value != null);
 		return value;
-	}
-
-	private void ensureNonExpiredStatus() {
-		// Do not call isExpired() here. At first, it has side effects
-		// of re-evaluating expired status and it can cause a deadlock,
-		// if lack of proper synchronization on upper levels.
-		if (expired) {
-			throw new ItemAlreadyExpiredExpception();
-		}
 	}
 
 	synchronized boolean isEvictable() { // TODO: Document ItemAlreadyExpiredExpception for this method.
@@ -132,42 +84,17 @@ public final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdent
 		return expired;
 	}
 
-	private void checkInvariants() {
-		if (size != 0 && value == null) { // todo: replace with assert later (after unit tests are ready for the class)
-			throw new IllegalStateException("Non-zero reported size of an empty item: " + size +  " [" + getId() + "]");
+	synchronized CacheItemStatistics<K> getStatisticsSnapshot() {
+		return statistics.getSnapshot();
+	}
+
+	private void ensureNonExpiredStatus() {
+		// Do not call isExpired() here. At first, it has side effects
+		// of re-evaluating expired status and it can cause a deadlock,
+		// if lack of proper synchronization on upper levels.
+		if (expired) {
+			throw new ItemAlreadyExpiredExpception();
 		}
-	}
-
-	// PUBLIC INTERFACE (FOR EVICTERS)
-
-	public long getDateOfBirth() { // Do NOT document ItemAlreadyExpiredExpception for this method.
-		ensureNonExpiredStatus();
-		return dateOfBirth;
-	}
-
-	public long getLastAccess() { // Do NOT document ItemAlreadyExpiredExpception for this method.
-		ensureNonExpiredStatus();
-		return lastAccess;
-	}
-
-	public long getSize() { // Do NOT document ItemAlreadyExpiredExpception for this method.
-		ensureNonExpiredStatus();
-		return size;
-	}
-
-	public long getHits() { // Do NOT document ItemAlreadyExpiredExpception for this method.
-		ensureNonExpiredStatus();
-		return hits;
-	}
-
-	public long getMisses() { // Do NOT document ItemAlreadyExpiredExpception for this method.
-		ensureNonExpiredStatus();
-		return misses;
-	}
-
-	public long getAccesses() { // Do NOT document ItemAlreadyExpiredExpception for this method.
-		ensureNonExpiredStatus();
-		return hits + misses;
 	}
 
 	public static final class ItemAlreadyExpiredExpception extends IllegalStateException {

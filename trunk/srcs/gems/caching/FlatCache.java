@@ -22,10 +22,10 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	private final CacheStorage<K, V> storage;
 
 	FlatCache(
-			final CacheEvicter evicter,
-			final SizeEstimator sizer,
+			final CacheEvicter<K> evicter,
+			final SizeEstimator<V> sizer,
 			final CacheLimits limits,
-			final StorageFactory factory,
+			final StorageFactory<K, V> factory,
 			ExecutorService pool) {
 		if (pool != null) {
 			storage = new ParallelCacheStorage<K,V>(sizer, factory, pool);

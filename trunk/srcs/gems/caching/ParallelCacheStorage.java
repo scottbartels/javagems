@@ -159,17 +159,17 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		return result;
 	}
 
-	@Override public Collection<CacheItem<K, ?>> itemsForEviction() {
-		final Collection<Future<Collection<CacheItem<K, ?>>>> tasks = new LinkedList<Future<Collection<CacheItem<K, ?>>>>();
+	@Override public Collection<CacheItemStatistics<K>> itemsForEviction() {
+		final Collection<Future<Collection<CacheItemStatistics<K>>>> tasks = new LinkedList<Future<Collection<CacheItemStatistics<K>>>>();
 		for (final StorageHolder<K, V> storage : storages) {
 			tasks.add(pool.submit(new GatheringEvictablesTask<K, V>(storage)));
 		}
 		return mergeEvictableItems(tasks);
 	}
 
-	private static <T> Collection<CacheItem<T, ?>> mergeEvictableItems(final Iterable<Future<Collection<CacheItem<T, ?>>>> tasks) {
-		final List<CacheItem<T, ?>> result = new LinkedList<CacheItem<T, ?>>();
-		for (final Future<Collection<CacheItem<T, ?>>> task : tasks) {
+	private static <T> Collection<CacheItemStatistics<T>> mergeEvictableItems(final Iterable<Future<Collection<CacheItemStatistics<T>>>> tasks) {
+		final List<CacheItemStatistics<T>> result = new LinkedList<CacheItemStatistics<T>>();
+		for (final Future<Collection<CacheItemStatistics<T>>> task : tasks) {
 			try {
 				result.addAll(task.get());
 			} catch (final InterruptedException e) {
@@ -298,7 +298,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	/**
 	 * Gets evictable items from the storage.
 	 */
-	private static final class GatheringEvictablesTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Collection<CacheItem<K, ?>>> {
+	private static final class GatheringEvictablesTask<K, V extends Identifiable<K>> extends AbstractStorageTask<K, V> implements Callable<Collection<CacheItemStatistics<K>>> {
 
 		/**
 		 * Creates a new task for the given cache storage.
@@ -316,7 +316,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 *
 		 * @throws Exception hopefully never.
 		 */
-		@Override public Collection<CacheItem<K, ?>> call() throws Exception {
+		@Override public Collection<CacheItemStatistics<K>> call() throws Exception {
 			return getStorage().getStorage().itemsForEviction();
 		}
 
