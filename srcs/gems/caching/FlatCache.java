@@ -4,6 +4,7 @@ import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.Limits;
 import gems.storage.StorageFactory;
 
 import java.util.Collection;
@@ -24,7 +25,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	FlatCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
-			final CacheLimits limits,
+			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory,
 			ExecutorService pool) {
 		if (pool != null) {
@@ -99,9 +100,9 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
 		private final CacheEvicter<K> evicter;
 
-		private final CacheLimits limits;
+		private final Limits<CacheLimit> limits;
 
-		private EvictScheduler(final CacheEvicter<K> evicter, final CacheLimits limits) {
+		private EvictScheduler(final CacheEvicter<K> evicter, final Limits<CacheLimit> limits) {
 			assert evicter != null;
 			assert limits != null;
 			this.evicter = evicter;

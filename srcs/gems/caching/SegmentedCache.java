@@ -3,6 +3,7 @@ package gems.caching;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.Limits;
 import gems.storage.StorageFactory;
 
 import java.util.ArrayList;
@@ -30,22 +31,23 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 	private final List<Cache<V, K>> segments;
 
 	/**
-	 * Creates a new segmented cache. 
+	 * Creates a new segmented cache.
 	 *
 	 * @param evicter passed to flat cache segments as is.
 	 * @param sizer passed to flat cache segments as is.
-	 * @param limits passed to flat cache segments splitting limits across them.
-	 * @param factory
+	 * @param limits for each cache segment.
+	 * @param factory a factory providing low-level storage objects.
 	 * @param segmenter a segmenter defining a segmentation for the cache.
+	 * @param pool a thread pool for parallel cache storage, if any.
 	 *
-	 * @param pool
 	 * @throws IllegalArgumentException if {@code segmenter} is {@code null}.
 	 */
 	SegmentedCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
-			final CacheLimits limits,
-			StorageFactory<K, V> factory, final CacheSegmenter<K> segmenter,
+			final Limits<CacheLimit> limits,
+			StorageFactory<K, V> factory,
+			final CacheSegmenter<K> segmenter,
 			ExecutorService pool) {
 		if (segmenter == null) {
 			throw new IllegalArgumentException();
@@ -53,7 +55,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		this.segmenter = segmenter;
 		segments = new ArrayList<Cache<V, K>>(segmenter.maxSegments());
 		for (int i = 0; i < segmenter.maxSegments(); i++) {
-			segments.add(CacheFactory.createCache(evicter, sizer, new CacheLimits(limits, segmenter.maxSegments()), factory, pool));
+			segments.add(CacheFactory.createCache(evicter, sizer, limits, factory, pool));
 		}
 	}
 
@@ -61,7 +63,8 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 	 * Finds appropriate segment for a given key.
 	 *
 	 * @param id a key.
-	 * @return appropriate segment for a given key. 
+	 *
+	 * @return appropriate segment for a given key.
 	 */
 	private Cache<V, K> getSegment(final K id) {
 		return segments.get(segmenter.getSegment(id));
@@ -90,5 +93,5 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		}
 		return getSegment(key).get(key);
 	}
-	
+
 }

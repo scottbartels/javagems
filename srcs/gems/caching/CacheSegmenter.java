@@ -68,7 +68,7 @@ public interface CacheSegmenter<K> {
 	/**
 	 * Gets number of segments. The value returned by this method
 	 * must be constant during the whole object lifecycle and it
-	 * have to be a non-negative integer.
+	 * have to be an integer greater than zero.
 	 *
 	 * @return number of segments.
 	 */
