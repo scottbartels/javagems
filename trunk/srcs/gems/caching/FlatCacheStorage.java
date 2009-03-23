@@ -1,11 +1,11 @@
 package gems.caching;
 
+import gems.AbstractIdentifiable;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
-import gems.AbstractIdentifiable;
-import gems.storage.StorageFactory;
 import gems.storage.Storage;
+import gems.storage.StorageFactory;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -14,6 +14,9 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 	private final SizeEstimator<V> sizer;
 
+	/**
+	 * This is the storage for cached objects.
+	 */
 	private final Storage<K, V> values;
 
 	FlatCacheStorage(final SizeEstimator<V> sizer, StorageFactory<K, V> factory) {
@@ -61,17 +64,17 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 	/**
 	 * This is a holder for the unit of cached information. It encapsulates an identifier
-	 * of the cached object, cached object itself and various statistics like cache hits,
-	 * cache misses, last access time, expiration time, and so on.
-	 *
-	 * @param <K> type of object identifiers.
-	 * @param <V> type of cached objects.
+	 * of the cached object and various statistics like cache hits, cache misses, last access
+	 * time, expiration time, and so on. The cached object itself is held out of this object,
+	 * in the dedicated storage, which is a part of encapsulating class.
 	 */
-	private final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdentifiable<K> { // TODO: MAKE READY FOR A PERSISTENT STORAGE
+	/*### private ###*/
+	final class CacheItem extends AbstractIdentifiable<K> { // TODO: MAKE READY FOR A PERSISTENT STORAGE
 
+		/**
+		 * Cache statistics.
+		 */
 		private final CacheItemStatistics<K> statistics;
-
-		private final Storage<K, V> values;
 
 		/**
 		 * A flag indicating that the cache item is expired. If a cache item is
@@ -80,63 +83,128 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		 */
 		private volatile boolean expired;
 
-		CacheItem(final Storage<K,V> values, final K key, final V value, final long size) {
-			super(key);
-			statistics = new CacheItemStatistics<K>(key);
-			this.values = values;
+		/**
+		 * Creates a new cached item for a given value of given size.
+		 *
+		 * @param value a cached object.
+		 * @param size a size estimation for the object.
+		 */
+		/*### private ###*/
+		CacheItem(final V value, final long size) {
+			super(value.getId());
+			statistics = new CacheItemStatistics<K>(value.getId());
 			update(value, size);
 		}
 
-		// LOCAL INTERFACE (FOR CACHING INFRASTRUCTURE)
-
-		synchronized void evict() { // TODO: Document ItemAlreadyExpiredExpception for this method.
+		/**
+		 * Evicts the cached item. Cached object will be removed from the values
+		 * storage, and the eviction is recored to statistics of the cache item.
+		 *
+		 * @throws ItemAlreadyExpiredExpception if the item has been alredy expired.
+		 */
+		/*### private ###*/
+		synchronized void evict() {
 			ensureNonExpiredStatus();
+			assert isEvictable();
 			values.remove(getId());
 			statistics.recordEviction();
 		}
 
-		synchronized void update(final V value, final long size) { // TODO: Document ItemAlreadyExpiredExpception for this method.
+		/**
+		 * Update a cache item with a new value of given size.
+		 *
+		 * @param value a new value.
+		 * @param size a size estimation for the object.
+		 *
+		 * @throws IllegalArgumentException if {@code value} is {@code null} or {@code size} is negative.
+		 * @throws KeysMismatchException if ID of the cache item and ID of given value differs.
+		 * @throws ItemAlreadyExpiredExpception if the item has been already expired.
+		 */
+		/*### private ###*/
+		synchronized void update(final V value, final long size) {
 			if (value == null) {
 				throw new IllegalArgumentException();
 			}
 			if (!value.getId().equals(getId())) {
-				throw new IllegalArgumentException();
+				throw new KeysMismatchException();
 			}
 			if (size < 0) {
 				throw new IllegalArgumentException(String.valueOf(size));
 			}
 			ensureNonExpiredStatus();
 			values.put(value);
-			statistics.setSize(size);
+			statistics.recordSize(size);
 		}
 
-		synchronized V getValue() { // TODO: Document ItemAlreadyExpiredExpception for this method.
+		/**
+		 * Returns a cached object for the cache item or {@code null} if the item has been evicted.
+		 *
+		 * @return a cached object for the cache item or {@code null} if the item has been evicted.
+		 *
+		 * @throws ItemAlreadyExpiredExpception if the item has been already expired.
+		 */
+		/*### private ###*/
+		synchronized V getValue() {
 			ensureNonExpiredStatus();
 			final Option<V> value = values.get(getId());
 			statistics.recordAccess(value.hasValue());
 			return value.getValue();
 		}
 
-		synchronized boolean isEvictable() { // TODO: Document ItemAlreadyExpiredExpception for this method.
+		/**
+		 * Checks whether the cache item is evictable. The cache item is considered
+		 * to be evictable, if its cahed object is still in the cache and it has not
+		 * been evicted yet.
+		 *
+		 * @return {@code true} if the cache item can be evicted, {@code false} otherwise.
+		 *
+		 * @throws ItemAlreadyExpiredExpception if the item has been already expired.
+		 */
+		/*### private ###*/
+		synchronized boolean isEvictable() {
 			ensureNonExpiredStatus();
+			// XXX: This is the naive implementation and it can be unnecessary slow if
+			// there is a lot of values. Maybe the cache item can hold its 'evictable'
+			// or 'evicted' status itself. On the other hand this is pretty consistent
+			// in all cases.
 			return !values.get(getId()).hasValue();
 		}
 
+		/**
+		 * Evaluates whether this cache item has to be evicted. This method can be
+		 * called safely on already expired cahe item. The implementation ensures
+		 * that once expired item will never return back to non-expired status.
+		 *
+		 * @return {@code true} if the cache item has to be evicted, {@cdoe false} otherwise.
+		 */
+		/*### private ###*/
 		synchronized boolean isExpired() {
-			 // This is the only method which can be called after expired status was set.
-			if (expired) {
+			//  This method may be called for expired item.
+			if (expired) { // No way back for once expired item.
 				return true;
 			}
 			// TODO: RECOMPUTE EXPIRED STATUS HERE.
 			// This is the only place where 'expired' may be set to 'true'.
-
 			return expired;
 		}
 
+		/**
+		 * Returns a snapshot of cache item's statistics. This method
+		 * can be called safely on already expired cahe item.
+		 *
+		 * @return s a snapshot of cache item's statistics.
+		 */
+		/*### private ###*/
 		synchronized CacheItemStatistics<K> getStatisticsSnapshot() {
+			//  This method may be called for expired item.
 			return statistics.getSnapshot();
 		}
 
+		/**
+		 * Returns silently if the cache item has not been expired yet.
+		 *
+		 * @throws ItemAlreadyExpiredExpception if the cache item has been expired yet.
+		 */
 		private void ensureNonExpiredStatus() {
 			// Do not call isExpired() here. At first, it has side effects
 			// of re-evaluating expired status and it can cause a deadlock,
@@ -144,6 +212,14 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 			if (expired) {
 				throw new ItemAlreadyExpiredExpception();
 			}
+		}
+
+	}
+
+	public static final class KeysMismatchException extends IllegalArgumentException {
+
+		private KeysMismatchException() { // todo: add keys themselves?
+			// really nothing here
 		}
 
 	}
