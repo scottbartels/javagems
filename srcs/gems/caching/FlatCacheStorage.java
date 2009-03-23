@@ -216,14 +216,21 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 	}
 
+	/**
+	 * This exception is thrown when it is attepted to stored a value
+	 * with an ID into a cache item with a different ID. 
+	 */
 	public static final class KeysMismatchException extends IllegalArgumentException {
 
-		private KeysMismatchException() { // todo: add keys themselves?
+		private KeysMismatchException() {
 			// really nothing here
 		}
 
 	}
 
+	/**
+	 * This exception is thrown when it is manipulated from already expired cache item.
+	 */
 	public static final class ItemAlreadyExpiredExpception extends IllegalStateException {
 
 		private ItemAlreadyExpiredExpception() {
