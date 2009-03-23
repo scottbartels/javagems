@@ -8,6 +8,7 @@ import java.util.Collection;
  * Cache eviction strategy. Implementation have to be thread-safe, ideally re-entrant. 
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @param <K> type of cache objects identifiers.
  */
 public interface CacheEvicter<K> { // todo: rename to CacheEvictor
 
