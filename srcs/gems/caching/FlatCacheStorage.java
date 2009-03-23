@@ -6,6 +6,7 @@ import gems.Option;
 import gems.SizeEstimator;
 import gems.storage.Storage;
 import gems.storage.StorageFactory;
+import gems.storage.MemoryStorage;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -18,6 +19,8 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 	 * This is the storage for cached objects.
 	 */
 	private final Storage<K, V> values;
+
+	private final Storage<K, CacheItem> items = new MemoryStorage<K, CacheItem>();
 
 	FlatCacheStorage(final SizeEstimator<V> sizer, StorageFactory<K, V> factory) {
 		if (sizer == null) {
@@ -34,11 +37,17 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		// todo: 1) try to find
-		// todo: 2) if nothing found, return an empty Option
-		// todo: 3) if the found one is expired, destroy it and return an empty Option
-		// todo: 4) return Option with value gotten from the found one
-		return new Option<V>(null);
+		final Option<CacheItem> cachedOption = items.get(key);
+		if (!cachedOption.hasValue()) {
+			return new Option<V>(null);
+		}
+		final FlatCacheStorage<K, V>.CacheItem cachedValue = cachedOption.getValue();
+		if (cachedValue.isExpired()) { // todo: what about synchronization?
+			items.remove(key);
+			values.remove(key);
+			return new Option<V>(null);
+		}
+		return new Option<V>(cachedValue.getValue());
 	}
 
 	@Override public void put(final V value) {
