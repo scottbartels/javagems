@@ -14,7 +14,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 	private final SizeEstimator<V> sizer;
 
-	private final Storage<K, V> storage;
+	private final Storage<K, V> values;
 
 	FlatCacheStorage(final SizeEstimator<V> sizer, StorageFactory<K, V> factory) {
 		if (sizer == null) {
@@ -24,7 +24,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 			throw new IllegalArgumentException();
 		}
 		this.sizer = sizer;
-		storage = factory.getStorage();
+		values = factory.getStorage();
 	}
 
 	@Override public Option<V> get(final K key) {
@@ -67,9 +67,11 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 	 * @param <K> type of object identifiers.
 	 * @param <V> type of cached objects.
 	 */
-	private static final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdentifiable<K> { // TODO: MAKE READY FOR A PERSISTENT STORAGE
+	private final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdentifiable<K> { // TODO: MAKE READY FOR A PERSISTENT STORAGE
 
 		private final CacheItemStatistics<K> statistics;
+
+		private final Storage<K, V> values;
 
 		/**
 		 * A flag indicating that the cache item is expired. If a cache item is
@@ -78,19 +80,10 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		 */
 		private volatile boolean expired;
 
-		/**
-		 * TODO: Do not hold value directly. An indirection between CacheItem and its value is necessary. Deja-vu?
-		 *
-		 * This is still tricky. Let's have 10GB of web pages cached in a persistent cache
-		 * storage. Before evicting, we need to go throught all of them and check them for
-		 * expiration and evictability. Whit a current implementation, it means to load 10GB
-		 * of data into memory.
-		 */
-		private V value;
-
-		CacheItem(final K key, final V value, final long size) {
+		CacheItem(final Storage<K,V> values, final K key, final V value, final long size) {
 			super(key);
 			statistics = new CacheItemStatistics<K>(key);
+			this.values = values;
 			update(value, size);
 		}
 
@@ -98,7 +91,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 		synchronized void evict() { // TODO: Document ItemAlreadyExpiredExpception for this method.
 			ensureNonExpiredStatus();
-			value = null;
+			values.remove(getId());
 			statistics.recordEviction();
 		}
 
@@ -113,19 +106,20 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 				throw new IllegalArgumentException(String.valueOf(size));
 			}
 			ensureNonExpiredStatus();
-			this.value = value;
+			values.put(value);
 			statistics.setSize(size);
 		}
 
 		synchronized V getValue() { // TODO: Document ItemAlreadyExpiredExpception for this method.
 			ensureNonExpiredStatus();
-			statistics.recordAccess(value != null);
-			return value;
+			final Option<V> value = values.get(getId());
+			statistics.recordAccess(value.hasValue());
+			return value.getValue();
 		}
 
 		synchronized boolean isEvictable() { // TODO: Document ItemAlreadyExpiredExpception for this method.
 			ensureNonExpiredStatus();
-			return value != null;
+			return !values.get(getId()).hasValue();
 		}
 
 		synchronized boolean isExpired() {
