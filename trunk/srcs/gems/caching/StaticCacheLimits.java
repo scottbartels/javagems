@@ -16,7 +16,7 @@ public final class StaticCacheLimits implements Limits<CacheLimit> {
 	/**
 	 * Size limit of items allowed to be stored in a cache.
 	 */
-	private volatile long size ;
+	private volatile long size;
 
 	/**
 	 * Sets a new limit for maximal number of items allowed to be stored in a cache.
@@ -49,7 +49,7 @@ public final class StaticCacheLimits implements Limits<CacheLimit> {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws IllegalArgumentException if {@code measure} is {@code null}. 
+	 * @throws IllegalArgumentException if {@code measure} is {@code null}.
 	 */
 	@Override public Number getLimit(final CacheLimit measure) {
 		if (measure == null) {
@@ -64,5 +64,5 @@ public final class StaticCacheLimits implements Limits<CacheLimit> {
 				return 0;
 		}
 	}
-	
+
 }

@@ -1,22 +1,18 @@
 package gems.caching;
 
-import gems.ExceptionHandler;
-import gems.Identifiable;
-import gems.Option;
-import gems.SizeEstimator;
-import gems.Limits;
+import gems.*;
 import gems.storage.StorageFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.concurrent.ExecutorService;
 
 final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 
 	/**
-	 * A lock controlling access to storage. 
+	 * A lock controlling access to storage.
 	 */
 	private final ReadWriteLock lock = new ReentrantReadWriteLock(true);
 
@@ -29,9 +25,9 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 			final StorageFactory<K, V> factory,
 			ExecutorService pool) {
 		if (pool != null) {
-			storage = new ParallelCacheStorage<K,V>(sizer, factory, pool);
+			storage = new ParallelCacheStorage<K, V>(sizer, factory, pool);
 		} else {
-			storage = new FlatCacheStorage<K,V>(sizer, factory);
+			storage = new FlatCacheStorage<K, V>(sizer, factory);
 		}
 		startEvicterDaemon(new EvictScheduler(evicter, limits));
 	}

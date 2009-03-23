@@ -1,9 +1,9 @@
 package gems.caching;
 
 import gems.Identifiable;
+import gems.Limits;
 import gems.Option;
 import gems.SizeEstimator;
-import gems.Limits;
 import gems.storage.StorageFactory;
 
 import java.util.ArrayList;

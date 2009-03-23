@@ -1,10 +1,10 @@
 package gems.caching;
 
 import gems.Identifiable;
-import gems.storage.StorageFactory;
-import gems.SizeEstimator;
 import gems.Limits;
+import gems.SizeEstimator;
 import gems.storage.MemoryStorageFactory;
+import gems.storage.StorageFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,7 +30,7 @@ public final class CacheFactory {
 	/**
 	 * Creates a new segmented in-memory cache defined by given attributes. Please note
 	 * that specified limits are used as limits for a single cache segment, not for the
-	 * whole cache. 
+	 * whole cache.
 	 *
 	 * @param evicter a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
@@ -40,6 +40,7 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new in-memory cache.
+	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
@@ -65,6 +66,7 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new segmented cache.
+	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
@@ -118,6 +120,7 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new flat in-memory cache.
+	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
@@ -139,6 +142,7 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new flat cache.
+	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
@@ -157,11 +161,12 @@ public final class CacheFactory {
 	 * @param sizer an implementation of size estimation of cached objects.
 	 * @param limits cache limits.
 	 * @param factory a factory providing low-level storage objects for cached objects.
-	 * @param pool a thread pool for parallel cache storage; a flat storage is used if it is {@code null}. 
+	 * @param pool a thread pool for parallel cache storage; a flat storage is used if it is {@code null}.
 	 * @param <V> type of cached objects.
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new flat cache.
+	 *
 	 * @throws IllegalArgumentException if any of atributes except {@code pool} is {@code null}.
 	 */
 	static <V extends Identifiable<K>, K> Cache<V, K> createCache(

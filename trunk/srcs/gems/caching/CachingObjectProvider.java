@@ -1,8 +1,8 @@
 package gems.caching;
 
 import gems.Identifiable;
-import gems.Option;
 import gems.ObjectProvider;
+import gems.Option;
 import gems.filtering.Filter;
 
 /**

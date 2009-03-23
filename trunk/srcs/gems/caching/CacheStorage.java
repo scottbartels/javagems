@@ -1,7 +1,7 @@
 package gems.caching;
 
-import gems.Option;
 import gems.Identifiable;
+import gems.Option;
 
 import java.util.Collection;
 
@@ -10,7 +10,7 @@ import java.util.Collection;
  * the cache and its low level storage implementations.
  *
  * @param <K> type of key identifying cached objects.
- * @param <V> type of cached objects. 
+ * @param <V> type of cached objects.
  */
 interface CacheStorage<K, V extends Identifiable<K>> {
 
@@ -19,6 +19,7 @@ interface CacheStorage<K, V extends Identifiable<K>> {
 	 * If no such object is found in the storage, the returned option is empty.
 	 *
 	 * @param key a key identifying requested object.
+	 *
 	 * @return a cached value identified by {@code key}.
 	 */
 	Option<V> get(K key);
@@ -26,7 +27,7 @@ interface CacheStorage<K, V extends Identifiable<K>> {
 	/**
 	 * Puts given value into the storage.
 	 *
-	 * @param value a new cached value. 
+	 * @param value a new cached value.
 	 */
 	void put(V value);
 
@@ -45,7 +46,7 @@ interface CacheStorage<K, V extends Identifiable<K>> {
 	 * Evicts all cached items identified by keys in a given collection.
 	 * If a collection contains a key which is not contained in the storage
 	 * itself, the storage has to ignore it silently. Please note that the
-	 * {@code keys} collection may be unmodifiable. 
+	 * {@code keys} collection may be unmodifiable.
 	 *
 	 * @param keys keys of cache items to evict.
 	 *
