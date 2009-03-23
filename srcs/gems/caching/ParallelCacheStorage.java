@@ -6,8 +6,14 @@ import gems.Option;
 import gems.SizeEstimator;
 import gems.storage.StorageFactory;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheStorage<K, V> {
 
@@ -16,7 +22,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	 * about number of items stored in that storage. Please
 	 * note that this class is only bean-like holder for the
 	 * storage size and it is responsibility of client code
-	 * to set right value everytime the storage is changed.   
+	 * to set right value everytime the storage is changed.
 	 */
 	private static final class StorageHolder<K, V extends Identifiable<K>> {
 
@@ -37,7 +43,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 *
 		 * @param storage a storage.
 		 *
-		 * @throws IllegalArgumentException if {@code storage} is {@code null}. 
+		 * @throws IllegalArgumentException if {@code storage} is {@code null}.
 		 */
 		private StorageHolder(final CacheStorage<K, V> storage) {
 			if (storage == null) {
@@ -48,8 +54,8 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 
 		/**
 		 * Returns the wrapped cache storage. This method never returns {@code null}.
-		 * 
-		 * @return  the wrapped cache storage.
+		 *
+		 * @return the wrapped cache storage.
 		 */
 		private CacheStorage<K, V> getStorage() {
 			return storage;
@@ -69,7 +75,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		 *
 		 * @param size a new size of the cache storage.
 		 *
-		 * @throws IllegalArgumentException if {@code size} is {@code null}. 
+		 * @throws IllegalArgumentException if {@code size} is {@code null}.
 		 */
 		private void setSize(final int size) {
 			if (size < 0) {
@@ -290,7 +296,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		@Override public GetTaskResult<K, V> call() throws Exception {
 			final CacheStorage<K, V> storage = getStorage().getStorage();
 			final Option<V> option = storage.get(key);
-			return new GetTaskResult<K,V>(option, storage);
+			return new GetTaskResult<K, V>(option, storage);
 		}
 
 	}

@@ -42,7 +42,7 @@ public interface CacheSegmenter<K> {
 		 *
 		 * @return always 0.
 		 *
-		 * @throws IllegalArgumentException if {@code key} is {@code null}. 
+		 * @throws IllegalArgumentException if {@code key} is {@code null}.
 		 */
 		@Override public int getSegment(final Object key) {
 			if (key == null) {
