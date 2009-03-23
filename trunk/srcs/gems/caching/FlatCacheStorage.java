@@ -42,11 +42,12 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 			return new Option<V>(null);
 		}
 		final FlatCacheStorage<K, V>.CacheItem cachedValue = cachedOption.getValue();
-		if (cachedValue.isExpired()) { // todo: what about synchronization?
+		if (cachedValue.isExpired()) { // TODO: What about synchronization?
 			items.remove(key);
 			values.remove(key);
 			return new Option<V>(null);
 		}
+		// todo: conditionally return an empty option, when 'evicted' status is stored in cache item; at the moment, trying to get value directly is more efficient.
 		return new Option<V>(cachedValue.getValue());
 	}
 
@@ -54,20 +55,39 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
-		// todo: if already owned, update value, or create new one otherwise
+		final Option<CacheItem> cachedOption = items.get(value.getId());
+		if (cachedOption.hasValue()) {
+			cachedOption.getValue().update(value, sizer.estimate(value));
+		} else {
+			items.put(new CacheItem(value, sizer.estimate(value))); // TODO: What about synchronization?
+		}
+
 	}
 
 	@Override public Collection<CacheItemStatistics<K>> itemsForEviction() {
-		// todo: 1) Remove expired items first
-		// todo: 2) Return all evictable items.
-		return new LinkedList<CacheItemStatistics<K>>();
+		final LinkedList<CacheItemStatistics<K>> result = new LinkedList<CacheItemStatistics<K>>();
+		for (final CacheItem item : items) {
+			if (item.isExpired()) {
+				// todo: expire
+			} else {
+				if (item.isEvictable()) {
+					result.add(item.getStatisticsSnapshot());
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override public int evict(final Collection<K> keys) {
 		if (keys == null) {
 			throw new IllegalArgumentException();
 		}
-		// todo: remove each key in collection ignoring not owned
+		for (final K key : keys) {
+			final Option<CacheItem> cachedOption = items.get(key);
+			if (cachedOption.hasValue()) {
+				cachedOption.getValue().evict();
+			}
+		}
 		return 0;
 	}
 
@@ -141,6 +161,10 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 				throw new IllegalArgumentException(String.valueOf(size));
 			}
 			ensureNonExpiredStatus();
+
+			// todo: done next remove() conditionally if 'evicted' status is stored in the cache item; at the moment, direct remove() call is more efficient.
+			values.remove(getId()); // remove old value, if any
+
 			values.put(value);
 			statistics.recordSize(size);
 		}
