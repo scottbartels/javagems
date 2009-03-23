@@ -4,9 +4,9 @@ import gems.AbstractIdentifiable;
 import gems.Identifiable;
 import gems.Option;
 import gems.SizeEstimator;
+import gems.storage.MemoryStorage;
 import gems.storage.Storage;
 import gems.storage.StorageFactory;
-import gems.storage.MemoryStorage;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -251,7 +251,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 	/**
 	 * This exception is thrown when it is attepted to stored a value
-	 * with an ID into a cache item with a different ID. 
+	 * with an ID into a cache item with a different ID.
 	 */
 	public static final class KeysMismatchException extends IllegalArgumentException {
 
