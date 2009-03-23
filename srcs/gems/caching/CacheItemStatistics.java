@@ -54,7 +54,7 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> { // T
 		return result;
 	}
 
-	synchronized void setSize(final long size) {
+	synchronized void recordSize(final long size) {
 		if (size < 0) {
 			throw new IllegalArgumentException(String.valueOf(size));
 		}
