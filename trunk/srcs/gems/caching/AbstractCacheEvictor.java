@@ -55,12 +55,35 @@ public abstract class AbstractCacheEvictor<K> implements CacheEvicter<K> { // to
 		if (statistics.isEmpty()) {
 			return Collections.emptyList();
 		}
-		final Collection<CacheItemStatistics<K>> sorted = getSorted(statistics);
 		final List<K> result = new LinkedList<K>();
 
-		// TODO: PLACE ITEMS FOR EVICTION TO THE 'result' LIST
+		int cumulativeCount = 0;
+		long cumulativeSize = 0L;
 
+		for (final CacheItemStatistics<K> item : getSorted(statistics)) {
+			if (satisfyLimits(item, limits, cumulativeCount, cumulativeSize)) {
+				cumulativeCount++;
+				cumulativeSize += item.getSize();
+			} else {
+				result.add(item.getId());
+			}
+		}
 		return result;
+	}
+
+	private static boolean satisfyLimits(
+			final CacheItemStatistics<?> item,
+			final Limits<CacheLimit> limits,
+			final int cumulativeCount,
+			final long cumulativeSize
+	) {
+		if (cumulativeCount + 1 > limits.getLimit(CacheLimit.ITEMS).intValue()) {
+			return false; // number of items exceeds
+		}
+		if (cumulativeSize + item.getSize() > limits.getLimit(CacheLimit.SIZE).longValue()) {
+			return false; // size exceeds
+		}
+		return true;
 	}
 
 	/**
@@ -77,5 +100,5 @@ public abstract class AbstractCacheEvictor<K> implements CacheEvicter<K> { // to
 		}
 		return result;
 	}
-	
+
 }
