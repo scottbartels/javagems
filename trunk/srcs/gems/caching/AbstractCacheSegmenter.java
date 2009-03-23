@@ -18,15 +18,20 @@ abstract class AbstractCacheSegmenter<K> implements CacheSegmenter<K> {
 	 *
 	 * @param segments number of segments.
 	 *
-	 * @throws IllegalArgumentException if {@code segments} is negative.
+	 * @throws IllegalArgumentException if {@code segments} is less than 1.
 	 */
 	protected AbstractCacheSegmenter(final int segments) {
-		if (segments < 0) {
+		if (segments < 1) {
 			throw new IllegalArgumentException(String.valueOf(segments));
 		}
 		this.segments = segments;
 	}
 
+	/**
+	 * Gets number of segments.
+	 *
+	 * @return number of segments.
+	 */
 	@Override public final int maxSegments() {
 		return segments;
 	}

@@ -12,7 +12,7 @@ import gems.Identifiable;
  * @param <K> type of object identifiers.
  * @param <V> type of cached objects.
  */
-public final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdentifiable<K> { // TODO: MAKE READY FOR A PERSISTENT STORAGE
+final class CacheItem<K, V extends Identifiable<K>> extends AbstractIdentifiable<K> { // TODO: MAKE READY FOR A PERSISTENT STORAGE
 
 	private final CacheItemStatistics<K> statistics;
 

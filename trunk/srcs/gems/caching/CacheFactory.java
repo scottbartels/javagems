@@ -3,6 +3,7 @@ package gems.caching;
 import gems.Identifiable;
 import gems.storage.StorageFactory;
 import gems.SizeEstimator;
+import gems.Limits;
 import gems.storage.MemoryStorageFactory;
 
 import java.util.concurrent.ExecutorService;
@@ -18,7 +19,7 @@ public final class CacheFactory {
 
 
 	/**
-	 * Just disables an instance creation.
+	 * Just disables an instance creation of this utility class.
 	 */
 	private CacheFactory() {
 		throw new UnsupportedOperationException();
@@ -27,11 +28,13 @@ public final class CacheFactory {
 	/* PARALLEL CACHE FACTORIES */
 
 	/**
-	 * Creates a new segmented in-memory cache defined by given attributes.
+	 * Creates a new segmented in-memory cache defined by given attributes. Please note
+	 * that specified limits are used as limits for a single cache segment, not for the
+	 * whole cache. 
 	 *
 	 * @param evicter a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
-	 * @param limits cache limits.
+	 * @param limits cache limits for a signle segment.
 	 * @param segmenter a cache segmenter defining cache segments.
 	 * @param <V> type of cached objects.
 	 * @param <K> type of cached objects IDs.
@@ -42,18 +45,20 @@ public final class CacheFactory {
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
-			final CacheLimits limits,
+			final Limits<CacheLimit> limits,
 			final CacheSegmenter<K> segmenter
 	) {
 		return createCache(evicter, sizer, limits, new MemoryStorageFactory<K, V>(), segmenter);
 	}
 
 	/**
-	 * Cretes a new segmented cache defined by given attributes.
+	 * Cretes a new segmented cache defined by given attributes. Please note
+	 * that specified limits are used as limits for a single cache segment,
+	 * not for the whole cache.
 	 *
 	 * @param evicter a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
-	 * @param limits cache limits.
+	 * @param limits cache limits for a single segment.
 	 * @param factory a factory providing low-level storage objects for cached objects.
 	 * @param segmenter a cache segmenter defining cache segments.
 	 * @param <V> type of cached objects.
@@ -65,7 +70,7 @@ public final class CacheFactory {
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
-			final CacheLimits limits,
+			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory,
 			final CacheSegmenter<K> segmenter
 	) {
@@ -118,7 +123,7 @@ public final class CacheFactory {
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
-			final CacheLimits limits
+			final Limits<CacheLimit> limits
 	) {
 		return createCache(evicter, sizer, limits, new MemoryStorageFactory<K, V>());
 	}
@@ -139,7 +144,7 @@ public final class CacheFactory {
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
-			final CacheLimits limits,
+			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory
 	) {
 		return createCache(evicter, sizer, limits, factory, (ExecutorService) null);
@@ -162,7 +167,7 @@ public final class CacheFactory {
 	static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvicter<K> evicter,
 			final SizeEstimator<V> sizer,
-			final CacheLimits limits,
+			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory,
 			final ExecutorService pool
 	) {
