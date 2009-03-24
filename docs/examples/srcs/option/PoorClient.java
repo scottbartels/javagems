@@ -8,6 +8,13 @@ import gems.Option;
 public final class PoorClient {
 
 	/**
+	 * Just disables an instance creation.
+	 */
+	private PoorClient() {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * Application entry point.
 	 *
 	 * @param args command-line arguments; completelly ignored.

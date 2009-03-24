@@ -19,7 +19,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	private final CacheStorage<K, V> storage;
 
 	FlatCache(
-			final CacheEvicter<K> evicter,
+			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory,
@@ -29,7 +29,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		} else {
 			storage = new FlatCacheStorage<K, V>(sizer, factory);
 		}
-		startEvicterDaemon(new EvictScheduler(evicter, limits));
+		startEvicterDaemon(new EvictScheduler(evictor, limits));
 	}
 
 	/**
@@ -84,6 +84,8 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	 */
 	private final class EvictScheduler implements Runnable {
 
+		private static final long MILLISECONDS_PER_SECOND = 1000L;
+
 		/**
 		 * Minimal possible delay, in seconds.
 		 */
@@ -94,21 +96,21 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		 */
 		private static final int MAX_DELAY = 32;
 
-		private final CacheEvicter<K> evicter;
+		private final CacheEvictor<K> evictor;
 
 		private final Limits<CacheLimit> limits;
-
-		private EvictScheduler(final CacheEvicter<K> evicter, final Limits<CacheLimit> limits) {
-			assert evicter != null;
-			assert limits != null;
-			this.evicter = evicter;
-			this.limits = limits;
-		}
 
 		/**
 		 * An adaptive delay between two subsequent evictions, in seconds.
 		 */
 		private int delay = MIN_DELAY;
+
+		private EvictScheduler(final CacheEvictor<K> evictor, final Limits<CacheLimit> limits) {
+			assert evictor != null;
+			assert limits != null;
+			this.evictor = evictor;
+			this.limits = limits;
+		}
 
 		/**
 		 * Periodically invokes eviction.
@@ -125,7 +127,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		 */
 		private void sleep() {
 			try {
-				Thread.sleep(delay * 1000L);
+				Thread.sleep(delay * MILLISECONDS_PER_SECOND);
 			} catch (final InterruptedException e) {
 				ExceptionHandler.NULL_HANDLER.handle(e);
 			}
@@ -144,7 +146,7 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 			// usually highly depends on them.
 			lock.writeLock().lock();
 			try {
-				final Collection<K> keysToEvict = evicter.evict(storage.itemsForEviction(), limits);
+				final Collection<K> keysToEvict = evictor.evict(storage.itemsForEviction(), limits);
 				if (keysToEvict.isEmpty()) {
 					if (delay < MAX_DELAY) {
 						delay++;

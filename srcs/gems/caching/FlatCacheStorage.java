@@ -10,6 +10,7 @@ import gems.storage.StorageFactory;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStorage<K, V> {
 
@@ -65,7 +66,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 	}
 
 	@Override public Collection<CacheItemStatistics<K>> itemsForEviction() {
-		final LinkedList<CacheItemStatistics<K>> result = new LinkedList<CacheItemStatistics<K>>();
+		final List<CacheItemStatistics<K>> result = new LinkedList<CacheItemStatistics<K>>();
 		for (final CacheItem item : items) {
 			if (item.isExpired()) {
 				// todo: expire

@@ -32,7 +32,7 @@ public final class CacheFactory {
 	 * that specified limits are used as limits for a single cache segment, not for the
 	 * whole cache.
 	 *
-	 * @param evicter a cache evicter.
+	 * @param evictor a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
 	 * @param limits cache limits for a signle segment.
 	 * @param segmenter a cache segmenter defining cache segments.
@@ -40,16 +40,15 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new in-memory cache.
-	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
-			final CacheEvicter<K> evicter,
+			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
 			final CacheSegmenter<K> segmenter
 	) {
-		return createCache(evicter, sizer, limits, new MemoryStorageFactory<K, V>(), segmenter);
+		return createCache(evictor, sizer, limits, new MemoryStorageFactory<K, V>(), segmenter);
 	}
 
 	/**
@@ -57,7 +56,7 @@ public final class CacheFactory {
 	 * that specified limits are used as limits for a single cache segment,
 	 * not for the whole cache.
 	 *
-	 * @param evicter a cache evicter.
+	 * @param evictor a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
 	 * @param limits cache limits for a single segment.
 	 * @param factory a factory providing low-level storage objects for cached objects.
@@ -66,20 +65,19 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new segmented cache.
-	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
-			final CacheEvicter<K> evicter,
+			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory,
 			final CacheSegmenter<K> segmenter
 	) {
-		if (evicter == null) {
+		if (sizer == null) {
 			throw new IllegalArgumentException();
 		}
-		if (sizer == null) {
+		if (evictor == null) {
 			throw new IllegalArgumentException();
 		}
 		if (limits == null) {
@@ -91,7 +89,7 @@ public final class CacheFactory {
 		if (segmenter == null) {
 			throw new IllegalArgumentException();
 		}
-		return new SegmentedCache<V, K>(evicter, sizer, limits, factory, segmenter, getPool());
+		return new SegmentedCache<V, K>(evictor, sizer, limits, factory, segmenter, getPool());
 	}
 
 	/**
@@ -113,28 +111,27 @@ public final class CacheFactory {
 	/**
 	 * Creates a new flat in-memory cache defined by given attributes.
 	 *
-	 * @param evicter a cache evicter.
+	 * @param evictor a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
 	 * @param limits cache limits.
 	 * @param <V> type of cached objects.
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new flat in-memory cache.
-	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
-			final CacheEvicter<K> evicter,
+			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits
 	) {
-		return createCache(evicter, sizer, limits, new MemoryStorageFactory<K, V>());
+		return createCache(evictor, sizer, limits, new MemoryStorageFactory<K, V>());
 	}
 
 	/**
 	 * Creates a new flat cache defind by given attributes.
 	 *
-	 * @param evicter a cache evicter.
+	 * @param evictor a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
 	 * @param limits cache limits.
 	 * @param factory a factory providing low-level storage objects for cached objects.
@@ -142,22 +139,21 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new flat cache.
-	 *
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
 	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
-			final CacheEvicter<K> evicter,
+			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory
 	) {
-		return createCache(evicter, sizer, limits, factory, (ExecutorService) null);
+		return createCache(evictor, sizer, limits, factory, (ExecutorService) null);
 	}
 
 	/**
 	 * Creates a new flat cache defined by given attributes.
 	 *
-	 * @param evicter a cache evicter.
+	 * @param evictor a cache evicter.
 	 * @param sizer an implementation of size estimation of cached objects.
 	 * @param limits cache limits.
 	 * @param factory a factory providing low-level storage objects for cached objects.
@@ -166,17 +162,16 @@ public final class CacheFactory {
 	 * @param <K> type of cached objects IDs.
 	 *
 	 * @return a new flat cache.
-	 *
 	 * @throws IllegalArgumentException if any of atributes except {@code pool} is {@code null}.
 	 */
 	static <V extends Identifiable<K>, K> Cache<V, K> createCache(
-			final CacheEvicter<K> evicter,
+			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
 			final StorageFactory<K, V> factory,
 			final ExecutorService pool
 	) {
-		if (evicter == null) {
+		if (evictor == null) {
 			throw new IllegalArgumentException();
 		}
 		if (sizer == null) {
@@ -188,7 +183,7 @@ public final class CacheFactory {
 		if (factory == null) {
 			throw new IllegalArgumentException();
 		}
-		return new FlatCache<V, K>(evicter, sizer, limits, factory, pool);
+		return new FlatCache<V, K>(evictor, sizer, limits, factory, pool);
 	}
 
 }

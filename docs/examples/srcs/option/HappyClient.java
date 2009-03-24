@@ -8,6 +8,13 @@ import gems.Option;
 public final class HappyClient {
 
 	/**
+	 * Just disables an instance creation.
+	 */
+	private HappyClient() {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * Application entry point.
 	 *
 	 * @param args command-line arguments; completelly ignored.

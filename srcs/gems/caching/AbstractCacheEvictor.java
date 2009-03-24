@@ -13,7 +13,7 @@ import java.util.*;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> type of cache objects identifiers.
  */
-public abstract class AbstractCacheEvictor<K> implements CacheEvicter<K> { // todo: rename to AbstractComparatorBasedCacheEvictor (or something like that)
+public abstract class AbstractCacheEvictor<K> implements CacheEvictor<K> {
 
 	/**
 	 * A comparator.
@@ -56,10 +56,8 @@ public abstract class AbstractCacheEvictor<K> implements CacheEvicter<K> { // to
 			return Collections.emptyList();
 		}
 		final List<K> result = new LinkedList<K>();
-
 		int cumulativeCount = 0;
 		long cumulativeSize = 0L;
-
 		for (final CacheItemStatistics<K> item : getSorted(statistics)) {
 			if (satisfyLimits(item, limits, cumulativeCount, cumulativeSize)) {
 				cumulativeCount++;
@@ -71,7 +69,7 @@ public abstract class AbstractCacheEvictor<K> implements CacheEvicter<K> { // to
 		return result;
 	}
 
-	private static boolean satisfyLimits(
+	@SuppressWarnings({"RedundantIfStatement"}) private static boolean satisfyLimits(
 			final CacheItemStatistics<?> item,
 			final Limits<CacheLimit> limits,
 			final int cumulativeCount,

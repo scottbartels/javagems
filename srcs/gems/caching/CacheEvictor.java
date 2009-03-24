@@ -10,7 +10,7 @@ import java.util.Collection;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> type of cache objects identifiers.
  */
-public interface CacheEvicter<K> { // todo: rename to CacheEvictor
+public interface CacheEvictor<K> {
 
 	/**
 	 * Evaluates given collection of cache item statistics and selects
