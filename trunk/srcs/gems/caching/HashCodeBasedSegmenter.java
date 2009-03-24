@@ -25,19 +25,27 @@ public final class HashCodeBasedSegmenter<K> extends AbstractCacheSegmenter<K> {
 	 * @param key an analyzed key.
 	 *
 	 * @return segment number for a given key.
-	 *
 	 * @throws IllegalArgumentException if {@code key} is {@code null}.
 	 */
 	@Override public int getSegment(final K key) {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		// todo: needs to be tested whether keys are mapped to all segments.
-		final int hash = key.hashCode();
-		if (hash == Integer.MIN_VALUE) {
-			return 0;
+		return abs(key.hashCode()) % maxSegments();
+	}
+
+	/**
+	 * Computes the absolute value of {@code x} handling the special case of {@code Integer.MIN_VALUE}.
+	 *
+	 * @param x the argument whose absolute value is to be determined.
+	 *
+	 * @return the absolute value of {@code x} or {@code Integer.MAX_VALUE} if {@code x} is {@code Integer.MIN_VALUE}.
+	 */
+	private int abs(final int x) {
+		if (x == Integer.MIN_VALUE) {
+			return Integer.MAX_VALUE;
 		}
-		return Math.abs(hash) % maxSegments();
+		return Math.abs(x);
 	}
 
 }

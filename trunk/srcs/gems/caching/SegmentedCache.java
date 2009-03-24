@@ -33,7 +33,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 	/**
 	 * Creates a new segmented cache.
 	 *
-	 * @param evicter passed to flat cache segments as is.
+	 * @param evictor passed to flat cache segments as is.
 	 * @param sizer passed to flat cache segments as is.
 	 * @param limits for each cache segment.
 	 * @param factory a factory providing low-level storage objects.
@@ -43,7 +43,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 	 * @throws IllegalArgumentException if {@code segmenter} is {@code null}.
 	 */
 	SegmentedCache(
-			final CacheEvicter<K> evicter,
+			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
 			StorageFactory<K, V> factory,
@@ -55,7 +55,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		this.segmenter = segmenter;
 		segments = new ArrayList<Cache<V, K>>(segmenter.maxSegments());
 		for (int i = 0; i < segmenter.maxSegments(); i++) {
-			segments.add(CacheFactory.createCache(evicter, sizer, limits, factory, pool));
+			segments.add(CacheFactory.createCache(evictor, sizer, limits, factory, pool));
 		}
 	}
 

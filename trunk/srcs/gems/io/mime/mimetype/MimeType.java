@@ -22,7 +22,7 @@ public final class MimeType extends AbstractIdentifiable<String> {
 	/**
 	 * Internal cache.
 	 */
-	private static final Cache<MimeType, String> cache = new CacheAllForever();
+	private static final Cache<MimeType, String> CACHE = new CacheAllForever();
 
 	/**
 	 * A main type of the MIME type.
@@ -54,13 +54,13 @@ public final class MimeType extends AbstractIdentifiable<String> {
 		if (spec == null) {
 			throw new IllegalArgumentException();
 		}
-		final Option<MimeType> cached = cache.get(spec);
+		final Option<MimeType> cached = CACHE.get(spec);
 		if (cached.hasValue()) {
 			return cached.getValue();
 		}
 
 		final MimeType result = new MimeType(spec);
-		cache.offer(result);
+		CACHE.offer(result);
 		return result;
 	}
 
