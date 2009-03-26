@@ -281,6 +281,11 @@ public final class Shower {
 			if (key == null) {
 				throw new IllegalArgumentException();
 			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				throw new ShouldNeverHappenException(e);
+			}
 			return new Option<IdentifiableImage>(new IdentifiableImage(key, loadImage(key)));
 		}
 		
