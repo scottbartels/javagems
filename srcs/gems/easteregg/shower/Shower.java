@@ -11,13 +11,15 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class Shower {
 
-	private static final long MEMORY_RESERVE = 10L * 1024L * 1024L;
+	private static final long MEMORY_RESERVE = 16L * 1024L * 1024L;
 
 	/**
 	 * A name of the application.
@@ -77,6 +79,8 @@ public final class Shower {
 		source = new CachingObjectProvider<IdentifiableImage, String>(cache, new ImageProvider());
 	}
 
+	private final Executor prefetch = Executors.newFixedThreadPool(1);  // todo: has to be destroyed on exit.
+
 	/**
 	 * A current target.
 	 */
@@ -86,6 +90,8 @@ public final class Shower {
 		this.images = images.clone();
 		this.target = target;
 		show();
+		prefetchNext();
+		prefetchPrevious();
 	}
 
 	private void show() {
@@ -128,11 +134,15 @@ public final class Shower {
 	private synchronized void showFirstImage() {
 		target = 0;
 		show();
+		prefetchNext();
+		prefetchPrevious();
 	}
 
 	private synchronized void showLastImage() {
 		target = images.length - 1;
 		show();
+		prefetchNext();
+		prefetchPrevious();
 	}
 
 	private synchronized void showNextImage() {
@@ -140,6 +150,7 @@ public final class Shower {
 			target = 0;
 		}
 		show();
+		prefetchNext();
 	}
 
 	private synchronized void showPreviousImage() {
@@ -147,6 +158,33 @@ public final class Shower {
 			target = images.length - 1;
 		}
 		show();
+		prefetchPrevious();
+	}
+
+	private void prefetchPrevious() {
+		prefetch(getPreviousPosition());
+	}
+
+	private void prefetchNext() {
+		prefetch(getNextPosition());
+	}
+
+	private int getNextPosition() {
+		if (target == images.length - 1) {
+			return 0;
+		}
+		return target + 1;
+	}
+
+	private int getPreviousPosition() {
+		if (target == 0) {
+			return images.length - 1;
+		}
+		return target - 1;
+	}
+
+	private void prefetch(final int position) {
+		prefetch.execute(new PrefetchTask(position));
 	}
 
 	/**
@@ -249,6 +287,27 @@ public final class Shower {
 
 	}
 
+	private final class PrefetchTask implements Runnable {
+
+		private final int position;
+
+		private PrefetchTask(final int position) {
+			if (position < 0) {
+				throw new IllegalArgumentException(String.valueOf(position));
+			}
+			if (position >= images.length) {
+				throw new IllegalArgumentException(String.valueOf(position));
+			}
+			this.position = position;
+		}
+
+
+		@Override public void run() {
+			source.get(images[position].getPath());
+		}
+
+	}
+
 	private static final class IdentifiableImage extends AbstractIdentifiable<String> {
 
 		private final Image image;
@@ -280,11 +339,6 @@ public final class Shower {
 		public Option<IdentifiableImage> get(String key) {
 			if (key == null) {
 				throw new IllegalArgumentException();
-			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				throw new ShouldNeverHappenException(e);
 			}
 			return new Option<IdentifiableImage>(new IdentifiableImage(key, loadImage(key)));
 		}
