@@ -6,7 +6,7 @@ import gems.Limits;
  * Implements static cache limits. It means that each limit is a static number.
  * However, limits can be changed during a lifecycle and the change is reflected.
  */
-public final class StaticCacheLimits implements Limits<CacheLimit> {
+public final class StaticCacheLimits implements Limits<CacheLimit> { // todo: store attributes via enum map.
 
 	/**
 	 * Maximal number of items allowed to be stored in a cache.
