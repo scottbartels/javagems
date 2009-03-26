@@ -1,9 +1,7 @@
 package gems.easteregg.shower;
 
-import gems.AbstractIdentifiable;
-import gems.ObjectProvider;
-import gems.Option;
-import gems.ShouldNeverHappenException;
+import gems.*;
+import gems.caching.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +16,8 @@ import java.util.Comparator;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 public final class Shower {
+
+	private static final long MEMORY_RESERVE = 10L * 1024L * 1024L;
 
 	/**
 	 * A name of the application.
@@ -65,7 +65,17 @@ public final class Shower {
 	 */
 	private final File[] images;
 
-	private final ObjectProvider<IdentifiableImage, String> source = new ImageProvider();
+	private final ObjectProvider<IdentifiableImage, String> source;
+
+	{
+		final CacheEvictor<String> evictor = new LeastRecentlyUsedEvictor<String>();
+		final SizeEstimator<IdentifiableImage> sizer = new ImageSizeEstimator();
+		final StaticCacheLimits limits = new StaticCacheLimits();
+		limits.setItems(Integer.MAX_VALUE);
+		limits.setSize(Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
+		final Cache<IdentifiableImage, String> cache = CacheFactory.createCache(evictor, sizer, limits);
+		source = new CachingObjectProvider<IdentifiableImage, String>(cache, new ImageProvider());
+	}
 
 	/**
 	 * A current target.
@@ -253,6 +263,14 @@ public final class Shower {
 
 		private Image getImage() {
 			return image;
+		}
+
+	}
+
+	private static final class ImageSizeEstimator implements SizeEstimator<IdentifiableImage> {
+
+		public long estimate(final IdentifiableImage image) {
+			return image.getImage().getHeight(null) * image.getImage().getWidth(null) * 4L;
 		}
 
 	}
