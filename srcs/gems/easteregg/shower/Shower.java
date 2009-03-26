@@ -1,5 +1,10 @@
 package gems.easteregg.shower;
 
+import gems.AbstractIdentifiable;
+import gems.ObjectProvider;
+import gems.Option;
+import gems.ShouldNeverHappenException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -60,6 +65,8 @@ public final class Shower {
 	 */
 	private final File[] images;
 
+	private final ObjectProvider<IdentifiableImage, String> source = new ImageProvider();
+
 	/**
 	 * A current target.
 	 */
@@ -73,7 +80,12 @@ public final class Shower {
 
 	private void show() {
 		final String path = images[target].getPath();
-		image.setIcon(new ImageIcon(loadImage(path)));
+		final Option<IdentifiableImage> option = source.get(path);
+		if (!option.hasValue()) {
+			throw new ShouldNeverHappenException(path);
+
+		}
+		image.setIcon(new ImageIcon(option.getValue().getImage()));
 		frame.setTitle(APPLICATION_NAME + " - " + path);
 		if (!frame.isVisible()) {
 			frame.setVisible(true);
@@ -227,6 +239,35 @@ public final class Shower {
 
 	}
 
+	private static final class IdentifiableImage extends AbstractIdentifiable<String> {
+
+		private final Image image;
+
+		private IdentifiableImage(final String path, final Image image) {
+			super(path);
+			if (image == null) {
+				throw new IllegalArgumentException();
+			}
+			this.image = image;
+		}
+
+		private Image getImage() {
+			return image;
+		}
+
+	}
+
+	private static final class ImageProvider implements ObjectProvider<IdentifiableImage, String> {
+
+		public Option<IdentifiableImage> get(String key) {
+			if (key == null) {
+				throw new IllegalArgumentException();
+			}
+			return new Option<IdentifiableImage>(new IdentifiableImage(key, loadImage(key)));
+		}
+		
+	}
+
 	/**
 	 * Moves oversized image up, down, right, and left.
 	 */
@@ -368,10 +409,7 @@ public final class Shower {
 	 */
 	private static final class FilenamesComparator implements Comparator<File> {
 
-		/**
-		 * {@inheritDoc}
-		 */
-		public int compare(final File x, final File y) {
+		@Override public int compare(final File x, final File y) {
 			return x.getName().compareTo(y.getName());
 		}
 
