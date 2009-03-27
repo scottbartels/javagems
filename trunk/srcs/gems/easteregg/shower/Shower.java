@@ -72,9 +72,9 @@ public final class Shower {
 	{
 		final CacheEvictor<String> evictor = new LeastRecentlyUsedEvictor<String>();
 		final SizeEstimator<IdentifiableImage> sizer = new ImageSizeEstimator();
-		final StaticCacheLimits limits = new StaticCacheLimits();
-		limits.setItems(Integer.MAX_VALUE);
-		limits.setSize(Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
+		final StaticLimits<CacheLimit> limits = new StaticLimits<CacheLimit>(CacheLimit.class);
+		limits.setLimit(CacheLimit.ITEMS, Integer.MAX_VALUE);
+		limits.setLimit(CacheLimit.SIZE, Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
 		final Cache<IdentifiableImage, String> cache = CacheFactory.createCache(evictor, sizer, limits);
 		source = new CachingObjectProvider<IdentifiableImage, String>(cache, new ImageProvider());
 	}
