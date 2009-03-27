@@ -4,13 +4,13 @@ import java.util.EnumMap;
 
 public final class StaticLimits<E extends Enum<E>> implements Limits<E> {
 
-	private final EnumMap<E, Number> store;
+	private final EnumMap<E, Number> map;
 
 	public StaticLimits(final Class<E> type) {
 		if (type == null) {
 			throw new IllegalArgumentException();
 		}
-		store = new EnumMap<E, Number>(type);
+		map = new EnumMap<E, Number>(type);
 	}
 
 	public void setLimit(final E e, final Number value) {
@@ -20,15 +20,15 @@ public final class StaticLimits<E extends Enum<E>> implements Limits<E> {
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
-		store.put(e, value);
+		map.put(e, value);
 	}
 
-	public Number getLimit(final E e) {
+	@Override public Number getLimit(final E e) {
 		if (e == null) {
 			throw new IllegalArgumentException();
 		}
-		if (store.containsKey(e)) {
-			return store.get(e);
+		if (map.containsKey(e)) {
+			return map.get(e);
 		}
 		return 0;
 	}
