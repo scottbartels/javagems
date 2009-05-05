@@ -40,24 +40,14 @@ public final class JUnitTimestampFormatter {
 			checkers[i].start();
 		}
 
-		final long start = System.currentTimeMillis();
-
 		for (final Checker checker : checkers) {
 			try {
 				checker.join();
 			} catch (final InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-		}
-
-		final long end = System.currentTimeMillis();
-
-		System.err.println("Execution done in " + (end - start) + "ms.");
-
-		for (final Checker checker : checkers) {
 			Assert.assertTrue(checker.getResult());
 		}
-
 	}
 
 	private static final class Checker extends Thread {
@@ -68,7 +58,7 @@ public final class JUnitTimestampFormatter {
 
 		private final String expectedResult;
 
-		private volatile boolean result = true;
+		private volatile boolean result;
 
 		private Checker(final TimestampFormatter fixture, final int div) {
 			this.fixture = fixture;
@@ -78,12 +68,12 @@ public final class JUnitTimestampFormatter {
 
 
 		@Override public void run() {
-			for (int i = 0; i < 1000000; i++) {
+			for (int i = 0; i < 100000; i++) {
 				if (!expectedResult.equals(fixture.format(time))) {
-					result = false;
 					return;
 				}
 			}
+			result = true;
 		}
 
 		private boolean getResult() {
