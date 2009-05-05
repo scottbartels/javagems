@@ -1,5 +1,6 @@
 package gems.logging.formatters;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,6 +10,14 @@ import java.util.Date;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 final class TimestampFormatter {
+
+	private final ThreadLocal<DateFormat> map = new ThreadLocal<DateFormat>() {
+
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat(pattern);
+		}
+
+	};
 
 	/**
 	 * A formatting pattern.
@@ -37,7 +46,7 @@ final class TimestampFormatter {
 	 * @return a formatted timestamp.
 	 */
 	String format(final long timestamp) {
-		return new SimpleDateFormat(pattern).format(new Date(timestamp));
+		return map.get().format(new Date(timestamp));
 	}
 
 }
