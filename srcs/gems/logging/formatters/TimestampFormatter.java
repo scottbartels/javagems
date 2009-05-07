@@ -5,14 +5,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Encapsulates a timestamp formatting functionality.
+ * Encapsulates a timestamp formatting functionality. The implementation
+ * is thread-safe and scalable for usage by more threads simultaneously. 
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
 final class TimestampFormatter {
 
-	private final ThreadLocal<DateFormat> map = new ThreadLocal<DateFormat>() {
+	/**
+	 * A thread local map of date formatters.
+	 */
+	private final ThreadLocal<DateFormat> formatters = new ThreadLocal<DateFormat>() {
 
+		/**
+		 * Creates a new date formatter.
+		 *
+		 * @return a new date formatter.
+		 */
 		protected DateFormat initialValue() {
 			return new SimpleDateFormat(pattern);
 		}
@@ -46,7 +55,7 @@ final class TimestampFormatter {
 	 * @return a formatted timestamp.
 	 */
 	String format(final long timestamp) {
-		return map.get().format(new Date(timestamp));
+		return formatters.get().format(new Date(timestamp));
 	}
 
 }
