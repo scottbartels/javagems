@@ -2,6 +2,12 @@ package gems;
 
 import java.util.EnumMap;
 
+// TODO: 1) CREATE THREAD-SAFENESS TEST; IT SHOULD FAIL
+// TODO: 2) SYNCHRONIZE SOMEHOW:
+// TODO: 2.1) SYNCHRONIZE PUBLIC METHODS
+// TODO: 2.2) SYNCHRONIZE KEY SECTIONS ON map
+// TODO: 2.3) WRAP map INTO Collections.synchronizedMap();
+
 public final class StaticLimits<E extends Enum<E>> implements Limits<E> {
 
 	private final EnumMap<E, Number> map;
