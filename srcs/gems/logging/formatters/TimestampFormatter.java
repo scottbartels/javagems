@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-final class TimestampFormatter {
+final class TimestampFormatter { // ToDo: Maybe this can be generalized to something like ThreadSafeSimpleDateFormat. 
 
 	/**
 	 * A thread local map of date formatters.
