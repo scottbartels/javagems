@@ -11,14 +11,13 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 /**
- * Segmented cache implementation. It holds a flat cache for
- * each segment and delegates operations to these segments.
+ * Segmented cache implementation. It holds a flat cache for each segment and delegates operations to these segments.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <V> type of cached values.
  * @param <K> type of keys.
  */
-final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> {
+final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> {
 
 	/**
 	 * A segmenter.
@@ -82,19 +81,8 @@ final class SegmentedCache<V extends Identifiable<K>, K> implements Cache<V, K> 
 		getSegment(object.getId()).offer(object);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws IllegalArgumentException if {@code key} is {@code null}.
-	 */
-	@Override public Option<V> provide(final Option<K> key) {
-		if (key == null) {
-			throw new IllegalArgumentException();
-		}
-		if (key.hasValue()) {
-			return getSegment(key.getValue()).provide(key);
-		}
-		return new Option<V>(null);
+	@Override protected Option<V> retrieve(Option<K> key) {
+		return getSegment(key.getValue()).provide(key);
 	}
 
 }
