@@ -81,7 +81,10 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V
 		getSegment(object.getId()).offer(object);
 	}
 
-	@Override protected Option<V> retrieve(Option<K> key) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override protected Option<V> retrieve(final Option<K> key) {
 		return getSegment(key.getValue()).provide(key);
 	}
 

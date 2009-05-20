@@ -60,7 +60,10 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> 
 		}
 	}
 
-	protected Option<V> retrieve(final Option<K> key) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override protected Option<V> retrieve(final Option<K> key) {
 		lock.readLock().lock();
 		try {
 			return storage.get(key.getValue());
