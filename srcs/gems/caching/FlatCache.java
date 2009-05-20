@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
+final class FlatCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> {
 
 	/**
 	 * A lock controlling access to storage.
@@ -60,24 +60,13 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws IllegalArgumentException if {@code key} is {@code null}.
-	 */
-	@Override public Option<V> provide(final Option<K> key) {
-		if (key == null) {
-			throw new IllegalArgumentException();
+	protected Option<V> retrieve(final Option<K> key) {
+		lock.readLock().lock();
+		try {
+			return storage.get(key.getValue());
+		} finally {
+			lock.readLock().unlock();
 		}
-		if (key.hasValue()) {
-			lock.readLock().lock();
-			try {
-				return storage.get(key.getValue());
-			} finally {
-				lock.readLock().unlock();
-			}
-		}
-		return new Option<V>(null);
 	}
 
 	/**
