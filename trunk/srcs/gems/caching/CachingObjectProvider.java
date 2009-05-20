@@ -11,7 +11,7 @@ import gems.filtering.Filter;
  * one, if the cache does not provide it. This is a simple composition of a cache
  * and an object provider; client code have to provide the both of them.
  * Additionally, two filters can be provided. The both of them approves caching of
- * a newly created object: the first one filters object according their keys, the
+ * a newly created object: the first one filters objects according their keys, the
  * second one filters objects themselves. If there is only one of them reasonable,
  * simply use {@code gems.filtering.Filter.ALLOW_ALL} for the resting one.
  * Even if this filtering can be always done by analysis of those {@code Identifiable}
@@ -21,7 +21,7 @@ import gems.filtering.Filter;
  * created immediatelly via the underaying object provider. Please note that
  * the both filter are recommended to be idempotempt, i.e. providing the same
  * result for the same key/object when invoked for it many times. If you are about
- * implementing non-idempotent filters, consult source codes of this class and
+ * implementing non-idempotent filters, consult source code of this class and
  * consider possible consequences.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
