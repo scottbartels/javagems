@@ -36,10 +36,10 @@ import java.util.LinkedList;
 
 	/**
 	 * Creates a new composed comparator for a given collection of comparators.
-	 * Please note that iteration order of the given collection is significant:
-	 * comparators will be used in that order. If an input collection contains
-	 * two or more equal comparators, only the first one is used, any subsequent
-	 * are silently ignored. See contract of the {@code Comparator.equals()} method. 
+	 * Iteration order of the given collection is significant: comparators will
+	 * be used in that order. If an input collection contains two or more equal
+	 * comparators, only the first one is used, any subsequent are silently ignored.
+	 * See contract of the {@code Comparator.equals()} method. 
 	 *
 	 * @param comparators a collection of comparators.
 	 *
