@@ -96,18 +96,18 @@ public final class CachingObjectProvider<V extends Identifiable<K>, K> implement
 	 *
 	 * @throws IllegalArgumentException if {@code key} is {@code null}.
 	 */
-	@Override public Option<V> get(final Option<K> key) {
+	@Override public Option<V> provide(final Option<K> key) {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
 		if (key.hasValue()) {
 			if (keyFilter.allows(key.getValue())) {
-				final Option<V> cached = cache.get(key);
+				final Option<V> cached = cache.provide(key);
 				if (cached.hasValue()) {
 					return new Option<V>(cached.getValue());
 				}
 			}
-			final Option<V> provided = provider.get(key);
+			final Option<V> provided = provider.provide(key);
 			if (provided.hasValue()) {
 				final V value = provided.getValue();
 				if (keyFilter.allows(key.getValue()) && valueFilter.allows(value)) {

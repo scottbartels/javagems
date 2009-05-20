@@ -19,7 +19,7 @@ public final class MemoryStorage<K, V extends Identifiable<K>> extends AbstractS
 		map.put(value.getId(), value);
 	}
 
-	@Override public Option<V> get(final Option<K> key) {
+	@Override public Option<V> provide(final Option<K> key) {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
