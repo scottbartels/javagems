@@ -21,7 +21,7 @@ public final class JUnitObjectProvider {
 	 * Checks whether null-implementation of the interface returns an empty {@code Option}.
 	 */
 	@Test public void nullImplementationReturnsEmptyOption() {
-		Assert.assertFalse(ObjectProvider.NULL_PROVIDER.get(new Object()).hasValue());
+		Assert.assertFalse(ObjectProvider.NULL_PROVIDER.get(new Option<Object>(new Object())).hasValue());
 	}
 
 }

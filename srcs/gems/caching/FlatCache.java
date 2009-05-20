@@ -65,16 +65,19 @@ final class FlatCache<V extends Identifiable<K>, K> implements Cache<V, K> {
 	 *
 	 * @throws IllegalArgumentException if {@code key} is {@code null}.
 	 */
-	@Override public Option<V> get(final K key) {
+	@Override public Option<V> get(final Option<K> key) {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		lock.readLock().lock();
-		try {
-			return storage.get(key);
-		} finally {
-			lock.readLock().unlock();
+		if (key.hasValue()) {
+			lock.readLock().lock();
+			try {
+				return storage.get(key.getValue());
+			} finally {
+				lock.readLock().unlock();
+			}
 		}
+		return new Option<V>(null);
 	}
 
 	/**
