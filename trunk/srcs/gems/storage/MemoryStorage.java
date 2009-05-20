@@ -19,11 +19,14 @@ public final class MemoryStorage<K, V extends Identifiable<K>> extends AbstractS
 		map.put(value.getId(), value);
 	}
 
-	@Override public Option<V> get(final K key) {
+	@Override public Option<V> get(final Option<K> key) {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		return new Option<V>(map.get(key));
+		if (key.hasValue()) {
+			return new Option<V>(map.get(key.getValue()));
+		}
+		return new Option<V>(null);
 	}
 
 	@Override public void remove(final K key) {

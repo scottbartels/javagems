@@ -38,7 +38,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		final Option<CacheItem> cachedOption = items.get(key);
+		final Option<CacheItem> cachedOption = items.get(new Option<K>(key));
 		if (!cachedOption.hasValue()) {
 			return new Option<V>(null);
 		}
@@ -56,7 +56,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
-		final Option<CacheItem> cachedOption = items.get(value.getId());
+		final Option<CacheItem> cachedOption = items.get(new Option<K>(value.getId()));
 		if (cachedOption.hasValue()) {
 			cachedOption.getValue().update(value, sizer.estimate(value));
 		} else {
@@ -84,7 +84,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 			throw new IllegalArgumentException();
 		}
 		for (final K key : keys) {
-			final Option<CacheItem> cachedOption = items.get(key);
+			final Option<CacheItem> cachedOption = items.get(new Option<K>(key));
 			if (cachedOption.hasValue()) {
 				cachedOption.getValue().evict();
 			}
@@ -180,7 +180,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		/*### private ###*/
 		synchronized V getValue() {
 			ensureNonExpiredStatus();
-			final Option<V> value = values.get(getId());
+			final Option<V> value = values.get(new Option<K>(getId()));
 			statistics.recordAccess(value.hasValue());
 			return value.getValue();
 		}
@@ -201,7 +201,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 			// there is a lot of values. Maybe the cache item can hold its 'evictable'
 			// or 'evicted' status itself. On the other hand this is pretty consistent
 			// in all cases.
-			return !values.get(getId()).hasValue();
+			return !values.get(new Option<K>(getId())).hasValue();
 		}
 
 		/**
