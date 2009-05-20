@@ -96,7 +96,7 @@ public final class Shower {
 
 	private void show() {
 		final String path = images[target].getPath();
-		final Option<IdentifiableImage> option = source.get(new Option<String>(path));
+		final Option<IdentifiableImage> option = source.provide(new Option<String>(path));
 		if (!option.hasValue()) {
 			throw new ShouldNeverHappenException(path);
 
@@ -303,7 +303,7 @@ public final class Shower {
 
 
 		@Override public void run() {
-			source.get(new Option<String>(images[position].getPath()));
+			source.provide(new Option<String>(images[position].getPath()));
 		}
 
 	}
@@ -336,7 +336,7 @@ public final class Shower {
 
 	private static final class ImageProvider implements ObjectProvider<IdentifiableImage, String> {
 
-		public Option<IdentifiableImage> get(final Option<String> key) {
+		public Option<IdentifiableImage> provide(final Option<String> key) {
 			if (key == null) {
 				throw new IllegalArgumentException();
 			}
