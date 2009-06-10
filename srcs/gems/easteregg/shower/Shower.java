@@ -107,16 +107,6 @@ public final class Shower {
 		resetScrollbars();
 	}
 
-	static Image loadImage(final String path) {
-		final Image image = Toolkit.getDefaultToolkit().getImage(path);
-		// TODO: RESIZE IMAGE TO FIT IT INTO A SCREEN
-//		final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-//		if (image.getHeight(null) > screen.getHeight() || image.getWidth(null) > screen.getWidth()) {
-//			return image.getScaledInstance((int)screen.getWidth(), (int)screen.getHeight(), Image.SCALE_DEFAULT);
-//		}
-		return image;
-	}
-
 	private void resetScrollbars() {
 		centerScrollbar(scroll.getVerticalScrollBar());
 		centerScrollbar(scroll.getHorizontalScrollBar());
