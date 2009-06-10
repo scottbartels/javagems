@@ -6,11 +6,9 @@ import gems.caching.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -55,7 +53,7 @@ public final class Shower {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-		frame.addKeyListener(new ExitOnEscapeKeyListener(frame));
+		frame.addKeyListener(new ExitEventListener(frame));
 		frame.addKeyListener(new ChangeImageListener());
 		frame.addKeyListener(new SlideshowControlKeyListener());
 		frame.addKeyListener(new MoveOversizedListener());
@@ -109,7 +107,7 @@ public final class Shower {
 		resetScrollbars();
 	}
 
-	private static Image loadImage(final String path) {
+	static Image loadImage(final String path) {
 		final Image image = Toolkit.getDefaultToolkit().getImage(path);
 		// TODO: RESIZE IMAGE TO FIT IT INTO A SCREEN
 //		final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -261,32 +259,6 @@ public final class Shower {
 		});
 	}
 
-	/**
-	 * A skeleton implementation of {@code KeyListener} interface
-	 * implementing only unused methods using empty bodies.
-	 */
-	private static abstract class AbstractKeyListener implements KeyListener {
-
-		/**
-		 * Does nothing.
-		 *
-		 * @param e ignored.
-		 */
-		public final void keyTyped(final KeyEvent e) {
-			// really nothing here
-		}
-
-		/**
-		 * Does nothing.
-		 *
-		 * @param e ignored.
-		 */
-		public final void keyReleased(final KeyEvent e) {
-			// really nothing here
-		}
-
-	}
-
 	private final class PrefetchTask implements Runnable {
 
 		private final int position;
@@ -308,45 +280,12 @@ public final class Shower {
 
 	}
 
-	private static final class IdentifiableImage extends AbstractIdentifiable<String> {
-
-		private final Image image;
-
-		private IdentifiableImage(final String path, final Image image) {
-			super(path);
-			if (image == null) {
-				throw new IllegalArgumentException();
-			}
-			this.image = image;
-		}
-
-		private Image getImage() {
-			return image;
-		}
-
-	}
-
 	private static final class ImageSizeEstimator implements SizeEstimator<IdentifiableImage> {
 
 		public long estimate(final IdentifiableImage image) {
 			return image.getImage().getHeight(null) * image.getImage().getWidth(null) * 4L;
 		}
 
-	}
-
-	private static final class ImageProvider implements ObjectProvider<IdentifiableImage, String> {
-
-		public Option<IdentifiableImage> provide(final Option<String> key) {
-			if (key == null) {
-				throw new IllegalArgumentException();
-			}
-			if (key.hasValue()) {
-				final String path = key.getValue();
-				return new Option<IdentifiableImage>(new IdentifiableImage(path, loadImage(path)));
-			}
-			return new Option<IdentifiableImage>(null);
-		}
-		
 	}
 
 	/**
@@ -447,53 +386,6 @@ public final class Shower {
 				// TODO: CONTINUE HERE
 			}
 		}
-	}
-
-	/**
-	 * Exits the application when {@code ESC} is pressed.
-	 */
-	private static final class ExitOnEscapeKeyListener extends AbstractKeyListener {
-
-		/**
-		 * A frame to dispose when triggered.
-		 */
-		private final JFrame frame;
-
-		/**
-		 * Creates a new listener disposing the given frame when triggered.
-		 *
-		 * @param frame a frame to dispose.
-		 * @throws IllegalArgumentException if {@code frame} is {@code null}.
-		 */
-		private ExitOnEscapeKeyListener(final JFrame frame) {
-			if (frame == null) {
-				throw new IllegalArgumentException();
-			}
-			this.frame = frame;
-		}
-
-		/**
-		 * Exits the application if {@code ESC} key was pressed.
-		 *
-		 * @param e a key event.
-		 */
-		public void keyPressed(final KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_Q) {
-				frame.dispose();
-			}
-		}
-
-	}
-
-	/**
-	 * Compares files according their names.
-	 */
-	private static final class FilenamesComparator implements Comparator<File> {
-
-		@Override public int compare(final File x, final File y) {
-			return x.getName().compareTo(y.getName());
-		}
-
 	}
 
 }
