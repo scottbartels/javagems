@@ -157,15 +157,18 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
 		heads.clear();
 	}
 
+    /**
+     * {@inheritDoc}
+     */
+    public Iterator<E> iterator() {
+        return new IteratorImpl<E>(heads.iterator());
+    }
+
 //	public E get(final int index) {
 //		return heads.get(index).getData();
 //	}
 
 	// TODO: NOT YET IMPLEMENTED PART OF THE INTERFACE
-
-	public Iterator<E> iterator() {
-		return null;
-	}
 
 	public Object[] toArray() { // todo: violates contract if not synchronized
 		final Object[] result = new Object[heads.size()];
@@ -176,8 +179,35 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
 	}
 
 	public <T> T[] toArray(final T[] a) {
-		return null;
+        throw new UnsupportedOperationException("Not implemented yet.");
 	}
+
+    // ITERATOR
+
+    private static final class IteratorImpl<E extends Serializable> implements Iterator<E> {
+
+        private final Iterator<Head<E>> heads;
+
+        IteratorImpl(final Iterator<Head<E>> heads) {
+            if (heads == null) {
+                throw new IllegalArgumentException();
+            }
+            this.heads = heads;
+        }
+
+        public boolean hasNext() {
+            return heads.hasNext();
+        }
+
+        public E next() {
+            return heads.next().getData();
+        }
+
+        public void remove() {
+            heads.remove();
+        }
+
+    }
 
 	// HEAD
 
