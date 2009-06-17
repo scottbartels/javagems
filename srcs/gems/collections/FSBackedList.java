@@ -184,7 +184,7 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
 
     // TODO: NOT YET IMPLEMENTED PART OF THE INTERFACE
 
-    public Object[] toArray() { // todo: violates contract if not synchronized
+    public Object[] toArray() { // todo: violates contract
         final Object[] result = new Object[heads.size()];
         for (int i = 0; i < heads.size(); i++) {
             result[i] = heads.get(i).getData();
@@ -195,6 +195,8 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
     public <T> T[] toArray(final T[] a) {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
+
+    // TODO: IMPLEMENT equals() AND hashCode()
 
     // ITERATOR
 
@@ -229,11 +231,15 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
 
         private final File storage = IOUtils.createTemporaryFile(true);
 
+        // todo: add hashcode cache
+
         // todo: add compression
 
         // todo: add encryption
 
         // todo: add checksum
+
+        // todo: add equals() and hashCode() based on serialized data (think twice)
 
         Head(final T o) {
             if (o == null) {
