@@ -225,7 +225,7 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
 
     // HEAD
 
-    private static final class Head<E extends Serializable> {
+    private static final class Head<T extends Serializable> {
 
         private final File storage = IOUtils.createTemporaryFile(true);
 
@@ -235,14 +235,14 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
 
         // todo: add checksum
 
-        Head(final E e) {
-            if (e == null) {
+        Head(final T o) {
+            if (o == null) {
                 throw new IllegalArgumentException();
             }
-            store(e);
+            store(o);
         }
 
-        synchronized E getData() {
+        synchronized T getData() {
             return load();
         }
 
@@ -260,11 +260,11 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
         }
 
         @SuppressWarnings({"unchecked"})
-        private E load() {
+        private T load() {
             try {
                 final ObjectInputStream in = new ObjectInputStream(new FileInputStream(storage));
                 try {
-                    return (E) in.readObject();
+                    return (T) in.readObject();
                 } catch (final ClassNotFoundException e) {
                     throw new ShouldNeverHappenException(e); // todo: introduce something like "StorageConsistencyException"
                 } finally {
