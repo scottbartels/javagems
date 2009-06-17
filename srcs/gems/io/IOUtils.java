@@ -116,7 +116,28 @@ public final class IOUtils {
 		}
 	}
 
-	/**
+    /**
+     * Creates an empty file in the default temporary-file directory.
+     *
+     * @param deleteOnExit a flag specifying whether the created file is registered for JVM exit deletion.
+     *
+     * @return a {@code File} reference to an empty file.
+     *
+     * @throws gems.io.RuntimeIOException if file could not be created.
+     */
+    public static File createTemporaryFile(final boolean deleteOnExit) {
+        try {
+            final File result = File.createTempFile("gem", null);
+            if (deleteOnExit) {
+                result.deleteOnExit();
+            }
+            return result;
+        } catch (final IOException e) {
+            throw new RuntimeIOException(e);
+        }
+    }
+
+    /**
 	 * Exception handler wrapping passed {@code IOException} by {@code RuntimeIOException}.
 	 */
 	static final class IOExceptionWrapper implements ExceptionHandler<IOException> {
