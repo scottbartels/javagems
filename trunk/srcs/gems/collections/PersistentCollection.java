@@ -1,5 +1,6 @@
 package gems.collections;
 
+import gems.Experimental;
 import gems.ShouldNeverHappenException;
 import gems.io.IOUtils;
 import gems.io.RuntimeIOException;
@@ -22,7 +23,7 @@ import java.util.RandomAccess;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-public final class FSBackedList<E extends Serializable> implements Collection<E>, RandomAccess {
+@Experimental public final class PersistentCollection<E extends Serializable> implements Collection<E>, RandomAccess {
 
     private final List<Head<E>> heads = new ArrayList<Head<E>>();
 
@@ -178,10 +179,6 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
         return new IteratorImpl<E>(heads.iterator());
     }
 
-//	public E get(final int index) {
-//		return heads.get(index).getData();
-//	}
-
     // TODO: NOT YET IMPLEMENTED PART OF THE INTERFACE
 
     public Object[] toArray() { // todo: violates contract
@@ -195,8 +192,6 @@ public final class FSBackedList<E extends Serializable> implements Collection<E>
     public <T> T[] toArray(final T[] a) {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
-
-    // TODO: IMPLEMENT equals() AND hashCode()
 
     // ITERATOR
 
