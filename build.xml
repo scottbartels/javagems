@@ -89,7 +89,7 @@
         <fail if="junit.failure" message="Unit test failure detected."/>
     </target>
 
-	<target name="check" depends="clean, compile"/>
+	<target name="check" depends="clean, compile"><antcall target="clean"/></target>
 
 	<!-- DIST: Builds everyting from a scratch. -->
 	<target name="dist" depends="clean, test, pack, docs">
