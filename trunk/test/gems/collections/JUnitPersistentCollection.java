@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Unit tests for {@code PersistentCollection} class.
@@ -76,7 +77,61 @@ public final class JUnitPersistentCollection {
     }
 
     /**
-     * Checks given fixture for emptyness.
+     * Checks whether {@code contains()} method works for values.
+     */
+    @Test public void checkContains() {
+        Assert.assertFalse(fixture.contains(-1));
+        Assert.assertTrue(fixture.contains(0));
+        Assert.assertTrue(fixture.contains(1));
+        Assert.assertTrue(fixture.contains(2));
+        Assert.assertTrue(fixture.contains(3));
+        Assert.assertFalse(fixture.contains(4));
+    }
+
+    /**
+     * The collection implementation does not allow storing {@code null} keys, so
+     * the {@code contains()} method has to return {@code false} for {@code null} key. 
+     */
+    @Test public void containsReturnsFalseForNullKey() {
+        Assert.assertFalse(fixture.contains(null));
+    }
+
+    /**
+     * Checking value presence fails if object has not proper type.  
+     */
+    @SuppressWarnings({"SuspiciousMethodCalls"})
+    @Test public void containsReturnsFalseForInvalidKeyType() {
+        Assert.assertFalse(fixture.contains((short) 0));
+        Assert.assertFalse(fixture.contains(0L));
+    }
+
+    @Test(expected = IllegalArgumentException.class) public void containsAllRefusesNull() {
+        fixture.containsAll(null);
+    }
+    
+    @Test public void containsAllReturnsFalseForCollectionWithNullElement() {
+        final Collection<?> searched = new LinkedList();
+        searched.add(null);
+        Assert.assertFalse(fixture.containsAll(searched));
+    }
+
+    @Test public void checkContainsAll() {
+        final Collection<Integer> searched = new LinkedList<Integer>();
+        Assert.assertTrue(fixture.containsAll(searched)); // empty
+        searched.add(0);
+        Assert.assertTrue(fixture.containsAll(searched)); // 0
+        searched.add(1);
+        Assert.assertTrue(fixture.containsAll(searched)); // 0, 1
+        searched.add(2);
+        Assert.assertTrue(fixture.containsAll(searched)); // 0, 1, 2
+        searched.add(3);
+        Assert.assertTrue(fixture.containsAll(searched)); // 0, 1, 2, 3
+        searched.add(4);
+        Assert.assertFalse(fixture.containsAll(searched)); // 0, 1, 2, 3, 4 
+    }
+
+    /**
+     * Checks given fixture for emptiness.
      *
      * @param fixture a checked fixture.
      */
