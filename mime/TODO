@@ -1,0 +1,84 @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ gems.logging - Crash Dump Logging Handler                          @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	Handler holding all logged records for last _M_ minutes or at most
+_N_ latest records. The idea is to create a detailed logging output when
+any severe event occur, but to keep a logging output to be brief and 
+concise under normal circumstances. A handler has following attributes:
+
+SECONDS (integer), defaults to 120(?): This is a time limit for holding 
+logging records. After this time limit, logging records are released, but
+a.t.m. it is not clear what it exactly mean. There are several options:
+	- Simply to forget them.
+	- Log if they are over a treshold.
+
+LIMIT (integer), defaults to 100(?): This a limit for maximal number of
+logging records held. After this limit exceeds, logging records are 
+released, but ... detto. 
+
+TRESHOLD (gems.logging.LoggingSeverity), defaults to ALERT(?): All held
+logging records are logged when a logging record with at least this
+severity is logged to a handler, but a.t.m. it is not clear what it
+exactly mean. There are several options:
+	- To create one-time logging file.
+	- To send an email.
+However, this action should be probably generated to another logging
+handler. So, this seems to be a candidate for another 'wrapping' 
+handler. 
+
+The lowest logged severity may be successfully controlled by general
+filtering capabilities. Implementation of logging record handling might
+be similar to this:
+
+1) Add a received logging record at the end of buffer.
+2) If buffer size exceeded LIMIT, remove a head of buffer.
+3) Remove all held logging records older than SECONDS. 
+4) If a received logging record has at least TRESHOLD severity, log them.
+
+The following new utilities might be useful:
+
+* A queue with limited size, probably with automatic elements ordering. 
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ gems.logging - L10n and Logging Based on Codes or Keys             @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	The first intension is to log only a codes or keys instead of real 
+messages. Logging records so may be a little bit smaller. Codes or keys
+might be replaced by final logging messages later in a logging records
+processing. This can lead to several advantages:
+
+1) Logging messages might be localized.
+
+2) Message codes (possibly integers) might (possibly together with 
+   a logging category of the logging record) form a unique identifier.
+   Afterwards, an application vendor can provide a list of error codes
+   with explanations, solutions or workarounds. 
+
+There are still open issues:
+
+1) What is the best point for translation from a code or a key to a real
+   message? LoggingEntryPoint? LoggingRecord creation? Handler?
+
+2) A LoggingRecord should be probably redesigned to be able to hold a code
+   or a key instead of message. Likely it have to turn from immutable to
+   mutable design, because at some point an absent logging message have to
+   be filled in. 
+
+3) What is better to use: numeric codes or string keys (or both). 
+
+The following new utilities might be useful:
+
+* a mapping from codes or keys to messages with fast search, different
+  physical storage of the mapping and probably with caching capabilities.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ gems.logging - XML Logging Record Formatter                        @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ gems.logging - Logging handler as a bridge for java.util.logging   @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+

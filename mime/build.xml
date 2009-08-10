@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+<!-- Main build file for Java Gems. -->
+<project name="Java Gems" basedir="." default="dist">
+
+	<!-- A directory with production source files.  -->
+	<property name="srcs.home" value="${basedir}/srcs"/>
+
+	<!-- A directory with testing source files.  -->
+	<property name="test.home" value="${basedir}/test"/>
+
+	<!-- A directory with ompilation results.  -->
+	<property name="build.home" value="${basedir}/build"/>
+
+	<!-- A directory with documentation.  -->
+	<property name="docs.home" value="${basedir}/docs"/>
+
+	<!-- A directory with deliverables.  -->
+	<property name="dist.home" value="${basedir}/dist"/>
+
+	<!-- A directory with compiled classes.  -->
+	<property name="build.classes" value="${build.home}/classes"/>
+
+	<!-- Major version number.  -->
+	<property name="version.major" value="2009"/>
+
+	<!-- Minor version number. -->
+	<property name="version.minor" value="02"/>
+
+	<!-- Base name of artifacts. -->
+	<property name="basename" value="gems-${version.major}.${version.minor}"/>
+
+	<!-- A name of a deliverable file containing a runnable application. -->
+	<property name="jar.bin" value="${build.home}/${basename}-bin.jar"/>
+
+	<!-- A name of a deliverable file containing JavaDoc documentation. -->
+	<property name="jar.api" value="${dist.home}/${basename}-api.jar"/>
+
+	<!-- A name of deliverable file containing source codes. -->
+	<property name="jar.src" value="${dist.home}/${basename}-src.jar"/>
+
+	<!-- A directory containing a generated JavaDoc documentation. -->
+	<property name="docs.api" value="${docs.home}/api"/>
+
+    <property name="reports.home" value="${build.home}/reports"/>
+
+    <property name="junit.reports" value="${reports.home}/junit"/>
+
+    <!-- 3rd party libraries -->
+    <property name="lib.home" value="${basedir}/libs"/>
+
+    <path id="junit.library">
+        <path location="${lib.home}/junit/4.5/bin/junit-4.5.jar"/>
+    </path>
+
+	<!-- COMPILE: Compiles source codes. -->
+	<target name="compile">
+		<mkdir dir="${build.classes}"/>
+		<javac srcdir="${srcs.home}" destdir="${build.classes}" debug="true" deprecation="true"/>
+        <javac srcdir="${test.home}" destdir="${build.classes}" debug="true" deprecation="true">
+            <classpath refid="junit.library"/>
+        </javac>
+	</target>
+
+	<!-- PACK: Creates a resulting jar file from compiled classes. -->
+	<target name="pack">
+		<jar basedir="${build.classes}" excludes="**/JUnit*.class" destfile="${jar.bin}">
+			<manifest>
+				<attribute name="Main-Class" value="gems.easteregg.shower.Shower"/>
+			</manifest>
+		</jar>
+	</target>
+
+    <!-- TEST: Runs unit tests. -->
+    <target name="test" depends="compile">
+        <mkdir dir="${junit.reports}"/>
+        <junit errorproperty="junit.error" failureproperty="junit.failure">
+            <classpath>
+                <path refid="junit.library"/>
+                <pathelement location="${build.classes}"/>
+            </classpath>
+            <batchtest todir="${junit.reports}">
+                <!-- TODO: The following exclude of **/*Implementations.class is just and workaround; that tests design should be fixed instead. -->
+                <fileset dir="${build.classes}" includes="**/JUnit*.class" excludes="**/*$*.class,**/*Implementations.class"/>
+            </batchtest>
+            <formatter type="brief"/>
+        </junit>
+        <fail if="junit.error" message="Error occurred during unit tests."/>
+        <fail if="junit.failure" message="Unit test failure detected."/>
+    </target>
+
+	<target name="check" depends="clean, compile"><antcall target="clean"/></target>
+
+	<!-- DIST: Builds everyting from a scratch. -->
+	<target name="dist" depends="clean, test, pack, docs">
+		<mkdir dir="${dist.home}"/>
+		<copy file="${jar.bin}" todir="${dist.home}"/>
+		<jar destfile="${jar.api}" basedir="${docs.api}"/>
+		<jar destfile="${jar.src}" basedir="${srcs.home}"/>
+	</target>
+
+	<!-- DOCS: Encapsulates all documentation generating tasks. -->
+	<target name="docs" depends="javadoc"/>
+
+	<!-- JAVADOC: Generates a JavaDoc documentation. -->
+	<target name="javadoc">
+		<mkdir dir="${docs.api}"/>
+		<javadoc destdir="${docs.api}" author="true" access="protected">
+			<packageset dir="${srcs.home}" excludes="gems/easteregg/**"/>
+		</javadoc>
+	</target>
+
+	<!-- CLEAN: Removes all generated stuff. -->
+	<target name="clean">
+		<delete dir="${build.home}"/>
+		<delete dir="${dist.home}"/>
+		<delete dir="${docs.api}"/>
+	</target>
+
+</project>
+
