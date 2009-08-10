@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.RandomAccess;
 
 /**
- * Storing {@code null} objects is not permitted. Stored objects should not rely on defalut {@code equals()} method.
+ * Storing {@code null} objects is not permitted. Stored objects should not rely on default {@code equals()} method.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
