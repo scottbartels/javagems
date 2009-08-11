@@ -12,7 +12,7 @@ import gems.ObjectProvider;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <V> a type of cached objects.
- * @param <K> a type of keys indetifying cached objects.
+ * @param <K> a type of keys identifying cached objects.
  */
 public interface Cache<V extends Identifiable<K>, K> extends ObjectProvider<V, K> {
 
