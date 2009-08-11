@@ -13,7 +13,7 @@ public interface EvictionHandler<T> {
     /**
      * A null-implementation of the interface. It effectively does nothing.
      */
-    public static final EvictionHandler<?> NULL_EVICTION_HANDLER = new EvictionHandler<Object>() {
+    public static final EvictionHandler<Object> NULL_EVICTION_HANDLER = new EvictionHandler<Object>() {
 
         /**
          * Does nothing.
