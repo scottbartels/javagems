@@ -6,7 +6,7 @@ import gems.Identifiable;
  * An object holder for various caching subsystem properties or components. There are two sorts of
  * components: <em>mandatory</em> &ndash; these needs to be specified in the time of the holder
  * creation and cannot be changed later and <em>optional</em> &ndash; these are initially set to
- * some default values and can be changed.
+ * some default values and can be changed later.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <V> a type of cached objects.
