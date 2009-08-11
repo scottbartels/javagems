@@ -1,13 +1,13 @@
 package gems;
 
 /**
- * Provide a plugable way how to specify various numeric tresholds,
+ * Provide a pluggable way how to specify various numeric thresholds,
  * where thresholds are identified by an enumeration. Implementations
- * may provide not only static tresholds, but a sort of self-tuning
- * tresholds are also possible.
+ * may provide not only static thresholds, but a sort of self-tuning
+ * thresholds are also possible.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
- * @param <E> an enumeration specifying tresholds.
+ * @param <E> an enumeration specifying thresholds.
  */
 @Experimental public interface Limits<E extends Enum<E>> {
 
@@ -39,7 +39,7 @@ package gems;
 	 * because implementation may provide a sort of self-adaptation
 	 * and a returned value may vary over time.
 	 *
-	 * @param e an enumeration constant specifying a required treshold.
+	 * @param e an enumeration constant specifying a required threshold.
 	 *
 	 * @return a limit identified by a given enumeration constant.
 	 */
