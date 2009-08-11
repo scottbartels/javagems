@@ -25,6 +25,10 @@ public final class CacheFactory {
 		throw new UnsupportedOperationException();
 	}
 
+    public static <V extends Identifiable<K>, K> Cache<V, K> createCache(final CacheProperties<V, K> properties) {
+        return null; // TODO: IMPLEMENT
+    }
+
 	/* PARALLEL CACHE FACTORIES */
 
 	/**
@@ -42,7 +46,7 @@ public final class CacheFactory {
 	 * @return a new in-memory cache.
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
-	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
+	@Deprecated public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
@@ -67,7 +71,7 @@ public final class CacheFactory {
 	 * @return a new segmented cache.
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
-	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
+	@Deprecated public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
@@ -101,7 +105,7 @@ public final class CacheFactory {
 	 *
 	 * @return a new thread pool on MP system, or {@code null} on UP system.
 	 */
-	private static ExecutorService getPool() {
+	@Deprecated private static ExecutorService getPool() {
 		final int cpus = Runtime.getRuntime().availableProcessors();
 		return (cpus == 1 ? null : Executors.newFixedThreadPool(cpus));
 	}
@@ -120,7 +124,7 @@ public final class CacheFactory {
 	 * @return a new flat in-memory cache.
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
-	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
+	@Deprecated public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits
@@ -141,7 +145,7 @@ public final class CacheFactory {
 	 * @return a new flat cache.
 	 * @throws IllegalArgumentException if any of atributes is {@code null}.
 	 */
-	public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
+	@Deprecated public static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
@@ -164,7 +168,7 @@ public final class CacheFactory {
 	 * @return a new flat cache.
 	 * @throws IllegalArgumentException if any of atributes except {@code pool} is {@code null}.
 	 */
-	static <V extends Identifiable<K>, K> Cache<V, K> createCache(
+	@Deprecated static <V extends Identifiable<K>, K> Cache<V, K> createCache(
 			final CacheEvictor<K> evictor,
 			final SizeEstimator<V> sizer,
 			final Limits<CacheLimit> limits,
