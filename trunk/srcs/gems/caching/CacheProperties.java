@@ -29,6 +29,8 @@ public final class CacheProperties<V extends Identifiable<K>, K> {
      */
     private volatile EvictionHandler<? super V> evictionHandler = EvictionHandler.NULL_EVICTION_HANDLER;
 
+    // TODO: LIMITS
+
     public CacheProperties(final CacheEvictor<K> evictor) {
         if (evictor == null) {
             throw new IllegalArgumentException();
