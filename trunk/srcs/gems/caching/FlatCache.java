@@ -18,12 +18,8 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> 
 
 	private final CacheStorage<K, V> storage;
 
-	FlatCache(
-			final CacheEvictor<K> evictor,
-			final SizeEstimator<V> sizer,
-			final Limits<CacheLimit> limits,
-			final StorageFactory<K, V> factory,
-			ExecutorService pool) {
+	FlatCache(final CacheProperties<V, K> properties) {
+        super(properties);
 		if (pool != null) {
 			storage = new ParallelCacheStorage<K, V>(sizer, factory, pool);
 		} else {

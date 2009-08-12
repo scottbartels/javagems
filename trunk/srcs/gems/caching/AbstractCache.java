@@ -8,9 +8,13 @@ import gems.Option;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */
-abstract class AbstractCache<V extends Identifiable<K>, K> implements Cache<V, K> {
+abstract class AbstractCache<V extends Identifiable<K>, K> extends AbstractCacheComponent<V, K> implements Cache<V, K> {
 
-	/**
+    protected AbstractCache(final CacheProperties<V, K> properties) {
+        super(properties);
+    }
+
+    /**
 	 * Returns a cached object or an empty {@code Option} if no object is found.
 	 * This method never returns {@code null}. If the passed {@code key} does not
 	 * hold any value, an empty {@code Option} is retuned.
