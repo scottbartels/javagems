@@ -157,7 +157,7 @@ public final class CacheFactory {
 	/**
 	 * Creates a new flat cache defined by given attributes.
 	 *
-	 * @param evictor a cache evicter.
+	 * @param evictor a cache evictor.
 	 * @param sizer an implementation of size estimation of cached objects.
 	 * @param limits cache limits.
 	 * @param factory a factory providing low-level storage objects for cached objects.
