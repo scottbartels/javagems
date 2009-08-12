@@ -20,11 +20,6 @@ import java.util.concurrent.ExecutorService;
 final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> {
 
 	/**
-	 * A segmenter.
-	 */
-	private final CacheSegmenter<K> segmenter;
-
-	/**
 	 * Segments.
 	 */
 	private final List<Cache<V, K>> segments;
@@ -32,29 +27,15 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V
 	/**
 	 * Creates a new segmented cache.
 	 *
-	 * @param evictor passed to flat cache segments as is.
-	 * @param sizer passed to flat cache segments as is.
-	 * @param limits for each cache segment.
-	 * @param factory a factory providing low-level storage objects.
-	 * @param segmenter a segmenter defining a segmentation for the cache.
-	 * @param pool a thread pool for parallel cache storage, if any.
+	 * @param properties cache properties.
 	 *
-	 * @throws IllegalArgumentException if {@code segmenter} is {@code null}.
+	 * @throws IllegalArgumentException if {@code properties} argument is {@code null}.
 	 */
-	SegmentedCache(
-			final CacheEvictor<K> evictor,
-			final SizeEstimator<V> sizer,
-			final Limits<CacheLimit> limits,
-			StorageFactory<K, V> factory,
-			final CacheSegmenter<K> segmenter,
-			ExecutorService pool) {
-		if (segmenter == null) {
-			throw new IllegalArgumentException();
-		}
-		this.segmenter = segmenter;
-		segments = new ArrayList<Cache<V, K>>(segmenter.maxSegments());
-		for (int i = 0; i < segmenter.maxSegments(); i++) {
-			segments.add(CacheFactory.createCache(evictor, sizer, limits, factory, pool));
+	SegmentedCache(final CacheProperties<V, K> properties) {
+       super(properties);
+		segments = new ArrayList<Cache<V, K>>(getProperties().getSegmenter().maxSegments());
+		for (int i = 0; i < getProperties().getSegmenter().maxSegments(); i++) {
+			segments.add(CacheFactory.createCache(properties)); // todo: use FlatCache constructor directly.
 		}
 	}
 
@@ -66,7 +47,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V
 	 * @return appropriate segment for a given key.
 	 */
 	private Cache<V, K> getSegment(final K id) {
-		return segments.get(segmenter.getSegment(id));
+		return segments.get(getProperties().getSegmenter().getSegment(id));
 	}
 
 	/**
