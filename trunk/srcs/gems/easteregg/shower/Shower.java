@@ -73,7 +73,10 @@ public final class Shower {
 		final StaticLimits<CacheLimit> limits = new StaticLimits<CacheLimit>(CacheLimit.class);
 		limits.setLimit(CacheLimit.ITEMS, Integer.MAX_VALUE);
 		limits.setLimit(CacheLimit.SIZE, Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
-		final Cache<IdentifiableImage, String> cache = CacheFactory.createCache(evictor, sizer, limits);
+        final CacheProperties<IdentifiableImage, String> cp = new CacheProperties<IdentifiableImage, String>(evictor);
+        cp.setSizer(sizer);
+        // TODO: USI 'limits' !!!
+		final Cache<IdentifiableImage, String> cache = CacheFactory.createCache(cp);
 		source = new CachingObjectProvider<IdentifiableImage, String>(cache, new ImageProvider());
 	}
 

@@ -1,6 +1,13 @@
 package gems.caching;
 
 import gems.Identifiable;
+import gems.SizeEstimator;
+import gems.storage.StorageFactory;
+import gems.storage.MemoryStorageFactory;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.Executors;
 
 /**
  * An object holder for various caching subsystem properties or components. There are two sorts of
@@ -12,7 +19,7 @@ import gems.Identifiable;
  * @param <V> a type of cached objects.
  * @param <K> a type of keys identifying cached objects.
  */
-public final class CacheProperties<V extends Identifiable<K>, K> {
+public final class CacheProperties<V extends Identifiable<K>, K> { // todo: implement fluent interface for setters.
 
     /**
      * A cache evictor.
@@ -28,6 +35,12 @@ public final class CacheProperties<V extends Identifiable<K>, K> {
      * An eviction handler.
      */
     private volatile EvictionHandler<? super V> evictionHandler = EvictionHandler.NULL_EVICTION_HANDLER;
+
+    private volatile SizeEstimator<? super V> sizer = SizeEstimator.ZERO_ESTIMATOR;
+
+    private volatile StorageFactory<K, V> storageFactory = new MemoryStorageFactory<K,V>();
+
+    private volatile ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     // TODO: LIMITS
 
@@ -113,5 +126,39 @@ public final class CacheProperties<V extends Identifiable<K>, K> {
     public CacheSegmenter<? super K> getSegmenter() {
         return segmenter;
     }
+
+    public void setSizer(final SizeEstimator<? super V> sizer) {
+        if (sizer == null) {
+            throw new IllegalArgumentException();
+        }
+        this.sizer = sizer;
+    }
+
+    public SizeEstimator<? super V> getSizer() {
+        return sizer;
+    }
+
+    public void setStorageFactory(final StorageFactory<K, V> factory) {
+        if (factory == null) {
+            throw new IllegalArgumentException();
+        }
+        this.storageFactory = factory;
+    }
+
+    public StorageFactory<K, V> getStorageFactory() {
+        return storageFactory;
+    }
+
+    public void setThreadPool(final ExecutorService pool) {
+        if (pool == null) {
+            throw new IllegalArgumentException();
+        }
+        threadPool = pool;
+    }
+
+    public ExecutorService getThreadPool() {
+        return threadPool;
+    }
+
 
 }

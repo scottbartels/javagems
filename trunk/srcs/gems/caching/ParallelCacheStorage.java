@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheStorage<K, V> {
+final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractCacheComponent<V, K> implements CacheStorage<K, V> {
 
 	/**
 	 * Stores one underlaying storage and tracks information
@@ -91,19 +91,12 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	 */
 	private final List<StorageHolder<K, V>> storages;
 
-	/**
-	 * Thread pool executing tasks on underlaying storages.
-	 */
-	private final ExecutorService pool;
-
-	ParallelCacheStorage(final SizeEstimator<V> sizer, final StorageFactory<K, V> factory, ExecutorService pool) {
-		assert sizer != null;
-		assert pool != null;
-		this.pool = pool;
+	ParallelCacheStorage(final CacheProperties<V, K> properties) {
+        super(properties);
 		final int cpus = Runtime.getRuntime().availableProcessors();
 		storages = new ArrayList<StorageHolder<K, V>>(cpus);
 		for (int i = 0; i < cpus; i++) {
-			storages.add(new StorageHolder<K, V>(new FlatCacheStorage<K, V>(sizer, factory)));
+			storages.add(new StorageHolder<K, V>(new FlatCacheStorage<K, V>(properties)));
 		}
 	}
 
@@ -118,7 +111,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	private GetTaskResult<K, V> getImpl(final K key) {
 		final Collection<Future<GetTaskResult<K, V>>> tasks = new LinkedList<Future<GetTaskResult<K, V>>>();
 		for (final StorageHolder<K, V> storage : storages) {
-			tasks.add(pool.submit(new GetTask<K, V>(storage, key)));
+			tasks.add(getProperties().getThreadPool().submit(new GetTask<K, V>(storage, key)));
 		}
 		return getTaskResult(tasks);
 	}
@@ -168,7 +161,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 	@Override public Collection<CacheItemStatistics<K>> itemsForEviction() {
 		final Collection<Future<Collection<CacheItemStatistics<K>>>> tasks = new LinkedList<Future<Collection<CacheItemStatistics<K>>>>();
 		for (final StorageHolder<K, V> storage : storages) {
-			tasks.add(pool.submit(new GatheringEvictablesTask<K, V>(storage)));
+			tasks.add(getProperties().getThreadPool().submit(new GatheringEvictablesTask<K, V>(storage)));
 		}
 		return mergeEvictableItems(tasks);
 	}
@@ -193,7 +186,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> implements CacheS
 		}
 		final Collection<Future<Integer>> tasks = new LinkedList<Future<Integer>>();
 		for (final StorageHolder<K, V> storage : storages) {
-			tasks.add(pool.submit(new EvictionTask<K, V>(storage, keys)));
+			tasks.add(getProperties().getThreadPool().submit(new EvictionTask<K, V>(storage, keys)));
 		}
 		return randezVousEvicters(tasks);
 	}

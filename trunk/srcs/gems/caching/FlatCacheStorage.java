@@ -12,9 +12,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStorage<K, V> {
-
-	private final SizeEstimator<V> sizer;
+final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCacheComponent<V, K> implements CacheStorage<K, V> {
 
 	/**
 	 * This is the storage for cached objects.
@@ -23,15 +21,9 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 
 	private final Storage<K, CacheItem> items = new MemoryStorage<K, CacheItem>();
 
-	FlatCacheStorage(final SizeEstimator<V> sizer, StorageFactory<K, V> factory) {
-		if (sizer == null) {
-			throw new IllegalArgumentException();
-		}
-		if (factory == null) {
-			throw new IllegalArgumentException();
-		}
-		this.sizer = sizer;
-		values = factory.getStorage();
+	FlatCacheStorage(final CacheProperties<V, K> properties) {
+        super(properties);       
+		values = getProperties().getStorageFactory().getStorage();
 	}
 
 	@Override public Option<V> get(final K key) {
@@ -58,9 +50,9 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> implements CacheStora
 		}
 		final Option<CacheItem> cachedOption = items.provide(new Option<K>(value.getId()));
 		if (cachedOption.hasValue()) {
-			cachedOption.getValue().update(value, sizer.estimate(value));
+			cachedOption.getValue().update(value, getProperties().getSizer().estimate(value));
 		} else {
-			items.put(new CacheItem(value, sizer.estimate(value))); // TODO: What about synchronization?
+			items.put(new CacheItem(value, getProperties().getSizer().estimate(value))); // TODO: What about synchronization?
 		}
 
 	}
