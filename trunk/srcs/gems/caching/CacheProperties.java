@@ -1,12 +1,12 @@
 package gems.caching;
 
 import gems.Identifiable;
+import gems.Limits;
 import gems.SizeEstimator;
-import gems.storage.StorageFactory;
 import gems.storage.MemoryStorageFactory;
+import gems.storage.StorageFactory;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.Executors;
 
 /**
@@ -22,9 +22,14 @@ import java.util.concurrent.Executors;
 public final class CacheProperties<V extends Identifiable<K>, K> { // todo: implement fluent interface for setters.
 
     /**
+     * Cache limits.
+     */
+    private final Limits<CacheLimit> limits;
+
+    /**
      * A cache evictor.
      */
-    private final CacheEvictor<K> evictor;
+    private volatile CacheEvictor<K> evictor = new LeastRecentlyUsedEvictor<K>();
 
     /**
      * A cache segmenter.
@@ -38,17 +43,15 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: impl
 
     private volatile SizeEstimator<? super V> sizer = SizeEstimator.ZERO_ESTIMATOR;
 
-    private volatile StorageFactory<K, V> storageFactory = new MemoryStorageFactory<K,V>();
+    private volatile StorageFactory<K, V> storageFactory = new MemoryStorageFactory<K, V>();
 
     private volatile ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    // TODO: LIMITS
-
-    public CacheProperties(final CacheEvictor<K> evictor) {
-        if (evictor == null) {
+    public CacheProperties(final Limits<CacheLimit> limits) {
+        if (limits == null) {
             throw new IllegalArgumentException();
         }
-        this.evictor = evictor;
+        this.limits = limits;
     }
 
     /**
@@ -62,9 +65,37 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: impl
         if (properties == null) {
             throw new IllegalArgumentException();
         }
+        this.limits = properties.limits;
         this.evictor = properties.evictor;
         this.segmenter = properties.segmenter;
         this.evictionHandler = properties.evictionHandler;
+        this.sizer = properties.sizer;
+        this.storageFactory = properties.storageFactory;
+        this.threadPool = properties.threadPool;
+    }
+
+    /**
+     * Returns cache limits associated with the properties object.
+     * This method never returns {@code null}.
+     *
+     * @return  cache limits associated with the properties object.
+     */
+    public Limits<CacheLimit> getLimits() {
+        return limits;
+    }
+
+    /**
+     * Sets a new cache evictor.
+     *
+     * @param evictor a new cache evictor.
+     *
+     * @throws IllegalArgumentException if {@code evictor} is {@code null}.
+     */
+    public void setEvictor(final CacheEvictor<K> evictor) {
+        if (evictor == null) {
+            throw new IllegalArgumentException();
+        }
+        this.evictor = evictor;
     }
 
     /**

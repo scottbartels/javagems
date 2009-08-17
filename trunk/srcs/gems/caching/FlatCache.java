@@ -22,7 +22,7 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> 
     FlatCache(final CacheProperties<V, K> properties) {
         super(properties);
         storage = new ParallelCacheStorage<K, V>(properties);
-        // TODO: REMOVE: startEvicterDaemon(new EvictScheduler(evictor, limits));
+        startEvicterDaemon(new EvictScheduler(getProperties().getEvictor(), getProperties().getLimits()));
     }
 
     /**
