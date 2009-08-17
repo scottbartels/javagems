@@ -274,8 +274,10 @@ public final class Shower {
 	private static final class ImageSizeEstimator implements SizeEstimator<IdentifiableImage> {
 
 		public long estimate(final IdentifiableImage image) {
-			return image.getImage().getHeight(null) * image.getImage().getWidth(null) * 4L;
-		}
+            final int h = image.getImage().getHeight(null);
+            final int w = image.getImage().getWidth(null);
+            return h < 0 || w < 0 ? 0L : h * w * 4L; // todo: what about not yet loaded images? Return avg of last N images?
+        }
 
 	}
 
