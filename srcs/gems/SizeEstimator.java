@@ -35,7 +35,7 @@ package gems;
 	};
 
 	/**
-	 * Estimates size of a given object.
+	 * Estimates size of a given object. This method should always return a non-negative integer.
 	 *
 	 * @param object an object.
 	 *
