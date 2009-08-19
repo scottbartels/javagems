@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  */
 public final class Shower {
 
-	private static final long MEMORY_RESERVE = 16L * 1024L * 1024L;
+	private static final long MEMORY_RESERVE = 32L * 1024L * 1024L;
 
 	/**
 	 * A name of the application.
@@ -276,7 +276,7 @@ public final class Shower {
 		public long estimate(final IdentifiableImage image) {
             final int h = image.getImage().getHeight(null);
             final int w = image.getImage().getWidth(null);
-            return h < 0 || w < 0 ? 0L : h * w * 4L; // todo: what about not yet loaded images? Return avg of last N images?
+			return h < 0 || w < 0 ? 0L : h * w * 4L; // todo: investigate whether estimated well
         }
 
 	}
