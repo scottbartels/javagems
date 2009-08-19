@@ -82,3 +82,14 @@ The following new utilities might be useful:
 @@@ gems.logging - Logging handler as a bridge for java.util.logging   @@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ gems - Event as something happened in time                         @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Event is something happened in time. LoggingRecord might be an event. Time 
+ordered sequence of events is 'stream'. Inspired by [1]. 
+
+[1] Design Patterns for Complex Event Processing, JavaOne presentation by
+    Alexandre Alves and Shailendra Mishra from Oracle Corporation.
+
+
