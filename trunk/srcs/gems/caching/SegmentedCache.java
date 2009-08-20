@@ -35,7 +35,7 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V
        super(properties);
 		segments = new ArrayList<Cache<V, K>>(getProperties().getSegmenter().maxSegments());
 		for (int i = 0; i < getProperties().getSegmenter().maxSegments(); i++) {
-			segments.add(CacheFactory.createCache(properties)); // todo: use FlatCache constructor directly.
+			segments.add(new FlatCache<V,K>(properties));
 		}
 	}
 
