@@ -31,21 +31,7 @@ public final class HashCodeBasedSegmenter<K> extends AbstractCacheSegmenter<K> {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-		return abs(key.hashCode()) % maxSegments();
-	}
-
-	/**
-	 * Computes the absolute value of {@code x} handling the special case of {@code Integer.MIN_VALUE}.
-	 *
-	 * @param x the argument whose absolute value is to be determined.
-	 *
-	 * @return the absolute value of {@code x} or {@code Integer.MAX_VALUE} if {@code x} is {@code Integer.MIN_VALUE}.
-	 */
-	private int abs(final int x) {
-		if (x == Integer.MIN_VALUE) {
-			return Integer.MAX_VALUE;
-		}
-		return Math.abs(x);
-	}
+        return Math.abs(key.hashCode() % maxSegments());
+    }
 
 }
