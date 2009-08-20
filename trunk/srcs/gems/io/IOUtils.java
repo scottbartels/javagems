@@ -62,6 +62,7 @@ public final class IOUtils {
 	 * @param file a file.
 	 *
 	 * @return an input stream for a given file.
+	 *
 	 * @throws IllegalArgumentException if {@code file} is {@code null}.
 	 * @throws RuntimeIOException if any {@code IOException} occurs during stream opening.
 	 */
@@ -84,6 +85,7 @@ public final class IOUtils {
 	 * @param input an input stream to read.
 	 *
 	 * @return a byte content read from a stream.
+	 *
 	 * @throws IllegalArgumentException if {@code input} is {@code null}.
 	 * @throws RuntimeIOException if any {@code IOException} occurs during stream reading or closing.
 	 */
@@ -116,55 +118,82 @@ public final class IOUtils {
 		}
 	}
 
-    /**
-     * Creates an empty file in the default temporary-file directory.
-     *
-     * @param deleteOnExit a flag specifying whether the created file is registered for JVM exit deletion.
-     *
-     * @return a {@code File} reference to an empty file.
-     *
-     * @throws gems.io.RuntimeIOException if file could not be created.
-     */
-    public static File createTemporaryFile(final boolean deleteOnExit) {
-        try {
-            final File result = File.createTempFile("gem", null);
-            if (deleteOnExit) {
-                result.deleteOnExit();
-            }
-            return result;
-        } catch (final IOException e) {
-            throw new RuntimeIOException(e);
-        }
-    }
-    // TODO: ADD DOCUMENTATION INCLUDING @since
-    public static void skipSafelyAndQuietly(final InputStream stream, final long bytes) {
-        try {
-            skipSafely(stream, bytes);
-        } catch (final IOException e) {
-            throw new RuntimeIOException(e);
-        }
-    }
+	/**
+	 * Creates an empty file in the default temporary-file directory.
+	 *
+	 * @param deleteOnExit a flag specifying whether the created file is registered for JVM exit deletion.
+	 *
+	 * @return a {@code File} reference to an empty file.
+	 *
+	 * @throws gems.io.RuntimeIOException if file could not be created.
+	 */
+	public static File createTemporaryFile(final boolean deleteOnExit) {
+		try {
+			final File result = File.createTempFile("gem", null);
+			if (deleteOnExit) {
+				result.deleteOnExit();
+			}
+			return result;
+		} catch (final IOException e) {
+			throw new RuntimeIOException(e);
+		}
+	}
 
-    // TODO: ADD DOCUMENTATION INCLUDING @since
-    public static void skipSafely(final InputStream stream, final long bytes) throws IOException {
-        if (stream == null) {
-            throw new IllegalArgumentException();
-        }
-        if (bytes < 0L) {
-            throw new IllegalArgumentException(String.valueOf(bytes));
-        }
-        long remaining = bytes;
-        while (remaining != 0) {
-            final long skipped = stream.skip(remaining);
-            if (skipped == 0) {
-                throw new EOFException();
-            }
-            remaining -= bytes;
-            assert remaining >= 0;
-        }
-    }
+	/**
+	 * Acts exactly as {@code skipSafely(InputStream, long)}, but does not throw any
+	 * checked exception. Any {@code IOException} thrown during the operation is
+	 * cauhgth and translated to {@code RuntimeIOException}, which is subsequently
+	 * thrown.
+	 *
+	 * @param stream an input stream.
+	 * @param bytes number of bytes to be skipped.
+	 *
+	 * @since CURRENT
+	 */
+	public static void skipSafelyAndQuietly(final InputStream stream, final long bytes) {
+		try {
+			skipSafely(stream, bytes);
+		} catch (final IOException e) {
+			throw new RuntimeIOException(e);
+		}
+	}
 
-    /**
+	/**
+	 * Skips given number of bytes from the given input stream. The difference from
+	 * {@code InputStream.read()} is that this implementation ensures that given
+	 * number of bytes is really skipped if possible. Another subtle difference is
+	 * that this method refuses negative number of bytes by throwing a runtime
+	 * excetption. If handling of {@code IOException} does not make sense for you,
+	 * you can use {@code skipSafelyAndQuietly(InputStream, long)} instead. 
+	 *
+	 * @param stream an input stream.
+	 * @param bytes number of bytes to be skipped.
+	 *
+	 * @throws IOException if any error occurs during the operation.
+	 * @throws IllegalArgumentException if {@code stream} is {@code null} or
+	 * if number of bytes to be skipped is negative.
+	 *
+	 * @since CURRENT
+	 */
+	public static void skipSafely(final InputStream stream, final long bytes) throws IOException {
+		if (stream == null) {
+			throw new IllegalArgumentException();
+		}
+		if (bytes < 0L) {
+			throw new IllegalArgumentException(String.valueOf(bytes));
+		}
+		long remaining = bytes;
+		while (remaining != 0) {
+			final long skipped = stream.skip(remaining);
+			if (skipped == 0) {
+				throw new EOFException();
+			}
+			remaining -= bytes;
+			assert remaining >= 0;
+		}
+	}
+
+	/**
 	 * Exception handler wrapping passed {@code IOException} by {@code RuntimeIOException}.
 	 */
 	static final class IOExceptionWrapper implements ExceptionHandler<IOException> {
