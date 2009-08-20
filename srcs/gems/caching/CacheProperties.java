@@ -3,6 +3,7 @@ package gems.caching;
 import gems.Identifiable;
 import gems.Limits;
 import gems.SizeEstimator;
+import gems.Checks;
 import gems.storage.MemoryStorageFactory;
 import gems.storage.StorageFactory;
 
@@ -66,20 +67,15 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
             final StorageFactory<K, V> storageFactory,
             final ExecutorService threadPool
     ) {
-        this.limits = assertNotNull(limits);
-        this.evictor = assertNotNull(evictor);
-        this.evictionHandler = assertNotNull(evictionHandler);
-        this.segmenter = assertNotNull(segmenter);
-        this.sizer = assertNotNull(sizer);
-        this.storageFactory = assertNotNull(storageFactory);
-        this.threadPool = assertNotNull(threadPool);
+        this.limits = Checks.assertNotNull(limits);
+        this.evictor = Checks.assertNotNull(evictor);
+        this.evictionHandler = Checks.assertNotNull(evictionHandler);
+        this.segmenter = Checks.assertNotNull(segmenter);
+        this.sizer = Checks.assertNotNull(sizer);
+        this.storageFactory = Checks.assertNotNull(storageFactory);
+        this.threadPool = Checks.assertNotNull(threadPool);
     }
 
-    // todo: pretty common; maybe ensureNotNull() throwing NPE might exist as well; create gems.Checks() utility class
-    private static <T> T assertNotNull(final T object) { // This seems like a GCC macro, right? :-)
-        assert object != null;
-        return object;
-    }
 
     /**
      * Returns cache limits associated with the properties object.
