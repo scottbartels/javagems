@@ -17,7 +17,7 @@ abstract class AbstractCacheComponent<V extends Identifiable<K>, K> {
     private final CacheProperties<V, K> properties;
 
     /**
-     * Initiates a new cache component holding a defense copy of given properties for it.
+     * Initiates a new cache component holding a given properties for it.
      *
      * @param properties a cache properties.
      *
@@ -27,12 +27,11 @@ abstract class AbstractCacheComponent<V extends Identifiable<K>, K> {
         if (properties == null) {
             throw new IllegalArgumentException();
         }
-        this.properties = new CacheProperties<V, K>(properties);
+        this.properties = properties;
     }
 
     /**
-     * Returns cache properties for the cache component.
-     * This method never returns {@code null}.
+     * Returns cache properties for the cache component. This method never returns {@code null}.
      *
      * @return cache properties for the cache component.
      */
