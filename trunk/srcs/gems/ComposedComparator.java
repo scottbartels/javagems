@@ -25,7 +25,7 @@ import java.util.LinkedList;
 
 
 	/**
-	 * Serialization version UID. 
+	 * Serialization version UID.
 	 */
 	private static final long serialVersionUID = 4780011141633267767L;
 
@@ -39,7 +39,7 @@ import java.util.LinkedList;
 	 * Iteration order of the given collection is significant: comparators will
 	 * be used in that order. If an input collection contains two or more equal
 	 * comparators, only the first one is used, any subsequent are silently ignored.
-	 * See contract of the {@code Comparator.equals()} method. 
+	 * See contract of the {@code Comparator.equals()} method for details.
 	 *
 	 * @param comparators a collection of comparators.
 	 *
@@ -90,6 +90,34 @@ import java.util.LinkedList;
 		return 0;
 	}
 
-	// TODO: Implement proper equals() [and hashCode(), of course]. 
+	/**
+	 * Defines an equality of two composed comparators. Two composed comparators
+	 * are considered to be equal if and only if they contains the same comparators
+	 * in the same order.
+	 *
+	 * @param o a compared object.
+	 *
+	 * @return {@code true} if compared object is a composed comarator containing equal
+	 *         comparators in the same order as this comparator, {@code false} otherwise.
+	 */
+	@Override public boolean equals(final Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		final ComposedComparator that = (ComposedComparator) o;
+		return this.comparators.equals(that.comparators);
+	}
+
+	/**
+	 * Returns a hash code of the object.
+	 *
+	 * @return a hash code of the object.
+	 */
+	@Override public int hashCode() {
+		return comparators.hashCode();
+	}
 
 }
