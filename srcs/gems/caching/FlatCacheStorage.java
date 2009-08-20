@@ -75,13 +75,15 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCache
 		if (keys == null) {
 			throw new IllegalArgumentException();
 		}
+        int counter = 0;
 		for (final K key : keys) {
 			final Option<CacheItem> cachedOption = items.provide(new Option<K>(key));
 			if (cachedOption.hasValue()) {
 				cachedOption.getValue().evict();
+                counter++;
 			}
 		}
-		return 0;
+		return counter;
 	}
 
 	/**
@@ -193,7 +195,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCache
 			// there is a lot of values. Maybe the cache item can hold its 'evictable'
 			// or 'evicted' status itself. On the other hand this is pretty consistent
 			// in all cases.
-			return !values.provide(new Option<K>(getId())).hasValue();
+			return values.provide(new Option<K>(getId())).hasValue();
 		}
 
 		/**

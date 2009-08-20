@@ -58,7 +58,7 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> 
 		final Collection<K> keysToEvict = getProperties().getEvictor().evict(storage.itemsForEviction(), getProperties().getLimits());
 		if (!keysToEvict.isEmpty()) {
 			final int itemsEvicted = storage.evict(Collections.unmodifiableCollection(keysToEvict));
-			assert keysToEvict.size() == itemsEvicted;
+			assert keysToEvict.size() == itemsEvicted : "keys to evict: " + keysToEvict.size() + " evicted keys: " + itemsEvicted;
 		}
 	}
 
