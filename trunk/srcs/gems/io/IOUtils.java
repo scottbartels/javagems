@@ -136,6 +136,33 @@ public final class IOUtils {
             throw new RuntimeIOException(e);
         }
     }
+    // TODO: ADD DOCUMENTATION INCLUDING @since
+    public static void skipSafelyAndQuietly(final InputStream stream, final long bytes) {
+        try {
+            skipSafely(stream, bytes);
+        } catch (final IOException e) {
+            throw new RuntimeIOException(e);
+        }
+    }
+
+    // TODO: ADD DOCUMENTATION INCLUDING @since
+    public static void skipSafely(final InputStream stream, final long bytes) throws IOException {
+        if (stream == null) {
+            throw new IllegalArgumentException();
+        }
+        if (bytes < 0L) {
+            throw new IllegalArgumentException(String.valueOf(bytes));
+        }
+        long remaining = bytes;
+        while (remaining != 0) {
+            final long skipped = stream.skip(remaining);
+            if (skipped == 0) {
+                throw new EOFException();
+            }
+            remaining -= bytes;
+            assert remaining >= 0;
+        }
+    }
 
     /**
 	 * Exception handler wrapping passed {@code IOException} by {@code RuntimeIOException}.
