@@ -131,14 +131,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
         return threadPool;
     }
 
-    public static <V extends Identifiable<K>, K> Builder<V, K> builder(final Limits<CacheLimit> limits) {
-        if (limits == null) {
-            throw new IllegalArgumentException();
-        }
-        return new Builder<V, K>(limits);
-    }
-
-    public static final class Builder<V extends Identifiable<K>, K> {
+	public static final class Builder<V extends Identifiable<K>, K> {
 
         /**
          * A cache limits.
@@ -175,8 +168,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
          */
         private volatile ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-        private Builder(final Limits<CacheLimit> limits) {
-            assert limits != null;
+        public Builder(final Limits<CacheLimit> limits) {
+			if (limits == null) {
+				throw new IllegalArgumentException();
+			}
             this.limits = limits;
         }
 
