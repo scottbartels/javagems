@@ -5,11 +5,7 @@ import gems.Option;
 import gems.ShouldNeverHappenException;
 import gems.SizeEstimator;
 import gems.StaticLimits;
-import gems.caching.Cache;
-import gems.caching.CacheFactory;
-import gems.caching.CacheLimit;
-import gems.caching.CacheProperties;
-import gems.caching.CachingObjectProvider;
+import gems.caching.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,7 +76,7 @@ public final class Shower {
         limits.setLimit(CacheLimit.ITEMS, Integer.MAX_VALUE);
         limits.setLimit(CacheLimit.SIZE, Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
         final Cache<IdentifiableImage, String> cache = CacheFactory.createCache(
-                CacheProperties.<IdentifiableImage, String>builder(limits).with(new ImageSizeEstimator()).build()
+                CacheProperties.<IdentifiableImage, String>builder(limits).with(new ImageSizeEstimator()).with(new HashCodeBasedSegmenter<String>(2)).build()
         );
         source = new CachingObjectProvider<IdentifiableImage, String>(cache, new ImageProvider());
     }
