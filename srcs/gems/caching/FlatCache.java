@@ -51,7 +51,6 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCacheCompone
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
