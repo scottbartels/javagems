@@ -61,11 +61,11 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCacheCo
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override public Option<V> provide(final K key) {
+	@Override public Option<V> get(final K key) {
         if (key == null) {
             throw new IllegalArgumentException();
         }
-		return getSegment(key).provide(key);
+		return getSegment(key).get(key);
 	}
 
 }

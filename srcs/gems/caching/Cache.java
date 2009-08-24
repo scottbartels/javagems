@@ -23,6 +23,6 @@ public interface Cache<V extends Identifiable<K>, K> {
 	 */
 	void offer(V object);
 
-    Option<V> provide(K key);
+    Option<V> get(K key);
 
 }
