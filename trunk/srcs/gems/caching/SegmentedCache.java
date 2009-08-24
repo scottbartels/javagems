@@ -1,14 +1,10 @@
 package gems.caching;
 
 import gems.Identifiable;
-import gems.Limits;
 import gems.Option;
-import gems.SizeEstimator;
-import gems.storage.StorageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 /**
  * Segmented cache implementation. It holds a flat cache for each segment and delegates operations to these segments.
