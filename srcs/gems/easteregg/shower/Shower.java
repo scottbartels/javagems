@@ -67,17 +67,25 @@ public final class Shower {
 
 	private final ObjectProvider<IdentifiableImage, String> source;
 
-	{
-		final StaticLimits<CacheLimit> limits = new StaticLimits<CacheLimit>(CacheLimit.class);
-		limits.setLimit(CacheLimit.ITEMS, Integer.MAX_VALUE);
-		limits.setLimit(CacheLimit.SIZE, Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
-		final Cache<IdentifiableImage, String> cache = CacheFactory.createCache(
-				new CacheProperties.Builder<IdentifiableImage, String>(limits).with(new ImageSizeEstimator()).with(new HashCodeBasedSegmenter<String>(2)).build()
-		);
-		source = new CachingObjectProvider<IdentifiableImage, String>(cache, new ImageProvider());
-	}
+    {
+        final StaticLimits<CacheLimit> limits = new StaticLimits<CacheLimit>(CacheLimit.class);
+        limits.setLimit(CacheLimit.ITEMS, Integer.MAX_VALUE);
+        limits.setLimit(CacheLimit.SIZE, Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
+        final Option<Cache<IdentifiableImage, String>> cache = new CacheFactory<IdentifiableImage, String>().provide(
+                new Option<CacheProperties<IdentifiableImage, String>>(
+                        new CacheProperties.Builder<IdentifiableImage, String>(limits)
+                                .with(new ImageSizeEstimator())
+                                .with(new HashCodeBasedSegmenter<String>(2))
+                                .build()
+                )
+        );
+        if (!cache.hasValue()) {
+            throw new ShouldNeverHappenException();
+        }
+        source = new CachingObjectProvider<IdentifiableImage, String>(cache.getValue(), new ImageProvider());
+    }
 
-	private final Executor prefetch = Executors.newFixedThreadPool(1);  // todo: has to be destroyed on exit.
+    private final Executor prefetch = Executors.newFixedThreadPool(1);  // todo: has to be destroyed on exit.
 
 	/**
 	 * A current target.
