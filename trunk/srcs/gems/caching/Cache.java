@@ -17,12 +17,25 @@ import gems.Option;
 public interface Cache<V extends Identifiable<K>, K> {
 
 	/**
-	 * Offers a given object for a caching. The object may or may not be cached, depending on a cache implementation.
+	 * Offers a given object for a caching. The object may or
+	 * may not be cached, depending on a cache implementation.
 	 *
 	 * @param object an object offered for a caching.
 	 */
 	void offer(V object);
 
-    Option<V> get(K key);
+	/**
+	 * Returns an object identified by the given key. The returned
+	 * object is encapsulated to {@code Option} object, so the client
+	 * has to check whether a required object was or was not found in
+	 * the cache. This method should never return {@code null}.
+	 *
+	 * @param id an ID of required object.
+	 *
+	 * @return an optional value holding a cached object or holding
+	 *         no value if no object with the given identifier  was
+	 *         found in the cache.
+	 */
+	Option<V> get(K id);
 
 }
