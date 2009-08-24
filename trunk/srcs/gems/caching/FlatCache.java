@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-final class FlatCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> {
+final class FlatCache<V extends Identifiable<K>, K> extends AbstractCacheComponent<V, K> implements Cache<V, K> {
 
 	/**
 	 * A lock controlling access to storage.
@@ -66,10 +66,13 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override protected Option<V> retrieve(final Option<K> key) {
+	@Override public Option<V> provide(final K key) {
+        if (key == null) {
+            throw new IllegalArgumentException();
+        }
 		lock.readLock().lock();
 		try {
-			return storage.get(key.getValue());
+			return storage.get(key);
 		} finally {
 			lock.readLock().unlock();
 		}

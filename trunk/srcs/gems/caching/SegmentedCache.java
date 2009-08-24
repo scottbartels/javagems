@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
  * @param <V> type of cached values.
  * @param <K> type of keys.
  */
-final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V, K> {
+final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCacheComponent<V, K> implements Cache<V, K> {
 
 	/**
 	 * Segments.
@@ -65,8 +65,11 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCache<V
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override protected Option<V> retrieve(final Option<K> key) {
-		return getSegment(key.getValue()).provide(key);
+	@Override public Option<V> provide(final K key) {
+        if (key == null) {
+            throw new IllegalArgumentException();
+        }
+		return getSegment(key).provide(key);
 	}
 
 }
