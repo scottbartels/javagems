@@ -8,7 +8,7 @@ package gems;
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <T> type of provided objects.
- * @param <C> type of provided objects identifiers.
+ * @param <C> type of context.
  */
 @Experimental public interface ObjectProvider<T, C> {
 
@@ -43,14 +43,11 @@ package gems;
 	 * should be returned to indicate that no object can be provided. The context is
 	 * also optional and implementation have to be ready for a situation when empty
 	 * {@code Option} object is passed for the context. It is up to implementation
-	 * to provide or not any obejct in that situation. Implementation should not throw
-	 * an exception in this case; an empty {@code Option} should be returned as the
-	 * return value.
+	 * to provide or not any obejct in that situation.
 	 *
 	 * @param context an optional context helping to create a properly customized object.
 	 *
-	 * @return an optional value holding a provided object or empty
-	 *         option if required object cannot be provided.
+	 * @return an optional value holding a provided object or empty option if required object cannot be provided.
 	 */
 	Option<T> provide(Option<C> context);
 
