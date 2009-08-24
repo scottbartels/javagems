@@ -18,8 +18,8 @@ import gems.filtering.Filter;
  * objects, because keys are accessible through {@code getId()} method, using
  * a keys-based filter provides performance improvement: if a particular key is not
  * allowed to be cached, it is not searched in the cache at all and it is
- * created immediatelly via the underaying object provider. Please note that
- * the both filter are recommended to be idempotempt, i.e. providing the same
+ * created immediately via the underlying object provider. Please note that
+ * the both filter are recommended to be idempotent, i.e. providing the same
  * result for the same key/object when invoked for it many times. If you are about
  * implementing non-idempotent filters, consult source code of this class and
  * consider possible consequences.
@@ -31,12 +31,12 @@ import gems.filtering.Filter;
 public final class CachingObjectProvider<V extends Identifiable<K>, K> implements ObjectProvider<V, K> {
 
 	/**
-	 * An underlaying cache.
+	 * An underlying cache.
 	 */
 	private final Cache<V, K> cache;
 
 	/**
-	 * An underlaying object provider.
+	 * An underlying object provider.
 	 */
 	private final ObjectProvider<V, K> provider;
 
@@ -53,8 +53,8 @@ public final class CachingObjectProvider<V extends Identifiable<K>, K> implement
 	/**
 	 * Creates a new caching object provider using given attributes. All created objects are accepted for caching.
 	 *
-	 * @param cache an uderlaying cache used for caching objects.
-	 * @param provider an uderlaying object provider used for creating new objects.
+	 * @param cache an uderlying cache used for caching objects.
+	 * @param provider an uderlying object provider used for creating new objects.
 	 *
 	 * @throws IllegalArgumentException if any of attributes is {@code null}.
 	 */
@@ -66,8 +66,8 @@ public final class CachingObjectProvider<V extends Identifiable<K>, K> implement
 	/**
 	 * Creates a new caching object provider using given attributes.
 	 *
-	 * @param cache an uderlaying cache used for caching objects.
-	 * @param provider an uderlaying object provider used for creating new objects.
+	 * @param cache an underlying cache used for caching objects.
+	 * @param provider an underlying object provider used for creating new objects.
 	 * @param keyFilter a caching-acceptance filter based on object keys analysis.
 	 * @param valueFilter a caching-acceptance filter based on objects analysis.
 	 *
