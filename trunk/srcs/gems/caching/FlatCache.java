@@ -22,18 +22,7 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCacheCompone
 		storage = new ParallelCacheStorage<K, V>(properties);
 	}
 
-	/**
-	 * Starts scheduler daemon for eviction.
-	 *
-	 * @param scheduler scheduler implementation.
-	 */
-	private static void startEvicterDaemon(final Runnable scheduler) {
-		final Thread daemon = new Thread(scheduler);
-		daemon.setDaemon(true);
-		daemon.start();
-	}
-
-	/**
+    /**
 	 * {@inheritDoc}
 	 *
 	 * @throws IllegalArgumentException if {@code object} is {@code null}.
