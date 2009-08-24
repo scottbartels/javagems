@@ -38,14 +38,13 @@ public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 	}
 
 	/**
-	 * Defines an equality of two identifiable objects. Two objects are considered to be equal if and only if
-	 * they are the same type and their IDs are the same.
+	 * Defines an equality of two identifiable objects. Two objects are considered to
+     * be equal if and only if they are the same type and their IDs are the same.
 	 *
 	 * @param o a compared object.
 	 *
 	 * @return {@code true} if {@code o} is an objects of the same type and with the same ID, {@code false} otherwise.
 	 */
-
 	@Override @SuppressWarnings({"unchecked"}) public final boolean equals(final Object o) {
 		if (this == o) {
 			return true;
@@ -54,9 +53,14 @@ public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 			return false;
 		}
 		final Identifiable<T> that = (Identifiable<T>) o;
-		return id.equals(that.getId());
+		return this.id.equals(that.getId());
 	}
 
+    /**
+     * Returns a hash code of the object.
+     *
+     * @return a hash code of the object.
+     */
 	@Override public final int hashCode() {
 		return id.hashCode();
 	}
