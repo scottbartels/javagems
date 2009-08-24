@@ -4,6 +4,7 @@ import gems.Checks;
 import gems.Identifiable;
 import gems.Limits;
 import gems.SizeEstimator;
+import gems.StaticLimits;
 import gems.logging.Logger;
 import gems.storage.MemoryStorageFactory;
 import gems.storage.StorageFactory;
@@ -193,7 +194,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 * @return a newly created cache properties object.
 		 */
 		public CacheProperties<V, K> build() {
-			return new CacheProperties<V, K>(limits, evictor, evictionHandler, segmenter, sizer, storageFactory, threadPool, logger);
+			final StaticLimits<CacheLimit> cl = new StaticLimits<CacheLimit>(CacheLimit.class); // TODO: CHECK THIS
+			cl.setLimit(CacheLimit.ITEMS, limits.getLimit(CacheLimit.ITEMS).longValue() / segmenter.maxSegments());
+			cl.setLimit(CacheLimit.SIZE, limits.getLimit(CacheLimit.SIZE).longValue() / segmenter.maxSegments());
+			return new CacheProperties<V, K>(cl, evictor, evictionHandler, segmenter, sizer, storageFactory, threadPool, logger);
 		}
 
 		/**
