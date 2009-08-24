@@ -1,7 +1,6 @@
 package gems.caching;
 
 import gems.Identifiable;
-import gems.ObjectProvider;
 import gems.Option;
 
 /**
