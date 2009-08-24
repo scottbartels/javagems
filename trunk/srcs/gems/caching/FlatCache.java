@@ -54,7 +54,7 @@ final class FlatCache<V extends Identifiable<K>, K> extends AbstractCacheCompone
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override public Option<V> provide(final K key) {
+	@Override public Option<V> get(final K key) {
         if (key == null) {
             throw new IllegalArgumentException();
         }
