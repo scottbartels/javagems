@@ -3,10 +3,8 @@ package gems.caching;
 import gems.AbstractIdentifiable;
 import gems.Identifiable;
 import gems.Option;
-import gems.SizeEstimator;
-import gems.storage.MemoryStorage;
-import gems.storage.Storage;
-import gems.storage.StorageFactory;
+import gems.caching.MemoryStorage;
+import gems.caching.Storage;
 
 import java.util.Collection;
 import java.util.LinkedList;

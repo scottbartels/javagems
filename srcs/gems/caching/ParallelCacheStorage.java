@@ -3,8 +3,6 @@ package gems.caching;
 import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
-import gems.SizeEstimator;
-import gems.storage.StorageFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractCacheComponent<V, K> implements CacheStorage<K, V> {

@@ -1,4 +1,4 @@
-package gems.storage;
+package gems.caching;
 
 import gems.filtering.Filter;
 import gems.Identifiable;
