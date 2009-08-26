@@ -8,7 +8,7 @@ package gems.caching;
  * or even better, implement it to be re-entrant. A synchronization inside {@code getSegment()}
  * method can reduce scalability of segmented cache in some circumstances.
  * <p/>
- * <em>Segmented cache</em> is a cache which is  internally splitted into segments.
+ * <em>Segmented cache</em> is a cache which is internally splitted into segments.
  * A {@code CacheSegmenter} implementation provides an identification of segment used
  * for storing a object identified by a particular key. The consequence is that only
  * a part of cached objects has to be searched for cached object, which improves
