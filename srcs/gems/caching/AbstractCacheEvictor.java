@@ -5,15 +5,15 @@ import gems.Limits;
 import java.util.*;
 
 /**
- * A cache evictor implementaton based on a particural ordering
- * of cache item statistics provide by an external comarator.
+ * A cache evictor implementation based on a particular ordering
+ * of cache item statistics provide by an external comparator.
  * the only responsibility of a subclass is to provide that
  * comparator during evictor creation.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> type of cache objects identifiers.
  */
-public abstract class AbstractCacheEvictor<K> implements CacheEvictor<K> {
+abstract class AbstractCacheEvictor<K> implements CacheEvictor<K> {
 
 	/**
 	 * A comparator.

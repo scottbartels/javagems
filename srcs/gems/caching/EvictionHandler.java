@@ -8,7 +8,7 @@ import java.awt.*;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <T> type of evicted value.
  */
-public interface EvictionHandler<T> {
+interface EvictionHandler<T> {
 
     /**
      * A null-implementation of the interface. It effectively does nothing.
