@@ -6,8 +6,6 @@ import gems.Limits;
 import gems.SizeEstimator;
 import gems.StaticLimits;
 import gems.logging.Logger;
-import gems.caching.MemoryStorageFactory;
-import gems.caching.StorageFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -247,7 +245,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @throws IllegalArgumentException if {@code handler} is {@code null}.
 		 */
-		public Builder<V, K> with(final EvictionHandler<? super V> evictionHandler) {
+		Builder<V, K> with(final EvictionHandler<? super V> evictionHandler) { // TODO: MAKE PUBLIC WHEN HANDLER IS UNCOVERED
 			if (evictionHandler == null) {
 				throw new IllegalArgumentException();
 			}
