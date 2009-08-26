@@ -96,4 +96,23 @@ ordered sequence of events is 'stream'. Inspired by [1].
 [1] Design Patterns for Complex Event Processing, JavaOne presentation by
     Alexandre Alves and Shailendra Mishra from Oracle Corporation.
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ gems.benchmarking                                                  @@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Benchmark<T> (interface)
+| \
+|  \
+|   BenchmarkResult<T> execute(BenchmarkTask<T>);
+|       (returns benchmark result avoiding jit to trow away execution, 
+|       framework has to do something with it, for instance print its
+|       identity hash code)
+|
++- MicroBenchmark (implementation)
++- ScalabilityBenchmark (implementation)
+
+[1] IBM Developer Works
+[2] Statistically Rigorous Java Benchmarking
+
+May leads to some statistic utilities.
 
