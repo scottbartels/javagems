@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public final class MemoryStorage<K, V extends Identifiable<K>> extends AbstractStorage<K, V> {
+final class MemoryStorage<K, V extends Identifiable<K>> extends AbstractStorage<K, V> {
 
 	private final Map<K, V> map = new HashMap<K,V>();
 

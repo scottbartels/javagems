@@ -138,6 +138,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		return threadPool;
 	}
 
+	public Logger getLogger() {
+		return logger;
+	}
+
 	public static final class Builder<V extends Identifiable<K>, K> {
 
 		/**
@@ -277,7 +281,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @throws IllegalArgumentException if {@code factory} is {@code null}.
 		 */
-		public Builder<V, K> with(final StorageFactory<K, V> factory) {
+		Builder<V, K> with(final StorageFactory<K, V> factory) { // TODO: MAKE PUBLIC WHEN STORAGE FACTORY IS UNCOVERED
 			if (factory == null) {
 				throw new IllegalArgumentException();
 			}
