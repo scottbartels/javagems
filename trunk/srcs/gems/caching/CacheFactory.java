@@ -14,28 +14,29 @@ import gems.Option;
  */
 public final class CacheFactory<V extends Identifiable<K>, K> implements ObjectProvider<Cache<V, K>, CacheProperties<V, K>> {
 
-    /**
-     * Creates a new cache configured according given cache properties.
-     *
-     * @param properties a cache properties encapsulated in {@code Option} object.
-     *
-     * @return a new instance of cache encapsulated in {@code Option} object.
-     *
-     * @throws IllegalArgumentException if {@code properties} is {@code null} or empty.
-     */
-    public Option<Cache<V, K>> provide(final Option<CacheProperties<V, K>> properties) {
-        if (properties == null) {
-            throw new IllegalArgumentException();
-        }
-        if (!properties.hasValue()) {
-            throw new IllegalArgumentException();
-        }
-        final CacheProperties<V, K> props = properties.getValue();
-        if (props.getSegmenter().equals(CacheSegmenter.NULL_SEGMENTER)) {
-            return new Option<Cache<V, K>>(new FlatCache<V, K>(props));
-        }
-        return new Option<Cache<V, K>>(new SegmentedCache<V, K>(props));
-
-    }
+	/**
+	 * Creates a new cache configured according given cache properties.
+	 * If no properties are given, a null-implementation of cache is
+	 * returned; see {@code gems.caching.NullCache} for details.
+	 *
+	 * @param properties a cache properties encapsulated in {@code Option} object.
+	 *
+	 * @return a new instance of cache encapsulated in {@code Option} object.
+	 *
+	 * @throws IllegalArgumentException if {@code properties} is {@code null}.
+	 */
+	public Option<Cache<V, K>> provide(final Option<CacheProperties<V, K>> properties) {
+		if (properties == null) {
+			throw new IllegalArgumentException();
+		}
+		if (properties.hasValue()) {
+			final CacheProperties<V, K> props = properties.getValue();
+			if (props.getSegmenter().equals(CacheSegmenter.NULL_SEGMENTER)) {
+				return new Option<Cache<V, K>>(new FlatCache<V, K>(props));
+			}
+			return new Option<Cache<V, K>>(new SegmentedCache<V, K>(props));
+		}
+		return new Option<Cache<V, K>>(new NullCache<V, K>());
+	}
 
 }

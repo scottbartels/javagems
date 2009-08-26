@@ -7,8 +7,9 @@ import gems.Option;
  * A cache is a likely transient storage of identifiable objects which can be retrieved back
  * according their identifiers. Stored objects may be evicted meantime by cache internal processes,
  * so the client have to be ready for the situation when previously stored object is not in the cache
- * anymore. If you are using a cache, probably the {@code gesm.caching.CachingObjectProvider} wrapper
- * can do your life even easier.
+ * anymore. If you are using a cache, probably the {@code gems.caching.CachingObjectProvider} wrapper
+ * can do your life even easier. An instance of cache can be obtained using {@code gems.caching.CacheFactory}
+ * class.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <V> a type of cached objects.
