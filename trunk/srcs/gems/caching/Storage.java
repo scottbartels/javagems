@@ -6,7 +6,7 @@ import gems.filtering.Filter;
 
 import java.util.Collection;
 
-public interface Storage<K, V extends Identifiable<K>> extends Iterable<V>, ObjectProvider<V, K> {
+interface Storage<K, V extends Identifiable<K>> extends Iterable<V>, ObjectProvider<V, K> {
 
 	/**
 	 * Inserts a given value into the storage. Implementation have to gurantee that a return
