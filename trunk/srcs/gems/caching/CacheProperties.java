@@ -6,8 +6,8 @@ import gems.Limits;
 import gems.SizeEstimator;
 import gems.StaticLimits;
 import gems.logging.Logger;
-import gems.storage.MemoryStorageFactory;
-import gems.storage.StorageFactory;
+import gems.caching.MemoryStorageFactory;
+import gems.caching.StorageFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
