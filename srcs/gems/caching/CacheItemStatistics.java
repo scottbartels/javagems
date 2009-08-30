@@ -2,9 +2,27 @@ package gems.caching;
 
 import gems.AbstractIdentifiable;
 
+/**
+ * This class holds statistics about a cached item. The statistics object can be in
+ * one of two states - 'live' and 'snapshot' - and provides a different interface
+ * in each of them. 'Live' statistic object is created by package local constructor
+ * and can be modified by various 'record' methods as particular events occur in the
+ * caching subsystem. 'Snapshot' is created by calling {@code getSnapshot()} method.
+ * The snapshot is immutable view holding the same values as a live object on time
+ * of method call and it provides various getters accessing these values. The snapshot
+ * cannot be changed anymore. Basically, 'record' interface of 'live' object is designed
+ * for internal use of the caching subsystem, 'get' interface of 'snapshot' object is
+ * designed for evictors investigating statistics. <em>The implementation is thread-safe
+ * for both interfaces.</em>
+ *
+ * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ */
 public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 
-	private final boolean snapshot;
+	/**
+	 * A flag indicating that the object is snapshot.
+	 */
+	private final boolean isSnapshot;
 
 	/**
 	 * A timestamp indicating when the item was added to the cache.
@@ -36,42 +54,76 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	 */
 	private volatile long size;
 
+	/**
+	 * A snapshot is cached here until state is changed.
+	 */
+	private CacheItemStatistics<T> snapshot;
+
+	/**
+	 * Creates a new 'live' cache item statistic object for the cached item with given ID.
+	 *
+	 * @param id an ID of cached item this statistics object is related to.
+	 *
+	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 */
 	CacheItemStatistics(final T id) {
 		this(id, System.currentTimeMillis(), false);
 	}
 
+	/**
+	 * Creates a new cache item statistics object with given attributes.
+	 *
+	 * @param id an id.
+	 * @param dateOfBirth a creation timestamp.
+	 * @param isSnapshot a flag indicating that the created item is a snapshot.
+	 *
+	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 */
 	private CacheItemStatistics(final T id, final long dateOfBirth, final boolean isSnapshot) {
 		super(id);
 		this.dateOfBirth = dateOfBirth;
 		this.lastAccess = dateOfBirth;
-		this.snapshot = isSnapshot;
+		this.isSnapshot = isSnapshot;
 	}
 
+	/**
+	 * Returns an immutable snapshot of the current cache item statistics object.
+	 * If the object is already a snapshot, the same object is returned. A snapshot
+	 * is cached unti state of the live object is changed. In another words, the same
+	 * snapshot object is returned if the live object is not changed meantime. This
+	 * method never returns {@code null}.
+	 *
+	 * @return an immutable snapshot of the current cache item statistics object.
+	 */
 	synchronized CacheItemStatistics<T> getSnapshot() {
-
-		// TODO: SNAPSHOT MAY BE CACHED UNTIL OBJECT IS MODIFIED.
-
-		final CacheItemStatistics<T> result = new CacheItemStatistics<T>(getId(), dateOfBirth, true);
-		result.lastAccess = this.lastAccess;
-		result.hits = this.hits;
-		result.misses = this.misses;
-		result.evictions = this.evictions;
-		result.size = this.size;
-		return result;
+		if (isSnapshot) {
+			return this;
+		}
+		if (snapshot != null) {
+			return snapshot;
+		}
+		snapshot = new CacheItemStatistics<T>(getId(), dateOfBirth, true);
+		snapshot.lastAccess = this.lastAccess;
+		snapshot.hits = this.hits;
+		snapshot.misses = this.misses;
+		snapshot.evictions = this.evictions;
+		snapshot.size = this.size;
+		return snapshot;
 	}
 
 	synchronized void recordSize(final long size) {
 		if (size < 0) {
 			throw new IllegalArgumentException(String.valueOf(size));
 		}
-		if (snapshot) {
+		if (isSnapshot) {
 			throw new IllegalStateException();
 		}
 		this.size = size;
+		invalidateSnapshot();
 	}
 
 	synchronized void recordAccess(final boolean hit) {
-		if (snapshot) {
+		if (isSnapshot) {
 			throw new IllegalStateException();
 		}
 		if (hit) {
@@ -80,69 +132,80 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 			misses++;
 		}
 		lastAccess = System.currentTimeMillis();
+		invalidateSnapshot();
 	}
 
 	synchronized void recordEviction() {
-		if (snapshot) {
+		if (isSnapshot) {
 			throw new IllegalStateException();
 		}
 		this.size = 0L;
 		evictions++;
+		invalidateSnapshot();
 	}
 
-	// PUBLIC FACADE.
+	/**
+	 * Destroys cached snaspshot, because item state was modified.
+	 */
+	private void invalidateSnapshot() {
+		snapshot = null;
+	}
+
+	public boolean isSnapshot() {
+		return isSnapshot;
+	}
 
 	public long getDateOfBirth() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return dateOfBirth;
 	}
 
 	public long getAge() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return System.currentTimeMillis() - dateOfBirth;
 	}
 
 	public long getLastAccess() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return lastAccess;
 	}
 
 	public long getSize() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return size;
 	}
 
 	public long getHits() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return hits;
 	}
 
 	public long getMisses() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return misses;
 	}
 
 	public long getAccesses() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return hits + misses;
 	}
 
 	public long getEvictions() {
-		if (!snapshot) {
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return evictions;
