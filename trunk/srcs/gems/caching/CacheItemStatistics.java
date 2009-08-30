@@ -2,10 +2,12 @@ package gems.caching;
 
 import gems.AbstractIdentifiable;
 
-public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> { // TODO: FIELDS DO NOT NEED TO BE VOLATILE ANYMORE
+public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
+
+	private final boolean snapshot;
 
 	/**
-	 * A timestamp indicating when the item was added to acache.
+	 * A timestamp indicating when the item was added to the cache.
 	 */
 	private final long dateOfBirth;
 
@@ -35,17 +37,21 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> { // T
 	private volatile long size;
 
 	CacheItemStatistics(final T id) {
-		this(id, System.currentTimeMillis());
+		this(id, System.currentTimeMillis(), false);
 	}
 
-	private CacheItemStatistics(final T id, final long dateOfBirth) {
+	private CacheItemStatistics(final T id, final long dateOfBirth, final boolean isSnapshot) {
 		super(id);
 		this.dateOfBirth = dateOfBirth;
 		this.lastAccess = dateOfBirth;
+		this.snapshot = isSnapshot;
 	}
 
 	synchronized CacheItemStatistics<T> getSnapshot() {
-		final CacheItemStatistics<T> result = new CacheItemStatistics<T>(getId(), dateOfBirth);
+
+		// TODO: SNAPSHOT MAY BE CACHED UNTIL OBJECT IS MODIFIED.
+
+		final CacheItemStatistics<T> result = new CacheItemStatistics<T>(getId(), dateOfBirth, true);
 		result.lastAccess = this.lastAccess;
 		result.hits = this.hits;
 		result.misses = this.misses;
@@ -58,10 +64,16 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> { // T
 		if (size < 0) {
 			throw new IllegalArgumentException(String.valueOf(size));
 		}
+		if (snapshot) {
+			throw new IllegalStateException();
+		}
 		this.size = size;
 	}
 
 	synchronized void recordAccess(final boolean hit) {
+		if (snapshot) {
+			throw new IllegalStateException();
+		}
 		if (hit) {
 			hits++;
 		} else {
@@ -71,6 +83,9 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> { // T
 	}
 
 	synchronized void recordEviction() {
+		if (snapshot) {
+			throw new IllegalStateException();
+		}
 		this.size = 0L;
 		evictions++;
 	}
@@ -78,34 +93,58 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> { // T
 	// PUBLIC FACADE.
 
 	public long getDateOfBirth() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return dateOfBirth;
 	}
 
 	public long getAge() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return System.currentTimeMillis() - dateOfBirth;
 	}
 
 	public long getLastAccess() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return lastAccess;
 	}
 
 	public long getSize() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return size;
 	}
 
 	public long getHits() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return hits;
 	}
 
 	public long getMisses() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return misses;
 	}
 
 	public long getAccesses() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return hits + misses;
 	}
 
 	public long getEvictions() {
+		if (!snapshot) {
+			throw new IllegalStateException();
+		}
 		return evictions;
 	}
 
