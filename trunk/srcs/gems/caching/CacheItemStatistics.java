@@ -30,6 +30,11 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	private final long dateOfBirth;
 
 	/**
+	 * Time - in milliseconds - how long is the cached item in the cache.
+	 */
+	private final long age;
+
+	/**
 	 * A timestamp indicating the last access to the item's value.
 	 */
 	private volatile long lastAccess;
@@ -84,6 +89,7 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		this.dateOfBirth = dateOfBirth;
 		this.lastAccess = dateOfBirth;
 		this.isSnapshot = isSnapshot;
+		this.age = isSnapshot ? System.currentTimeMillis() - dateOfBirth : 0L;
 	}
 
 	/**
@@ -111,6 +117,14 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		return snapshot;
 	}
 
+	/**
+	 * Sets size of cached item.
+	 *
+	 * @param size a new size.
+	 *
+	 * @throws IllegalArgumentException if {@code size} is negative.
+	 * @throws IllegalStateException if the object is a snapshot.
+	 */
 	synchronized void recordSize(final long size) {
 		if (size < 0) {
 			throw new IllegalArgumentException(String.valueOf(size));
@@ -122,19 +136,31 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		invalidateSnapshot();
 	}
 
+	/**
+	 * Records an access to cached item.
+	 *
+	 * @param hit an argument indicating that the access was a hit.
+	 *
+	 * @throws IllegalStateException if the object is a snapshot.
+	 */
 	synchronized void recordAccess(final boolean hit) {
 		if (isSnapshot) {
 			throw new IllegalStateException();
 		}
+		lastAccess = System.currentTimeMillis();
 		if (hit) {
 			hits++;
 		} else {
 			misses++;
 		}
-		lastAccess = System.currentTimeMillis();
 		invalidateSnapshot();
 	}
 
+	/**
+	 * Rercords cached item's eviction.
+	 *
+	 * @throws IllegalStateException if the object is a snapshot.
+	 */
 	synchronized void recordEviction() {
 		if (isSnapshot) {
 			throw new IllegalStateException();
@@ -145,16 +171,28 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	}
 
 	/**
-	 * Destroys cached snaspshot, because item state was modified.
+	 * Destroys cached snaspshot.
 	 */
 	private void invalidateSnapshot() {
 		snapshot = null;
 	}
 
+	/**
+	 * Returns {@code true} if  the object is 'snapshot', {@code false} otherwise.
+	 *
+	 * @return {@code true} if  the object is 'snapshot', {@code false} otherwise.
+	 */
 	public boolean isSnapshot() {
 		return isSnapshot;
 	}
 
+	/**
+	 * Returns a timestamp indicating when the cached object was added to cache.
+	 *
+	 * @return a timestamp indicating when the cached object was added to cache.
+	 *
+	 * @throws IllegalStateException if the object is not a snapshot.
+	 */
 	public long getDateOfBirth() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
@@ -162,13 +200,27 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		return dateOfBirth;
 	}
 
+	/**
+	 * Returns time - in milliseconds - how long is the cached item in the cache.
+	 *
+	 * @return time - in milliseconds - how long is the cached item in the cache.
+	 *
+	 * @throws IllegalStateException if the object is not a snapshot.
+	 */
 	public long getAge() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
-		return System.currentTimeMillis() - dateOfBirth;
+		return age;
 	}
 
+	/**
+	 * Returns a timestamp of the latest access.
+	 *
+	 * @return a timestamp of the latest access.
+	 *
+	 * @throws IllegalArgumentException if the object is not a snapshot.
+	 */
 	public long getLastAccess() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
@@ -176,6 +228,13 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		return lastAccess;
 	}
 
+	/**
+	 * Returns size of the cached item. Zero is returned for evicted items.
+	 *
+	 * @return size of the cached item.
+	 *
+	 * @throws IllegalArgumentException if the object is not a snapshot.
+	 */
 	public long getSize() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
@@ -183,6 +242,13 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		return size;
 	}
 
+	/**
+	 * Returns number of cache hits, i.e. how many times was cached item successfully retrieved from the cache.
+	 *
+	 * @return number of cache hits.
+	 *
+	 * @throws IllegalStateException if the object is not a snapsthot.
+	 */
 	public long getHits() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
@@ -190,6 +256,13 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		return hits;
 	}
 
+	/**
+	 * Returns number of cache misses, i.e. how many times cached item was not found in the cache.
+	 *
+	 * @return number of cache misses.
+	 *
+	 * @throws IllegalStateException if the object is not a snapshot.
+	 */
 	public long getMisses() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
@@ -197,6 +270,13 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		return misses;
 	}
 
+	/**
+	 * Returns total number of accesses - hits and misses - of the cached item.
+	 *
+	 * @return total number of accesses of the cached item.
+	 *
+	 * @throws IllegalStateException if the object is not a snapshot.
+	 */
 	public long getAccesses() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
@@ -204,6 +284,13 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		return hits + misses;
 	}
 
+	/**
+	 * Returns number of evictions of the cached item.
+	 *
+	 * @return number of evictions of the cached item.
+	 *
+	 * @throws IllegalStateException if the object is not a snapshot.
+	 */
 	public long getEvictions() {
 		if (!isSnapshot) {
 			throw new IllegalStateException();
