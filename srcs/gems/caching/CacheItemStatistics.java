@@ -157,7 +157,7 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	}
 
 	/**
-	 * Rercords cached item's eviction.
+	 * Rercords cached item's eviction. The side effect of this method is setting recorded size to zero. 
 	 *
 	 * @throws IllegalStateException if the object is a snapshot.
 	 */
