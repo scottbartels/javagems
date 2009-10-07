@@ -310,6 +310,9 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertEquals(2L, fixture.getSnapshot().getEvictions());
 	}
 
+	/**
+	 * Checks whether date of birth corresponds to crreation time.
+	 */
 	@Test public void dateOfBirthIsSetToCurrentTime() {
 		final long begin = System.currentTimeMillis();
 		safeSleep(200);
@@ -321,8 +324,12 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertTrue(f2.getSnapshot().getDateOfBirth() - f1.getSnapshot().getDateOfBirth() > 0);		
 	}
 
+	/**
+	 * Checks whether date of birth stays same for different snapshots.
+	 */
 	@Test public void dateOfBirthIsSameForDifferentSnapshot() {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
+		safeSleep(200);
 		fixture.recordEviction(); // invalidates snashot
 		safeSleep(200);
 		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
@@ -330,6 +337,11 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertEquals(s1.getDateOfBirth(), s2.getDateOfBirth());
 	}
 
+	/**
+	 * Sleeps given amount of milliseconds.
+	 *
+	 * @param delay time to sleep, in milliseconds.
+	 */
 	private static void safeSleep(final long delay) {
 		try {
 			Thread.sleep(delay);
