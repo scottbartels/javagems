@@ -30,11 +30,6 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	private final long dateOfBirth;
 
 	/**
-	 * Time - in milliseconds - how long is the cached item in the cache.
-	 */
-	private final long age;
-
-	/**
 	 * A timestamp indicating the last access to the item's value.
 	 */
 	private volatile long lastAccess;
@@ -89,7 +84,6 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 		this.dateOfBirth = dateOfBirth;
 		this.lastAccess = dateOfBirth;
 		this.isSnapshot = isSnapshot;
-		this.age = isSnapshot ? System.currentTimeMillis() - dateOfBirth : 0L;
 	}
 
 	/**
@@ -198,20 +192,6 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 			throw new IllegalStateException();
 		}
 		return dateOfBirth;
-	}
-
-	/**
-	 * Returns time - in milliseconds - how long is the cached item in the cache.
-	 *
-	 * @return time - in milliseconds - how long is the cached item in the cache.
-	 *
-	 * @throws IllegalStateException if the object is not a snapshot.
-	 */
-	public long getAge() {
-		if (!isSnapshot) {
-			throw new IllegalStateException();
-		}
-		return age;
 	}
 
 	/**

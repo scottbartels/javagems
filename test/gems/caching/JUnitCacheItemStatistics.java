@@ -310,7 +310,25 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertEquals(2L, fixture.getSnapshot().getEvictions());
 	}
 
-	// TODO: TU SOM SKONCIL
+	@Test public void dateOfBirthIsSetToCurrentTime() {
+		final long begin = System.currentTimeMillis();
+		safeSleep(200);
+		final CacheItemStatistics<Object> f1 = new CacheItemStatistics<Object>(new Object());
+		safeSleep(200);
+		final CacheItemStatistics<Object> f2 = new CacheItemStatistics<Object>(new Object());
+
+		Assert.assertTrue(f1.getSnapshot().getDateOfBirth() - begin > 0);
+		Assert.assertTrue(f2.getSnapshot().getDateOfBirth() - f1.getSnapshot().getDateOfBirth() > 0);		
+	}
+
+	@Test public void dateOfBirthIsSameForDifferentSnapshot() {
+		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
+		fixture.recordEviction(); // invalidates snashot
+		safeSleep(200);
+		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
+		Assert.assertNotSame(s1, s2); // just for sure: we have two different snapshots
+		Assert.assertEquals(s1.getDateOfBirth(), s2.getDateOfBirth());
+	}
 
 	private static void safeSleep(final long delay) {
 		try {
