@@ -24,40 +24,63 @@ public final class JUnitCacheItemStatistics {
 	}
 
 	/**
-	 * Checks whether a {@code null} id is forbidden.
+	 * Checks whether a {@code null} ID is forbidden.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void nullIdIsForbidden() {
 		new CacheItemStatistics<Object>(null);
 	}
 
+	/**
+	 * Checks whether a newly created object is a live object, not a snapshot.
+	 */
 	@Test public void newlyCreatedObjectIsNotSnapshot() {
 		Assert.assertFalse(fixture.isSnapshot());
 	}
 
+	/**
+	 * Checks whether a snapshot is is marked as snapshot.
+	 */
 	@Test public void snapshotIsSnapshot() {
 		Assert.assertTrue(fixture.getSnapshot().isSnapshot());
 	}
 
+	/**
+	 * Checks whether snapshot is cached, ie whether the same snapshot
+	 * is returned more times if object was not changed meantime.
+	 */
 	@Test public void snapshotIsCached() {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
 		Assert.assertSame(s1, s2);
 	}
 
+	/**
+	 * Checks whether a snapshot of a snapshot is the same
+	 * snapshot, ie unnecessary snapshots are not created.
+	 */
 	@Test public void snapshotOfSnapshotIsTheSameSnapshot() {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		final CacheItemStatistics<Object> s2 = s1.getSnapshot();
 		Assert.assertSame(s1, s2);
 	}
 
+	/**
+	 * Checks whether setting a negative object size is forbidden.
+	 */
 	@Test(expected = IllegalArgumentException.class) public void negativeSizeIsNotAllowed() {
 		fixture.recordSize(-1L);
 	}
 
+	/**
+	 * Checks whether setting a size on the snapshot is forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void recordingSizeOnSnapshotIsNotAllowed() {
 		fixture.getSnapshot().recordSize(0L);
 	}
 
+	/**
+	 * Checks whether size recording invalidates the cached snapshot.
+	 */
 	@Test public void snapshotIsDifferentAfterSizeChange() {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		fixture.recordSize(0L);
@@ -65,10 +88,16 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertNotSame(s1, s2);
 	}
 
+	/**
+	 * Checks whether getting size from live object is forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void gettingSizeFromLiveObjectIsNotAllowed() {
 		fixture.getSize();
 	}
 
+	/**
+	 * Checks whether size changes work. 
+	 */
 	@Test public void recordingSizeWorks() {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		fixture.recordSize(42L);
@@ -80,26 +109,48 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertEquals(1024L, s3.getSize());
 	}
 
+	/**
+	 * Checks whether hit recording on snapshot is forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void recordingHitOnSnapshotIsNotAllowed() {
 		recordingAccessOnSnapshotIsNotAllowedImpl(true);
 	}
 
+	/**
+	 * Checks whether miss recording on snapshot is forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void recordingMissOnSnapshotIsNotAllowed() {
 		recordingAccessOnSnapshotIsNotAllowedImpl(false);
 	}
 
+	/**
+	 * Checks whether access recording on snapshot is forbidden.
+	 *
+	 * @param hit a flag indicating that recorded access is a hit. 
+	 */
 	private void recordingAccessOnSnapshotIsNotAllowedImpl(final boolean hit) {
 		fixture.getSnapshot().recordAccess(hit);
 	}
 
+	/**
+	 * Checks whether hit recording invalidates the cached snapshot.
+	 */
 	@Test public void snapshotIsDifferentAfterHitRecord() {
 		snapshotIsDifferentAfterAccessRecordImpl(true);
 	}
 
+	/**
+	 * Checks whether miss recording invalidates the cached snapshot.
+	 */
 	@Test public void snapshotIsDifferentAfterMissRecord() {
 		snapshotIsDifferentAfterAccessRecordImpl(false);
 	}
 
+	/**
+	 * Checks whether access recording invalidates the cached snapshot.
+	 *
+	 * @param hit a flag indicating that recorded access is a hit.
+	 */
 	private void snapshotIsDifferentAfterAccessRecordImpl(final boolean hit) {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		fixture.recordAccess(hit);
@@ -107,24 +158,37 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertNotSame(s1, s2);
 	}
 
+	/**
+	 * Checks whether getting number of hits on live object if forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void gettingHitsFromLiveObjectIsNotAllowed() {
 		fixture.getHits();
 	}
 
+	/**
+	 * Checks whether getting number of mises on live object if forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void gettingMissesFromLiveObjectIsNotAllowed() {
 		fixture.getMisses();
 	}
 
+	/**
+	 * Checks whether getting number of accesses on live object if forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void gettingAccessesFromLiveObjectIsNotAllowed() {
 		fixture.getAccesses();
 	}
 
+	/**
+	 * Checks whether recording accesses works.
+	 */
 	@Test public void recordingAccessWorks() {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		fixture.recordAccess(true);
 		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
 		fixture.recordAccess(false);
 		final CacheItemStatistics<Object> s3 = fixture.getSnapshot();
+		
 		Assert.assertEquals(0L, s1.getHits());
 		Assert.assertEquals(0L, s1.getMisses());
 		Assert.assertEquals(0L, s1.getAccesses());
