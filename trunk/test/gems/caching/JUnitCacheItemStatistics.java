@@ -96,17 +96,20 @@ public final class JUnitCacheItemStatistics {
 	}
 
 	/**
+	 * Checks whether size is initially set to zero.
+	 */
+	@Test public void initialSizeIsSetToZero() {
+		Assert.assertEquals(0L, fixture.getSnapshot().getSize());
+	}
+
+	/**
 	 * Checks whether size changes work. 
 	 */
 	@Test public void recordingSizeWorks() {
-		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		fixture.recordSize(42L);
-		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
+		Assert.assertEquals(42L, fixture.getSnapshot().getSize());
 		fixture.recordSize(1024L);
-		final CacheItemStatistics<Object> s3 = fixture.getSnapshot();
-		Assert.assertEquals(0L, s1.getSize());
-		Assert.assertEquals(42L, s2.getSize());
-		Assert.assertEquals(1024L, s3.getSize());
+		Assert.assertEquals(1024L, fixture.getSnapshot().getSize());
 	}
 
 	/**
@@ -180,6 +183,27 @@ public final class JUnitCacheItemStatistics {
 	}
 
 	/**
+	 * Checks whether hits counter is initially set to zero.
+	 */
+	@Test public void initialHitsCounterIsSetToZero() {
+		Assert.assertEquals(0L, fixture.getSnapshot().getHits());
+	}
+
+	/**
+	 * Checks whether misses counter is initially set to zero.
+	 */
+	@Test public void initialMissesCounterIsSetToZero() {
+		Assert.assertEquals(0L, fixture.getSnapshot().getMisses());
+	}
+
+	/**
+	 * Checks whether accesses counter is initially set to zero.
+	 */
+	@Test public void initialAccessesCounterIsSetToZero() {
+		Assert.assertEquals(0L, fixture.getSnapshot().getAccesses());
+	}
+
+	/**
 	 * Checks whether recording accesses works.
 	 */
 	@Test public void recordingAccessWorks() {
@@ -234,6 +258,56 @@ public final class JUnitCacheItemStatistics {
 		fixture.recordAccess(hit);
 		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
 		Assert.assertTrue(s2.getLastAccess() - s1.getLastAccess() > 0);
+	}
+
+	/**
+	 * Checks whether recording eviction on snapshot is forbidden.
+	 */
+	@Test(expected = IllegalStateException.class) public void recordingEvictionOnSnapshotIsNotAllowed() {
+		fixture.getSnapshot().recordEviction();
+	}
+
+	/**
+	 * Checks whether getting evicitions from a live object is forbidden.
+	 */
+	@Test(expected = IllegalStateException.class) public void gettingEvictionsOnLiveObjectIsNotAllowed() {
+		fixture.getEvictions();
+	}
+
+	/**
+	 * Checks whether eviction counter is initially set to zero.
+	 */
+	@Test public void initialEvictionCounterIsSetToZero() {
+		Assert.assertEquals(0L, fixture.getSnapshot().getEvictions());
+	}
+
+	/**
+	 * Checks whether recording eviction invalidates the cached snapshot.
+	 */
+	@Test public void recordingEvictionInvalidatesSnapshot() {
+		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
+		fixture.recordEviction();
+		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
+		Assert.assertNotSame(s1, s2);
+	}
+
+	/**
+	 * Checks whether recording eviction sets size to zero.
+	 */
+	@Test public void recordingEvictionZerosSize() {
+		fixture.recordSize(42L);
+		fixture.recordEviction();
+		Assert.assertEquals(0L, fixture.getSnapshot().getSize());
+	}
+
+	/**
+	 * Checks whether recording evictions works. 
+	 */
+	@Test public void recordingEvictionsWorks() {
+		fixture.recordEviction();
+		Assert.assertEquals(1L, fixture.getSnapshot().getEvictions());
+		fixture.recordEviction();
+		Assert.assertEquals(2L, fixture.getSnapshot().getEvictions());
 	}
 
 	// TODO: TU SOM SKONCIL
