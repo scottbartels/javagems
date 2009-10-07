@@ -138,27 +138,39 @@ public final class JUnitCacheItemStatistics {
 		Assert.assertEquals(2L, s3.getAccesses());		
 	}
 
+	/**
+	 * Checks whether getting last access time from a live objec is forbidden.
+	 */
 	@Test(expected = IllegalStateException.class) public void gettingLastAccessFromLiveObjectIsNotAllowed() {
 		fixture.getLastAccess();
 	}
 
+	/**
+	 * Checks whether hit recording updates last access time.
+	 */
 	@Test public void recordingHitUpdatesLastAccessTimestamp() {
 		recordingAccessUpdatesLastAccessTimestempImpl(true);
 	}
 
+	/**
+	 * Checks whether miss recording updates last access time.
+	 */
 	@Test public void recordingMissUpdatesLastAccessTimestamp() {
 		recordingAccessUpdatesLastAccessTimestempImpl(false);
 	}
 
-	private void recordingAccessUpdatesLastAccessTimestempImpl(final boolean hit) { // XXX: THIS CAN BE TRICKY
+	/**
+	 * Checks whether access recording updates last access timestamp.
+	 *
+	 * @param hit a flag indicating whether access is miss or hit. 
+	 */
+	private void recordingAccessUpdatesLastAccessTimestempImpl(final boolean hit) {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		safeSleep(200);
 		fixture.recordAccess(hit);
 		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
-		Assert.assertTrue(s2.getLastAccess() - s1.getLastAccess() > 200);
+		Assert.assertTrue(s2.getLastAccess() - s1.getLastAccess() > 0);
 	}
-
-	// todo: updating last access time
 
 	// TODO: TU SOM SKONCIL
 
