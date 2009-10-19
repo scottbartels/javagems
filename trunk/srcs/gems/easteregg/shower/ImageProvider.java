@@ -24,7 +24,7 @@ final class ImageProvider implements ObjectProvider<IdentifiableImage, String> {
 
 	private static Image loadImage(final File file) {
 		try {
-			final Image image =  waitForLoading(ImageIO.read(file)); // todo: waitForLoad() is not necessary here 
+			final Image image = waitForLoading(ImageIO.read(file)); // todo: waitForLoad() is not necessary here
 			// TODO: NOT SCALING WELL; WE NEED TO KEEP RATIO
 			final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 			if (image.getHeight(null) > screen.getHeight() || image.getWidth(null) > screen.getWidth()) {
@@ -39,7 +39,7 @@ final class ImageProvider implements ObjectProvider<IdentifiableImage, String> {
 	}
 
 	private static Image waitForLoading(final Image image) {
-		while(image.getHeight(null) < 0) {
+		while (image.getHeight(null) < 0) {
 			// todo: do somehow better; this is waiting for image loading
 			Thread.yield();
 		}

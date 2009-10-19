@@ -3,10 +3,10 @@ package gems.logging.loggers;
 import gems.logging.Logger;
 import gems.logging.LoggingHandler;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Collection;
 
 /**
  * A skeleton implementation of <em>logger</em>. It ensures the common functionality

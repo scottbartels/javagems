@@ -1,8 +1,8 @@
 package gems.io;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
 /**
  * JUnit tests for the {@code AbstractByteContent} class.

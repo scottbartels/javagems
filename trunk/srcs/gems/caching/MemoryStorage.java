@@ -10,7 +10,7 @@ import java.util.Map;
 
 final class MemoryStorage<K, V extends Identifiable<K>> extends AbstractStorage<K, V> {
 
-	private final Map<K, V> map = new HashMap<K,V>();
+	private final Map<K, V> map = new HashMap<K, V>();
 
 	@Override public void put(final V value) {
 		if (value == null) {

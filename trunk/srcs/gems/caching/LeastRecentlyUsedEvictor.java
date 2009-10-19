@@ -2,9 +2,9 @@ package gems.caching;
 
 import gems.ComposedComparator;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.ArrayList;
 
 public final class LeastRecentlyUsedEvictor<K> extends AbstractCacheEvictor<K> {
 

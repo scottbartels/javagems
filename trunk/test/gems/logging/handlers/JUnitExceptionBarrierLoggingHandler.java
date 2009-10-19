@@ -1,12 +1,12 @@
 package gems.logging.handlers;
 
+import gems.ExceptionHandler;
 import static gems.logging.LoggingFacility.NULL_FACILITY;
 import gems.logging.LoggingHandler;
 import static gems.logging.LoggingHandler.NULL_HANDLER;
 import gems.logging.LoggingRecord;
 import static gems.logging.LoggingSeverity.INFO;
 import gems.logging.LoggingTag;
-import gems.ExceptionHandler;
 import org.junit.Assert;
 import org.junit.Test;
 

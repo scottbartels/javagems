@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * Encapsulates a timestamp formatting functionality. The implementation
- * is thread-safe and scalable for usage by more threads simultaneously. 
+ * is thread-safe and scalable for usage by more threads simultaneously.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */

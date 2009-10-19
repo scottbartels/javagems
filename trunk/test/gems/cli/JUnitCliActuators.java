@@ -47,7 +47,7 @@ public final class JUnitCliActuators {
 	}
 
 	/**
-	 * Checks whether rests handling works. 
+	 * Checks whether rests handling works.
 	 */
 	@Test public void addingRests() {
 		actuators.addRest("a");
@@ -83,7 +83,7 @@ public final class JUnitCliActuators {
 	}
 
 	/**
-	 * Checks whether a getting of an unknown actuator returns {@code null}. 
+	 * Checks whether a getting of an unknown actuator returns {@code null}.
 	 */
 	@Test public void gettingUnknownActuatorReturnsNull() {
 		Assert.assertNull(actuators.getActuatorById("id"));

@@ -1,7 +1,16 @@
 package gems.easteregg.shower;
 
-import gems.*;
-import gems.caching.*;
+import gems.ObjectProvider;
+import gems.Option;
+import gems.ShouldNeverHappenException;
+import gems.SizeEstimator;
+import gems.StaticLimits;
+import gems.caching.Cache;
+import gems.caching.CacheFactory;
+import gems.caching.CacheLimit;
+import gems.caching.CacheProperties;
+import gems.caching.CachingObjectProvider;
+import gems.caching.HashCodeBasedSegmenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,25 +76,25 @@ public final class Shower {
 
 	private final ObjectProvider<IdentifiableImage, String> source;
 
-    {
-        final StaticLimits<CacheLimit> limits = new StaticLimits<CacheLimit>(CacheLimit.class);
-        limits.setLimit(CacheLimit.ITEMS, Integer.MAX_VALUE);
-        limits.setLimit(CacheLimit.SIZE, Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
-        final Option<Cache<IdentifiableImage, String>> cache = new CacheFactory<IdentifiableImage, String>().provide(
-                new Option<CacheProperties<IdentifiableImage, String>>(
-                        new CacheProperties.Builder<IdentifiableImage, String>(limits)
-                                .with(new ImageSizeEstimator())
-                                .with(new HashCodeBasedSegmenter<String>(2))
-                                .build()
-                )
-        );
-        if (!cache.hasValue()) {
-            throw new ShouldNeverHappenException();
-        }
-        source = new CachingObjectProvider<IdentifiableImage, String>(cache.getValue(), new ImageProvider());
-    }
+	{
+		final StaticLimits<CacheLimit> limits = new StaticLimits<CacheLimit>(CacheLimit.class);
+		limits.setLimit(CacheLimit.ITEMS, Integer.MAX_VALUE);
+		limits.setLimit(CacheLimit.SIZE, Runtime.getRuntime().maxMemory() - MEMORY_RESERVE);
+		final Option<Cache<IdentifiableImage, String>> cache = new CacheFactory<IdentifiableImage, String>().provide(
+				new Option<CacheProperties<IdentifiableImage, String>>(
+						new CacheProperties.Builder<IdentifiableImage, String>(limits)
+								.with(new ImageSizeEstimator())
+								.with(new HashCodeBasedSegmenter<String>(2))
+								.build()
+				)
+		);
+		if (!cache.hasValue()) {
+			throw new ShouldNeverHappenException();
+		}
+		source = new CachingObjectProvider<IdentifiableImage, String>(cache.getValue(), new ImageProvider());
+	}
 
-    private final Executor prefetch = Executors.newFixedThreadPool(1);  // todo: has to be destroyed on exit.
+	private final Executor prefetch = Executors.newFixedThreadPool(1);  // todo: has to be destroyed on exit.
 
 	/**
 	 * A current target.

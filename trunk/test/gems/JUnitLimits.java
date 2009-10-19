@@ -1,7 +1,7 @@
 package gems;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for the {@code Limits} interface null-implementation.

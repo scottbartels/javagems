@@ -38,7 +38,7 @@ abstract class AbstractByteContent implements ByteContent { // TODO: More scalab
 	 * {@inheritDoc} The returned object uses the same backing store
 	 * as this object. This method never returns {@code null}.
 	 *
-	 * @throws IllegalArgumentException if {@code bounds} is {@code null}. 
+	 * @throws IllegalArgumentException if {@code bounds} is {@code null}.
 	 */
 	@Override public final synchronized ByteContent getSubcontent(final Bounds bounds) {
 		if (bounds == null) {

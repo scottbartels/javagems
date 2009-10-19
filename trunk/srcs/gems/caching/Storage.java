@@ -16,7 +16,7 @@ interface Storage<K, V extends Identifiable<K>> extends Iterable<V>, ObjectProvi
 	 * this <em>happen-before</em> semantic. Some implementations may delegate this semantic
 	 * to the client code itself. Similarly, there is no contract defined for replacing
 	 * existing values; it is up to implementation what to do when an object identified by
-	 * the same key already exists in the storage. 
+	 * the same key already exists in the storage.
 	 *
 	 * @param value an inserted value.
 	 */
@@ -30,15 +30,16 @@ interface Storage<K, V extends Identifiable<K>> extends Iterable<V>, ObjectProvi
 	 *
 	 * @param key a key of removed object.
 	 */
-	void remove(K key); 
+	void remove(K key);
 
 	/**
 	 * Returns a collection of stored values which satisfy a condistion specified by a given filter.
 	 * This method should never return {@code null}, at least empty collection should be returned.
 	 *
 	 * @param filter a filter of returned values.
-	 * @return  a collection of stored values which satisfy a condistion specified by a given filter.
+	 *
+	 * @return a collection of stored values which satisfy a condistion specified by a given filter.
 	 */
 	Collection<V> search(Filter<? super V> filter);
-	
+
 }

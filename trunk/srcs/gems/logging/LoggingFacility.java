@@ -67,7 +67,7 @@ public final class LoggingFacility extends AbstractIdentifiable<String> {
 	}
 
 	/**
-	 * Returns the name of the facility. This method never returns {@code null}. 
+	 * Returns the name of the facility. This method never returns {@code null}.
 	 *
 	 * @return the name of the facility.
 	 */

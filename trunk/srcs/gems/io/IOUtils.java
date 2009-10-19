@@ -2,7 +2,13 @@ package gems.io;
 
 import gems.ExceptionHandler;
 
-import java.io.*;
+import java.io.Closeable;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Useful IO gems.
@@ -140,7 +146,7 @@ public final class IOUtils {
 	}
 
 	/**
-	 * Acts exactly as {@code skipSafely(InputStream, long)}, but does not throw any
+	 * Acts exactly as {@code skipSafely(InputStream,long)}, but does not throw any
 	 * checked exception. Any {@code IOException} thrown during the operation is
 	 * cauhgth and translated to {@code RuntimeIOException}, which is subsequently
 	 * thrown.
@@ -164,7 +170,7 @@ public final class IOUtils {
 	 * number of bytes is really skipped if possible. Another subtle difference is
 	 * that this method refuses negative number of bytes by throwing a runtime
 	 * excetption. If handling of {@code IOException} does not make sense for you,
-	 * you can use {@code skipSafelyAndQuietly(InputStream, long)} instead. 
+	 * you can use {@code skipSafelyAndQuietly(InputStream,long)} instead.
 	 *
 	 * @param stream an input stream.
 	 * @param bytes number of bytes to be skipped.
@@ -172,7 +178,6 @@ public final class IOUtils {
 	 * @throws IOException if any error occurs during the operation.
 	 * @throws IllegalArgumentException if {@code stream} is {@code null} or
 	 * if number of bytes to be skipped is negative.
-	 *
 	 * @since CURRENT
 	 */
 	public static void skipSafely(final InputStream stream, final long bytes) throws IOException {

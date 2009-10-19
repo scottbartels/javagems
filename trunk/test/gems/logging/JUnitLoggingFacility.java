@@ -30,5 +30,5 @@ public final class JUnitLoggingFacility {
 	@Test public void toStringReturnsName() {
 		Assert.assertEquals("name", LoggingFacility.getFacility("name").toString());
 	}
-	
+
 }

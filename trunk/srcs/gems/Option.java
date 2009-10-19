@@ -5,7 +5,7 @@ package gems;
  * class is immutable and encapsulates an optional value. A client code which
  * has retrieved he object is forced to check the presence of that optional
  * value before its usage. For more information about this class usage see
- * <a href="http://code.google.com/p/javagems/wiki/OptionalValues">http://code.google.com/p/javagems/wiki/OptionalValues</a>. 
+ * <a href="http://code.google.com/p/javagems/wiki/OptionalValues">http://code.google.com/p/javagems/wiki/OptionalValues</a>.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <T> a type of stored value.

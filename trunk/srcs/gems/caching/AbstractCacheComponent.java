@@ -11,32 +11,32 @@ import gems.Identifiable;
  */
 abstract class AbstractCacheComponent<V extends Identifiable<K>, K> {
 
-    /**
-     * Cache properties.
-     */
-    private final CacheProperties<V, K> properties;
+	/**
+	 * Cache properties.
+	 */
+	private final CacheProperties<V, K> properties;
 
-    /**
-     * Initiates a new cache component holding a given properties for it.
-     *
-     * @param properties a cache properties.
-     *
-     * @throws IllegalArgumentException if {@code properties} is {@code null}.
-     */
-    protected AbstractCacheComponent(final CacheProperties<V, K> properties) {
-        if (properties == null) {
-            throw new IllegalArgumentException();
-        }
-        this.properties = properties;
-    }
+	/**
+	 * Initiates a new cache component holding a given properties for it.
+	 *
+	 * @param properties a cache properties.
+	 *
+	 * @throws IllegalArgumentException if {@code properties} is {@code null}.
+	 */
+	protected AbstractCacheComponent(final CacheProperties<V, K> properties) {
+		if (properties == null) {
+			throw new IllegalArgumentException();
+		}
+		this.properties = properties;
+	}
 
-    /**
-     * Returns cache properties for the cache component. This method never returns {@code null}.
-     *
-     * @return cache properties for the cache component.
-     */
-    protected final CacheProperties<V, K> getProperties() {
-        return properties;
-    }
+	/**
+	 * Returns cache properties for the cache component. This method never returns {@code null}.
+	 *
+	 * @return cache properties for the cache component.
+	 */
+	protected final CacheProperties<V, K> getProperties() {
+		return properties;
+	}
 
 }

@@ -12,9 +12,8 @@ import java.util.List;
  * The empty chain does not allow object processing regardless of
  * a chaning policy.
  *
- * @param <T> a type of filtered objects.
- *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @param <T> a type of filtered objects.
  */
 public final class FilterChain<T> implements Filter<T> {
 
@@ -126,8 +125,8 @@ public final class FilterChain<T> implements Filter<T> {
 	 * @return {@code true} if the chain does not contain any filter, {@code false} otherwise.
 	 *
 	 * @deprecated This method is not a valid part of the class interface and your code should
-	 * not depend on it. If you think opposite, please let us know about your use case.
-	 * However, the method will not be removed before 2010.02.
+	 *             not depend on it. If you think opposite, please let us know about your use case.
+	 *             However, the method will not be removed before 2010.02.
 	 */
 	@Deprecated public boolean isEmpty() {
 		return filters.isEmpty();

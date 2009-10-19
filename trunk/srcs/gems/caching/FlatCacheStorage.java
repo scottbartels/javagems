@@ -3,8 +3,6 @@ package gems.caching;
 import gems.AbstractIdentifiable;
 import gems.Identifiable;
 import gems.Option;
-import gems.caching.MemoryStorage;
-import gems.caching.Storage;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -20,7 +18,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCache
 	private final Storage<K, CacheItem> items = new MemoryStorage<K, CacheItem>();
 
 	FlatCacheStorage(final CacheProperties<V, K> properties) {
-        super(properties);       
+		super(properties);
 		values = getProperties().getStorageFactory().getStorage();
 	}
 
@@ -73,12 +71,12 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCache
 		if (keys == null) {
 			throw new IllegalArgumentException();
 		}
-        int counter = 0;
+		int counter = 0;
 		for (final K key : keys) {
 			final Option<CacheItem> cachedOption = items.provide(new Option<K>(key));
 			if (cachedOption.hasValue()) {
 				cachedOption.getValue().evict();
-                counter++;
+				counter++;
 			}
 		}
 		return counter;

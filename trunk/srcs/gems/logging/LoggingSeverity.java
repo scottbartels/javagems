@@ -10,7 +10,7 @@ public enum LoggingSeverity {
 	/**
 	 * Very deep insight.
 	 */
-	TRACE,	
+	TRACE,
 
 	/**
 	 * Code flow watching.

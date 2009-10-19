@@ -1,7 +1,7 @@
 package gems.caching;
 
-import gems.filtering.Filter;
 import gems.Identifiable;
+import gems.filtering.Filter;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ abstract class AbstractStorage<K, V extends Identifiable<K>> implements Storage<
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws IllegalArgumentException if {@code filter} is {@code null}. 
+	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
 	 */
 	@Override public final Collection<V> search(final Filter<? super V> filter) {
 		if (filter == null) {

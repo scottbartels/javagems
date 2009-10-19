@@ -28,10 +28,10 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCacheCo
 	 * @throws IllegalArgumentException if {@code properties} argument is {@code null}.
 	 */
 	SegmentedCache(final CacheProperties<V, K> properties) {
-       super(properties);
+		super(properties);
 		segments = new ArrayList<Cache<V, K>>(getProperties().getSegmenter().maxSegments());
 		for (int i = 0; i < getProperties().getSegmenter().maxSegments(); i++) {
-			segments.add(new FlatCache<V,K>(properties));
+			segments.add(new FlatCache<V, K>(properties));
 		}
 	}
 
@@ -62,9 +62,9 @@ final class SegmentedCache<V extends Identifiable<K>, K> extends AbstractCacheCo
 	 * {@inheritDoc}
 	 */
 	@Override public Option<V> get(final K key) {
-        if (key == null) {
-            throw new IllegalArgumentException();
-        }
+		if (key == null) {
+			throw new IllegalArgumentException();
+		}
 		return getSegment(key).get(key);
 	}
 

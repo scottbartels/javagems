@@ -1,8 +1,8 @@
 package gems.logging.handlers;
 
+import gems.ExceptionHandler;
 import gems.logging.LoggingHandler;
 import gems.logging.LoggingRecord;
-import gems.ExceptionHandler;
 
 /**
  * An exception catching barrier for a logging hander. All logging records
@@ -52,7 +52,8 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * The exception barrier will not be re-opened.
 	 *
 	 * @param loggingHandler a wrapped handler.
-	 * @throws IllegalArgumentException if {@code loggingHandler} is {@code null}. 
+	 *
+	 * @throws IllegalArgumentException if {@code loggingHandler} is {@code null}.
 	 */
 	public ExceptionBarrierLoggingHandler(final LoggingHandler loggingHandler) {
 		this(loggingHandler, 0);
@@ -80,7 +81,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * @param loggingHandler a wrapped logging handler.
 	 * @param exceptionHandler a stopping event handler.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}. 
+	 * @throws IllegalArgumentException if any of arguments is {@code null}.
 	 */
 	public ExceptionBarrierLoggingHandler(final LoggingHandler loggingHandler,
 										  final ExceptionHandler<Throwable> exceptionHandler) {
@@ -91,7 +92,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * Creates a new exception barrier handler around a given logging handler. Given
 	 * stopping event handler is used for handling an exception thrown by a wrapped
 	 * logging handler. If a delay is greater than zero, the barrier will be re-opened
-	 * after this number of seconds. 
+	 * after this number of seconds.
 	 *
 	 * @param loggingHandler a wrapped logging handler.
 	 * @param exceptionHandler a stopping event handler.
@@ -170,7 +171,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 				stopped = false;
 			}
 		}
-		
+
 	}
 
 }

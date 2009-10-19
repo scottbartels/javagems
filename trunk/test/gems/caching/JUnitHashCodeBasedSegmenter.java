@@ -27,7 +27,7 @@ public final class JUnitHashCodeBasedSegmenter {
 	 * Checks whether segment number are in range.
 	 */
 	@Test public void testSegmentation() {
-		for (int segments = 1; segments <= REPETITIONS; segments++) { 
+		for (int segments = 1; segments <= REPETITIONS; segments++) {
 			final CacheSegmenter<Integer> fixture = new HashCodeBasedSegmenter<Integer>(segments);
 			for (int key = MIN; key <= MAX; key++) {
 				final int segment = fixture.getSegment(key);
@@ -41,7 +41,7 @@ public final class JUnitHashCodeBasedSegmenter {
 	}
 
 	/**
-	 * Checks a behavior for a hash code of {@code Integer.MIN_VALUE}, which is quite tricky. 
+	 * Checks a behavior for a hash code of {@code Integer.MIN_VALUE}, which is quite tricky.
 	 */
 	@Test public void testExtramallCases() {
 		for (int segments = 1; segments <= REPETITIONS; segments++) {
