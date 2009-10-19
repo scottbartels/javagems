@@ -1,14 +1,14 @@
 package gems.io;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
 public final class JUnitAtomicByteContent extends JUnitByteContentImplementations {
 
 	private static final byte BYTE_ZERO = (byte) 0;
 	private static final byte BYTE_ONE = (byte) 1;
-	
+
 	private static final byte[] ONE_BYTE_ARRAY = new byte[]{BYTE_ZERO};
 
 	@Before public void setUp() {

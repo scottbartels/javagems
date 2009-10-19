@@ -89,7 +89,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractC
 	private final List<StorageHolder<K, V>> storages;
 
 	ParallelCacheStorage(final CacheProperties<V, K> properties) {
-        super(properties);
+		super(properties);
 		final int cpus = Runtime.getRuntime().availableProcessors();
 		storages = new ArrayList<StorageHolder<K, V>>(cpus);
 		for (int i = 0; i < cpus; i++) {

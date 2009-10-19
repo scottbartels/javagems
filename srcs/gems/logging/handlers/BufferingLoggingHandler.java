@@ -63,7 +63,7 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	/**
 	 * Creates a new buffering wrapper of a given handler using specified settings.
 	 * Setting buffer size to 0 means unlimited buffer size. Setting buffer flushing
-	 * timeout to zero means no time-based flushing. 
+	 * timeout to zero means no time-based flushing.
 	 *
 	 * @param handler a wrapped handler.
 	 * @param size a maximal number of logging records held in a buffer.

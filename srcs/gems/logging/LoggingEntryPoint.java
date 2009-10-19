@@ -7,7 +7,7 @@ import static gems.logging.LoggingFacility.NULL_FACILITY;
  * a logger, but provides a facade for creation of logging records and
  * logging tags. It provides simplified ways how to create logging
  * records, especially when logging facility or logging severity is
- * not required.  
+ * not required.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  */

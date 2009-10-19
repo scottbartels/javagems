@@ -42,7 +42,7 @@ abstract class JUnitLoggersImplementations {
 			throw new IllegalArgumentException();
 		}
 		this.fixture = fixture;
-		this.fixture. addHandler(new JUnitLoggingHandlerMock());
+		this.fixture.addHandler(new JUnitLoggingHandlerMock());
 		counter = 0;
 	}
 
@@ -88,7 +88,7 @@ abstract class JUnitLoggersImplementations {
 		@Override public void handle(final LoggingRecord record) {
 			counter++;
 		}
-		
+
 	}
 
 }

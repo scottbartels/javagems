@@ -1,11 +1,11 @@
 package gems.logging;
 
-import gems.logging.loggers.ParallelLogger;
 import gems.logging.loggers.AsynchronousLogger;
+import gems.logging.loggers.ParallelLogger;
 import gems.logging.loggers.SynchronousLogger;
 
 
-public interface LoggerFactory { 
+public interface LoggerFactory {
 
 	LoggerFactory NULL_LOGGER_FACTORY = new LoggerFactory() {
 

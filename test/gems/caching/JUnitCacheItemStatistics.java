@@ -103,7 +103,7 @@ public final class JUnitCacheItemStatistics {
 	}
 
 	/**
-	 * Checks whether size changes work. 
+	 * Checks whether size changes work.
 	 */
 	@Test public void recordingSizeWorks() {
 		fixture.recordSize(42L);
@@ -129,7 +129,7 @@ public final class JUnitCacheItemStatistics {
 	/**
 	 * Checks whether access recording on snapshot is forbidden.
 	 *
-	 * @param hit a flag indicating that recorded access is a hit. 
+	 * @param hit a flag indicating that recorded access is a hit.
 	 */
 	private void recordingAccessOnSnapshotIsNotAllowedImpl(final boolean hit) {
 		fixture.getSnapshot().recordAccess(hit);
@@ -212,7 +212,7 @@ public final class JUnitCacheItemStatistics {
 		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
 		fixture.recordAccess(false);
 		final CacheItemStatistics<Object> s3 = fixture.getSnapshot();
-		
+
 		Assert.assertEquals(0L, s1.getHits());
 		Assert.assertEquals(0L, s1.getMisses());
 		Assert.assertEquals(0L, s1.getAccesses());
@@ -223,7 +223,7 @@ public final class JUnitCacheItemStatistics {
 
 		Assert.assertEquals(1L, s3.getHits());
 		Assert.assertEquals(1L, s3.getMisses());
-		Assert.assertEquals(2L, s3.getAccesses());		
+		Assert.assertEquals(2L, s3.getAccesses());
 	}
 
 	/**
@@ -250,7 +250,7 @@ public final class JUnitCacheItemStatistics {
 	/**
 	 * Checks whether access recording updates last access timestamp.
 	 *
-	 * @param hit a flag indicating whether access is miss or hit. 
+	 * @param hit a flag indicating whether access is miss or hit.
 	 */
 	private void recordingAccessUpdatesLastAccessTimestempImpl(final boolean hit) {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
@@ -301,7 +301,7 @@ public final class JUnitCacheItemStatistics {
 	}
 
 	/**
-	 * Checks whether recording evictions works. 
+	 * Checks whether recording evictions works.
 	 */
 	@Test public void recordingEvictionsWorks() {
 		fixture.recordEviction();
@@ -321,7 +321,7 @@ public final class JUnitCacheItemStatistics {
 		final CacheItemStatistics<Object> f2 = new CacheItemStatistics<Object>(new Object());
 
 		Assert.assertTrue(f1.getSnapshot().getDateOfBirth() - begin > 0);
-		Assert.assertTrue(f2.getSnapshot().getDateOfBirth() - f1.getSnapshot().getDateOfBirth() > 0);		
+		Assert.assertTrue(f2.getSnapshot().getDateOfBirth() - f1.getSnapshot().getDateOfBirth() > 0);
 	}
 
 	/**

@@ -21,7 +21,7 @@ public final class JUnitSynchronousLogger extends JUnitLoggersImplementations {
 	 * Runs all tests.
 	 */
 	@Test public void test() {
-		runAllTests();	
+		runAllTests();
 	}
 
 }

@@ -25,13 +25,14 @@ public final class HashCodeBasedSegmenter<K> extends AbstractCacheSegmenter<K> {
 	 * @param key an analyzed key.
 	 *
 	 * @return segment number for a given key.
+	 *
 	 * @throws IllegalArgumentException if {@code key} is {@code null}.
 	 */
 	@Override public int getSegment(final K key) {
 		if (key == null) {
 			throw new IllegalArgumentException();
 		}
-        return Math.abs(key.hashCode() % maxSegments());
-    }
+		return Math.abs(key.hashCode() % maxSegments());
+	}
 
 }

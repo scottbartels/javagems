@@ -1,7 +1,7 @@
 package gems.caching;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for the {@code CacheSegmenter} interface null-implementation.
@@ -30,5 +30,5 @@ public final class JUnitCacheSegmenter {
 			Assert.assertEquals(0, CacheSegmenter.NULL_SEGMENTER.getSegment(new Object()));
 		}
 	}
-	
+
 }

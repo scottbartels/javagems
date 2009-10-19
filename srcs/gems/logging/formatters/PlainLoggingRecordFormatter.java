@@ -1,7 +1,11 @@
 package gems.logging.formatters;
 
-import gems.logging.*;
 import gems.ThreadIdentity;
+import gems.logging.CreatorInfo;
+import gems.logging.LoggingFacility;
+import gems.logging.LoggingRecord;
+import gems.logging.LoggingRecordFormatter;
+import gems.logging.LoggingTag;
 
 /**
  * Formatting logging records to plain text using all available information from logging record.
@@ -10,12 +14,12 @@ import gems.ThreadIdentity;
  */
 public final class PlainLoggingRecordFormatter implements LoggingRecordFormatter {
 
-    /**
-     * A timestamp formatter.
-     */
-    private static final TimestampFormatter TIMESTAMP_FORMATTER = new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS");
+	/**
+	 * A timestamp formatter.
+	 */
+	private static final TimestampFormatter TIMESTAMP_FORMATTER = new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS");
 
-    /**
+	/**
 	 * {@inheritDoc}
 	 *
 	 * @throws IllegalArgumentException if {@code record} is {@code null}.
@@ -26,10 +30,10 @@ public final class PlainLoggingRecordFormatter implements LoggingRecordFormatter
 		}
 		// timestamp
 		final StringBuilder result = new StringBuilder().append(TIMESTAMP_FORMATTER.format(record.getTimestamp()));
-        // thread info
-        final ThreadIdentity thread = record.getThreadIdentity();
-        result.append(" <").append(thread.getName()).append("(").append(thread.getId()).append(")>");
-        // tags
+		// thread info
+		final ThreadIdentity thread = record.getThreadIdentity();
+		result.append(" <").append(thread.getName()).append("(").append(thread.getId()).append(")>");
+		// tags
 		result.append(" {");
 		for (final LoggingTag tag : record.getTags()) {
 			result.append("{");

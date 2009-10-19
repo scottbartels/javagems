@@ -1,6 +1,7 @@
 package gems.logging.formatters;
 
-import gems.logging.*;
+import gems.logging.LoggingRecord;
+import gems.logging.LoggingRecordFormatter;
 
 /**
  * Formatting logging records to plain text using only basic information from logging record.
@@ -9,10 +10,10 @@ import gems.logging.*;
  */
 public final class SimpleLoggingRecordFormatter implements LoggingRecordFormatter {
 
-    /**
-     * A timestamp formatter.
-     */
-    private static final TimestampFormatter TS_FORMATTER = new TimestampFormatter("yyyy-MM-dd HH:mm:ss");
+	/**
+	 * A timestamp formatter.
+	 */
+	private static final TimestampFormatter TS_FORMATTER = new TimestampFormatter("yyyy-MM-dd HH:mm:ss");
 
 	/**
 	 * {@inheritDoc}
@@ -25,7 +26,7 @@ public final class SimpleLoggingRecordFormatter implements LoggingRecordFormatte
 		}
 		// timestamp
 		final StringBuilder result = new StringBuilder().append(TS_FORMATTER.format(record.getTimestamp()));
-        // maximal severity
+		// maximal severity
 		result.append(" {").append(record.getTags().getMaximalSeverity()).append("}");
 		// message
 		result.append("\t'").append(record.getMessage()).append("'");

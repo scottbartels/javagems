@@ -2,7 +2,7 @@ package gems.easteregg.shower;
 
 import gems.AbstractIdentifiable;
 
-import java.awt.Image;
+import java.awt.*;
 
 final class IdentifiableImage extends AbstractIdentifiable<String> {
 

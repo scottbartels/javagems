@@ -21,5 +21,5 @@ public enum CliOptionType {
 	 * Multiple values.
 	 */
 	MULTIPLE
-	
+
 }

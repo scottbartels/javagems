@@ -9,7 +9,7 @@ final class LeastRecentlyUsedEvictionComparator<K> implements Comparator<CacheIt
 	}
 
 	@Override public int compare(final CacheItemStatistics<K> x, final CacheItemStatistics<K> y) {
-		return (int) (y.getLastAccess()  - x.getLastAccess());
+		return (int) (y.getLastAccess() - x.getLastAccess());
 	}
 
 }

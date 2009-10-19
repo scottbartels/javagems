@@ -11,18 +11,17 @@ package gems;
  * entire object existence. In another words, the contract for ID is pretty
  * similar to contract required for key used in {@code java.util.Map}. In
  * fact, IDs of {@code Identifiable} objects are used as hash map keys on
- * many places. 
- *
- * @param <T> a type of the object ID.
+ * many places.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
+ * @param <T> a type of the object ID.
  */
 public interface Identifiable<T> {
 
 	/**
 	 * Returns an ID of the object.
 	 *
-	 * @return an ID of the object. 
+	 * @return an ID of the object.
 	 */
 	T getId();
 

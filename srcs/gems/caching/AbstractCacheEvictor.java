@@ -2,7 +2,12 @@ package gems.caching;
 
 import gems.Limits;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A cache evictor implementation based on a particular ordering

@@ -69,7 +69,7 @@ public final class JUnitLoggingTags {
 	 * Checks whether a {@code null} value as a logging tag is forbidden.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void nullElementIsForbidden() {
-		new LoggingTags(new LoggingTag[]{null}); 
+		new LoggingTags(new LoggingTag[]{null});
 	}
 
 	/**
@@ -77,7 +77,7 @@ public final class JUnitLoggingTags {
 	 */
 	@Test(expected = UnsupportedOperationException.class) public void iteratorIsImmutable() {
 		final Iterator<LoggingTag> iterator = tags.iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			iterator.next();
 			iterator.remove();
 			Assert.fail(); // at least one remove() method calling succeeds.
@@ -123,7 +123,7 @@ public final class JUnitLoggingTags {
 		Assert.assertTrue(tags.isSevere(DEBUG));
 		Assert.assertTrue(tags.isSevere(TRACE));
 	}
-	
+
 	/**
 	 * Checks whether a {@code null} value is forbidden as severity by {@code hasSeverity(LoggingSeverity)} method.
 	 */
@@ -182,7 +182,7 @@ public final class JUnitLoggingTags {
 
 	/**
 	 * Checks whether a {@code null} value as a severity in
-	 * a {@code isSevere(LoggingSeverity, LoggingFacility)}
+	 * a {@code isSevere(LoggingSeverity,LoggingFacility)}
 	 * method is forbidden.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void nullAsSeverityIsForbiddenByIsSevereSeverityFacility() {
@@ -191,7 +191,7 @@ public final class JUnitLoggingTags {
 
 	/**
 	 * Checks whether a {@code null} value as a facility in
-	 * a {@code isSevere(LoggingSeverity, LoggingFacility)}
+	 * a {@code isSevere(LoggingSeverity,LoggingFacility)}
 	 * method is forbidden.
 	 */
 	@Test(expected = IllegalArgumentException.class) public void nullAsFacilityIsForbiddenByIsSevereSeverityFacility() {
@@ -199,7 +199,7 @@ public final class JUnitLoggingTags {
 	}
 
 	/**
-	 * Checks whether a {@code isSevere(LoggingSeverity, LoggingFacility)} method works as expected.
+	 * Checks whether a {@code isSevere(LoggingSeverity,LoggingFacility)} method works as expected.
 	 */
 	@Test public void testIsSevereSeverityFacility() {
 		Assert.assertFalse(tags.isSevere(FATAL, FACILITY_UNUSED));

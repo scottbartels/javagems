@@ -12,18 +12,18 @@ import java.util.Collection;
  */
 public interface CacheEvictor<K> {
 
-    /**
-     * Evaluates given collection of cache item statistics and selects
-     * some of them - if any - for eviction as necessary for satisfying
-     * given cache limits. This method should never return {@code null};
-     * at least an empty collection has to returned even if no items are
-     * selected for eviction.
-     *
-     * @param statistics a collection of cache item statistics.
-     * @param limits cache limits to satisfy.
-     *
-     * @return a collection - possibly an empty one - of cache item keys selected for eviction.
-     */
-    Collection<K> evict(Collection<CacheItemStatistics<K>> statistics, Limits<CacheLimit> limits);
+	/**
+	 * Evaluates given collection of cache item statistics and selects
+	 * some of them - if any - for eviction as necessary for satisfying
+	 * given cache limits. This method should never return {@code null};
+	 * at least an empty collection has to returned even if no items are
+	 * selected for eviction.
+	 *
+	 * @param statistics a collection of cache item statistics.
+	 * @param limits cache limits to satisfy.
+	 *
+	 * @return a collection - possibly an empty one - of cache item keys selected for eviction.
+	 */
+	Collection<K> evict(Collection<CacheItemStatistics<K>> statistics, Limits<CacheLimit> limits);
 
 }

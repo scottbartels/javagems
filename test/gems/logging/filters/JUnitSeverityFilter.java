@@ -6,7 +6,6 @@ import static gems.logging.LoggingFacility.NULL_FACILITY;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingSeverity;
 import gems.logging.LoggingTag;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package gems;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for the {@code SizeEstimator} null-implementation.
@@ -22,7 +22,7 @@ public final class JUnitSizeEstimator {
 	 */
 	@Test public void nullImplementationReturnsZero() {
 		Assert.assertEquals(0L, SizeEstimator.ZERO_ESTIMATOR.estimate(new Object()));
-		Assert.assertEquals(0L, SizeEstimator.ZERO_ESTIMATOR.estimate(new String[] {"a", "b", "c"}));
+		Assert.assertEquals(0L, SizeEstimator.ZERO_ESTIMATOR.estimate(new String[]{"a", "b", "c"}));
 	}
 
 }

@@ -47,5 +47,5 @@ public final class JUnitAbstractLogger {
 		}
 
 	}
-	
+
 }

@@ -1,18 +1,18 @@
 package gems.io;
 
 import gems.Bounds;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
 public final class JUnitByteSubContent extends JUnitByteContentImplementations {
-	
+
 	private static final Bounds BOUNDS = new Bounds(0, INIT_LENGTH);
 
 	ByteContent localFixture;
 
 	@Before public void setUp() {
 		setUp(new ByteSubContent(new AtomicByteContent(ABCDEF.getBytes()), BOUNDS));
-		localFixture = new ByteSubContent(new AtomicByteContent(new byte[]{(byte)0}), new Bounds(0, 0));
+		localFixture = new ByteSubContent(new AtomicByteContent(new byte[]{(byte) 0}), new Bounds(0, 0));
 	}
 
 	@Test public void test() {
