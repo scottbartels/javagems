@@ -330,7 +330,7 @@ public final class JUnitCacheItemStatistics {
 	@Test public void dateOfBirthIsSameForDifferentSnapshot() {
 		final CacheItemStatistics<Object> s1 = fixture.getSnapshot();
 		safeSleep(200);
-		fixture.recordEviction(); // invalidates snashot
+		fixture.recordEviction(); // invalidates snapshot
 		safeSleep(200);
 		final CacheItemStatistics<Object> s2 = fixture.getSnapshot();
 		Assert.assertNotSame(s1, s2); // just for sure: we have two different snapshots
