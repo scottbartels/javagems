@@ -61,7 +61,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 	 */
 	private final Logger logger;
 
-	public CacheProperties(
+	private CacheProperties(
 			final Limits<CacheLimit> limits,
 			final CacheEvictor<K> evictor,
 			final EvictionHandler<? super V> evictionHandler,
