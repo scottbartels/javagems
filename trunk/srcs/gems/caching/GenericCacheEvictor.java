@@ -78,15 +78,15 @@ final class GenericCacheEvictor<K> implements CacheEvictor<K> {
 			final int cumulativeCount,
 			final long cumulativeSize
 	) {
-		return !countExceeded(limits, cumulativeCount) && !sizeExceeded(limits, cumulativeSize + item.getSize());
+		return satisfyCountLimit(limits, cumulativeCount) && satisfySizeLimit(limits, cumulativeSize + item.getSize());
 	}
 
-	private static boolean sizeExceeded(final Limits<CacheLimit> limits, final long size) {
-		return size > limits.getLimit(CacheLimit.SIZE).longValue();
+	private static boolean satisfySizeLimit(final Limits<CacheLimit> limits, final long size) {
+		return size <= limits.getLimit(CacheLimit.SIZE).longValue();
 	}
 
-	private static boolean countExceeded(final Limits<CacheLimit> limits, final int cumulativeCount) {
-		return cumulativeCount + 1 > limits.getLimit(CacheLimit.ITEMS).intValue();
+	private static boolean satisfyCountLimit(final Limits<CacheLimit> limits, final int cumulativeCount) {
+		return cumulativeCount + 1 <= limits.getLimit(CacheLimit.ITEMS).intValue();
 	}
 
 	/**
