@@ -18,7 +18,7 @@ import java.util.List;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> type of cache objects identifiers.
  */
-class AbstractCacheEvictor<K> implements CacheEvictor<K> {
+final class GenericCacheEvictor<K> implements CacheEvictor<K> {
 
 	/**
 	 * A comparator.
@@ -35,7 +35,7 @@ class AbstractCacheEvictor<K> implements CacheEvictor<K> {
 	 *
 	 * @throws IllegalArgumentException if {@code comparator} is {@code null}.
 	 */
-	protected AbstractCacheEvictor(final Comparator<? super CacheItemStatistics<K>> comparator) {
+	protected GenericCacheEvictor(final Comparator<? super CacheItemStatistics<K>> comparator) {
 		if (comparator == null) {
 			throw new IllegalArgumentException();
 		}
