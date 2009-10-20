@@ -1,0 +1,7 @@
+/**
+ * IGNORE EXISTENCE OF THIS PACKAGE FOR NOW. IT IS LESS THAN EXPERIMENTAL STUFF,
+ * BUT IT IS ALREADY USED IN ONE PRIVATE PROJECT, SO IT IS KEPT HERE.
+ */
+@Experimental package gems.collections;
+
+import gems.Experimental;
