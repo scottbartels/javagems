@@ -18,7 +18,7 @@ import java.util.List;
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> type of cache objects identifiers.
  */
-abstract class AbstractCacheEvictor<K> implements CacheEvictor<K> {
+class AbstractCacheEvictor<K> implements CacheEvictor<K> {
 
 	/**
 	 * A comparator.

@@ -8,8 +8,12 @@ import java.util.List;
 
 public final class LeastRecentlyUsedEvictor<K> extends AbstractCacheEvictor<K> {
 
-	public LeastRecentlyUsedEvictor() {
+	@Deprecated public LeastRecentlyUsedEvictor() {
 		super(new LeastRecentlyUsedEvictor.ComparatorFactory<K>().create());
+	}
+
+	public static <X> CacheEvictor<X> create() {
+		return new AbstractCacheEvictor<X>((new ComparatorFactory<X>().create()));
 	}
 
 	private static final class ComparatorFactory<T> {
