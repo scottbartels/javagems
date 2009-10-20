@@ -19,7 +19,7 @@ public final class JUnitHashCodeBasedSegmenter {
 	/**
 	 * Checks whether {@code null} is forbidden as key.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullKeyIsForbidden() {
+	@Test(expected = NullPointerException.class) public void nullKeyIsForbidden() {
 		new HashCodeBasedSegmenter<Object>(1).getSegment(null);
 	}
 

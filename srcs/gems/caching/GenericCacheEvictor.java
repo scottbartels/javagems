@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.Checks;
 import gems.Limits;
 
 import java.util.ArrayList;
@@ -31,13 +32,10 @@ final class GenericCacheEvictor<K> implements CacheEvictor<K> {
 	 *
 	 * @param comparator a comparator.
 	 *
-	 * @throws IllegalArgumentException if {@code comparator} is {@code null}.
+	 * @throws NullPointerException if {@code comparator} is {@code null}.
 	 */
 	GenericCacheEvictor(final Comparator<? super CacheItemStatistics<K>> comparator) {
-		if (comparator == null) {
-			throw new IllegalArgumentException();
-		}
-		this.comparator = comparator;
+		this.comparator = Checks.ensureNotNull(comparator);
 	}
 
 	/**

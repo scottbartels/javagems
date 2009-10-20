@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.Checks;
 import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
@@ -19,7 +20,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractC
 	 * about number of items stored in that storage. Please
 	 * note that this class is only bean-like holder for the
 	 * storage size and it is responsibility of client code
-	 * to set right value everytime the storage is changed.
+	 * to set right value every time the storage is changed.
 	 */
 	private static final class StorageHolder<K, V extends Identifiable<K>> {
 
@@ -43,10 +44,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractC
 		 * @throws IllegalArgumentException if {@code storage} is {@code null}.
 		 */
 		private StorageHolder(final CacheStorage<K, V> storage) {
-			if (storage == null) {
-				throw new IllegalArgumentException();
-			}
-			this.storage = storage;
+			this.storage = Checks.ensureNotNull(storage);
 		}
 
 		/**
@@ -206,7 +204,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractC
 	 * Abstract task executed on a cache storage. In fact, it holds only
 	 * that cache storage which is a subject of real task execution.
 	 */
-	private static abstract class AbstractStorageTask<K, V extends Identifiable<K>> {
+	private abstract static class AbstractStorageTask<K, V extends Identifiable<K>> {
 
 		/**
 		 * A cache storage which is a subject of task execution.
@@ -219,8 +217,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractC
 		 * @param storage a cache storage.
 		 */
 		protected AbstractStorageTask(final StorageHolder<K, V> storage) {
-			assert storage != null;
-			this.storage = storage;
+			this.storage = Checks.assertNotNull(storage);
 		}
 
 		/**

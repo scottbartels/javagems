@@ -1,5 +1,7 @@
 package gems.caching;
 
+import gems.Checks;
+
 /**
  * A cache segmenter based on keys hash codes.
  *
@@ -26,12 +28,9 @@ public final class HashCodeBasedSegmenter<K> extends AbstractCacheSegmenter<K> {
 	 *
 	 * @return segment number for a given key.
 	 *
-	 * @throws IllegalArgumentException if {@code key} is {@code null}.
+	 * @throws NullPointerException if {@code key} is {@code null}.
 	 */
 	@Override public int getSegment(final K key) {
-		if (key == null) {
-			throw new IllegalArgumentException();
-		}
 		return Math.abs(key.hashCode() % maxSegments());
 	}
 

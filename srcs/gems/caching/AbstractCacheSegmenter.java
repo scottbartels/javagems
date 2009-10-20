@@ -21,7 +21,7 @@ abstract class AbstractCacheSegmenter<K> implements CacheSegmenter<K> {
 	 * @throws IllegalArgumentException if {@code segments} is less than 1.
 	 */
 	protected AbstractCacheSegmenter(final int segments) {
-		if (segments < 1) {
+		if (segments < 1) { // todo: Checks.ensurePositive();
 			throw new IllegalArgumentException(String.valueOf(segments));
 		}
 		this.segments = segments;

@@ -183,10 +183,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		private volatile Logger logger = Logger.NULL_LOGGER;
 
 		public Builder(final Limits<CacheLimit> limits) {
-			if (limits == null) {
-				throw new IllegalArgumentException();
-			}
-			this.limits = limits;
+			this.limits = Checks.ensureNotNull(limits);
 		}
 
 		/**
@@ -209,13 +206,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder object} enabling fluent interface usage.
 		 *
-		 * @throws IllegalArgumentException if {@code evictor} is {@code null}.
+		 * @throws NullPointerException if {@code evictor} is {@code null}.
 		 */
 		public Builder<V, K> with(final CacheEvictor<K> evictor) {
-			if (evictor == null) {
-				throw new IllegalArgumentException();
-			}
-			this.evictor = evictor;
+			this.evictor = Checks.ensureNotNull(evictor);
 			return this;
 		}
 
@@ -226,13 +220,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder object} enabling fluent interface usage.
 		 *
-		 * @throws IllegalArgumentException if {@code segmenter} is {@code null}.
+		 * @throws NullPointerException if {@code segmenter} is {@code null}.
 		 */
 		public Builder<V, K> with(final CacheSegmenter<? super K> segmenter) {
-			if (segmenter == null) {
-				throw new IllegalArgumentException();
-			}
-			this.segmenter = segmenter;
+			this.segmenter = Checks.ensureNotNull(segmenter);
 			return this;
 		}
 
@@ -243,13 +234,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder object} enabling fluent interface usage.
 		 *
-		 * @throws IllegalArgumentException if {@code handler} is {@code null}.
+		 * @throws NullPointerException if {@code handler} is {@code null}.
 		 */
 		Builder<V, K> with(final EvictionHandler<? super V> evictionHandler) { // TODO: MAKE PUBLIC WHEN HANDLER IS UNCOVERED
-			if (evictionHandler == null) {
-				throw new IllegalArgumentException();
-			}
-			this.evictionHandler = evictionHandler;
+			this.evictionHandler = Checks.ensureNotNull(evictionHandler);
 			return this;
 		}
 
@@ -260,13 +248,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws IllegalArgumentException if {@code sizer} is {@code null}.
+		 * @throws NullPointerException if {@code sizer} is {@code null}.
 		 */
 		public Builder<V, K> with(final SizeEstimator<? super V> sizer) {
-			if (sizer == null) {
-				throw new IllegalArgumentException();
-			}
-			this.sizer = sizer;
+			this.sizer = Checks.ensureNotNull(sizer);
 			return this;
 		}
 
@@ -277,13 +262,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws IllegalArgumentException if {@code factory} is {@code null}.
+		 * @throws NullPointerException if {@code factory} is {@code null}.
 		 */
 		Builder<V, K> with(final StorageFactory<K, V> factory) { // TODO: MAKE PUBLIC WHEN STORAGE FACTORY IS UNCOVERED
-			if (factory == null) {
-				throw new IllegalArgumentException();
-			}
-			this.storageFactory = factory;
+			this.storageFactory = Checks.ensureNotNull(factory);
 			return this;
 		}
 
@@ -294,13 +276,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws IllegalArgumentException if {@code threadPool} is {@code null}.
+		 * @throws NullPointerException if {@code threadPool} is {@code null}.
 		 */
 		public Builder<V, K> with(final ExecutorService threadPool) {
-			if (threadPool == null) {
-				throw new IllegalArgumentException();
-			}
-			this.threadPool = threadPool;
+			this.threadPool = Checks.ensureNotNull(threadPool);
 			return this;
 		}
 
@@ -311,13 +290,10 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws IllegalArgumentException if {@code logger} is {@code null}.
+		 * @throws NullPointerException if {@code logger} is {@code null}.
 		 */
 		public Builder<V, K> with(final Logger logger) {
-			if (logger == null) {
-				throw new IllegalArgumentException();
-			}
-			this.logger = logger;
+			this.logger = Checks.ensureNotNull(logger);
 			return this;
 		}
 

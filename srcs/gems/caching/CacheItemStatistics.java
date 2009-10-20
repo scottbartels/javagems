@@ -120,7 +120,7 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	 * @throws IllegalStateException if the object is a snapshot.
 	 */
 	synchronized void recordSize(final long size) {
-		if (size < 0) {
+		if (size < 0) { // todo: Checks.ensureNonNegative()
 			throw new IllegalArgumentException(String.valueOf(size));
 		}
 		if (isSnapshot) {
@@ -188,7 +188,7 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	 * @throws IllegalStateException if the object is not a snapshot.
 	 */
 	public long getDateOfBirth() {
-		if (!isSnapshot) {
+		if (!isSnapshot) { // todo: checks.ensure(), checks.avoid()
 			throw new IllegalStateException();
 		}
 		return dateOfBirth;
