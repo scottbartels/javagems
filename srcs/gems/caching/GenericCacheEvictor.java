@@ -72,19 +72,21 @@ final class GenericCacheEvictor<K> implements CacheEvictor<K> {
 		return result;
 	}
 
-	@SuppressWarnings({"RedundantIfStatement"}) private static boolean satisfyLimits(
+	private static boolean satisfyLimits(
 			final CacheItemStatistics<?> item,
 			final Limits<CacheLimit> limits,
 			final int cumulativeCount,
 			final long cumulativeSize
 	) {
-		if (cumulativeCount + 1 > limits.getLimit(CacheLimit.ITEMS).intValue()) {
-			return false; // number of items exceeds
-		}
-		if (cumulativeSize + item.getSize() > limits.getLimit(CacheLimit.SIZE).longValue()) {
-			return false; // size exceeds
-		}
-		return true;
+		return !countExceeded(limits, cumulativeCount) && !sizeExceeded(limits, cumulativeSize + item.getSize());
+	}
+
+	private static boolean sizeExceeded(final Limits<CacheLimit> limits, final long size) {
+		return size > limits.getLimit(CacheLimit.SIZE).longValue();
+	}
+
+	private static boolean countExceeded(final Limits<CacheLimit> limits, final int cumulativeCount) {
+		return cumulativeCount + 1 > limits.getLimit(CacheLimit.ITEMS).intValue();
 	}
 
 	/**
