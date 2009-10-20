@@ -17,7 +17,6 @@ interface EvictionHandler<T> {
 
 		/**
 		 * Does nothing.
-		 * `
 		 *
 		 * @param value {@inheritDoc}
 		 *

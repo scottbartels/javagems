@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.Checks;
 import gems.Identifiable;
 import gems.ObjectProvider;
 import gems.Option;
@@ -71,7 +72,7 @@ public final class CachingObjectProvider<V extends Identifiable<K>, K> implement
 	 * @param keyFilter a caching-acceptance filter based on object keys analysis.
 	 * @param valueFilter a caching-acceptance filter based on objects analysis.
 	 *
-	 * @throws IllegalArgumentException if any of attributes is {@code null}.
+	 * @throws NullPointerException if any of attributes is {@code null}.
 	 */
 	public CachingObjectProvider(
 			final Cache<V, K> cache,
@@ -79,16 +80,10 @@ public final class CachingObjectProvider<V extends Identifiable<K>, K> implement
 			final Filter<? super K> keyFilter,
 			final Filter<? super V> valueFilter
 	) {
-		if (cache == null) {
-			throw new IllegalArgumentException();
-		}
-		if (provider == null) {
-			throw new IllegalArgumentException();
-		}
-		this.cache = cache;
-		this.provider = provider;
-		this.keyFilter = keyFilter;
-		this.valueFilter = valueFilter;
+		this.cache = Checks.ensureNotNull(cache);
+		this.provider = Checks.ensureNotNull(provider);
+		this.keyFilter = Checks.ensureNotNull(keyFilter);
+		this.valueFilter = Checks.ensureNotNull(valueFilter);
 	}
 
 	/**

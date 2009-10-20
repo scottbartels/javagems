@@ -1,6 +1,7 @@
 package gems.caching;
 
 import gems.AbstractIdentifiable;
+import gems.Checks;
 import gems.Identifiable;
 import gems.Option;
 
@@ -19,7 +20,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCache
 
 	FlatCacheStorage(final CacheProperties<V, K> properties) {
 		super(properties);
-		values = getProperties().getStorageFactory().getStorage();
+		values = Checks.assertNotNull(getProperties().getStorageFactory().getStorage());
 	}
 
 	@Override public Option<V> get(final K key) {
@@ -111,7 +112,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCache
 		 */
 		/*### private ###*/
 		CacheItem(final V value, final long size) {
-			super(value.getId());
+			super(Checks.assertNotNull(value).getId());
 			statistics = new CacheItemStatistics<K>(value.getId());
 			update(value, size);
 		}

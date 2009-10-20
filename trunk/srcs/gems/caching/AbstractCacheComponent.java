@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.Checks;
 import gems.Identifiable;
 
 /**
@@ -21,13 +22,10 @@ abstract class AbstractCacheComponent<V extends Identifiable<K>, K> {
 	 *
 	 * @param properties a cache properties.
 	 *
-	 * @throws IllegalArgumentException if {@code properties} is {@code null}.
+	 * @throws NullPointerException if {@code properties} is {@code null}.
 	 */
 	protected AbstractCacheComponent(final CacheProperties<V, K> properties) {
-		if (properties == null) {
-			throw new IllegalArgumentException();
-		}
-		this.properties = properties;
+		this.properties = Checks.ensureNotNull(properties);
 	}
 
 	/**
