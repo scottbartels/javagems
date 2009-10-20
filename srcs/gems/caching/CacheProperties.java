@@ -150,7 +150,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		/**
 		 * A cache evictor.
 		 */
-		private volatile CacheEvictor<K> evictor = new LeastRecentlyUsedEvictor<K>();
+		private volatile CacheEvictor<K> evictor = LeastRecentlyUsedEvictor.create();
 
 		/**
 		 * A cache segmenter.

@@ -6,14 +6,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public final class LeastRecentlyUsedEvictor<K> extends AbstractCacheEvictor<K> {
-
-	@Deprecated public LeastRecentlyUsedEvictor() {
-		super(new LeastRecentlyUsedEvictor.ComparatorFactory<K>().create());
-	}
+@Deprecated public final class LeastRecentlyUsedEvictor<K> {
 
 	public static <X> CacheEvictor<X> create() {
-		return new AbstractCacheEvictor<X>((new ComparatorFactory<X>().create()));
+		return new GenericCacheEvictor<X>((new ComparatorFactory<X>().create()));
 	}
 
 	private static final class ComparatorFactory<T> {
