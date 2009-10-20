@@ -11,9 +11,7 @@ import java.util.List;
 
 /**
  * A cache evictor implementation based on a particular ordering
- * of cache item statistics provide by an external comparator.
- * the only responsibility of a subclass is to provide that
- * comparator during evictor creation.
+ * of cache item statistics provided by an external comparator.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
  * @param <K> type of cache objects identifiers.
