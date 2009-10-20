@@ -35,7 +35,7 @@ final class GenericCacheEvictor<K> implements CacheEvictor<K> {
 	 *
 	 * @throws IllegalArgumentException if {@code comparator} is {@code null}.
 	 */
-	protected GenericCacheEvictor(final Comparator<? super CacheItemStatistics<K>> comparator) {
+	GenericCacheEvictor(final Comparator<? super CacheItemStatistics<K>> comparator) {
 		if (comparator == null) {
 			throw new IllegalArgumentException();
 		}
