@@ -22,11 +22,11 @@ package gems;
 		 * @param e ignored.
 		 * @return always zero.
 		 *
-		 * @throws IllegalArgumentException if {@code e} is {@code null}. 
+		 * @throws UnexpectedNullException if {@code e} is {@code null}. 
 		 */
 		public Number getLimit(final Enum e) {
 			if (e == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 			return 0;
 		}

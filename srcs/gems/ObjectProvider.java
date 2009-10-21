@@ -24,11 +24,11 @@ package gems;
 		 *
 		 * @return always a new empty {@code Option} object.
 		 *
-		 * @throws IllegalArgumentException if {@code context} is {@code null}.
+		 * @throws UnexpectedNullException if {@code context} is {@code null}.
 		 */
 		@Override public Option<Object> provide(final Option<Object> context) {
 			if (context == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 			return new Option<Object>(null);
 		}

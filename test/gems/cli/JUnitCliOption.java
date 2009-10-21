@@ -1,5 +1,6 @@
 package gems.cli;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public final class JUnitCliOption {
 	/**
 	 * Checks whether the constructor forbids a {@code null} value as an id.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNullId() {
+	@Test(expected = UnexpectedNullException.class) public void constructorForbidsNullId() {
 		new CliOption(null, CliOptionType.NONE);
 	}
 

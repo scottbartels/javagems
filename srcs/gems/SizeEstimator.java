@@ -23,11 +23,11 @@ package gems;
 		 *
 		 * @return always zero.
 		 *
-		 * @throws IllegalArgumentException if {@code object} is {@code null}.
+		 * @throws UnexpectedNullException if {@code object} is {@code null}.
 		 */
 		@Override public long estimate(final Object object) {
 			if (object == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 			return 0L;
 		}

@@ -13,7 +13,7 @@ public final class JUnitAbstractIdentifiable {
 	/**
 	 * Checks whether a {@code null} ID is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullIdIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullIdIsForbidden() {
 		new A(null);
 	}
 
@@ -27,6 +27,7 @@ public final class JUnitAbstractIdentifiable {
 	/**
 	 * Checks whether object is not equal to a {@code null} value.
 	 */
+	@SuppressWarnings({"ObjectEqualsNull"})
 	@Test public void notEqualToNull() {
 		Assert.assertFalse(new A("X").equals(null));
 	}
@@ -52,7 +53,7 @@ public final class JUnitAbstractIdentifiable {
 	/**
 	 * Checks whether two different objects with logically different ids are considered to be different.
 	 */
-	@Test public void differsForDiffrentIds() {
+	@Test public void differsForDifferentIds() {
 		final A x = new A("x");
 		final A y = new A("y");
 		Assert.assertFalse(x.equals(y));

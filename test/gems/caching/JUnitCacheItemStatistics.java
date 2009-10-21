@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public final class JUnitCacheItemStatistics {
 	/**
 	 * Checks whether a {@code null} ID is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullIdIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullIdIsForbidden() {
 		new CacheItemStatistics<Object>(null);
 	}
 

@@ -13,7 +13,7 @@ public final class JUnitSizeEstimator {
 	/**
 	 * Checks whether null-implementation of the interface forbids a {@code null} object.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullImplementationForbidsNullObject() {
+	@Test(expected = UnexpectedNullException.class) public void nullImplementationForbidsNullObject() {
 		SizeEstimator.ZERO_ESTIMATOR.estimate(null);
 	}
 

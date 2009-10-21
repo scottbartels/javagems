@@ -21,13 +21,10 @@ public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 	 *
 	 * @param id an ID.
 	 *
-	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 * @throws UnexpectedNullException if {@code id} is {@code null}.
 	 */
 	protected AbstractIdentifiable(final T id) {
-		if (id == null) {
-			throw new IllegalArgumentException();
-		}
-		this.id = id;
+		this.id = Checks.ensureNotNull(id);
 	}
 
 	/**
