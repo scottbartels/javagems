@@ -1,0 +1,29 @@
+#summary Usage of gems.Checks functions
+
+= Introduction =
+
+Before:
+
+{{{
+	public CliParserImpl(final String prefix, final String stopword) {
+		if (prefix == null) {
+			throw new IllegalArgumentException();
+		}
+		if (stopword == null) {
+			throw new IllegalArgumentException();
+		}
+		this.prefix = prefix;
+		this.stopword = stopword;
+	}
+}}}
+
+After: 
+
+{{{
+
+	public CliParserImpl(final String prefix, final String stopword) {
+		this.prefix = Checks.ensureNotNull(prefix);
+		this.stopword = Checks.ensureNotNull(stopword);
+	}
+
+}}}
