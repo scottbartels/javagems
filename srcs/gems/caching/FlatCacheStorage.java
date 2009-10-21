@@ -178,7 +178,7 @@ final class FlatCacheStorage<K, V extends Identifiable<K>> extends AbstractCache
 
 		/**
 		 * Checks whether the cache item is evictable. The cache item is considered
-		 * to be evictable, if its cahed object is still in the cache and it has not
+		 * to be evictable, if its cached object is still in the cache and it has not
 		 * been evicted yet.
 		 *
 		 * @return {@code true} if the cache item can be evicted, {@code false} otherwise.

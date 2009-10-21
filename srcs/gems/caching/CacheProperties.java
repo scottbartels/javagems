@@ -5,6 +5,7 @@ import gems.Identifiable;
 import gems.Limits;
 import gems.SizeEstimator;
 import gems.StaticLimits;
+import gems.UnexpectedNullException;
 import gems.logging.Logger;
 
 import java.util.concurrent.ExecutorService;
@@ -206,7 +207,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder object} enabling fluent interface usage.
 		 *
-		 * @throws NullPointerException if {@code evictor} is {@code null}.
+		 * @throws UnexpectedNullException if {@code evictor} is {@code null}.
 		 */
 		public Builder<V, K> with(final CacheEvictor<K> evictor) {
 			this.evictor = Checks.ensureNotNull(evictor);
@@ -220,7 +221,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder object} enabling fluent interface usage.
 		 *
-		 * @throws NullPointerException if {@code segmenter} is {@code null}.
+		 * @throws UnexpectedNullException if {@code segmenter} is {@code null}.
 		 */
 		public Builder<V, K> with(final CacheSegmenter<? super K> segmenter) {
 			this.segmenter = Checks.ensureNotNull(segmenter);
@@ -234,7 +235,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder object} enabling fluent interface usage.
 		 *
-		 * @throws NullPointerException if {@code handler} is {@code null}.
+		 * @throws UnexpectedNullException if {@code handler} is {@code null}.
 		 */
 		Builder<V, K> with(final EvictionHandler<? super V> evictionHandler) { // TODO: MAKE PUBLIC WHEN HANDLER IS UNCOVERED
 			this.evictionHandler = Checks.ensureNotNull(evictionHandler);
@@ -248,7 +249,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws NullPointerException if {@code sizer} is {@code null}.
+		 * @throws UnexpectedNullException if {@code sizer} is {@code null}.
 		 */
 		public Builder<V, K> with(final SizeEstimator<? super V> sizer) {
 			this.sizer = Checks.ensureNotNull(sizer);
@@ -262,7 +263,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws NullPointerException if {@code factory} is {@code null}.
+		 * @throws UnexpectedNullException if {@code factory} is {@code null}.
 		 */
 		Builder<V, K> with(final StorageFactory<K, V> factory) { // TODO: MAKE PUBLIC WHEN STORAGE FACTORY IS UNCOVERED
 			this.storageFactory = Checks.ensureNotNull(factory);
@@ -276,7 +277,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws NullPointerException if {@code threadPool} is {@code null}.
+		 * @throws UnexpectedNullException if {@code threadPool} is {@code null}.
 		 */
 		public Builder<V, K> with(final ExecutorService threadPool) {
 			this.threadPool = Checks.ensureNotNull(threadPool);
@@ -290,7 +291,7 @@ public final class CacheProperties<V extends Identifiable<K>, K> { // todo: revi
 		 *
 		 * @return this {@code Builder} enabling fluent interface usage.
 		 *
-		 * @throws NullPointerException if {@code logger} is {@code null}.
+		 * @throws UnexpectedNullException if {@code logger} is {@code null}.
 		 */
 		public Builder<V, K> with(final Logger logger) {
 			this.logger = Checks.ensureNotNull(logger);
