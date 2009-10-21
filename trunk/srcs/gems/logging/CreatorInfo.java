@@ -7,6 +7,9 @@ package gems.logging;
  */
 public final class CreatorInfo {
 
+	/**
+	 * An empty string.
+	 */
 	private static final String EMPTY_STRING = "";
 
 	/**
