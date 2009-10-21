@@ -1,5 +1,6 @@
 package gems.filtering;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,14 +19,14 @@ public final class JUnitFilter {
 	/**
 	 * Checks whether the {@code ALLOW_ALL} null-implementaiton forbids a {@code null} argument.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void allowAllForbidsNull() {
+	@Test(expected = UnexpectedNullException.class) public void allowAllForbidsNull() {
 		Filter.ALLOW_ALL.allows(null);
 	}
 
 	/**
 	 * Checks whether the {@code DENY_ALL} null-implementaiton forbids a {@code null} argument.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void denyAllForbidsNull() {
+	@Test(expected = UnexpectedNullException.class) public void denyAllForbidsNull() {
 		Filter.DENY_ALL.allows(null);
 	}
 

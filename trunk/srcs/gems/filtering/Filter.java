@@ -1,5 +1,7 @@
 package gems.filtering;
 
+import gems.UnexpectedNullException;
+
 /**
  * A <em>filter</em> gives a possibility to decide about processing
  * of any particular object. A type of checked object is specified
@@ -27,11 +29,11 @@ public interface Filter<T> {
 		 *
 		 * @return always {@code true}.
 		 *
-		 * @throws IllegalArgumentException if {@code object} is {@code null}.
+		 * @throws UnexpectedNullException if {@code object} is {@code null}.
 		 */
 		@Override public boolean allows(final Object object) {
 			if (object == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 			return true;
 		}
@@ -51,11 +53,11 @@ public interface Filter<T> {
 		 *
 		 * @return always {@code false}.
 		 *
-		 * @throws IllegalArgumentException if {@code object} is {@code null}.
+		 * @throws UnexpectedNullException if {@code object} is {@code null}.
 		 */
 		@Override public boolean allows(final Object object) {
 			if (object == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 			return false;
 		}

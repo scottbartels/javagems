@@ -1,5 +1,6 @@
 package gems.filtering;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public final class JUnitNegatingFilter {
 	/**
 	 * Checks whether the constructor forbids a {@code null} argument.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNull() {
+	@Test(expected = UnexpectedNullException.class) public void constructorForbidsNull() {
 		new NegatingFilter<Object>(null);
 	}
 

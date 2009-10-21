@@ -1,5 +1,6 @@
 package gems.filtering;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public final class JUnitFilterChain {
 	/**
 	 * hecks whether a {@code null} chaining policy is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNull() {
+	@Test(expected = UnexpectedNullException.class) public void constructorForbidsNull() {
 		new FilterChain<Object>(null);
 	}
 
@@ -39,7 +40,7 @@ public final class JUnitFilterChain {
 	/**
 	 * Checks whether adding a {@code null} filter to the chain is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void addingNullFilterIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void addingNullFilterIsForbidden() {
 		new FilterChain<Object>(FilterChainingPolicy.SATISFY_ALL).add(null);
 	}
 
