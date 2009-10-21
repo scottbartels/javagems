@@ -1,5 +1,6 @@
 package gems.cli;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,28 +38,28 @@ public final class JUnitCliParserImpl {
 	/**
 	 * Checks whether a {@code null} value as an options prefix is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsPrefixIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsPrefixIsForbidden() {
 		new CliParserImpl(null, "");
 	}
 
 	/**
 	 * Checks whether a {@code null} value as a stopword is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsStopwordIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsStopwordIsForbidden() {
 		new CliParserImpl("", null);
 	}
 
 	/**
 	 * Checks whether a {@code null} value as an arguments array is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsArgsIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsArgsIsForbidden() {
 		parser.parse(null, OPTIONS);
 	}
 
 	/**
 	 * Checks whether a {@code null} value as an actuator ID is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsOptionsIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsOptionsIsForbidden() {
 		parser.parse(new String[0], null);
 	}
 

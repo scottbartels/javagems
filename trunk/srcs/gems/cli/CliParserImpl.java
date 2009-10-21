@@ -1,5 +1,8 @@
 package gems.cli;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
+
 /**
  * A basic inplementation of {@code CliParser} interface with the following features:
  * <ul>
@@ -36,32 +39,20 @@ public final class CliParserImpl implements CliParser {
 	 * @param prefix an options' prefix.
 	 * @param stopword a parser stopword.
 	 *
-	 * @throws IllegalArgumentException if {@code stopword} is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	public CliParserImpl(final String prefix, final String stopword) {
-		if (prefix == null) {
-			throw new IllegalArgumentException();
-		}
-		if (stopword == null) {
-			throw new IllegalArgumentException();
-		}
-		this.prefix = prefix;
-		this.stopword = stopword;
+		this.prefix = Checks.ensureNotNull(prefix);
+		this.stopword = Checks.ensureNotNull(stopword);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	@Override public CliActuators parse(final String[] args, final CliOptions options) {
-		if (args == null) {
-			throw new IllegalArgumentException();
-		}
-		if (options == null) {
-			throw new IllegalArgumentException();
-		}
-		return parseImpl(args, options);
+		return parseImpl(Checks.ensureNotNull(args), Checks.ensureNotNull(options));
 	}
 
 	/**

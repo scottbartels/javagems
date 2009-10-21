@@ -90,7 +90,7 @@ import java.util.LinkedList;
 	 *
 	 * @param o a compared object.
 	 *
-	 * @return {@code true} if compared object is a composed comarator containing equal
+	 * @return {@code true} if compared object is a composed comparator containing equal
 	 *         comparators in the same order as this comparator, {@code false} otherwise.
 	 */
 	@Override public boolean equals(final Object o) {

@@ -67,7 +67,7 @@ public final class JUnitCliActuator {
 	/**
 	 * Checks whether a {@code null} value as a value is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void addingNullValueIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void addingNullValueIsForbidden() {
 		actuator.addValue(null);
 	}
 

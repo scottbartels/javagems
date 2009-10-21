@@ -1,5 +1,8 @@
 package gems.cli;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,11 +25,11 @@ public final class CliOptions {
 	 *
 	 * @return an option with a given ID or {@code null} if no such option is found.
 	 *
-	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 * @throws UnexpectedNullException if {@code id} is {@code null}.
 	 */
 	public CliOption getOptionById(final String id) {
 		if (id == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		for (final CliOption option : options) {
 			if (option.getId().equals(id)) {
@@ -43,14 +46,11 @@ public final class CliOptions {
 	 *
 	 * @param option an added option.
 	 *
-	 * @throws IllegalArgumentException if {@code option} is {@code null}.
+	 * @throws UnexpectedNullException if {@code option} is {@code null}.
 	 * @throws IllegalStateException if the object already contains an option with the same ID as a given option's ID.
 	 */
 	public void add(final CliOption option) {
-		if (option == null) {
-			throw new IllegalArgumentException();
-		}
-		if (options.contains(option)) {
+		if (options.contains(Checks.ensureNotNull(option))) {
 			throw new IllegalStateException();
 		}
 		options.add(option);

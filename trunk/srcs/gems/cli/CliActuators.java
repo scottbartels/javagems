@@ -1,5 +1,8 @@
 package gems.cli;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,13 +41,10 @@ public final class CliActuators {
 	 *
 	 * @param rest an added resting command line argument.
 	 *
-	 * @throws IllegalArgumentException if {@code rest} is {@code null}.
+	 * @throws UnexpectedNullException if {@code rest} is {@code null}.
 	 */
 	public void addRest(final String rest) {
-		if (rest == null) {
-			throw new IllegalArgumentException();
-		}
-		rests.add(rest);
+		rests.add(Checks.ensureNotNull(rest));
 	}
 
 	/**
@@ -52,14 +52,11 @@ public final class CliActuators {
 	 *
 	 * @param actuator an added actuator.
 	 *
-	 * @throws IllegalArgumentException if {@code actuator} is {@code null}.
+	 * @throws UnexpectedNullException if {@code actuator} is {@code null}.
 	 * @throws IllegalStateException if an actuator with the same ID as a given actuator's ID is already contained in the object.
 	 */
 	public void addActuator(final CliActuator actuator) {
-		if (actuator == null) {
-			throw new IllegalArgumentException();
-		}
-		if (actuators.contains(actuator)) {
+		if (actuators.contains(Checks.ensureNotNull(actuator))) {
 			throw new IllegalStateException();
 		}
 		actuators.add(actuator);
@@ -72,11 +69,11 @@ public final class CliActuators {
 	 *
 	 * @return an actuator with a given ID or {@code null} if no such actuator is found.
 	 *
-	 * @throws IllegalArgumentException if {@code id} is {@code null}.
+	 * @throws UnexpectedNullException if {@code id} is {@code null}.
 	 */
 	public CliActuator getActuatorById(final String id) {
 		if (id == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		for (final CliActuator actuator : actuators) {
 			if (actuator.getId().equals(id)) {

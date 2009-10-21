@@ -1,6 +1,8 @@
 package gems.cli;
 
 import gems.AbstractIdentifiable;
+import gems.Checks;
+import gems.UnexpectedNullException;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -24,7 +26,8 @@ public final class CliActuator extends AbstractIdentifiable<String> {
 	 *
 	 * @param id an actuator identifier.
 	 *
-	 * @throws IllegalArgumentException if {@code id} is {@code null} or if it is an empty string.
+	 * @throws UnexpectedNullException if {@code id} is {@code null}.
+	 * @throws IllegalArgumentException if {@code id} is an empty string.
 	 */
 	public CliActuator(final String id) {
 		super(id);
@@ -45,13 +48,10 @@ public final class CliActuator extends AbstractIdentifiable<String> {
 	 *
 	 * @param value an added value.
 	 *
-	 * @throws IllegalArgumentException if {@code value} is {@code null}.
+	 * @throws UnexpectedNullException if {@code value} is {@code null}.
 	 */
 	public void addValue(final String value) {
-		if (value == null) {
-			throw new IllegalArgumentException();
-		}
-		values.add(value);
+		values.add(Checks.ensureNotNull(value));
 	}
 
 	/**
