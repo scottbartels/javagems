@@ -1,5 +1,6 @@
 package gems.logging;
 
+import gems.UnexpectedNullException;
 import org.junit.Test;
 
 /**
@@ -10,7 +11,7 @@ public final class JUnitLoggingHandler {
 	/**
 	 * Checks whether a {@code null} logging record is forbidden by logging handler null-implementation.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullRecordIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullRecordIsForbidden() {
 		LoggingHandler.NULL_HANDLER.handle(null);
 	}
 

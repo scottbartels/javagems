@@ -1,5 +1,6 @@
 package gems.logging;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,14 +32,14 @@ public final class JUnitLoggingTag {
 	/**
 	 * Checks whether a {@code null} value as a severity is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsSeverityIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsSeverityIsForbidden() {
 		new LoggingTag(LoggingFacility.NULL_FACILITY, null);
 	}
 
 	/**
 	 * Checks whether a {@code null} value as a facility is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsFacilityIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsFacilityIsForbidden() {
 		new LoggingTag(null, ALERT);
 	}
 

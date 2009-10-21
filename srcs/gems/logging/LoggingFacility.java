@@ -1,6 +1,7 @@
 package gems.logging;
 
 import gems.AbstractIdentifiable;
+import gems.UnexpectedNullException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,11 +52,11 @@ public final class LoggingFacility extends AbstractIdentifiable<String> {
 	 *
 	 * @return a logging facility with a requested name.
 	 *
-	 * @throws IllegalArgumentException if {@code name} is {@code null}.
+	 * @throws UnexpectedNullException if {@code name} is {@code null}.
 	 */
 	public static synchronized LoggingFacility getFacility(final String name) {
 		if (name == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		final LoggingFacility known = KNOWN_FACILITIES.get(name);
 		if (known != null) {

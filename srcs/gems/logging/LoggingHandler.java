@@ -1,5 +1,7 @@
 package gems.logging;
 
+import gems.UnexpectedNullException;
+
 /**
  * Defines operation for a logging record handling.
  *
@@ -18,11 +20,11 @@ public interface LoggingHandler {
 		 *
 		 * @param record ignored, but a sanity check for a {@code null} argument is still performed.
 		 *
-		 * @throws IllegalArgumentException if {@code record} is {@code null}.
+		 * @throws UnexpectedNullException if {@code record} is {@code null}.
 		 */
 		@Override public void handle(final LoggingRecord record) {
 			if (record == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 			// really nothing here
 		}
