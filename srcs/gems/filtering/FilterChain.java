@@ -1,6 +1,8 @@
 package gems.filtering;
 
+import gems.Checks;
 import gems.ShouldNeverHappenException;
+import gems.UnexpectedNullException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,13 +36,10 @@ public final class FilterChain<T> implements Filter<T> {
 	 *
 	 * @param policy a chaining policy.
 	 *
-	 * @throws IllegalArgumentException if {@code policy} is {@code null}.
+	 * @throws UnexpectedNullException if {@code policy} is {@code null}.
 	 */
 	public FilterChain(final FilterChainingPolicy policy) {
-		if (policy == null) {
-			throw new IllegalArgumentException();
-		}
-		this.policy = policy;
+		this.policy = Checks.ensureNotNull(policy);
 	}
 
 	/**
@@ -48,13 +47,10 @@ public final class FilterChain<T> implements Filter<T> {
 	 *
 	 * @param filter an added filter.
 	 *
-	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
+	 * @throws UnexpectedNullException if {@code filter} is {@code null}.
 	 */
 	public void add(final Filter<? super T> filter) {
-		if (filter == null) {
-			throw new IllegalArgumentException();
-		}
-		filters.add(filter);
+		filters.add(Checks.ensureNotNull(filter));
 	}
 
 	/**
@@ -62,7 +58,7 @@ public final class FilterChain<T> implements Filter<T> {
 	 */
 	@Override public boolean allows(final T object) {
 		/*
-		 * A check for null object SHOULD NOT be performed here, because underlaying
+		 * A check for null object SHOULD NOT be performed here, because custom
 		 * filters can be designed to handle null value as a valid input.
 		 */
 		if (isEmpty()) {  // A fast path for an empty chain.
