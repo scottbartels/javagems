@@ -2,6 +2,9 @@
 
 = Introduction =
 
+* concise
+* type safe
+
 Before:
 
 {{{
@@ -24,6 +27,32 @@ After:
 	public CliParserImpl(final String prefix, final String stopword) {
 		this.prefix = Checks.ensureNotNull(prefix);
 		this.stopword = Checks.ensureNotNull(stopword);
+	}
+
+}}}
+
+
+----
+
+Before: 
+
+{{{
+	@Override public CliActuators parse(final String[] args, final CliOptions options) {
+		if (args == null) {
+			throw new IllegalArgumentException();
+		}
+		if (options == null) {
+			throw new IllegalArgumentException();
+		}
+		return parseImpl(args, options);
+	}
+}}}
+
+After: 
+
+{{{
+	@Override public CliActuators parse(final String[] args, final CliOptions options) {
+		return parseImpl(Checks.ensureNotNull(args), Checks.ensureNotNull(options));
 	}
 
 }}}
