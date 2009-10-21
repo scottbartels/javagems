@@ -2,6 +2,7 @@ package gems.caching;
 
 import gems.Checks;
 import gems.Identifiable;
+import gems.UnexpectedNullException;
 
 /**
  * A cache component is holding an internal defense copy of cache properties and provides them for subclasses.
@@ -22,7 +23,7 @@ abstract class AbstractCacheComponent<V extends Identifiable<K>, K> {
 	 *
 	 * @param properties a cache properties.
 	 *
-	 * @throws NullPointerException if {@code properties} is {@code null}.
+	 * @throws UnexpectedNullException if {@code properties} is {@code null}.
 	 */
 	protected AbstractCacheComponent(final CacheProperties<V, K> properties) {
 		this.properties = Checks.ensureNotNull(properties);

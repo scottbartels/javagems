@@ -4,6 +4,7 @@ import gems.Checks;
 import gems.ExceptionHandler;
 import gems.Identifiable;
 import gems.Option;
+import gems.UnexpectedNullException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +42,7 @@ final class ParallelCacheStorage<K, V extends Identifiable<K>> extends AbstractC
 		 *
 		 * @param storage a storage.
 		 *
-		 * @throws IllegalArgumentException if {@code storage} is {@code null}.
+		 * @throws UnexpectedNullException if {@code storage} is {@code null}.
 		 */
 		private StorageHolder(final CacheStorage<K, V> storage) {
 			this.storage = Checks.ensureNotNull(storage);

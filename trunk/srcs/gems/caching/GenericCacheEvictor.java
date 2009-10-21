@@ -2,6 +2,7 @@ package gems.caching;
 
 import gems.Checks;
 import gems.Limits;
+import gems.UnexpectedNullException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +33,7 @@ final class GenericCacheEvictor<K> implements CacheEvictor<K> {
 	 *
 	 * @param comparator a comparator.
 	 *
-	 * @throws NullPointerException if {@code comparator} is {@code null}.
+	 * @throws UnexpectedNullException if {@code comparator} is {@code null}.
 	 */
 	GenericCacheEvictor(final Comparator<? super CacheItemStatistics<K>> comparator) {
 		this.comparator = Checks.ensureNotNull(comparator);
