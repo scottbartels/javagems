@@ -1,5 +1,6 @@
 package gems.logging;
 
+import gems.UnexpectedNullException;
 import static gems.logging.Logger.NULL_LOGGER;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,16 +15,14 @@ public final class JUnitLogger {
 	/**
 	 * Checks whether the null-implementation forbids a {@code null} value as a logging handler.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void nullImplementationForbidsNullHandler() {
+	@Test(expected = UnexpectedNullException.class) public void nullImplementationForbidsNullHandler() {
 		NULL_LOGGER.addHandler(null);
 	}
 
 	/**
 	 * Checks whether the null implemantation forbdis a {@code null} value as a logging record.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void nullImplementationForbidsNullLoggingRecord() {
+	@Test(expected = UnexpectedNullException.class) public void nullImplementationForbidsNullLoggingRecord() {
 		NULL_LOGGER.log(null);
 	}
 

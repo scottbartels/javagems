@@ -1,5 +1,7 @@
 package gems.logging;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import static gems.logging.LoggingFacility.NULL_FACILITY;
 
 /**
@@ -40,17 +42,11 @@ public final class LoggingEntryPoint {
 	 * @param logger a wrapped logger.
 	 * @param severity a default severity.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	public LoggingEntryPoint(final Logger logger, final LoggingSeverity severity) {
-		if (logger == null) {
-			throw new IllegalArgumentException();
-		}
-		if (severity == null) {
-			throw new IllegalArgumentException();
-		}
-		this.logger = logger;
-		defaultSeverity = severity;
+		this.logger = Checks.ensureNotNull(logger);
+		this.defaultSeverity = Checks.ensureNotNull(severity);
 	}
 
 	/**
@@ -77,13 +73,10 @@ public final class LoggingEntryPoint {
 	 * @param object a logged object.
 	 * @param severity a severity.
 	 *
-	 * @throws IllegalArgumentException if {@code severity} is {@code null}.
+	 * @throws UnexpectedNullException if {@code severity} is {@code null}.
 	 */
 	public void log(final Object object, final LoggingSeverity severity) {
-		if (severity == null) {
-			throw new IllegalArgumentException();
-		}
-		logger.log(new LoggingRecord(object, new LoggingTag(NULL_FACILITY, severity)));
+		logger.log(new LoggingRecord(object, new LoggingTag(NULL_FACILITY, Checks.ensureNotNull(severity))));
 	}
 
 	/**
@@ -92,13 +85,10 @@ public final class LoggingEntryPoint {
 	 * @param object a logged object.
 	 * @param facility a logging facility.
 	 *
-	 * @throws IllegalArgumentException if {@code facility} is {@code null}.
+	 * @throws UnexpectedNullException if {@code facility} is {@code null}.
 	 */
 	public void log(final Object object, final LoggingFacility facility) {
-		if (facility == null) {
-			throw new IllegalArgumentException();
-		}
-		logger.log(new LoggingRecord(object, new LoggingTag(facility, defaultSeverity)));
+		logger.log(new LoggingRecord(object, new LoggingTag(Checks.ensureNotNull(facility), defaultSeverity)));
 	}
 
 	/**
@@ -108,16 +98,18 @@ public final class LoggingEntryPoint {
 	 * @param facility a logging facility.
 	 * @param severity a logging severity.
 	 *
-	 * @throws IllegalArgumentException if any of {@code facility} or {@code severity} is {@code null}.
+	 * @throws UnexpectedNullException if any of {@code facility} or {@code severity} is {@code null}.
 	 */
 	public void log(final Object object, final LoggingFacility facility, final LoggingSeverity severity) {
-		if (facility == null) {
-			throw new IllegalArgumentException();
-		}
-		if (severity == null) {
-			throw new IllegalArgumentException();
-		}
-		logger.log(new LoggingRecord(object, new LoggingTag(facility, severity)));
+		logger.log(
+				new LoggingRecord(
+						object,
+						new LoggingTag(
+								Checks.ensureNotNull(facility),
+								Checks.ensureNotNull(severity)
+						)
+				)
+		);
 	}
 
 	/**

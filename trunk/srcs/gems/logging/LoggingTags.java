@@ -1,5 +1,8 @@
 package gems.logging;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,19 +44,16 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	 *
 	 * @param tags logging tags.
 	 *
-	 * @throws IllegalArgumentException if {@code tags} or any of its elements is {@code null}.
+	 * @throws UnexpectedNullException if {@code tags} or any of its elements is {@code null}.
 	 */
 	LoggingTags(final LoggingTag[] tags) {
-		if (tags == null) {
-			throw new IllegalArgumentException();
-		}
-		if (tags.length == 0) {
+		if (Checks.ensureNotNull(tags).length == 0) {
 			throw new IllegalArgumentException();
 		}
 		LoggingSeverity auxMax = null;
 		for (final LoggingTag tag : tags) {
 			if (tag == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 			putConditionally(tag.getFacility(), tag.getSeverity());
 			if (auxMax == null || tag.getSeverity().compareTo(auxMax) > 0) {
@@ -104,13 +104,10 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	 *
 	 * @return a severity for a given facility, or {@code null} if no logging tag with a given facility was found.
 	 *
-	 * @throws IllegalArgumentException if {@code facility} is {@code null}.
+	 * @throws UnexpectedNullException if {@code facility} is {@code null}.
 	 */
 	public LoggingSeverity getSeverity(final LoggingFacility facility) {
-		if (facility == null) {
-			throw new IllegalArgumentException();
-		}
-		return map.get(facility);
+		return map.get(Checks.ensureNotNull(facility));
 	}
 
 	/**
@@ -128,12 +125,11 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	 * @param facility a checked facility.
 	 *
 	 * @return {@code true} if tags contain a tag for a given facility, {@code false} otherwise.
+	 *
+	 * @throws UnexpectedNullException if {@code facility} is {@code null}.
 	 */
 	public boolean hasFacility(final LoggingFacility facility) {
-		if (facility == null) {
-			throw new IllegalArgumentException();
-		}
-		return map.containsKey(facility);
+		return map.containsKey(Checks.ensureNotNull(facility));
 	}
 
 	/**
@@ -144,13 +140,10 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	 * @return {@code true} if tags' maximal severity is equal to or greater than a given level,
 	 *         {@code false} otherwise.
 	 *
-	 * @throws IllegalArgumentException if {@code level} is {@code null}.
+	 * @throws UnexpectedNullException if {@code level} is {@code null}.
 	 */
 	public boolean isSevere(final LoggingSeverity level) {
-		if (level == null) {
-			throw new IllegalArgumentException();
-		}
-		return maximalSeverity.compareTo(level) >= 0;
+		return maximalSeverity.compareTo(Checks.ensureNotNull(level)) >= 0;
 	}
 
 	/**
@@ -164,14 +157,14 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	 * @return {@code true} if tags contain a tag for a given facility with a severity equal to or
 	 *         greater than a given level, {@code false} otherwise.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	public boolean isSevere(final LoggingSeverity level, final LoggingFacility facility) {
 		if (level == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		if (facility == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		final LoggingSeverity found = map.get(facility);
 		return found != null && found.compareTo(level) >= 0;
@@ -184,11 +177,11 @@ public final class LoggingTags implements Iterable<LoggingTag> {
 	 *
 	 * @return {@code true} if tags contain at least one tag with a given severity, {@code false} otherwise.
 	 *
-	 * @throws IllegalArgumentException if {@code severity} is {@code null}.
+	 * @throws UnexpectedNullException if {@code severity} is {@code null}.
 	 */
 	public boolean hasSeverity(final LoggingSeverity severity) {
 		if (severity == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		return severity.equals(maximalSeverity) || map.values().contains(severity);
 	}

@@ -1,5 +1,6 @@
 package gems.logging;
 
+import gems.UnexpectedNullException;
 import static gems.logging.LoggingSeverity.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -54,7 +55,7 @@ public final class JUnitLoggingTags {
 	/**
 	 * Checks whether a {@code null} value as a tags array is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsTagsIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsTagsIsForbidden() {
 		new LoggingTags(null);
 	}
 
@@ -68,7 +69,7 @@ public final class JUnitLoggingTags {
 	/**
 	 * Checks whether a {@code null} value as a logging tag is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullElementIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullElementIsForbidden() {
 		new LoggingTags(new LoggingTag[]{null});
 	}
 
@@ -105,7 +106,7 @@ public final class JUnitLoggingTags {
 	/**
 	 * Checks whether a {@code null} value is forbidden as severity in {@code isSevere(LoggingSeverity)} method.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsSeverityIsForbiddenByIsSevere() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsSeverityIsForbiddenByIsSevere() {
 		tags.isSevere(null);
 	}
 
@@ -127,7 +128,7 @@ public final class JUnitLoggingTags {
 	/**
 	 * Checks whether a {@code null} value is forbidden as severity by {@code hasSeverity(LoggingSeverity)} method.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsSeverityIsForbiddenByHasSeverity() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsSeverityIsForbiddenByHasSeverity() {
 		tags.hasSeverity(null);
 	}
 
@@ -149,7 +150,7 @@ public final class JUnitLoggingTags {
 	/**
 	 * Checks whether a {@code hasFacility(LoggingFacility)} method forbids {@code null} argument.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsFacilityIsForbiddenByHasFacility() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsFacilityIsForbiddenByHasFacility() {
 		tags.hasFacility(null);
 	}
 
@@ -167,7 +168,7 @@ public final class JUnitLoggingTags {
 	/**
 	 * Checks whether a {@code null} value as a facility is forbidden by a {@code getSeverity(LoggingFacility)} method.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullIsForbiddenByGetSevetiy() {
+	@Test(expected = UnexpectedNullException.class) public void nullIsForbiddenByGetSevetiy() {
 		tags.getSeverity(null);
 	}
 
@@ -185,7 +186,7 @@ public final class JUnitLoggingTags {
 	 * a {@code isSevere(LoggingSeverity,LoggingFacility)}
 	 * method is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsSeverityIsForbiddenByIsSevereSeverityFacility() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsSeverityIsForbiddenByIsSevereSeverityFacility() {
 		tags.isSevere(null, LoggingFacility.NULL_FACILITY);
 	}
 
@@ -194,7 +195,7 @@ public final class JUnitLoggingTags {
 	 * a {@code isSevere(LoggingSeverity,LoggingFacility)}
 	 * method is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsFacilityIsForbiddenByIsSevereSeverityFacility() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsFacilityIsForbiddenByIsSevereSeverityFacility() {
 		tags.isSevere(ALERT, null);
 	}
 

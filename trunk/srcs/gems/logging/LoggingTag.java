@@ -1,5 +1,8 @@
 package gems.logging;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
+
 /**
  * A logging tag consists of a logging facility and its corresponding severity.
  *
@@ -23,17 +26,11 @@ public final class LoggingTag {
 	 * @param facility a facility.
 	 * @param severity a severity.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	public LoggingTag(final LoggingFacility facility, final LoggingSeverity severity) {
-		if (facility == null) {
-			throw new IllegalArgumentException();
-		}
-		if (severity == null) {
-			throw new IllegalArgumentException();
-		}
-		this.facility = facility;
-		this.severity = severity;
+		this.facility = Checks.ensureNotNull(facility);
+		this.severity = Checks.ensureNotNull(severity);
 	}
 
 	/**

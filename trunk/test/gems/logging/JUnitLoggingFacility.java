@@ -1,5 +1,6 @@
 package gems.logging;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public final class JUnitLoggingFacility {
 	/**
 	 * Checks whether a factory forbids a {@code null} name.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void factoryForbidsNullName() {
+	@Test(expected = UnexpectedNullException.class) public void factoryForbidsNullName() {
 		LoggingFacility.getFacility(null);
 	}
 

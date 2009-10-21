@@ -1,5 +1,7 @@
 package gems.logging;
 
+import gems.UnexpectedNullException;
+
 /**
  * An entry point to the logging subsystem. A <em>logger</em> is able
  * to receive <em>logging records</em> and pass them to underlaying
@@ -24,11 +26,11 @@ public interface Logger {
 		 *
 		 * @param record ignored, but a sanity check for a {@code null} argument is still performed.
 		 *
-		 * @throws IllegalArgumentException if {@code record} is {@code null}.
+		 * @throws UnexpectedNullException if {@code record} is {@code null}.
 		 */
 		@Override public void log(final LoggingRecord record) {
 			if (record == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 		}
 
@@ -37,11 +39,11 @@ public interface Logger {
 		 *
 		 * @param handler ignored, but a sanity check for a {@code null} argument is still performed.
 		 *
-		 * @throws IllegalArgumentException if {@code handler} is {@code null}.
+		 * @throws UnexpectedNullException if {@code handler} is {@code null}.
 		 */
 		@Override public void addHandler(final LoggingHandler handler) {
 			if (handler == null) {
-				throw new IllegalArgumentException();
+				throw new UnexpectedNullException();
 			}
 		}
 
