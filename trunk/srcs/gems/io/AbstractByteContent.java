@@ -1,6 +1,8 @@
 package gems.io;
 
 import gems.Bounds;
+import gems.Checks;
+import gems.UnexpectedNullException;
 
 /**
  * Common parts of the {@code ByteContent} interface implementation.
@@ -38,13 +40,10 @@ abstract class AbstractByteContent implements ByteContent { // TODO: More scalab
 	 * {@inheritDoc} The returned object uses the same backing store
 	 * as this object. This method never returns {@code null}.
 	 *
-	 * @throws IllegalArgumentException if {@code bounds} is {@code null}.
+	 * @throws UnexpectedNullException if {@code bounds} is {@code null}.
 	 */
 	@Override public final synchronized ByteContent getSubcontent(final Bounds bounds) {
-		if (bounds == null) {
-			throw new IllegalArgumentException();
-		}
-		return new ByteSubContent(this, bounds);
+		return new ByteSubContent(this, Checks.ensureNotNull(bounds));
 	}
 
 	/**
@@ -62,7 +61,7 @@ abstract class AbstractByteContent implements ByteContent { // TODO: More scalab
 	 * @param length a new length.
 	 */
 	protected final synchronized void setLength(final int length) {
-		if (length < 0) {
+		if (length < 0) { // todo: Checks
 			throw new IllegalArgumentException(String.valueOf(length));
 		}
 		this.length = length;

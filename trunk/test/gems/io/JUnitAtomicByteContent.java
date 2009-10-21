@@ -1,5 +1,6 @@
 package gems.io;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ public final class JUnitAtomicByteContent extends JUnitByteContentImplementation
 		runAllTests();
 	}
 
-	@Test(expected = IllegalArgumentException.class) public void contentCannotBeNull() {
+	@Test(expected = UnexpectedNullException.class) public void contentCannotBeNull() {
 		new AtomicByteContent(null, 0);
 	}
 

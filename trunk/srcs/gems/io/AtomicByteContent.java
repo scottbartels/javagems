@@ -1,5 +1,7 @@
 package gems.io;
 
+import gems.UnexpectedNullException;
+
 /**
  * The basic implementation of {@code ByteContent}
  * interface. It holds raw byte content data.
@@ -34,14 +36,14 @@ public final class AtomicByteContent extends AbstractByteContent {
 	 * @param content a content.
 	 * @param length a valid lenght.
 	 *
-	 * @throws IllegalArgumentException if {@code content} is {@code null}.
+	 * @throws UnexpectedNullException if {@code content} is {@code null}.
 	 * @throws IndexOutOfBoundsException if {@code length} is negative or greater than a {@code content} length.
 	 */
 	public AtomicByteContent(final byte[] content, final int length) {
 		if (content == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
-		if (length < 0 || length > content.length) {
+		if (length < 0 || length > content.length) {  // todo: Checks (?)
 			throw new IndexOutOfBoundsException(String.valueOf(length));
 		}
 		this.content = new byte[length];
@@ -56,7 +58,7 @@ public final class AtomicByteContent extends AbstractByteContent {
 	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
-		if (index < 0 || index >= length()) {
+		if (index < 0 || index >= length()) {  // todo: Checks (?)
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		return content[index];
@@ -69,7 +71,7 @@ public final class AtomicByteContent extends AbstractByteContent {
 	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized void setByteAt(final int index, final byte b) {
-		if (index < 0 || index >= length()) {
+		if (index < 0 || index >= length()) {   // todo: Checks (?)
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		content[index] = b;

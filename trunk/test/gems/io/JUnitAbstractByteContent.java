@@ -1,5 +1,6 @@
 package gems.io;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public final class JUnitAbstractByteContent {
 	/**
 	 * Checks whether a {@code null} value is not accepted as subcontent boudns.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullBoundsAreForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullBoundsAreForbidden() {
 		fixture.getSubcontent(null);
 	}
 
