@@ -1,7 +1,5 @@
 package gems.caching;
 
-import gems.Checks;
-
 /**
  * A cache segmenter based on keys hash codes.
  *
