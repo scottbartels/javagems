@@ -5,6 +5,10 @@
 * concise
 * type safe
 
+----
+
+== Example 1 ==
+
 Before:
 
 {{{
@@ -34,6 +38,8 @@ After:
 
 ----
 
+== Example 2 ==
+
 Before: 
 
 {{{
@@ -56,3 +62,46 @@ After:
 	}
 
 }}}
+
+----
+
+== Be cereful about this ==
+
+Before: 
+
+{{{
+	public final void log(final LoggingRecord record) {
+		if (record == null) {
+			throw new IllegalArgumentException();
+		}
+		if (filter.allows(record)) {
+			doLog(record);
+		}
+	}
+}}}
+
+After: 
+
+{{{
+	public final void log(final LoggingRecord record) {
+		if (filter.allows(Checks.ensureNotNull(record))) {
+			doLog(record);
+		}
+	}
+
+}}}
+
+Maybe more clear for someone, even if not so concise:
+
+{{{
+	public final void log(final LoggingRecord record) {
+		if (record == null) {
+			throw new UnexpectedNullException();
+		}
+		if (filter.allows(record)) {
+			doLog(record);
+		}
+	}
+}}}
+
+== Don't do this ==
