@@ -1,5 +1,6 @@
 package gems.cli;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +36,9 @@ public final class JUnitCliOptions {
 	}
 
 	/**
-	 * Checks whether an adding of a  {@code null} value as an option is forbidden.
+	 * Checks whether an adding of a {@code null} value as an option is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void addingNullOptionIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void addingNullOptionIsForbidden() {
 		options.add(null);
 	}
 
@@ -51,7 +52,7 @@ public final class JUnitCliOptions {
 	/**
 	 * Checks whether a {@code null} value is forbidden as id for getting an option.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void getForbidsNullId() {
+	@Test(expected = UnexpectedNullException.class) public void getForbidsNullId() {
 		options.getOptionById(null);
 	}
 

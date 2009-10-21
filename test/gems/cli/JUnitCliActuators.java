@@ -1,5 +1,6 @@
 package gems.cli;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +43,7 @@ public final class JUnitCliActuators {
 	/**
 	 * Checks whether a {@code null} value as a resting argument is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsRestIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsRestIsForbidden() {
 		actuators.addRest(null);
 	}
 
@@ -63,7 +64,7 @@ public final class JUnitCliActuators {
 	/**
 	 * Checks whether {@code null} value as an actuator is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullAsActuatorIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullAsActuatorIsForbidden() {
 		actuators.addActuator(null);
 	}
 
@@ -78,7 +79,7 @@ public final class JUnitCliActuators {
 	/**
 	 * Checks whether {@code null} value as a required actuator name is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullActuatorIdIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullActuatorIdIsForbidden() {
 		actuators.getActuatorById(null);
 	}
 

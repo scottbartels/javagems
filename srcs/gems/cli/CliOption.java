@@ -1,6 +1,8 @@
 package gems.cli;
 
 import gems.AbstractIdentifiable;
+import gems.Checks;
+import gems.UnexpectedNullException;
 
 /**
  * An option represents a command line interface option as designed by
@@ -22,17 +24,15 @@ public final class CliOption extends AbstractIdentifiable<String> {
 	 * @param id an option identifier.
 	 * @param type a type of the option.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null} or if {@code id} is an empty string.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
+	 * @throws IllegalArgumentException if {@code id} is an empty string.
 	 */
 	public CliOption(final String id, final CliOptionType type) {
 		super(id);
 		if (id.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		if (type == null) {
-			throw new IllegalArgumentException();
-		}
-		this.type = type;
+		this.type = Checks.ensureNotNull(type);
 	}
 
 	/**

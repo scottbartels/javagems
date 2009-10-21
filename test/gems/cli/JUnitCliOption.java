@@ -33,7 +33,7 @@ public final class JUnitCliOption {
 	/**
 	 * Checks whether the constructor forbids a {@code null} value as a type.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNullType() {
+	@Test(expected = UnexpectedNullException.class) public void constructorForbidsNullType() {
 		new CliOption(NAME, null);
 	}
 

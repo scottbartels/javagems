@@ -42,7 +42,8 @@ public abstract class AbstractIdentifiable<T> implements Identifiable<T> {
 	 *
 	 * @return {@code true} if {@code o} is an objects of the same type and with the same ID, {@code false} otherwise.
 	 */
-	@Override @SuppressWarnings({"unchecked"}) public final boolean equals(final Object o) {
+	@SuppressWarnings({"unchecked"})
+	@Override public final boolean equals(final Object o) {
 		if (this == o) {
 			return true;
 		}
