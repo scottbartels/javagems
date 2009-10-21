@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public final class JUnitHashCodeBasedSegmenter {
 	/**
 	 * Checks whether {@code null} is forbidden as key.
 	 */
-	@Test(expected = NullPointerException.class) public void nullKeyIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullKeyIsForbidden() {
 		new HashCodeBasedSegmenter<Object>(1).getSegment(null);
 	}
 
