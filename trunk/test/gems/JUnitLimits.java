@@ -13,7 +13,7 @@ import org.junit.Test;
 	/**
 	 * Checks whether the null-implementation forbids {@code null} argument.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullImplementationRefusesNull() {
+	@Test(expected = UnexpectedNullException.class) public void nullImplementationRefusesNull() {
 		Limits.ZERO_LIMITS.getLimit(null);
 	}
 

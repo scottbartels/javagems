@@ -14,7 +14,7 @@ public final class JUnitObjectProvider {
 	/**
 	 * Checks whether null-implementation of the interface forbids a {@code null} key.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullImplementationForbidsNullKey() {
+	@Test(expected = UnexpectedNullException.class) public void nullImplementationForbidsNullKey() {
 		NULL_PROVIDER.provide(null);
 	}
 

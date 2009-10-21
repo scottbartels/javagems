@@ -1,5 +1,6 @@
 package gems.cli;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public final class JUnitCliActuator {
 	/**
 	 * Checks whether a {@code null} value is as an id is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullIdIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullIdIsForbidden() {
 		new CliActuator(null);
 	}
 

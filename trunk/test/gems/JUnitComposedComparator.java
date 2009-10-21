@@ -21,14 +21,14 @@ import java.util.List;
 	/**
 	 * Checks whether a {@code null} value as a collection of comparators is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullCollectionIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullCollectionIsForbidden() {
 		new ComposedComparator(null);
 	}
 
 	/**
 	 * Checks whether a {@code null} value as one of wrapped comparators is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullCollectionElementIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullCollectionElementIsForbidden() {
 		final Collection c = new HashSet();
 		c.add(null);
 		new ComposedComparator(c);
@@ -45,14 +45,14 @@ import java.util.List;
 	/**
 	 * Checks whether the first compared object cannot be {@code null}.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void fistOperandCannotBeNull() {
+	@Test(expected = UnexpectedNullException.class) public void fistOperandCannotBeNull() {
 		new ComposedComparator(Collections.EMPTY_SET).compare(null, new Object());
 	}
 
 	/**
 	 * Checks whether the second compared object cannot be {@code null}.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void secondOperandCannotBeNull() {
+	@Test(expected = UnexpectedNullException.class) public void secondOperandCannotBeNull() {
 		new ComposedComparator(Collections.EMPTY_SET).compare(new Object(), null);
 	}
 

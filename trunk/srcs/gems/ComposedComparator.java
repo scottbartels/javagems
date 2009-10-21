@@ -23,7 +23,6 @@ import java.util.LinkedList;
  */
 @Experimental public final class ComposedComparator<T> implements Comparator<T>, Serializable {
 
-
 	/**
 	 * Serialization version UID.
 	 */
@@ -43,17 +42,11 @@ import java.util.LinkedList;
 	 *
 	 * @param comparators a collection of comparators.
 	 *
-	 * @throws IllegalArgumentException if {@code comparators} or any of its elements is {@code null}.
+	 * @throws UnexpectedNullException if {@code comparators} or any of its elements is {@code null}.
 	 */
 	public ComposedComparator(final Iterable<? extends Comparator<? super T>> comparators) {
-		if (comparators == null) {
-			throw new IllegalArgumentException();
-		}
-		for (final Comparator<? super T> comparator : comparators) {
-			if (comparator == null) {
-				throw new IllegalArgumentException();
-			}
-			if (this.comparators.contains(comparator)) {
+		for (final Comparator<? super T> comparator : Checks.ensureNotNull(comparators)) {
+			if (this.comparators.contains(Checks.ensureNotNull(comparator))) {
 				continue;
 			}
 			this.comparators.add(comparator);
@@ -72,14 +65,14 @@ import java.util.LinkedList;
 	 *         first argument is less than, equal to, or greater than the
 	 *         second.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	public int compare(final T x, final T y) {
 		if (x == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		if (y == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		for (final Comparator<? super T> comparator : comparators) {
 			final int result = comparator.compare(x, y);
