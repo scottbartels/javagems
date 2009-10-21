@@ -1,5 +1,6 @@
 package gems.logging.formatters;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public final class JUnitTimestampFormatter {
 	/**
 	 * Checks whether a {@code null} pattern is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullPatternIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullPatternIsForbidden() {
 		new TimestampFormatter(null);
 	}
 

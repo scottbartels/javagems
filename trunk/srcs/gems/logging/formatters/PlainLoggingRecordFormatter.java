@@ -1,6 +1,7 @@
 package gems.logging.formatters;
 
 import gems.ThreadIdentity;
+import gems.UnexpectedNullException;
 import gems.logging.CreatorInfo;
 import gems.logging.LoggingFacility;
 import gems.logging.LoggingRecord;
@@ -22,11 +23,11 @@ public final class PlainLoggingRecordFormatter implements LoggingRecordFormatter
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws IllegalArgumentException if {@code record} is {@code null}.
+	 * @throws UnexpectedNullException if {@code record} is {@code null}.
 	 */
 	@Override public String format(final LoggingRecord record) {
 		if (record == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		// timestamp
 		final StringBuilder result = new StringBuilder().append(TIMESTAMP_FORMATTER.format(record.getTimestamp()));

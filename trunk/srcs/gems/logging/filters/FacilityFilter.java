@@ -1,5 +1,7 @@
 package gems.logging.filters;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingFacility;
 import gems.logging.LoggingRecord;
@@ -23,13 +25,10 @@ public final class FacilityFilter implements Filter<LoggingRecord> {
 	 *
 	 * @param facility a filtered facility.
 	 *
-	 * @throws IllegalArgumentException if {@code facility} is {@code null}.
+	 * @throws UnexpectedNullException if {@code facility} is {@code null}.
 	 */
 	public FacilityFilter(final LoggingFacility facility) {
-		if (facility == null) {
-			throw new IllegalArgumentException();
-		}
-		this.facility = facility;
+		this.facility = Checks.ensureNotNull(facility);
 	}
 
 	/**
@@ -40,13 +39,10 @@ public final class FacilityFilter implements Filter<LoggingRecord> {
 	 *
 	 * @return {@code true} if a given record contains logging tag metadata for the filtered facility, {@code false} otherwise.
 	 *
-	 * @throws IllegalArgumentException if {@code record} is {@code null}.
+	 * @throws UnexpectedNullException if {@code record} is {@code null}.
 	 */
 	@Override public boolean allows(final LoggingRecord record) {
-		if (record == null) {
-			throw new IllegalArgumentException();
-		}
-		return record.getTags().hasFacility(facility);
+		return Checks.ensureNotNull(record).getTags().hasFacility(facility);
 	}
 
 }

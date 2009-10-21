@@ -1,5 +1,7 @@
 package gems.logging.loggers;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.Logger;
 import gems.logging.LoggingHandler;
@@ -32,39 +34,30 @@ public final class ParallelLogger implements Logger {
 	 *
 	 * @param filter a filter.
 	 *
-	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
+	 * @throws UnexpectedNullException if {@code filter} is {@code null}.
 	 */
 	public ParallelLogger(final Filter<? super LoggingRecord> filter) {
-		if (filter == null) {
-			throw new IllegalArgumentException();
-		}
-		logger = new AsynchronousLogger(filter);
+		logger = new AsynchronousLogger(Checks.ensureNotNull(filter));
 	}
 
 
 	/**
 	 * {@inheritDoc} All functionality is delegaded to an internal asynchronous logger.
 	 *
-	 * @throws IllegalArgumentException if {@code record} is {@code null}.
+	 * @throws UnexpectedNullException if {@code record} is {@code null}.
 	 */
 	@Override public void log(final LoggingRecord record) {
-		if (record == null) {
-			throw new IllegalArgumentException();
-		}
-		logger.log(record);
+		logger.log(Checks.ensureNotNull(record));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws IllegalArgumentException if {@code logger} is {@code null}.
+	 * @throws UnexpectedNullException if {@code logger} is {@code null}.
 	 */
 	@Override public void addHandler(final LoggingHandler handler) {
-		if (handler == null) {
-			throw new IllegalArgumentException();
-		}
 		final Logger sublogger = new AsynchronousLogger();
-		sublogger.addHandler(handler);
+		sublogger.addHandler(Checks.ensureNotNull(handler));
 		logger.addHandler(new LoggerDelegatingLoggingHander(sublogger));
 	}
 

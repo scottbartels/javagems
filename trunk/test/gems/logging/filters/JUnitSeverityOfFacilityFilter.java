@@ -1,5 +1,6 @@
 package gems.logging.filters;
 
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingFacility;
 import static gems.logging.LoggingFacility.NULL_FACILITY;
@@ -42,21 +43,21 @@ public final class JUnitSeverityOfFacilityFilter {
 	/**
 	 * Checks whether a {@code null} severity is forbidden by a constructor.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNullSeverity() {
+	@Test(expected = UnexpectedNullException.class) public void constructorForbidsNullSeverity() {
 		new SeverityOfFacilityFilter(null, NULL_FACILITY);
 	}
 
 	/**
 	 * Checks whether a {@code null} facility is forbidden by a constructor.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNullFacility() {
+	@Test(expected = UnexpectedNullException.class) public void constructorForbidsNullFacility() {
 		new SeverityOfFacilityFilter(LoggingSeverity.INFO, null);
 	}
 
 	/**
 	 * Checks whether a {@code null} value is forbidden by a filter.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void filterForbidsNull() {
+	@Test(expected = UnexpectedNullException.class) public void filterForbidsNull() {
 		filter.allows(null);
 	}
 

@@ -1,5 +1,7 @@
 package gems.logging.filters;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingSeverity;
@@ -14,42 +16,36 @@ import gems.logging.LoggingSeverity;
 public final class SeverityFilter implements Filter<LoggingRecord> {
 
 	/**
-	 * A severity treshold.
+	 * A severity threshold.
 	 */
-	private final LoggingSeverity treshold;
+	private final LoggingSeverity threshold;
 
 	/**
-	 * Creates a new severity filter with a given severity treshold.
+	 * Creates a new severity filter with a given severity threshold.
 	 * Logging records containing at least a given severity level for
 	 * any facility will be allowed for a further processing.
 	 *
-	 * @param treshold a severity treshold.
+	 * @param threshold a severity threshold.
 	 *
-	 * @throws IllegalArgumentException if {@code treshold} is {@code null}.
+	 * @throws UnexpectedNullException if {@code treshold} is {@code null}.
 	 */
-	public SeverityFilter(final LoggingSeverity treshold) {
-		if (treshold == null) {
-			throw new IllegalArgumentException();
-		}
-		this.treshold = treshold;
+	public SeverityFilter(final LoggingSeverity threshold) {
+		this.threshold = Checks.ensureNotNull(threshold);
 	}
 
 	/**
 	 * Checks whether a given logging record has logging tag
-	 * metadata with the filtered treshold for any facility.
+	 * metadata with the filtered threshold for any facility.
 	 *
 	 * @param record a filtered logging record.
 	 *
 	 * @return {@code true} if a given logging record has logging tag metadata
-	 *         at least with the filtered treshold, {@code false} otherwise.
+	 *         at least with the filtered threshold, {@code false} otherwise.
 	 *
-	 * @throws IllegalArgumentException if {@code record} is {@code null}.
+	 * @throws UnexpectedNullException if {@code record} is {@code null}.
 	 */
 	@Override public boolean allows(final LoggingRecord record) {
-		if (record == null) {
-			throw new IllegalArgumentException();
-		}
-		return record.getTags().isSevere(treshold);
+		return Checks.ensureNotNull(record).getTags().isSevere(threshold);
 	}
 
 }

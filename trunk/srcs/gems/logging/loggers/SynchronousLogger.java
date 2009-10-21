@@ -1,5 +1,6 @@
 package gems.logging.loggers;
 
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingHandler;
 import gems.logging.LoggingRecord;
@@ -26,7 +27,7 @@ public final class SynchronousLogger extends AbstractFilteringLogger {
 	 *
 	 * @param filter a filter.
 	 *
-	 * @throws IllegalArgumentException if {@code filter} is {@code null}.
+	 * @throws UnexpectedNullException if {@code filter} is {@code null}.
 	 */
 	public SynchronousLogger(final Filter<? super LoggingRecord> filter) {
 		super(filter);

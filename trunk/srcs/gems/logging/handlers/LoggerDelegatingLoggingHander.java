@@ -1,5 +1,7 @@
 package gems.logging.handlers;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.Logger;
 import gems.logging.LoggingRecord;
@@ -35,14 +37,11 @@ public final class LoggerDelegatingLoggingHander extends AbstractFilteringLoggin
 	 * @param logger a logger.
 	 * @param filter a filter.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	public LoggerDelegatingLoggingHander(final Logger logger, final Filter<? super LoggingRecord> filter) {
 		super(filter);
-		if (logger == null) {
-			throw new IllegalArgumentException();
-		}
-		this.logger = logger;
+		this.logger = Checks.ensureNotNull(logger);
 	}
 
 	/**
@@ -51,8 +50,7 @@ public final class LoggerDelegatingLoggingHander extends AbstractFilteringLoggin
 	 * @param record a logging record.
 	 */
 	@Override protected void doHandle(final LoggingRecord record) {
-		assert record != null;
-		logger.log(record);
+		logger.log(Checks.assertNotNull(record));
 	}
 
 }

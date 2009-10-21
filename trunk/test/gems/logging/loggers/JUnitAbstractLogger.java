@@ -1,5 +1,6 @@
 package gems.logging.loggers;
 
+import gems.UnexpectedNullException;
 import gems.logging.Logger;
 import gems.logging.LoggingRecord;
 import org.junit.Before;
@@ -27,8 +28,7 @@ public final class JUnitAbstractLogger {
 	/**
 	 * Checks whether a {@code null} value is forbidden for a logging hander.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void addingNullHandlerIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void addingNullHandlerIsForbidden() {
 		fixture.addHandler(null);
 	}
 

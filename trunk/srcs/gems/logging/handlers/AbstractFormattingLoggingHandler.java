@@ -1,5 +1,7 @@
 package gems.logging.handlers;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingRecordFormatter;
@@ -24,23 +26,19 @@ abstract class AbstractFormattingLoggingHandler extends AbstractFilteringLogging
 	 * @param formatter a formatter.
 	 * @param filter a filter.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}. If you
+	 * @throws UnexpectedNullException if any of arguments is {@code null}. If you
 	 * don't need any filtering and you want to handle all logging records, use
 	 * <em>null implementation</em> {@code gems.filtering.Filter.ALLOW_ALL}.
 	 */
 	protected AbstractFormattingLoggingHandler(final LoggingRecordFormatter formatter,
-											   final Filter<? super LoggingRecord> filter) {
+											   final Filter<? super LoggingRecord> filter) { // todo: overload with single argument (formatter) constructor
 		super(filter);
-		if (formatter == null) {
-			throw new IllegalArgumentException();
-		}
-		this.formatter = formatter;
+		this.formatter = Checks.assertNotNull(formatter);
 	}
 
 
 	@Override protected final void doHandle(final LoggingRecord record) {
-		assert record != null;
-		handleFormattedRecord(formatter.format(record));
+		handleFormattedRecord(formatter.format(Checks.assertNotNull(record)));
 	}
 
 	/**
