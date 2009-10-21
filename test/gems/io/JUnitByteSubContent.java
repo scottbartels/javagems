@@ -1,6 +1,7 @@
 package gems.io;
 
 import gems.Bounds;
+import gems.UnexpectedNullException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,11 +20,11 @@ public final class JUnitByteSubContent extends JUnitByteContentImplementations {
 		runAllTests();
 	}
 
-	@Test(expected = IllegalArgumentException.class) public void nullSourceContentIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullSourceContentIsForbidden() {
 		new ByteSubContent(null, BOUNDS);
 	}
 
-	@Test(expected = IllegalArgumentException.class) public void nullBoundsAreForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullBoundsAreForbidden() {
 		new ByteSubContent(ByteContent.EMPTY_CONTENT, null);
 	}
 

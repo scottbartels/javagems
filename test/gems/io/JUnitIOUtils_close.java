@@ -1,5 +1,6 @@
 package gems.io;
 
+import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 	/**
 	 * Checks whether a {@code null} argument is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void closeRefusesNull() {
+	@Test(expected = UnexpectedNullException.class) public void closeRefusesNull() {
 		IOUtils.close(null);
 	}
 

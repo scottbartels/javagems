@@ -1,6 +1,8 @@
 package gems.io;
 
+import gems.Checks;
 import gems.ExceptionHandler;
+import gems.UnexpectedNullException;
 
 import java.io.Closeable;
 import java.io.EOFException;
@@ -36,14 +38,11 @@ public final class IOUtils {
 	 *
 	 * @param c an object to close.
 	 *
-	 * @throws IllegalArgumentException if {@code c} is {@code null}.
+	 * @throws UnexpectedNullException if {@code c} is {@code null}.
 	 * @throws RuntimeIOException if any {@code IOException} occurs during an object closing.
 	 */
 	public static void close(final Closeable c) {
-		if (c == null) {
-			throw new IllegalArgumentException();
-		}
-		close(c, IOExceptionWrapper.INSTANCE);
+		close(Checks.ensureNotNull(c), IOExceptionWrapper.INSTANCE);
 	}
 
 	/**
@@ -69,15 +68,12 @@ public final class IOUtils {
 	 *
 	 * @return an input stream for a given file.
 	 *
-	 * @throws IllegalArgumentException if {@code file} is {@code null}.
+	 * @throws UnexpectedNullException if {@code file} is {@code null}.
 	 * @throws RuntimeIOException if any {@code IOException} occurs during stream opening.
 	 */
 	public static InputStream asInputStream(final File file) {
-		if (file == null) {
-			throw new IllegalArgumentException();
-		}
 		try {
-			return new FileInputStream(file);
+			return new FileInputStream(Checks.ensureNotNull(file));
 		} catch (final FileNotFoundException e) {
 			throw new RuntimeIOException(e);
 		}
@@ -92,12 +88,12 @@ public final class IOUtils {
 	 *
 	 * @return a byte content read from a stream.
 	 *
-	 * @throws IllegalArgumentException if {@code input} is {@code null}.
+	 * @throws UnexpectedNullException if {@code input} is {@code null}.
 	 * @throws RuntimeIOException if any {@code IOException} occurs during stream reading or closing.
 	 */
 	public static ByteContent read(final InputStream input) {
 		if (input == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		boolean exceptionThrown = true;
 		try {
@@ -113,7 +109,7 @@ public final class IOUtils {
 			throw new RuntimeIOException(e);
 		} finally {
 			/*
-			 * If exeception was thrown in 'try' block, avoid throwing exception
+			 * If exception was thrown in 'try' block, avoid throwing exception
 			 * from this 'finally' block to prevent possible swallowed exception.
 			 */
 			if (exceptionThrown) {
@@ -176,13 +172,13 @@ public final class IOUtils {
 	 * @param bytes number of bytes to be skipped.
 	 *
 	 * @throws IOException if any error occurs during the operation.
-	 * @throws IllegalArgumentException if {@code stream} is {@code null} or
-	 * if number of bytes to be skipped is negative.
+	 * @throws UnexpectedNullException if {@code stream} is {@code null}.
+	 * @throws IllegalArgumentException if number of bytes to be skipped is negative.
 	 * @since CURRENT
 	 */
 	public static void skipSafely(final InputStream stream, final long bytes) throws IOException {
 		if (stream == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		if (bytes < 0L) {
 			throw new IllegalArgumentException(String.valueOf(bytes));
@@ -194,7 +190,7 @@ public final class IOUtils {
 				throw new EOFException();
 			}
 			remaining -= bytes;
-			assert remaining >= 0;
+			assert remaining >= 0; // todo: Checks.assertThat() (?)
 		}
 	}
 

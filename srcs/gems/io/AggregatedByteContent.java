@@ -1,6 +1,7 @@
 package gems.io;
 
 import gems.ShouldNeverHappenException;
+import gems.UnexpectedNullException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
-		if (index < 0 || index >= length()) {
+		if (index < 0 || index >= length()) { // todo: Checks (?)
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		int offset = 0;
@@ -47,7 +48,7 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 	 * or if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized void setByteAt(final int index, final byte b) {
-		if (index < 0 || index >= length()) {
+		if (index < 0 || index >= length()) {  // todo: Checks (?)
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		int offset = 0;
@@ -67,11 +68,11 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 	 *
 	 * @param content an added content.
 	 *
-	 * @throws IllegalArgumentException if {@code content} is {@code null}.
+	 * @throws UnexpectedNullException if {@code content} is {@code null}.
 	 */
 	@Override public synchronized void append(final ByteContent content) {
 		if (content == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		setLength(length() + content.length());
 		parts.add(content);
@@ -83,11 +84,11 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 	 *
 	 * @param content an added content.
 	 *
-	 * @throws IllegalArgumentException if {@code content} is {@code null}.
+	 * @throws UnexpectedNullException if {@code content} is {@code null}.
 	 */
 	@Override public synchronized void prepend(final ByteContent content) {
 		if (content == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		setLength(length() + content.length());
 		parts.add(0, content);
