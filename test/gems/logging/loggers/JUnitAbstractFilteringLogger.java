@@ -1,5 +1,6 @@
 package gems.logging.loggers;
 
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.Logger;
 import static gems.logging.LoggingFacility.NULL_FACILITY;
@@ -39,16 +40,14 @@ public final class JUnitAbstractFilteringLogger {
 	/**
 	 * Checks whether a {@code null} filter is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void nullFilterIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullFilterIsForbidden() {
 		new JUnitAbsractFilteringLoggerMock(null);
 	}
 
 	/**
 	 * Checks whether a {@code null} logging record is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void nullLoggingRecordIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullLoggingRecordIsForbidden() {
 		fixture.log(null);
 	}
 

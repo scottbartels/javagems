@@ -1,5 +1,6 @@
 package gems.logging.filters;
 
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingFacility;
 import gems.logging.LoggingRecord;
@@ -31,7 +32,7 @@ public final class JUnitFacilityFilter {
 	/**
 	 * Checks whether a {@code null} value is forbidden by a constructor.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorForbidsNull() {
+	@Test(expected = UnexpectedNullException.class) public void constructorForbidsNull() {
 		new FacilityFilter(null);
 	}
 
@@ -39,7 +40,7 @@ public final class JUnitFacilityFilter {
 	/**
 	 * Checks whether a {@code null} value is forbidden by a filter.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void filterForbidsNull() {
+	@Test(expected = UnexpectedNullException.class) public void filterForbidsNull() {
 		filter.allows(null);
 	}
 

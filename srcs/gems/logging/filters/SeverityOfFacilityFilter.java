@@ -1,5 +1,7 @@
 package gems.logging.filters;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingFacility;
 import gems.logging.LoggingRecord;
@@ -15,9 +17,9 @@ import gems.logging.LoggingSeverity;
 public final class SeverityOfFacilityFilter implements Filter<LoggingRecord> {
 
 	/**
-	 * A severity treshold.
+	 * A severity threshold.
 	 */
-	private final LoggingSeverity treshold;
+	private final LoggingSeverity threshold;
 
 	/**
 	 * A filtered facility.
@@ -28,37 +30,30 @@ public final class SeverityOfFacilityFilter implements Filter<LoggingRecord> {
 	 * Creates a new filter filtering logging records with logging tag metadata
 	 * containing at least a given severity for a given facility.
 	 *
-	 * @param treshold a severity treshold.
+	 * @param threshold a severity threshold.
 	 * @param facility a filtered facility.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
-	public SeverityOfFacilityFilter(final LoggingSeverity treshold, final LoggingFacility facility) {
-		if (treshold == null) {
-			throw new IllegalArgumentException();
-		}
-		if (facility == null) {
-			throw new IllegalArgumentException();
-		}
-		this.treshold = treshold;
-		this.facility = facility;
+	public SeverityOfFacilityFilter(final LoggingSeverity threshold, final LoggingFacility facility) {
+		this.threshold = Checks.ensureNotNull(threshold);
+		this.facility = Checks.ensureNotNull(facility);
 	}
 
 	/**
 	 * Checks wheter a given logging record has logging tag metadata
-	 * containing with at least checked treshold for the filtered
+	 * containing with at least checked threshold for the filtered
 	 * facility.
 	 *
 	 * @param record a filtered logging record.
 	 *
 	 * @return {@code true} if a given logging record contains logging tag metadata with
-	 *         at least checked treshold for the filtered facility, {@code false} otherwise.
+	 *         at least checked threshold for the filtered facility, {@code false} otherwise.
+	 *
+	 * @throws UnexpectedNullException if {@code record} is {@code null}.
 	 */
 	@Override public boolean allows(final LoggingRecord record) {
-		if (record == null) {
-			throw new IllegalArgumentException();
-		}
-		return record.getTags().isSevere(treshold, facility);
+		return Checks.ensureNotNull(record).getTags().isSevere(threshold, facility);
 	}
 
 }

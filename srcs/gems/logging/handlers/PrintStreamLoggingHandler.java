@@ -1,5 +1,7 @@
 package gems.logging.handlers;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.filtering.Filter;
 import gems.logging.LoggingRecord;
 import gems.logging.LoggingRecordFormatter;
@@ -61,16 +63,13 @@ public final class PrintStreamLoggingHandler extends AbstractFormattingLoggingHa
 	 * @param formatter a formatter.
 	 * @param filter a filter.
 	 *
-	 * @throws IllegalArgumentException if any of arguments is {@code null}.
+	 * @throws UnexpectedNullException if any of arguments is {@code null}.
 	 */
 	public PrintStreamLoggingHandler(final PrintStream stream,
 									 final LoggingRecordFormatter formatter,
 									 final Filter<? super LoggingRecord> filter) {
 		super(formatter, filter);
-		if (stream == null) {
-			throw new IllegalArgumentException();
-		}
-		this.stream = stream;
+		this.stream = Checks.ensureNotNull(stream);
 	}
 
 	/**
@@ -79,8 +78,7 @@ public final class PrintStreamLoggingHandler extends AbstractFormattingLoggingHa
 	 * @param record a string to be written.
 	 */
 	@Override protected void handleFormattedRecord(final String record) {
-		assert record != null;
-		stream.println(record);
+		stream.println(Checks.assertNotNull(record));
 	}
 
 	/**

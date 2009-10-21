@@ -1,5 +1,7 @@
 package gems.logging.loggers;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.logging.Logger;
 import gems.logging.LoggingHandler;
 
@@ -32,14 +34,11 @@ abstract class AbstractLogger implements Logger {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @throws IllegalArgumentException if {@code handler} is {@code null}.
+	 * @throws UnexpectedNullException if {@code handler} is {@code null}.
 	 */
 	@Override public final synchronized void addHandler(final LoggingHandler handler) {
-		if (handler == null) {
-			throw new IllegalArgumentException();
-		}
 		final List<LoggingHandler> modifiable = new LinkedList<LoggingHandler>(handlers);
-		modifiable.add(handler);
+		modifiable.add(Checks.ensureNotNull(handler));
 		handlers = Collections.unmodifiableList(modifiable);
 	}
 

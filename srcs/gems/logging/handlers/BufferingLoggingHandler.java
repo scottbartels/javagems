@@ -1,5 +1,7 @@
 package gems.logging.handlers;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
 import gems.logging.LoggingHandler;
 import gems.logging.LoggingRecord;
 
@@ -69,20 +71,17 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	 * @param size a maximal number of logging records held in a buffer.
 	 * @param timeout time (in seconds) between two subsequent buffer flushes.
 	 *
-	 * @throws IllegalArgumentException if {@code hander} is {@code null}
-	 * or if {@code size} or {@code timeout} is negative.
+	 * @throws UnexpectedNullException if {@code hander} is {@code null}.
+	 * @throws IllegalArgumentException if {@code size} or {@code timeout} is negative.
 	 */
 	public BufferingLoggingHandler(final LoggingHandler handler, final int size, final int timeout) {
-		if (handler == null) {
-			throw new IllegalArgumentException();
-		}
-		if (size < 0) {
+		if (size < 0) { // todo: Checks
 			throw new IllegalArgumentException("Illegal size: " + size);
 		}
-		if (timeout < 0) {
+		if (timeout < 0) { // todo: Checks
 			throw new IllegalArgumentException("Illegal timeout: " + timeout);
 		}
-		this.handler = handler;
+		this.handler = Checks.ensureNotNull(handler);
 		this.size = size;
 		flusher = initFlusher(timeout);
 	}
@@ -107,12 +106,11 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @throws UnexpectedNullException if {@code record} is {@code null}.
 	 */
 	@Override public synchronized void handle(final LoggingRecord record) {
-		if (record == null) {
-			throw new IllegalArgumentException();
-		}
-		buffer.add(record);
+		buffer.add(Checks.ensureNotNull(record));
 		if (size != 0 && buffer.size() >= size) {
 			flush();
 		}
@@ -172,7 +170,7 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 		 * @param delay a flushing period (in seconds).
 		 */
 		private Flusher(final int delay) {
-			assert delay > 0;
+			assert delay > 0; // todo: Checks
 			this.delay = delay * MILLISECONDS_PER_SECOND;
 		}
 

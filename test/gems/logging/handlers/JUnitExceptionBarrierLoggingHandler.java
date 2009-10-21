@@ -1,6 +1,7 @@
 package gems.logging.handlers;
 
 import gems.ExceptionHandler;
+import gems.UnexpectedNullException;
 import static gems.logging.LoggingFacility.NULL_FACILITY;
 import gems.logging.LoggingHandler;
 import static gems.logging.LoggingHandler.NULL_HANDLER;
@@ -25,8 +26,7 @@ public final class JUnitExceptionBarrierLoggingHandler {
 	/**
 	 * Checks whether a {@code null} handler is forbidden to be wrapped.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void nullHandlerIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullHandlerIsForbidden() {
 		new ExceptionBarrierLoggingHandler(null);
 	}
 
@@ -41,16 +41,14 @@ public final class JUnitExceptionBarrierLoggingHandler {
 	/**
 	 * Checks whether a {@code null} stopping even handler is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void nullStoppingEventHandlerIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullStoppingEventHandlerIsForbidden() {
 		new ExceptionBarrierLoggingHandler(NULL_HANDLER, null);
 	}
 
 	/**
 	 * Checks whether a {@code null} logging record passing is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void nullRecordIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullRecordIsForbidden() {
 		new ExceptionBarrierLoggingHandler(NULL_HANDLER).handle(null);
 	}
 

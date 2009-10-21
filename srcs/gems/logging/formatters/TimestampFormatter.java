@@ -1,5 +1,8 @@
 package gems.logging.formatters;
 
+import gems.Checks;
+import gems.UnexpectedNullException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,13 +41,10 @@ final class TimestampFormatter { // ToDo: Maybe this can be generalized to somet
 	 *
 	 * @param pattern a pattern.
 	 *
-	 * @throws IllegalArgumentException if {@code pattern} is {@code null}.
+	 * @throws UnexpectedNullException if {@code pattern} is {@code null}.
 	 */
 	TimestampFormatter(final String pattern) {
-		if (pattern == null) {
-			throw new IllegalArgumentException();
-		}
-		this.pattern = pattern;
+		this.pattern = Checks.ensureNotNull(pattern);
 	}
 
 	/**

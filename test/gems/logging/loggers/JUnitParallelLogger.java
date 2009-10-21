@@ -1,5 +1,6 @@
 package gems.logging.loggers;
 
+import gems.UnexpectedNullException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,21 +28,21 @@ public final class JUnitParallelLogger extends JUnitLoggersImplementations {
 	/**
 	 * Checks whether a {@code null} filter is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullFilterIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullFilterIsForbidden() {
 		new ParallelLogger(null);
 	}
 
 	/**
 	 * Checks whether a {@code null} logging handler is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullLoggingHandlerIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullLoggingHandlerIsForbidden() {
 		getFixture().addHandler(null);
 	}
 
 	/**
 	 * Checks whether a {@code null} logging record is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void nullLoggingRecordIsForbidden() {
+	@Test(expected = UnexpectedNullException.class) public void nullLoggingRecordIsForbidden() {
 		getFixture().log(null);
 	}
 

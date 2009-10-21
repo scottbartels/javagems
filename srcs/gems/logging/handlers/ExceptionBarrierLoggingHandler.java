@@ -1,6 +1,8 @@
 package gems.logging.handlers;
 
+import gems.Checks;
 import gems.ExceptionHandler;
+import gems.UnexpectedNullException;
 import gems.logging.LoggingHandler;
 import gems.logging.LoggingRecord;
 
@@ -98,22 +100,17 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 * @param exceptionHandler a stopping event handler.
 	 * @param delay a re-opening delay, in seconds.
 	 *
-	 * @throws IllegalArgumentException if any of handlers is {@code null} or if {@code delay} is negative.
+	 * @throws UnexpectedNullException if any of handlers is {@code null}.
+	 * @throws IllegalArgumentException if {@code delay} is negative.
 	 */
 	public ExceptionBarrierLoggingHandler(final LoggingHandler loggingHandler,
 										  final ExceptionHandler<Throwable> exceptionHandler,
 										  final int delay) {
-		if (loggingHandler == null) {
-			throw new IllegalArgumentException();
-		}
-		if (exceptionHandler == null) {
-			throw new IllegalArgumentException();
-		}
 		if (delay < 0) {
 			throw new IllegalArgumentException();
 		}
-		this.loggingHandler = loggingHandler;
-		this.exceptionHandler = exceptionHandler;
+		this.loggingHandler = Checks.ensureNotNull(loggingHandler);
+		this.exceptionHandler = Checks.ensureNotNull(exceptionHandler);
 		this.delay = delay * MILLISECONDS_PER_SECOND;
 	}
 
@@ -124,11 +121,11 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 	 *
 	 * @param record a logging record.
 	 *
-	 * @throws IllegalArgumentException if {@code record} is {@code null}.
+	 * @throws UnexpectedNullException if {@code record} is {@code null}.
 	 */
 	@Override public void handle(final LoggingRecord record) {
 		if (record == null) {
-			throw new IllegalArgumentException();
+			throw new UnexpectedNullException();
 		}
 		if (stopped) {
 			return;
@@ -154,7 +151,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 		 * Creates a new barrier restarter daemon.
 		 */
 		private BarrierRestarterDaemon() {
-			assert delay > 0;
+			assert delay > 0; // todo: Checks
 			setDaemon(true);
 		}
 
