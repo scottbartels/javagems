@@ -1,6 +1,7 @@
 package gems.logging.handlers;
 
 import gems.Checks;
+import gems.NumericValueOutOfRangeException;
 import gems.UnexpectedNullException;
 import gems.logging.LoggingHandler;
 import gems.logging.LoggingRecord;
@@ -72,18 +73,12 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 	 * @param timeout time (in seconds) between two subsequent buffer flushes.
 	 *
 	 * @throws UnexpectedNullException if {@code hander} is {@code null}.
-	 * @throws IllegalArgumentException if {@code size} or {@code timeout} is negative.
+	 * @throws NumericValueOutOfRangeException if {@code size} or {@code timeout} is negative.
 	 */
 	public BufferingLoggingHandler(final LoggingHandler handler, final int size, final int timeout) {
-		if (size < 0) { // todo: Checks
-			throw new IllegalArgumentException("Illegal size: " + size);
-		}
-		if (timeout < 0) { // todo: Checks
-			throw new IllegalArgumentException("Illegal timeout: " + timeout);
-		}
 		this.handler = Checks.ensureNotNull(handler);
-		this.size = size;
-		flusher = initFlusher(timeout);
+		this.size = Checks.ensureNonNegative(size);
+		flusher = initFlusher(Checks.ensureNonNegative(timeout));
 	}
 
 	/**
