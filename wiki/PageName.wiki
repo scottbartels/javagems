@@ -105,3 +105,11 @@ Maybe more clear for someone, even if not so concise:
 }}}
 
 == Don't do this ==
+
+----
+
+Inputs checks:
+
+ * Hard check: public and package local interfaces.
+ * Assertions: protected methods implementations. Rarely inside private code.
+ * Not chech: private code - make it clean without assertions. 
