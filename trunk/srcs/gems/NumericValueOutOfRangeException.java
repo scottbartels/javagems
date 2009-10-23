@@ -1,6 +1,9 @@
 package gems;
 
-public class NumericValueOutOfRangeException extends RuntimeException {
+/**
+ * @since 2009.10
+ */
+@Experimental public class NumericValueOutOfRangeException extends RuntimeException {
 
 	public NumericValueOutOfRangeException() {
 		super();

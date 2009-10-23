@@ -1,5 +1,6 @@
 package gems.logging.handlers;
 
+import gems.NumericValueOutOfRangeException;
 import gems.UnexpectedNullException;
 import static gems.logging.LoggingFacility.NULL_FACILITY;
 import gems.logging.LoggingHandler;
@@ -34,7 +35,7 @@ public final class JUnitBufferingLoggingHandler {
 	/**
 	 * Checks whether a negative value of the buffer size is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void negativeSizeIsForbidden() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void negativeSizeIsForbidden() {
 		new BufferingLoggingHandler(NULL_HANDLER, -1, DEFAULT_FLUSHING_TIMEOUT);
 	}
 
@@ -55,7 +56,7 @@ public final class JUnitBufferingLoggingHandler {
 	/**
 	 * Checks whether a negative value of the timeout is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void negativeFlushingTimeoutIsForbidden() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void negativeFlushingTimeoutIsForbidden() {
 		new BufferingLoggingHandler(NULL_HANDLER, DEFAULT_BUFFER_SIZE, -1);
 	}
 
