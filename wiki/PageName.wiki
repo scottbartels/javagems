@@ -106,6 +106,8 @@ Maybe more clear for someone, even if not so concise:
 
 == Don't do this ==
 
+todo: ComposedComparator example or something similar.
+
 ----
 
 Inputs checks:
