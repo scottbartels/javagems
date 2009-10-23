@@ -4,7 +4,7 @@ package gems;
  * Useful checks.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
- * @since CURRENT
+ * @since 2009.10
  */
 @Experimental public final class Checks {
 
