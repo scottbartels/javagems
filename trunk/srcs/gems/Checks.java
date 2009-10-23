@@ -62,6 +62,18 @@ package gems;
 		return number;
 	}
 
+	public static <T extends Number> T ensureNonNegative(final T number) {
+		if (number.doubleValue() < 0.0) {
+			throw new NumericValueOutOfRangeException(number);
+		}
+		return number;
+	}
+
+	public static <T extends Number> T assertNonNegative(final T number) {
+		assert !(number.doubleValue() < 0.0);
+		return number;
+	}
+
 	public static <T extends Number> T ensureNegative(final T number) {
 		if (number.doubleValue() < 0.0) {
 			return number;
@@ -76,5 +88,19 @@ package gems;
 		assert false;
 		return number;
 	}
+
+	public static <T extends Number> T ensureNonPositive(final T number) {
+		if (number.doubleValue() > 0.0) {
+			throw new NumericValueOutOfRangeException(number);
+		}
+		return number;
+	}
+
+	public static <T extends Number> T assertNonPositive(final T number) {
+		assert !(number.doubleValue() > 0.0);
+		return number;
+	}
+
+
 
 }
