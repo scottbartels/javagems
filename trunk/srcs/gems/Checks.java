@@ -47,4 +47,34 @@ package gems;
 		return object;
 	}
 
+	public static <T extends Number> T ensurePositive(final T number) {
+		if (number.doubleValue() > 0.0) {
+			return number;
+		}
+		throw new NumericValueOutOfRangeException(number);
+	}
+
+	public static <T extends Number> T assertPositive(final T number) {
+		if (number.doubleValue() > 0.0) {
+			return number;
+		}
+		assert false;
+		return number;
+	}
+
+	public static <T extends Number> T ensureNegative(final T number) {
+		if (number.doubleValue() < 0.0) {
+			return number;
+		}
+		throw new NumericValueOutOfRangeException(number);
+	}
+
+	public static <T extends Number> T assertNegative(final T number) {
+		if (number.doubleValue() < 0.0) {
+			return number;
+		}
+		assert false;
+		return number;
+	}
+
 }
