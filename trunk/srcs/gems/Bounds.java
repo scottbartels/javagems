@@ -27,17 +27,11 @@ public final class Bounds {
 	 * @throws IllegalArgumentException if any of indexes is negative or if {@code begin} is greather than {@code end}.
 	 */
 	public Bounds(final int begin, final int end) {
-		if (begin < 0) { // todo: Checks
-			throw new IllegalArgumentException(String.valueOf(begin));
-		}
-		if (end < 0) { // todo: Checks
-			throw new IllegalArgumentException(String.valueOf(end));
-		}
-		if (begin > end) { // todo: Checks
-			throw new IllegalArgumentException(begin + " > " + end);
-		}
-		this.begin = begin;
-		this.end = end;
+		this.begin = Checks.ensureNonNegative(begin);
+		this.end = Checks.ensureNonNegative(end);
+        if (begin > end) {
+            throw new IllegalArgumentException(begin + " > " + end);
+        }
 	}
 
 	/**

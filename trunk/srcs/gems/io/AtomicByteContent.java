@@ -43,7 +43,7 @@ public final class AtomicByteContent extends AbstractByteContent {
 		if (content == null) {
 			throw new UnexpectedNullException();
 		}
-		if (length < 0 || length > content.length) {  // todo: Checks (?)
+		if (length < 0 || length > content.length) {
 			throw new IndexOutOfBoundsException(String.valueOf(length));
 		}
 		this.content = new byte[length];
@@ -58,7 +58,7 @@ public final class AtomicByteContent extends AbstractByteContent {
 	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
-		if (index < 0 || index >= length()) {  // todo: Checks (?)
+		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		return content[index];
@@ -71,7 +71,7 @@ public final class AtomicByteContent extends AbstractByteContent {
 	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized void setByteAt(final int index, final byte b) {
-		if (index < 0 || index >= length()) {   // todo: Checks (?)
+		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		content[index] = b;

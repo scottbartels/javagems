@@ -165,8 +165,7 @@ public final class BufferingLoggingHandler implements LoggingHandler {
 		 * @param delay a flushing period (in seconds).
 		 */
 		private Flusher(final int delay) {
-			assert delay > 0; // todo: Checks
-			this.delay = delay * MILLISECONDS_PER_SECOND;
+			this.delay = Checks.assertPositive(delay) * MILLISECONDS_PER_SECOND;
 		}
 
 		/**

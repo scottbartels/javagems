@@ -13,14 +13,14 @@ public final class JUnitBounds {
 	/**
 	 * Checks whether a negative value for a beginning is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void negativeBeginIsForbidden() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void negativeBeginIsForbidden() {
 		new Bounds(-1, 0);
 	}
 
 	/**
 	 * Checks whether a negative value for an ending is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void negativeEndIsForbidden() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void negativeEndIsForbidden() {
 		new Bounds(0, -1);
 	}
 

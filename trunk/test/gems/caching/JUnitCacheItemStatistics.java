@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.NumericValueOutOfRangeException;
 import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -68,7 +69,7 @@ public final class JUnitCacheItemStatistics {
 	/**
 	 * Checks whether setting a negative object size is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void negativeSizeIsNotAllowed() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void negativeSizeIsNotAllowed() {
 		fixture.recordSize(-1L);
 	}
 
