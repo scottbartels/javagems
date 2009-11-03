@@ -144,13 +144,13 @@ public final class IOUtils {
 	/**
 	 * Acts exactly as {@code skipSafely(InputStream,long)}, but does not throw any
 	 * checked exception. Any {@code IOException} thrown during the operation is
-	 * cauhgth and translated to {@code RuntimeIOException}, which is subsequently
+	 * caught and translated to {@code RuntimeIOException}, which is subsequently
 	 * thrown.
 	 *
 	 * @param stream an input stream.
 	 * @param bytes number of bytes to be skipped.
 	 *
-	 * @since CURRENT
+	 * @since 2009.11
 	 */
 	public static void skipSafelyAndQuietly(final InputStream stream, final long bytes) {
 		try {
@@ -174,7 +174,7 @@ public final class IOUtils {
 	 * @throws IOException if any error occurs during the operation.
 	 * @throws UnexpectedNullException if {@code stream} is {@code null}.
 	 * @throws IllegalArgumentException if number of bytes to be skipped is negative.
-	 * @since CURRENT
+	 * @since 2009.11
 	 */
 	public static void skipSafely(final InputStream stream, final long bytes) throws IOException {
 		if (stream == null) {

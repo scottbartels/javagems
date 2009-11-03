@@ -1,7 +1,7 @@
 package gems;
 
 /**
- * @since 2009.10
+ * @since 2009.11
  */
 @Experimental public class NumericValueOutOfRangeException extends RuntimeException {
 
