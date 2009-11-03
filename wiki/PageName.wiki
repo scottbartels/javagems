@@ -1,9 +1,11 @@
 #summary Usage of gems.Checks functions
 
+TODO: RENAME
+
 = Introduction =
 
-* concise
-* type safe
+ * concise
+ * type safe
 
 ----
 
