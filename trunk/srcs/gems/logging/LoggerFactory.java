@@ -8,7 +8,7 @@ import gems.logging.loggers.SynchronousLogger;
  * Defines a factory for loggers and provides basic implementations.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
- * @since 2009.10
+ * @since 2009.11
  */
 public interface LoggerFactory {
 

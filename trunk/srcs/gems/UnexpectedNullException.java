@@ -9,7 +9,7 @@ package gems;
  * of the {@code null} object.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
- * @since 2009.10
+ * @since 2009.11
  */
 @Experimental public class UnexpectedNullException extends NullPointerException {
 

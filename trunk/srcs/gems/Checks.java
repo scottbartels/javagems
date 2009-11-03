@@ -4,7 +4,7 @@ package gems;
  * Useful checks.
  *
  * @author <a href="mailto:jozef.babjak@gmail.com">Jozef BABJAK</a>
- * @since 2009.10
+ * @since 2009.11
  */
 @Experimental public final class Checks {
 
@@ -100,7 +100,5 @@ package gems;
 		assert !(number.doubleValue() > 0.0);
 		return number;
 	}
-
-
 
 }
