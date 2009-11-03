@@ -113,6 +113,7 @@ Benchmark<T> (interface)
 
 [1] IBM Developer Works
 [2] Statistically Rigorous Java Benchmarking
+[3] http://wiki.freebsd.org/BenchmarkAdvice
 
 May leads to some statistic utilities.
 
