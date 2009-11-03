@@ -1,5 +1,6 @@
 package gems.caching;
 
+import gems.NumericValueOutOfRangeException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,14 +19,14 @@ public final class JUnitAbstractCacheSegmenter {
 	/**
 	 * Checks whether a negative number of segments is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorRefusesNegativeArgument() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void constructorRefusesNegativeArgument() {
 		new MockAbstractCacheSegmenterImpl(-1);
 	}
 
 	/**
 	 * Checks whether a zero as a number of segments is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void constructorRefusesZeroArgument() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void constructorRefusesZeroArgument() {
 		new MockAbstractCacheSegmenterImpl(0);
 	}
 

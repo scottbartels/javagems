@@ -1,5 +1,6 @@
 package gems.io;
 
+import gems.NumericValueOutOfRangeException;
 import gems.UnexpectedNullException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,7 +35,7 @@ public final class JUnitAbstractByteContent {
 	/**
 	 * Checks whether a negative length is forbidden.
 	 */
-	@Test(expected = IllegalArgumentException.class) public void negativeLengthIsForbidden() {
+	@Test(expected = NumericValueOutOfRangeException.class) public void negativeLengthIsForbidden() {
 		fixture.setLength(-1);
 	}
 
@@ -61,5 +62,7 @@ public final class JUnitAbstractByteContent {
 		@Override public void setByteAt(final int index, final byte b) {
 			// nothing here, not a subject of testing.
 		}
+        
 	}
+
 }

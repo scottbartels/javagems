@@ -151,7 +151,7 @@ public final class ExceptionBarrierLoggingHandler implements LoggingHandler {
 		 * Creates a new barrier restarter daemon.
 		 */
 		private BarrierRestarterDaemon() {
-			assert delay > 0; // todo: Checks
+			assert delay > 0;
 			setDaemon(true);
 		}
 

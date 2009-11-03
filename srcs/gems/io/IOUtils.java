@@ -190,7 +190,7 @@ public final class IOUtils {
 				throw new EOFException();
 			}
 			remaining -= bytes;
-			assert remaining >= 0; // todo: Checks.assertThat() (?)
+			assert remaining >= 0;
 		}
 	}
 

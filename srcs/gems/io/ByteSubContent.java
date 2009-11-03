@@ -38,7 +38,7 @@ final class ByteSubContent extends AbstractByteContent {
 		if (bounds == null) {
 			throw new UnexpectedNullException();
 		}
-		if (bounds.end() > content.length()) { // todo: Checks (?)
+		if (bounds.end() > content.length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(bounds.end()));
 		}
 		this.content = content;
@@ -53,7 +53,7 @@ final class ByteSubContent extends AbstractByteContent {
 	 * if {@code index} is greater than or equal to subcontent length.
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
-		if (index < 0 || index >= length()) { // todo: Checks (?)
+		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		return content.getByteAt(offset + index);
@@ -66,7 +66,7 @@ final class ByteSubContent extends AbstractByteContent {
 	 * if {@code index} is greater than or equal to subcontent length.
 	 */
 	@Override public synchronized void setByteAt(final int index, final byte b) {
-		if (index < 0 || index >= length()) { // todo: Checks (?)
+		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		content.setByteAt(offset + index, b);

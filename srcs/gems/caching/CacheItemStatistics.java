@@ -1,6 +1,7 @@
 package gems.caching;
 
 import gems.AbstractIdentifiable;
+import gems.Checks;
 
 /**
  * This class holds statistics about a cached item. The statistics object can be in
@@ -120,13 +121,10 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	 * @throws IllegalStateException if the object is a snapshot.
 	 */
 	synchronized void recordSize(final long size) {
-		if (size < 0) { // todo: Checks.ensureNonNegative()
-			throw new IllegalArgumentException(String.valueOf(size));
-		}
 		if (isSnapshot) {
 			throw new IllegalStateException();
 		}
-		this.size = size;
+		this.size = Checks.ensureNonNegative(size);
 		invalidateSnapshot();
 	}
 
@@ -188,7 +186,7 @@ public final class CacheItemStatistics<T> extends AbstractIdentifiable<T> {
 	 * @throws IllegalStateException if the object is not a snapshot.
 	 */
 	public long getDateOfBirth() {
-		if (!isSnapshot) { // todo: checks.ensure(), checks.avoid()
+		if (!isSnapshot) {
 			throw new IllegalStateException();
 		}
 		return dateOfBirth;

@@ -1,5 +1,7 @@
 package gems.caching;
 
+import gems.Checks;
+
 /**
  * A skeleton implementation of cache segmenter holding maximal number of segments.
  *
@@ -21,10 +23,7 @@ abstract class AbstractCacheSegmenter<K> implements CacheSegmenter<K> {
 	 * @throws IllegalArgumentException if {@code segments} is less than 1.
 	 */
 	protected AbstractCacheSegmenter(final int segments) {
-		if (segments < 1) { // todo: Checks.ensurePositive();
-			throw new IllegalArgumentException(String.valueOf(segments));
-		}
-		this.segments = segments;
+		this.segments = Checks.ensurePositive(segments);
 	}
 
 	/**

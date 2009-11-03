@@ -28,7 +28,7 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 	 * if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized byte getByteAt(final int index) {
-		if (index < 0 || index >= length()) { // todo: Checks (?)
+		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		int offset = 0;
@@ -48,7 +48,7 @@ final class AggregatedByteContent extends AbstractByteContent implements Expanda
 	 * or if {@code index} is greater than or equal to content length.
 	 */
 	@Override public synchronized void setByteAt(final int index, final byte b) {
-		if (index < 0 || index >= length()) {  // todo: Checks (?)
+		if (index < 0 || index >= length()) {
 			throw new IndexOutOfBoundsException(String.valueOf(index));
 		}
 		int offset = 0;

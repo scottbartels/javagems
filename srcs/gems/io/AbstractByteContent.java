@@ -61,10 +61,7 @@ abstract class AbstractByteContent implements ByteContent { // TODO: More scalab
 	 * @param length a new length.
 	 */
 	protected final synchronized void setLength(final int length) {
-		if (length < 0) { // todo: Checks
-			throw new IllegalArgumentException(String.valueOf(length));
-		}
-		this.length = length;
+		this.length = Checks.ensureNonNegative(length);
 	}
 
 }
