@@ -50,7 +50,7 @@
     <property name="lib.home" value="${basedir}/libs"/>
 
     <path id="junit.library">
-        <path location="${lib.home}/junit/4.5/bin/junit-4.5.jar"/>
+        <path location="${lib.home}/junit/4.7/bin/junit-4.7.jar"/>
     </path>
 
 	<!-- COMPILE: Compiles source codes. -->
