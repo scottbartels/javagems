@@ -1,3 +1,7 @@
 #summary Java Gems 2009.01 Release Notes
 
-You are so fast! Release notes will be available soon. 
+*This page is still work in progress.*
+
+Changes:
+
+ * License was changed from New BSD License to Apache License 2.0. 
