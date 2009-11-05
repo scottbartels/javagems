@@ -1,7 +1,13 @@
-#summary Java Gems 2009.01 Release Notes
+#summary Java Gems 2009.11 Release Notes
 
 *This page is still work in progress.*
 
-Changes:
+Java Gems 2009.11 Release Notes
 
- * License was changed from New BSD License to Apache License 2.0. 
+ * License was changed from New BSD License to Apache License 2.0.
+ * Added implementation of caching subsystem.
+ * Added `gems.Checks` handy checks and assertions. 
+ * Added new utilities for input stream skipping in `gems.io.IOUtils`.
+ * Added `gems.logging.LoggerFactory` interface and implementations.
+ * Implementing proper `equals()` and `hashCode()` methods for `gems.ComposedComparator`.
+ * Javadoc improvements.
