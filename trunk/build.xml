@@ -56,10 +56,10 @@
 	<!-- COMPILE: Compiles source codes. -->
 	<target name="compile">
 		<mkdir dir="${build.classes}"/>
-		<javac srcdir="${srcs.home}" destdir="${build.classes}" debug="true" deprecation="true"/>
-        <javac srcdir="${test.home}" destdir="${build.classes}" debug="true" deprecation="true">
-            <classpath refid="junit.library"/>
-        </javac>
+		<javac srcdir="${srcs.home}" destdir="${build.classes}" debug="true" deprecation="true" includeantruntime="false"/>
+		<javac srcdir="${test.home}" destdir="${build.classes}" debug="true" deprecation="true" includeantruntime="false">
+			<classpath refid="junit.library"/>
+		</javac>
 	</target>
 
 	<!-- PACK: Creates a resulting jar file from compiled classes. -->
